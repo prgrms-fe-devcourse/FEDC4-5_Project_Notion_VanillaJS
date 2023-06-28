@@ -12,7 +12,7 @@
 
 ## 요구사항 정리
 
-- [ ] Document 리스트를 렌더링한다.
+- [x] Document 리스트를 렌더링한다.
 - [ ] 특정 ID를 가진 Document의 왼쪽 펼침 버튼을 누르면 하위 Document 리스트를 렌더링한다.
 - [ ] 특정 ID를 가진 Document를 누르면 해당하는 주소의 DocumentPage로 이동한다.
 - [ ] 특정 ID를 가진 Document의 오른쪽 추가 버튼을 누르면 하위에 Document가 생성되고 해당하는 주소의 DocumentPage로 이동한다.
