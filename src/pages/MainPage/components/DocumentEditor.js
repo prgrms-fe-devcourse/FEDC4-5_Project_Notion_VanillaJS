@@ -1,11 +1,14 @@
 export default function DocumentEditor({ $target, onEditing }) {
   const $editorWrapper = document.createElement('div');
-  const $title = document.createElement('input');
+  $editorWrapper.className = "docEditWrapper";
+  const $title = document.createElement('div');
   $title.name = "title";
-  $title.className = "docTitleEditInput";
-  const $content = document.createElement('textarea');
+  $title.className = "docEditTitle";
+  $title.contentEditable = true;
+  const $content = document.createElement('div');
   $content.name = "content";
-  $content.className = "docContentEditArea"
+  $content.className = "docEditContent"
+  $content.contentEditable = true;
 
   $editorWrapper.append($title, $content);
   $target.appendChild($editorWrapper);
@@ -17,14 +20,17 @@ export default function DocumentEditor({ $target, onEditing }) {
   }
 
   this.render = () => {
-    $title.value = this.state.title;
-    $content.value = this.state.content;
+    $title.textContent = this.state.title;
+    $content.textContent = this.state.content;
   }
 
   $editorWrapper.addEventListener('keyup', event => {
+    if (event.code === 'Enter') {
+      
+    }
     this.setState({
       ...this.state,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.textContent,
     });
     onEditing(this.state);
   })

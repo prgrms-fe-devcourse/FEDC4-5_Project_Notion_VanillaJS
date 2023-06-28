@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #F1F6F9;
   padding: 0;
@@ -12,16 +16,16 @@ body {
 
 .documentListWrapper {
   min-width: 250px;
-  overflow-y: scroll;
   background-color: #394867;
-  height: 100%;
   border-radius: 0px 15px 15px 0px;
   color: #F1F6F9;
+  padding: 20px 15px;
 }
 
 .documentListWrapper ul {
   list-style: none;
-  padding-left: 10px;
+  padding: 0;
+  margin: 0;
 }
 
 .documentListWrapper ul > ul {
@@ -29,6 +33,37 @@ body {
 }
 
 .documentListWrapper li {
-  cursor: pointer;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.listTitle {
+  cursor: pointer;
+  /* width: 100%; */
+}
+
+
+.detailPageWrapper {
+  width: 100%;
+}
+
+.docEditWrapper {
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 10px;
+  border-radius: 15px;
+}
+
+.docEditTitle {
+  padding: 10px 15px;
+  border-bottom: 1px solid #9BA4B5;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.docEditContent {
+  padding: 20px 15px;
 }

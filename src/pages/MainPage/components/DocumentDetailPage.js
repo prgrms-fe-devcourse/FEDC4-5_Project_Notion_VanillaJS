@@ -5,6 +5,7 @@ import DocumentList from "./DocumentList.js";
 
 export default function DocumentDetailPage({ $target, reRenderDocList }) {
   const $detailPageWrapper = document.createElement('div');
+  $detailPageWrapper.className = "detailPageWrapper";
   $target.appendChild($detailPageWrapper);
 
   this.state = {}

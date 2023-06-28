@@ -3,24 +3,22 @@ export default function DocumentListItems({ $target, documentItems, onDocumentAd
   
   this.render = () => {
     const $li = document.createElement('li');
-    const $liContent = document.createElement('div');
-    const $liTitle = document.createElement('span');
+    const $liTitle = document.createElement('div');
+    const $buttonWrapper = document.createElement('div');
     const $liAddButton = document.createElement('button');
     const $liDelButton = document.createElement('button');
-    const $buttonWrapper = document.createElement('span');
-
+    
     $liTitle.textContent = documentItems.title;
+    $liTitle.className = 'listTitle';
     $li.dataset.id = documentItems.id;
     $liAddButton.textContent = '+';
     $liDelButton.textContent = '-';
     $liAddButton.className = 'docAddBtn';
     $liDelButton.className = 'docDelBtn';
+    $buttonWrapper.className = 'docBtnWrapper'
 
     $buttonWrapper.append($liAddButton, $liDelButton);
-
-    $liContent.appendChild($liTitle);
-    $liContent.appendChild($buttonWrapper);
-    $li.appendChild($liContent);
+    $li.append($liTitle, $buttonWrapper)
     $target.appendChild($li);
 
     $buttonWrapper.addEventListener('click', event => {

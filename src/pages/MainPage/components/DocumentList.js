@@ -1,6 +1,7 @@
 import DocumentListItems from "./DocumentListItems.js";
 import { request } from "../../../services/api.js";
 import { push } from "../../../services/router.js";
+import FolderButton from "../../../components/FolderButton.js";
 
 export default function DocumentList({ $target }) {
   const $listWrapper = document.createElement('nav');
@@ -8,7 +9,7 @@ export default function DocumentList({ $target }) {
   const $documentList = document.createElement('ul');
   const $rootDocAddBtn = document.createElement('button');
   $rootDocAddBtn.textContent = '+';
-
+  
   $listWrapper.appendChild($documentList);
   $listWrapper.appendChild($rootDocAddBtn);
   $target.appendChild($listWrapper);
