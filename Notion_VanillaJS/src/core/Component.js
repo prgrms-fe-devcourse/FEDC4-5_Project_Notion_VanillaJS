@@ -46,7 +46,7 @@ export default class Component {
     });
   }
 
-  attach({ constructor, $target, props }) {
-    const temp = new constructor({ $target, props });
+  static attach({ constructor, $target, props }) {
+    new constructor({ $target, props });
   }
 }
