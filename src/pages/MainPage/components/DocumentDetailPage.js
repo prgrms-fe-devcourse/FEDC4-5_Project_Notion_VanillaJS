@@ -1,6 +1,7 @@
 import ChildrenList from "./ChildrenList.js";
 import DocumentEditor from "./DocumentEditor.js";
 import { request } from "../../../services/api.js";
+import DocumentList from "./DocumentList.js";
 
 export default function DocumentDetailPage({ $target, reRenderDocList }) {
   const $detailPageWrapper = document.createElement('div');
@@ -35,14 +36,10 @@ export default function DocumentDetailPage({ $target, reRenderDocList }) {
     }
   })
 
-  const childrenList = new ChildrenList({
-
-  })
+  const childrenList = new ChildrenList({ $target: $detailPageWrapper })
 
   this.render = () => {
     documentEditor.setState(this.state);
     childrenList.setState(this.state.documents);
   }
-
-  this.render();
 }

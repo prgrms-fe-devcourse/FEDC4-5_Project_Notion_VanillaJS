@@ -1,3 +1,9 @@
+body {
+  background-color: #F1F6F9;
+  padding: 0;
+  margin: 0;
+}
+
 #app {
   display: flex;
   width: 100vw;
@@ -5,7 +11,12 @@
 }
 
 .documentListWrapper {
-  width: 300px;
+  min-width: 250px;
+  overflow-y: scroll;
+  background-color: #394867;
+  height: 100%;
+  border-radius: 0px 15px 15px 0px;
+  color: #F1F6F9;
 }
 
 .documentListWrapper ul {
@@ -19,5 +30,5 @@
 
 .documentListWrapper li {
   cursor: pointer;
-  width: fit-content;
+  width: 100%;
 }
