@@ -1,0 +1,13 @@
+#notion-app {
+    display: flex;
+}
+
+#document-app {
+    width: 300px;
+    height: 100vh;
+}
+
+#editor-app {
+    width: 1000px;
+    height: 100vh;
+}
