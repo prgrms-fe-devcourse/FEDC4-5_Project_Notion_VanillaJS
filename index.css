@@ -1,0 +1,23 @@
+#app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.documentListWrapper {
+  width: 300px;
+}
+
+.documentListWrapper ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.documentListWrapper ul > ul {
+  padding-left: 10px;
+}
+
+.documentListWrapper li {
+  cursor: pointer;
+  width: fit-content;
+}
