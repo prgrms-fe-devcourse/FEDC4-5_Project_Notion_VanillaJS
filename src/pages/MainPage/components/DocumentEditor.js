@@ -1,4 +1,4 @@
-export default function DocumentEditor({ $target, initialState, onEditing }) {
+export default function DocumentEditor({ $target, onEditing }) {
   const $editorWrapper = document.createElement('div');
   const $title = document.createElement('input');
   $title.name = "title";
@@ -9,7 +9,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
 
   $editorWrapper.append($title, $content);
   $target.appendChild($editorWrapper);
-  this.state = initialState;
+  this.state = {};
 
   this.setState = (nextState) => {
     this.state = nextState;

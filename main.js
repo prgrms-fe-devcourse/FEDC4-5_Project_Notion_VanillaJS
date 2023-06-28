@@ -1,5 +1,5 @@
-import App from "./src/App.js";
+import MainPage from "./src/pages/MainPage/MainPage.js";
 
 const $target = document.querySelector('#app');
 
-new App({ $target });
+new MainPage({ $target });

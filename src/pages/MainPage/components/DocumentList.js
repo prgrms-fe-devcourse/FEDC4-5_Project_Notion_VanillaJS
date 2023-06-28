@@ -1,13 +1,16 @@
 import DocumentListItems from "./DocumentListItems.js";
-import { request } from "./services/api.js";
-import { push } from "./services/router.js";
+import { request } from "../../../services/api.js";
+import { push } from "../../../services/router.js";
 
 export default function DocumentList({ $target }) {
   const $listWrapper = document.createElement('nav');
   $listWrapper.className = 'documentListWrapper';
   const $documentList = document.createElement('ul');
+  const $rootDocAddBtn = document.createElement('button');
+  $rootDocAddBtn.textContent = '+';
 
   $listWrapper.appendChild($documentList);
+  $listWrapper.appendChild($rootDocAddBtn);
   $target.appendChild($listWrapper);
 
   this.state = [];
@@ -54,6 +57,18 @@ export default function DocumentList({ $target }) {
       const { id } = $li.dataset;
       push(`/documents/${id}`);
     }
+  })
+
+  $rootDocAddBtn.addEventListener('click', async () => {
+    const res = await request('/documents', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: "new document",
+        parent: null
+      })
+    })
+    push(`/documents/${res.id}`);
+    this.setState();
   })
 
   this.setState();

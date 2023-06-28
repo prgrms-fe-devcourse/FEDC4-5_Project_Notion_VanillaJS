@@ -1,8 +1,8 @@
-import DocumentDetailPage from "./DocumentDetailPage.js";
-import DocumentList from "./DocumentList.js";
-import { initRouter } from "./services/router.js";
+import DocumentDetailPage from "./components/DocumentDetailPage.js";
+import DocumentList from "./components/DocumentList.js";
+import { initRouter } from "../../services/router.js"
 
-export default function App({ $target }) {
+export default function MainPage({ $target }) {
   const documentList = new DocumentList({
     $target,
   });
