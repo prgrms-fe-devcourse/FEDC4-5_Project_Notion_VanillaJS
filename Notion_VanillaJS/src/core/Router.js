@@ -1,5 +1,5 @@
 import { routes } from '@/constants/path';
-import { NotFound } from '@/components';
+import { NotFound } from '@/pages';
 import { ROUTE_CHNAGE_EVENT } from '@/constants/eventName';
 import { Component } from '@/core';
 
@@ -22,12 +22,6 @@ export default class Router {
       constructor: targetPage,
       $target: $pageContainer,
     });
-
-    // this.pageContainer.attach({
-    //   constructor: targetPage,
-    //   $target: this.$target,
-    // });
-    console.log($pageContainer);
   }
 
   setupRouter() {

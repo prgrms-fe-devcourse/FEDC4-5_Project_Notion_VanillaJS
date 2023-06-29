@@ -1,4 +1,22 @@
 export const API_END_POINT = 'https://kdt-frontend.programmers.co.kr/documents';
+export const MOCK_API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
+
+export const mockRequest = async ({ url = '', options = {} }) => {
+  try {
+    const res = await fetch(`${MOCK_API_END_POINT}${url}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) throw new Error('API 처리중 뭔가 이상합니다');
+
+    return await res.json();
+  } catch (error) {
+    alert(error);
+  }
+};
 
 export const request = async ({ url = '', options = {} }) => {
   try {

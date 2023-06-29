@@ -1,5 +1,5 @@
 import { Component, Router } from '@/core';
-import { SideBar } from '@/pages/';
+import { SideBar } from '@/components/';
 
 export default class App extends Component {
   setup() {}
