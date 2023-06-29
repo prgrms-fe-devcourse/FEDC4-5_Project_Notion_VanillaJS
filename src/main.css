@@ -10,4 +10,21 @@
 #editor-app {
     width: 1000px;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-app .container {
+    width: 1000px;
+    text-align: center;
+}
+
+.titleInput {
+    width: 500px;
+    height: 50px;
+}
+
+.contentInput {
+    width: 800px;
+    height: 100vh;
 }
