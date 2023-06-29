@@ -5,16 +5,14 @@ export default function DocumentsListItems({ $target, documentItems, onDocumentA
     const $li = document.createElement('li');
     const $liTitle = document.createElement('div');
     const $buttonWrapper = document.createElement('div');
-    const $liAddButton = document.createElement('button');
-    const $liDelButton = document.createElement('button');
+    const $liAddButton = document.createElement('i');
+    const $liDelButton = document.createElement('i');
     
     $liTitle.textContent = documentItems.title;
     $liTitle.className = 'listTitle';
     $li.dataset.id = documentItems.id;
-    $liAddButton.textContent = '+';
-    $liDelButton.textContent = '-';
-    $liAddButton.className = 'docAddBtn';
-    $liDelButton.className = 'docDelBtn';
+    $liAddButton.classList.add('fa-solid', 'fa-plus', 'docAddBtn');
+    $liDelButton.classList.add('fa-trash', 'fa-solid', 'docDelBtn');
     $buttonWrapper.className = 'docBtnWrapper'
 
     $buttonWrapper.append($liAddButton, $liDelButton);
@@ -27,10 +25,11 @@ export default function DocumentsListItems({ $target, documentItems, onDocumentA
       const targetClassName = event.target.className;
 
       if ($li) {
+        console.log(targetClassName)
         const { id } = $li.dataset;
-        if (targetClassName === 'docAddBtn'){
+        if (targetClassName.includes('docAddBtn')){
           onDocumentAdd(id);
-        } else if (targetClassName === 'docDelBtn') {
+        } else if (targetClassName.includes('docDelBtn')) {
           onDocumentDelete(id);
         }
         
