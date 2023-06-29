@@ -4,7 +4,6 @@ export default class App {
   constructor({ targetEl, initialState }) {
     this.targetEl = targetEl;
     this.state = initialState;
-    console.log(this.state);
     this.render();
   }
 

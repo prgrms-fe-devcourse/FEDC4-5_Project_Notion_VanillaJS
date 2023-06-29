@@ -16,4 +16,14 @@ export const request = {
       console.error("Error:", error);
     }
   },
+  getDocumentOne: async (id) => {
+    try {
+      const response = await fetch(`${NOTION_API}/documents/${id}`, config);
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
 };
