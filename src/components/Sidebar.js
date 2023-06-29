@@ -7,6 +7,7 @@ export default function Sidebar({$target, initialState}){
 
   this.setState = (nextState) => {
     this.state = nextState;
+    this.render();
   }
 
   this.render = () => {
