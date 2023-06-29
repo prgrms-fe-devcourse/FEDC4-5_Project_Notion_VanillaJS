@@ -1,4 +1,4 @@
-import { Component } from "./core/Component";
+import Component from "./core/Component";
 import Document from "./components/Document";
 import Editor from "./components/Editor";
 
