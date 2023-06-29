@@ -21,7 +21,8 @@ export default function Editor({$target, initialState = {
   }
 
   this.render = () => {
-
+    $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=content]").value = this.state.content;
   }
 
   this.render();
@@ -38,7 +39,7 @@ export default function Editor({$target, initialState = {
   $editor.querySelector("[name=content]").addEventListener("keyup", (e) => {
     const nextState = {
       ...this.state,
-      content : e.target.innerHTML
+      content : e.target.value
     };
     this.setState(nextState);
     onEditing(this.state);
