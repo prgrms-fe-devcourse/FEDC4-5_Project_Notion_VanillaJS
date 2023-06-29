@@ -1,7 +1,7 @@
 import ChildrenList from "./ChildrenList.js";
 import DocumentEditor from "./DocumentEditor.js";
 import { request } from "../../../services/api.js";
-import DocumentList from "./DocumentList.js";
+import { replace } from "../../../services/router.js";
 
 export default function DocumentDetailPage({ $target, reRenderDocList }) {
   const $detailPageWrapper = document.createElement('div');
@@ -11,8 +11,17 @@ export default function DocumentDetailPage({ $target, reRenderDocList }) {
   this.state = {}
 
   this.setState = async (documentId = null) => {
-    const res = await request(`/documents/${documentId}`);
-    this.state = res;
+    if (documentId === null) {
+      this.state = {};
+    } else {
+      const res = await request(`/documents/${documentId}`);
+      if (res === undefined) {
+        replace('/');
+        return;
+      }
+      this.state = res;
+    }
+    
     this.render();
   }
 

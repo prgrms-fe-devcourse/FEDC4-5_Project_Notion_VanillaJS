@@ -1,4 +1,4 @@
-export default function DocumentListItems({ $target, documentItems, onDocumentAdd, onDocumentDelete }) {
+export default function DocumentsListItems({ $target, documentItems, onDocumentAdd, onDocumentDelete }) {
   const isChildDoc = documentItems.documents.length > 0;
   
   this.render = () => {
@@ -41,7 +41,7 @@ export default function DocumentListItems({ $target, documentItems, onDocumentAd
     if (isChildDoc) {
       const $ul = document.createElement('ul');
       documentItems.documents.map((childDoc) => {
-        new DocumentListItems({
+        new DocumentsListItems({
           $target: $ul,
           documentItems: childDoc,
           onDocumentAdd,

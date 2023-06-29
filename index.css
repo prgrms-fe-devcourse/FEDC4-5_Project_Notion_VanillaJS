@@ -26,6 +26,7 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .documentListWrapper ul > ul {
@@ -40,7 +41,6 @@ body {
 
 .listTitle {
   cursor: pointer;
-  /* width: 100%; */
 }
 
 
@@ -58,7 +58,7 @@ body {
 }
 
 .docEditTitle {
-  padding: 10px 15px;
+  padding: 15px;
   border-bottom: 1px solid #9BA4B5;
   font-size: 2em;
   font-weight: bold;

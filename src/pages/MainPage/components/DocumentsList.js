@@ -1,9 +1,9 @@
-import DocumentListItems from "./DocumentListItems.js";
+import DocumentsListItems from "./DocumentsListItems.js";
 import { request } from "../../../services/api.js";
-import { push } from "../../../services/router.js";
+import { push, replace } from "../../../services/router.js";
 import FolderButton from "../../../components/FolderButton.js";
 
-export default function DocumentList({ $target }) {
+export default function DocumentsList({ $target }) {
   const $listWrapper = document.createElement('nav');
   $listWrapper.className = 'documentListWrapper';
   const $documentList = document.createElement('ul');
@@ -25,7 +25,7 @@ export default function DocumentList({ $target }) {
   this.render = () => {
     $documentList.replaceChildren();
     this.state.map((documents) => {
-      new DocumentListItems({
+      new DocumentsListItems({
         $target: $documentList,
         documentItems: documents,
         onDocumentAdd: async (parentDocId) => {
@@ -43,7 +43,7 @@ export default function DocumentList({ $target }) {
           const res = await request(`/documents/${docId}`,{
             method: 'DELETE'
           })
-          push(`/`);
+          replace(`/`);
           this.setState();
         }
       });
