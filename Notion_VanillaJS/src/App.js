@@ -1,8 +1,11 @@
 import { Component, Router } from '@/core';
 import { SideBar } from '@/components/';
+import { PostListStore } from './store/PostListStore';
 
 export default class App extends Component {
-  setup() {}
+  setup() {
+    PostListStore.dispatch({ actionType: 'INIT' });
+  }
 
   templates() {
     return `

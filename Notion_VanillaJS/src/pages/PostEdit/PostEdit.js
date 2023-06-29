@@ -1,4 +1,4 @@
-import { Component } from '@/core';
+import { Component, push } from '@/core';
 import Editor from '../../components/Editor/Editor';
 import styles from './PostEdit.module.css';
 

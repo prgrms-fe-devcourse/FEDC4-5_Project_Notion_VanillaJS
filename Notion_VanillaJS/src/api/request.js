@@ -18,8 +18,9 @@ export const mockRequest = async ({ url = '', options = {} }) => {
   }
 };
 
-export const request = async ({ url = '', options = {} }) => {
+export async function request({ url = '', options = {} }) {
   try {
+    console.log(url);
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
@@ -34,10 +35,10 @@ export const request = async ({ url = '', options = {} }) => {
   } catch (error) {
     alert(error);
   }
-};
+}
 
 export async function fetchPostList() {
-  const postList = await request();
+  const postList = await request({ url: '' });
   return postList;
 }
 
@@ -62,7 +63,7 @@ export async function createPost(parent = null) {
 
 export async function updatePost(post) {
   await request({
-    url: `/${post.postId}`,
+    url: `/${post.id}`,
     options: {
       method: 'PUT',
       body: JSON.stringify(post),

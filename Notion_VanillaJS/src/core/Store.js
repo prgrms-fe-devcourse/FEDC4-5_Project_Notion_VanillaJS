@@ -3,8 +3,7 @@ export default class Store {
   #listeners = {};
   #reducer;
 
-  constructor({ state, reducer }) {
-    this.#state = state;
+  constructor(reducer) {
     this.#reducer = reducer;
   }
 
@@ -17,11 +16,18 @@ export default class Store {
   }
 
   publish() {
-    Object.values(this.#listeners).forEach((listener) => listener());
+    Object.values(this.#listeners).forEach((listener) => {
+      console.log(listener);
+      listener();
+    });
   }
 
   async dispatch({ actionType, payload }) {
-    this.#state = await this.#reducer(this.#state, actionType, payload);
+    this.#state = await this.#reducer({
+      state: this.#state,
+      actionType,
+      payload,
+    });
     this.publish();
   }
 }

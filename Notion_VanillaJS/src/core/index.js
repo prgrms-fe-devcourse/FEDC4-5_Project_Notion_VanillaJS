@@ -1,6 +1,7 @@
 export { default as Component } from './Component';
 export { default as Store } from './Store';
 export { default as Router } from './Router';
+import { ROUTE_CHNAGE_EVENT } from '@/constants/eventName';
 
 const navigate = (nextUrl, isReplace = false) => {
   window.dispatchEvent(
