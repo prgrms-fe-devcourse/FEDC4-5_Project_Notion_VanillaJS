@@ -45,8 +45,20 @@ export default class DocumentList {
       span.addEventListener("click", async () => {
         history.pushState(null, null, `/${span.id}`);
 
-        const nextState = await request.getDocumentOne(span.id);
+        const nextState = await request.getDocumentItem(span.id);
         this.setDocumentContentState(nextState);
+      });
+    });
+
+    const addButtons = document.querySelectorAll(".add-button");
+    addButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const parentId = e.currentTarget.parentNode.id;
+        const newDocument = await request.postDocumentItem(parentId);
+        history.pushState(null, null, `/${newDocument.id}`);
+        const nextState = await request.getDocumentItem(newDocument.id);
+        this.setDocumentContentState(nextState);
+        this.render();
       });
     });
   }
@@ -62,6 +74,7 @@ export default class DocumentList {
                 <li id=${id}>
                     <button class="spread-button" id=${id}>펼치기</button>
                     <span class="link-item" id=${id}>${title}</span>
+                    <button class="add-button">추가</button>
                     ${this.template(documents, id)}
                 </li>
             `

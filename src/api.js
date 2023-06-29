@@ -1,14 +1,17 @@
 const NOTION_API = `https://kdt-frontend.programmers.co.kr`;
-const config = {
+const config = (method, body) => ({
+  method,
   headers: {
+    "Content-Type": "application/json",
     "x-username": "doggopawer",
   },
-};
+  body: JSON.stringify(body),
+});
 
 export const request = {
   getDocumentList: async () => {
     try {
-      const response = await fetch(`${NOTION_API}/documents`, config);
+      const response = await fetch(`${NOTION_API}/documents`, config("GET"));
 
       const result = await response.json();
       return result;
@@ -17,9 +20,25 @@ export const request = {
       return error;
     }
   },
-  getDocumentOne: async (id) => {
+  getDocumentItem: async (id) => {
     try {
-      const response = await fetch(`${NOTION_API}/documents/${id}`, config);
+      const response = await fetch(
+        `${NOTION_API}/documents/${id}`,
+        config("GET")
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
+  postDocumentItem: async (parentId) => {
+    try {
+      const response = await fetch(
+        `${NOTION_API}/documents`,
+        config("POST", { title: "새 문서", parent: parentId })
+      );
 
       const result = await response.json();
       return result;

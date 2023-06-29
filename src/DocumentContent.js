@@ -27,7 +27,7 @@ export default class DocumentContent {
   async render() {
     const { pathname } = location;
     let id = pathname.slice(1);
-    this.state = await request.getDocumentOne(id);
+    this.state = await request.getDocumentItem(id);
     this.documentContentEl.innerHTML = this.template();
   }
 }
