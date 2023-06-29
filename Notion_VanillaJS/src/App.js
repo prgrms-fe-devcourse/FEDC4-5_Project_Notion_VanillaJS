@@ -6,7 +6,6 @@ export default class App extends Component {
 
   templates() {
     return `
-    <header>Notion</header>
     <aside class='sideBar'></aside>
     <section class ='page-Container'></section>
     `;
