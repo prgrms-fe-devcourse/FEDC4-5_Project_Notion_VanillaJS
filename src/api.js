@@ -14,6 +14,7 @@ export const request = {
       return result;
     } catch (error) {
       console.error("Error:", error);
+      return error;
     }
   },
   getDocumentOne: async (id) => {

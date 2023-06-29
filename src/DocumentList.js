@@ -1,18 +1,28 @@
 import { request } from "./api";
 
 export default class DocumentList {
-  constructor({ targetEl, initialState }) {
-    this.targetEl = targetEl;
-    this.state = initialState;
-
+  constructor({ parentEl, setDocumentContentState }) {
+    this.parentEl = parentEl;
     this.documentListEl = document.createElement("div");
-    this.targetEl.appendChild(this.documentListEl);
-    this.render();
-    this.setEvent();
-  }
-  setEvent() {
-    const spreadButtons = document.querySelectorAll(".spread-document");
+    this.parentEl.appendChild(this.documentListEl);
+    this.setDocumentContentState = setDocumentContentState;
+    this.state = [];
 
+    this.render();
+  }
+
+  async loadData() {
+    this.state = await request.getDocumentList();
+    this.setState(this.state);
+  }
+
+  setState(nextState) {
+    this.state = nextState;
+    this.render();
+  }
+
+  setEvent() {
+    const spreadButtons = document.querySelectorAll(".spread-button");
     spreadButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
         const documentWrapperEl = document.querySelector(
@@ -29,36 +39,39 @@ export default class DocumentList {
         }
       });
     });
+
+    const linkSpans = document.querySelectorAll(".link-item");
+    linkSpans.forEach((span) => {
+      span.addEventListener("click", async () => {
+        history.pushState(null, null, `/${span.id}`);
+
+        const nextState = await request.getDocumentOne(span.id);
+        this.setDocumentContentState(nextState);
+      });
+    });
   }
-  render() {
-    const state = this.state.map((item) => [item, null]);
-    const queue = state;
-    while (queue.length) {
-      const [currentDocument, parentId] = queue.shift();
 
-      const currentDocumentEl = `
-      <li id=${currentDocument.id}>
-        <button class="spread-document" id=${currentDocument.id}>펼치기</button>
-        ${currentDocument.title}
-      </li>`;
+  template(documents, parentId) {
+    return `
+    <ul id="ul-${parentId}" style="display:${
+      parentId === 0 ? "block" : "none"
+    };">
+        ${documents.map(
+          ({ id, title, documents }) =>
+            `
+                <li id=${id}>
+                    <button class="spread-button" id=${id}>펼치기</button>
+                    <span class="link-item" id=${id}>${title}</span>
+                    ${this.template(documents, id)}
+                </li>
+            `
+        )}
+    </ul>`;
+  }
 
-      if (parentId === null) {
-        this.documentListEl.innerHTML += currentDocumentEl;
-      } else {
-        const parentDocumentEl = document.getElementById(parentId);
-        if (!parentDocumentEl.querySelector("ul")) {
-          const documentWrapperEl = `
-                <ul id="ul-${parentId}" style="display:none;"></ul>
-            `;
-          parentDocumentEl.innerHTML += documentWrapperEl;
-        }
-        const documentWrapperEl = parentDocumentEl.querySelector("ul");
-        documentWrapperEl.innerHTML += currentDocumentEl;
-      }
-
-      for (let i = 0; i < currentDocument.documents.length; i++) {
-        queue.push([currentDocument.documents[i], currentDocument.id]);
-      }
-    }
+  async render() {
+    this.state = await request.getDocumentList();
+    this.documentListEl.innerHTML = this.template(this.state, 0);
+    this.setEvent();
   }
 }

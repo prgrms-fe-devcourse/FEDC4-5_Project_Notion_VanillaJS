@@ -1,21 +1,26 @@
+import DocumentContent from "./DocumentContent";
 import DocumentList from "./DocumentList";
 
 export default class App {
-  constructor({ targetEl, initialState }) {
-    this.targetEl = targetEl;
-    this.state = initialState;
+  constructor() {
+    this.appEl = document.querySelector("#app");
+
     this.render();
   }
 
-  setState(nextState) {
-    this.state = nextState;
-    this.render();
+  setDocumentContentState(nextState) {
+    this.documentContent.setState(nextState);
   }
 
   render() {
-    new DocumentList({
-      targetEl: this.targetEl,
-      initialState: this.state,
+    this.documentList = new DocumentList({
+      parentEl: this.appEl,
+      setDocumentContentState: (nextState) => {
+        this.setDocumentContentState(nextState);
+      },
+    });
+    this.documentContent = new DocumentContent({
+      parentEl: this.appEl,
     });
   }
 }
