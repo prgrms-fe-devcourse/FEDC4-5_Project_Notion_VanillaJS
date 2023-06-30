@@ -85,12 +85,14 @@ export default function MainPage({$target, initialState}){
         await request(`/documents/${id}`, {
           method : "DELETE"
         })
-        replace("/");
-        fetchDocuments();
-        this.setState({
-          ...this.state,
-          documentContent : null
-        })
+        if(id === this.state.id){
+          replace("/");
+          this.setState({
+            ...this.state,
+            documentContent : null
+          })
+        }
+        await fetchDocuments();
       }
     },
     onClickDocument : async (id) => {
@@ -106,6 +108,7 @@ export default function MainPage({$target, initialState}){
       if(timer !== null){
         clearTimeout(timer);
       }
+      document.querySelector(".selected-document-span").textContent = post.title;
       timer = setTimeout(async () => {
         setLocalStorageItem(getPostLocalSaveKey(id), {
           ...post,

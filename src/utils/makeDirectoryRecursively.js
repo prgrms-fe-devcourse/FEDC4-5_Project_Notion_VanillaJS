@@ -9,10 +9,12 @@ export default function MakeDirectoryRecursively(documents, selectedId){
     const {title, id} = document;
     ret += `
     <ul>
-      <li data-id="${id}" ${id === selectedId ? 'style="color:red"' : ""}>
-        ${title}<button class="add-document">+</button>
+      <li data-id="${id}" ${id === selectedId ? 'class="selected-document"' : ''}>
+        <span ${id === selectedId ? 'class="selected-document-span"' : ''}>${title}</span>
+        <button class="add-document">+</button>
         <button class="delete-document">X</button>
-      </li>`
+      </li>
+    `
     ret += MakeDirectoryRecursively(document.documents, selectedId);
     ret += `</ul>`
   })
