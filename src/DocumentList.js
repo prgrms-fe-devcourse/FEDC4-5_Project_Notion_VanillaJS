@@ -54,7 +54,7 @@ export default class DocumentList {
     addButtons.forEach((button) => {
       button.addEventListener("click", async (e) => {
         const parentId = e.currentTarget.parentNode.id;
-        const newDocument = await request.postDocumentItem(parentId);
+        const newDocument = await request.addDocumentItem(parentId);
         history.pushState(null, null, `/${newDocument.id}`);
         const nextState = await request.getDocumentItem(newDocument.id);
         this.setDocumentContentState(nextState);

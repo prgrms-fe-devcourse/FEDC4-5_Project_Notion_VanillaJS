@@ -33,11 +33,25 @@ export const request = {
       console.error("Error:", error);
     }
   },
-  postDocumentItem: async (parentId) => {
+  addDocumentItem: async (parentId) => {
     try {
       const response = await fetch(
         `${NOTION_API}/documents`,
         config("POST", { title: "새 문서", parent: parentId })
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
+  updateDocumentItem: async (id, updateBody) => {
+    try {
+      console.log("api 호출");
+      const response = await fetch(
+        `${NOTION_API}/documents/${id}`,
+        config("PUT", updateBody)
       );
 
       const result = await response.json();

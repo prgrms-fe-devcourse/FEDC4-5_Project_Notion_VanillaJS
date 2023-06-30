@@ -11,6 +11,9 @@ export default class App {
   setDocumentContentState(nextState) {
     this.documentContent.setState(nextState);
   }
+  setDocumentListState(nextState) {
+    this.documentList.setState(nextState);
+  }
 
   render() {
     this.documentList = new DocumentList({
@@ -21,6 +24,9 @@ export default class App {
     });
     this.documentContent = new DocumentContent({
       parentEl: this.appEl,
+      setDocumentListState: (nextState) => {
+        this.setDocumentListState(nextState);
+      },
     });
   }
 }
