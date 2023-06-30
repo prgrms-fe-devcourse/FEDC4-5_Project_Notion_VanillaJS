@@ -1,5 +1,4 @@
 import MakeDirectoryRecursively from "../utils/makeDirectoryRecursively.js";
-import { push } from "../utils/router.js";
 
 export default function Sidebar({$target, initialState, onClickDocument , onClickAdd, onClickDelete}){
   const $sidebar = document.createElement("div");
@@ -13,7 +12,7 @@ export default function Sidebar({$target, initialState, onClickDocument , onClic
   }
   
   this.render = () => {
-    $sidebar.innerHTML = `<button class="add-root">+</button>` +MakeDirectoryRecursively(this.state);
+    $sidebar.innerHTML = `<button class="add-root">+</button>` + MakeDirectoryRecursively(this.state.documents, +this.state.selectedId);
   }
   
   $sidebar.addEventListener("click", (e) => {
@@ -35,6 +34,4 @@ export default function Sidebar({$target, initialState, onClickDocument , onClic
       }
     }
   })
-  
-  this.render();
 }

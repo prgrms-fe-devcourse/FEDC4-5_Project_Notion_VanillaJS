@@ -7,10 +7,7 @@ export default function App({$target}){
     initialState : {
       documents : [],
       id : null,
-      document : {
-        title : "",
-        content : ""
-      }
+      documentContent : null,
     }
   });
 
@@ -19,15 +16,17 @@ export default function App({$target}){
     const {pathname} = window.location;
 
     if(pathname === "/"){
-      mainPage.init();
+      mainPage.init(null);
     }else if(pathname.indexOf("/documents/") === 0){
       const [, , id] = pathname.split("/");
-      mainPage.setState({
-        ...mainPage.state,
-        id,
-      });
+      mainPage.init(id);
+    }else{
+      mainPage.init(null);
     }
   }
   this.route();
   initRouter(() => this.route());
+  window.addEventListener("popstate", () => {
+    this.route();
+  })
 }
