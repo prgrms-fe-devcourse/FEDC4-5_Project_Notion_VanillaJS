@@ -37,7 +37,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 5px 7px;
+  padding: 3px 7px;
   border-radius: 10px;
 }
 
@@ -62,6 +62,8 @@ body {
 .docDelBtn {
   cursor: pointer;
   transition: color ease-in 120ms;
+  height: 16px;
+  width: 16px;
 }
 
 .docAddBtn:hover {
@@ -74,6 +76,16 @@ body {
 
 .detailPageWrapper {
   width: 100%;
+}
+
+.fa-spinner {
+  color: #FFD95A;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .docEditWrapper {

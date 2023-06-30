@@ -12,7 +12,7 @@ export default function DocumentsListItems({ $target, documentItems, onDocumentA
     $liTitle.className = 'listTitle';
     $li.dataset.id = documentItems.id;
     $liAddButton.classList.add('fa-solid', 'fa-plus', 'docAddBtn');
-    $liDelButton.classList.add('fa-trash', 'fa-solid', 'docDelBtn');
+    $liDelButton.classList.add('fa-solid', 'fa-trash', 'docDelBtn');
     $buttonWrapper.className = 'docBtnWrapper'
 
     $buttonWrapper.append($liAddButton, $liDelButton);
@@ -21,15 +21,17 @@ export default function DocumentsListItems({ $target, documentItems, onDocumentA
 
     $buttonWrapper.addEventListener('click', event => {
       event.stopPropagation();
+    
       const $li = event.target.closest('li');
       const targetClassName = event.target.className;
 
       if ($li) {
-        console.log(targetClassName)
         const { id } = $li.dataset;
         if (targetClassName.includes('docAddBtn')){
           onDocumentAdd(id);
         } else if (targetClassName.includes('docDelBtn')) {
+          // console.log(event.target);
+          event.target.className = "fa-solid fa-spinner";
           onDocumentDelete(id);
         }
         
