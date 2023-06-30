@@ -1,7 +1,7 @@
 import MakeDirectoryRecursively from "../utils/makeDirectoryRecursively.js";
 import { push } from "../utils/router.js";
 
-export default function Sidebar({$target, initialState, onClickAdd}){
+export default function Sidebar({$target, initialState, onClickDocument , onClickAdd, onClickDelete}){
   const $sidebar = document.createElement("div");
   $target.appendChild($sidebar);
 
@@ -21,15 +21,17 @@ export default function Sidebar({$target, initialState, onClickAdd}){
     const {className} = e.target;
 
     if(className === "add-root"){
-      onClickAdd("root");
+      onClickAdd(null);
       return;
     }
     if($li){
       const {id} = $li.dataset;
       if(className === "add-document"){
         onClickAdd(id);
+      }else if(className === "delete-document"){
+        onClickDelete(id);
       }else{
-        push(`/documents/${id}`);
+        onClickDocument(id);
       }
     }
   })

@@ -6,8 +6,8 @@ export default function App({$target}){
     $target,
     initialState : {
       documents : [],
-      postId : "new",
-      post : {
+      id : null,
+      document : {
         title : "",
         content : ""
       }
@@ -19,14 +19,7 @@ export default function App({$target}){
     const {pathname} = window.location;
 
     if(pathname === "/"){
-      mainPage.setState({
-        ...mainPage.state,
-        id : "new",
-        post : {
-          title : "",
-          content : ""
-        }        
-      });
+      mainPage.init();
     }else if(pathname.indexOf("/documents/") === 0){
       const [, , id] = pathname.split("/");
       mainPage.setState({

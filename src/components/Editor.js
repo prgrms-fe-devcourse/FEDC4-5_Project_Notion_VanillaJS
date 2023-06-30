@@ -11,7 +11,7 @@ export default function Editor({$target, initialState = {
   $target.appendChild($editor);
 
   $editor.innerHTML = `
-    <input type="text" name="title" style="width:600px;">
+    <input type="text" name="title" style="width:600px;" autofocus>
     <textarea name="content" style="width:600px; height:400px;"></textarea>
   `
 
@@ -27,13 +27,13 @@ export default function Editor({$target, initialState = {
 
   this.render();
 
-  $editor.querySelector("[name=title]").addEventListener("keyup", (e) => {
+  $editor.querySelector("[name=title]").addEventListener("input", async (e) => {
     const nextState = {
       ...this.state,
       title : e.target.value
     };
     this.setState(nextState);
-    onEditing(this.state);
+    await onEditing(this.state, e.target);
   })
 
   $editor.querySelector("[name=content]").addEventListener("keyup", (e) => {
@@ -42,6 +42,6 @@ export default function Editor({$target, initialState = {
       content : e.target.value
     };
     this.setState(nextState);
-    onEditing(this.state);
+    onEditing(this.state, e.target);
   })
 }

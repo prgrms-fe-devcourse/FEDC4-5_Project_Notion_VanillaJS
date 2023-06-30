@@ -7,7 +7,7 @@ export default function MakeDirectoryRecursively(documents){
 
   documents.forEach(document => {
     const {title, id} = document;
-    ret += `<ul><li data-id="${id}">${title}<button class="add-document">+</button></li>`
+    ret += `<ul><li data-id="${id}">${title}<button class="add-document">+</button><button class="delete-document">X</button></li>`
     ret += MakeDirectoryRecursively(document.documents);
     ret += `</ul>`
   })

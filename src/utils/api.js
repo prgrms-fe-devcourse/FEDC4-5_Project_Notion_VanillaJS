@@ -5,6 +5,7 @@ export const request = async (url, option = {}) => {
   try{
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...PushSubscriptionOptions,
+      ...option,
       headers : {
         "Content-Type" : "application/json",
         "x-username" : UNIQUE_KEY        

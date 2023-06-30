@@ -1,42 +1,35 @@
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
 import { request } from "../utils/api.js";
-import Queue from "../utils/queue.js";
-import { getLocalStorageItem, setLocalStorageItem } from "../utils/storage.js";
+import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from "../utils/storage.js";
 
 export default function MainPage({$target, initialState}){
   const $page = document.createElement("div");
   this.state = initialState;
   let postLocalSaveKey = `temp-post-${this.state.id}`;
   
+  const fetchDocuments = async () => {
+    const documents = await request("/documents");
+    this.setState({
+      ...this.state,
+      documents      
+    })
+  }
+
+  const fetchContent = async (id) => {
+    const document = await request(`/documents/${id}`);
+    this.setState({
+      ...this.state,
+      id,
+      document
+    })
+  }
+
   this.setState = (nextState) => {
-    console.log(nextState);
-    if(this.state.id !== nextState.id){
-      postLocalSaveKey = `temp-post-${nextState.id}`;
-      this.state = nextState;
-      if(this.state.id === "new"){
-        const post = getLocalStorageItem(postLocalSaveKey, {
-          title : "",
-          content : ""
-        })
-        editor.setState(post);
-        this.render();
-      }else{
-        const post = getLocalStorageItem(postLocalSaveKey, {
-          title : "",
-          content : ""
-        })
-        editor.setState(post);
-        this.render();
-      }
-      return;
-    }
+    if(this.state.id !== nextState.id)
+      editor.setState(nextState.document);
     this.state = nextState;
     sideBar.setState(this.state.documents);
-    editor.setState(this.state.post || {
-      title : "",
-      content : ""
-    });
     this.render();
   };
 
@@ -48,38 +41,38 @@ export default function MainPage({$target, initialState}){
   const sideBar = new Sidebar({
     $target : $page,
     initialState : this.state.documents,
-    onClickAdd : (id) => {
-      const nextState = sideBar.state;
-      if(id === "root"){
-        nextState.push({
-          id : new Date().getTime(),
-          title : "root Test",
-          documents : [],
-        })
-        sideBar.setState(nextState);
-        
-        return;
-      } 
-      const {documents} = findDocument(+id, nextState);
-      if(documents){
-        documents.push({
-          id : new Date().getTime(),
-          title: "test",
-          documents : [],
-        })
-      }else{
-        return;
+    onClickAdd : async (id) => {
+      const newDocument = {
+        title : "",
+        parent : "",
       }
-      sideBar.setState(nextState);
-    }  
+      newDocument.title = "빈 제목";
+      newDocument.parent = id;
+      
+      await request("/documents", {
+        method : "POST",
+        body : JSON.stringify(newDocument)
+      })
+      await fetchDocuments();
+    },
+    onClickDelete : async (id) => {
+      await request(`/documents/${id}`, {
+        method : "DELETE"
+      })
+      fetchDocuments();
+    },
+    onClickDocument : async (id) => {
+      await fetchContent(id);
+    }
   });
+
   const editor = new Editor({
     $target : $page, 
     initialState : {
       title : "",
       content : ""
     }, 
-    onEditing : (post) => {
+    onEditing : (post, $input) => {
       if(timer !== null){
         clearTimeout(timer);
       }
@@ -88,28 +81,17 @@ export default function MainPage({$target, initialState}){
           ...post,
           tempSaveDate : new Date()
         })
-      }, 2000)
+        await request(`/documents/${this.state.id}`, {
+          method : "PUT",
+          body : JSON.stringify(post)
+        })
+        await fetchDocuments();
+        removeLocalStorageItem(postLocalSaveKey);
+        $input.focus();
+      }, 500)
     }});
-
-  this.render();
-
-  function findDocument(targetId, root){
-    const queue = new Queue();
-    root.forEach(document => queue.enqueue(document));
-    
-    while(queue.size()){
-      const count = queue.size();
-
-      for(let i = 0; i < count; i++){
-        const rootDirectory = queue.dequeue();
-        const {id} = rootDirectory;
-        if(id === targetId) {
-          return rootDirectory;
-        }
-        rootDirectory.documents.forEach(document => queue.enqueue(document));
-      }
-    }
-
-    return null;
+  this.init = async () => {
+    await fetchDocuments();
+    this.render();
   }
 }
