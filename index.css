@@ -14,6 +14,16 @@ body {
   height: 100vh;
 }
 
+.dirContentWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.dirBtnWrapper {
+  display: flex;
+  gap: 5px;
+}
+
 .documentListWrapper {
   min-width: 250px;
   background-color: #394867;
@@ -24,8 +34,8 @@ body {
 
 .documentListWrapper ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding-left: 10px;
   width: 100%;
 }
 
@@ -33,6 +43,7 @@ body {
   padding-left: 10px;
 }
 
+.dirItemWrapper,
 .documentListWrapper li {
   width: 100%;
   display: flex;
@@ -46,28 +57,15 @@ body {
   color: #212A3E;
 }
 
-.listTitle {
+.docTitle {
   cursor: pointer;
-  flex: 1;
 }
 
-.docBtnWrapper {
-  width: 35px;
-  display: flex;
-  justify-content: space-between;
-  color: #f1f6f9;
-}
-
-.docAddBtn,
 .docDelBtn {
   cursor: pointer;
   transition: color ease-in 120ms;
   height: 16px;
   width: 16px;
-}
-
-.docAddBtn:hover {
-  color: #8eac50;
 }
 
 .docDelBtn:hover {

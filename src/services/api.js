@@ -21,10 +21,28 @@ export const request = async (url, options = {}) => {
   }
 }
 
-// const res = await request('/documents', {
-//   method: 'POST',
-//   body: {
-//     title: "test",
-//     "parent": null
-//   }
-// });
+export const requestAddDir = async (id = null) => {
+  await request('/documents', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: "dir/New Dir",
+      parent: id,
+    })
+  })
+}
+
+export const requestAddDoc = async (parentId = null) => {
+  await request('/documents', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: "New Doc",
+      parent: parentId,
+    })
+  })
+}
+
+export const requestDelItem = async (id) => {
+  const res = await request(`/documents/${id}`, {
+    method: 'DELETE'
+  });
+}
