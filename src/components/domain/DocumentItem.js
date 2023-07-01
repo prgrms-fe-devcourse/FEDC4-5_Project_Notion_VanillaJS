@@ -10,9 +10,11 @@ export default function DocumentItem({
 
   containerElement.addEventListener("click", async (e) => {
     if (e.target.closest(".child-button")) {
-      const temp = await postDocument({ title: "", parent: data.id });
-      console.log(temp);
-      return;
+      if (Number(e.target.closest(".child-button").dataset.id) === data.id) {
+        const temp = await postDocument({ title: null, parent: data.id });
+        console.log(temp);
+        return;
+      }
     }
 
     if (Number(e.target.closest("li").id) === data.id) {
@@ -26,7 +28,7 @@ export default function DocumentItem({
     containerElement.innerHTML = `
       <li id="${data.id}" class="document-item">
         <span>${data.title === null ? "제목 없음" : data.title}</span>
-        <div class="child-button">🆕</div>
+        <div data-id="${data.id}" class="child-button">🆕</div>
       </li>
     `;
 
