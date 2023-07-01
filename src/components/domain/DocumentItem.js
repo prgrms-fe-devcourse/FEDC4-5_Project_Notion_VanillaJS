@@ -19,7 +19,7 @@ export default function DocumentItem({ parentElement, ...data }) {
 
     containerElement.innerHTML = `
       <li id="${data.id}" class="document-item">
-        <span>${data.title === null ? "제목 없음" : data.title}</span>
+        ${data.title === null ? "제목 없음" : data.title}
         <div class="child-button">🆕</div>
       </li>
     `;

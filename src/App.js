@@ -34,8 +34,7 @@ export default function App({ appElement }) {
   initRouter(() => this.route());
 
   this.route = () => {
-    const { pathname, search } = window.location;
-    const params = new URLSearchParams(search);
+    const { pathname } = window.location;
 
     appElement.innerHTML = ``;
 
