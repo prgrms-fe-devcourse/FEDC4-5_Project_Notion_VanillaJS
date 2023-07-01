@@ -8,7 +8,7 @@ import {
 export default function Edit({ appElement }) {
   const containerElement = document.createElement("div");
 
-  this.state = { title: "", content: "", documentId: "" };
+  this.state = { title: "", content: "", documentId: "", parent: null };
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -27,12 +27,15 @@ export default function Edit({ appElement }) {
   });
 
   containerElement.addEventListener("click", async (e) => {
+    /**
+     * @todo 게시물이 추가 될 때 리스트 최신화
+     */
     if (e.target.closest(".post-button")) {
       postDocument(this.state);
     }
 
     if (e.target.closest(".put-button")) {
-      putDocument({ documentId: "74387", data: this.state });
+      putDocument({ documentId: this.state.documentId, data: this.state });
     }
 
     if (e.target.closest(".temp-button")) {

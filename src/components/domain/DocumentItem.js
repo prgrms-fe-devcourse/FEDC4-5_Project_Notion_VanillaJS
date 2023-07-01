@@ -1,16 +1,22 @@
+import { postDocument } from "../../api/document.js";
 import { push } from "../../utils/route.js";
 
-export default function DocumentItem({ parentElement, ...data }) {
+export default function DocumentItem({
+  parentElement,
+  getChildDocument,
+  ...data
+}) {
   const containerElement = document.createElement("div");
 
-  containerElement.addEventListener("click", (e) => {
+  containerElement.addEventListener("click", async (e) => {
     if (e.target.closest(".child-button")) {
-      alert("child");
+      const temp = await postDocument({ title: "", parent: data.id });
+      console.log(temp);
       return;
     }
 
-    if (e.target.closest("li")) {
-      push(`/document/edit?document-id=${e.target.id}`);
+    if (Number(e.target.closest("li").id) === data.id) {
+      push(`/document/edit?document-id=${data.id}`);
     }
   });
 
@@ -19,9 +25,11 @@ export default function DocumentItem({ parentElement, ...data }) {
 
     containerElement.innerHTML = `
       <li id="${data.id}" class="document-item">
-        ${data.title === null ? "제목 없음" : data.title}
+        <span>${data.title === null ? "제목 없음" : data.title}</span>
         <div class="child-button">🆕</div>
       </li>
     `;
+
+    getChildDocument(containerElement);
   };
 }

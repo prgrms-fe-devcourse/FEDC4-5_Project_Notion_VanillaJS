@@ -1,10 +1,10 @@
 import { getDocuments } from "./api/document.js";
 import Layout from "./components/common/Layout.js";
-import DocumentItem from "./components/domain/DocumentItem.js";
 import DocumentList from "./components/domain/DocumentList.js";
 import Edit from "./components/domain/Edit.js";
 import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
+import { getTreeDocument } from "./utils/getTreeDocument.js";
 import { initRouter } from "./utils/route.js";
 
 /**
@@ -19,9 +19,7 @@ export default function App({ appElement }) {
     appElement,
     renderItemComponent: async (parentElement) => {
       const list = await getDocuments();
-      return list.map((item) =>
-        new DocumentItem({ parentElement, ...item }).render()
-      );
+      return getTreeDocument(list, parentElement);
     },
   });
   const homeComponent = new Home({ appElement });
