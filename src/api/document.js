@@ -1,12 +1,20 @@
+import { PATH } from "../constants/path.js";
 import { request } from "./request.js";
 
 export const postDocument = async (data) => {
-  return await request("/documents", {
+  return await request(PATH.DOCUMENTS, {
     method: "POST",
     body: JSON.stringify(data),
   });
 };
 
 export const getDocuments = async () => {
-  return await request("/documents");
+  return await request(PATH.DOCUMENTS);
+};
+
+export const putDocument = async ({ documentId, data }) => {
+  return await request(`${PATH.DOCUMENTS}/${documentId}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
 };
