@@ -1,53 +1,33 @@
-export default function Editor({$target, initialState, onEditing}){
-  const $editor = document.createElement("div");
+import Component from "../core/Component.js";
 
-  this.state = initialState;
-  
-  $editor.style.height = "600px";
-  $editor.style.width = "400px";
-  $target.appendChild($editor);
-  
-  $editor.innerHTML = `
-  <input type="text" name="title" style="width:600px;" autofocus>
-  <textarea name="content" style="width:600px; height:400px;"></textarea>
-  `
-  
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  }
-  
-  this.render = () => {
-    const $title = $editor.querySelector("[name=title]");
-    const $content = $editor.querySelector("[name=content]");
-    if(!this.state){
-      $title.style.visibility = "hidden";
-      $content.style.visibility = "hidden";
-    }else{
-      $title.style.visibility = "";
-      $content.style.visibility = "";
-      $title.value = this.state.title;
-      $content.value = this.state.content;
-    }
+export default class Editor extends Component{
+  template(){
+    return `
+      <input type="text" name="title" style="width:600px;" autofocus>
+      <textarea name="content" style="width:600px; height:400px;"></textarea>
+    `
   }
 
-  this.render();
+  render(){
+    this.$target.innerHTML = this.template();
+    this.$target.querySelector("[name=title]").value = this.props.title;
+    this.$target.querySelector("[name=content]").value = this.props.content;
+  }
 
-  $editor.querySelector("[name=title]").addEventListener("input", async (e) => {
-    const nextState = {
-      ...this.state,
-      title : e.target.value
-    };
-    this.setState(nextState);
-    await onEditing(this.state, this.state.id,e.target);
-  })
+  setEvent(){
+    const {title, content, onEditTitle, onEditContent} = this.props;
+    this.addEvent("input", "[name=title]", ({target}) => {
+      onEditTitle({
+        title : target.value,
+        content
+      }, target);
+    });
 
-  $editor.querySelector("[name=content]").addEventListener("input", async (e) => {
-    const nextState = {
-      ...this.state,
-      content : e.target.value
-    };
-    this.setState(nextState);
-    await onEditing(this.state, this.state.id ,e.target);
-  })
+    this.addEvent("input", "[name=content]", ({target}) => {
+      onEditContent({
+        title,
+        content : target.value
+      }, target);
+    })
+  }
 }

@@ -1,32 +1,30 @@
+import Component from "./core/Component.js";
 import MainPage from "./pages/MainPage.js";
 import { initRouter } from "./utils/router.js";
 
-export default function App({$target}){
-  const mainPage = new MainPage({
-    $target,
-    initialState : {
-      documents : [],
+export default class App{
+  constructor($target){
+    this.mainPage = new MainPage(
+      $target, {
       id : null,
-      documentContent : null,
-    }
-  });
+      documents : [],
+      documentContent : null
+    })
 
-  this.route = () => {
-    $target.innerHTML = "";
+    this.route();
+    initRouter(() => this.route());
+    window.addEventListener("popstate", () => {
+      this.route();
+    })
+  }
+
+  route(){
     const {pathname} = window.location;
-
     if(pathname === "/"){
-      mainPage.init(null);
+      this.mainPage.setup(null);
     }else if(pathname.indexOf("/documents/") === 0){
       const [, , id] = pathname.split("/");
-      mainPage.init(id);
-    }else{
-      mainPage.init(null);
+      this.mainPage.setup(id);
     }
   }
-  this.route();
-  initRouter(() => this.route());
-  window.addEventListener("popstate", () => {
-    this.route();
-  })
 }
