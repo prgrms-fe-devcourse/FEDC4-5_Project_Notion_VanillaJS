@@ -8,7 +8,7 @@
   --color-black: #000000;
 }
 
-body{
+body {
   margin: 0;
 }
 
@@ -27,14 +27,66 @@ main {
 }
 
 #sideBar {
-  flex-basis: 20%;
+  flex-basis: 15%;
   display: flex;
   flex-direction: column;
   background-color: var(--color-dark-white);
 }
 
-#editPage {
+#sideBar_header {
+  flex-basis: 10%;
+  background-color: var(--color-dark-white);
+}
+
+#sideBar_title {
+  flex-basis: 10%;
+  background-color: var(--color-light-grey);
+}
+
+#sideBar_documentList {
   flex-basis: 80%;
+  background-color: var(--color-dark-grey);
+}
+
+.documentItem{
+  display: flex;
+  flex-direction: column;
+}
+
+.documentContent{
+  display: flex;
+}
+
+.childDocumentList{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#editPage {
+  flex-basis: 85%;
   display: flex;
   flex-direction: column;
   background-color: var(--color-light-white);
