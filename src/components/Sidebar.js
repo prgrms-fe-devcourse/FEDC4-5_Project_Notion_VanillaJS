@@ -1,5 +1,4 @@
 import Component from "../core/Component.js";
-import MakeDirectoryRecursively from "../utils/makeDirectoryRecursively.js";
 
 export default class Sideber extends Component{
   template(){
@@ -37,9 +36,7 @@ export default class Sideber extends Component{
     if(!Array.isArray(documents) || documents.length === 0){
       return ``;
     }
-  
     let ret = ``;
-  
     documents.forEach(document => {
       const {title, id} = document;
       ret += `
@@ -50,10 +47,9 @@ export default class Sideber extends Component{
           <button class="delete-document">X</button>
         </li>
       `
-      ret += MakeDirectoryRecursively(document.documents, selectedId);
+      ret += this.getDirectoryTree(document.documents, selectedId);
       ret += `</ul>`
     })
-  
     return ret;
   }
 }

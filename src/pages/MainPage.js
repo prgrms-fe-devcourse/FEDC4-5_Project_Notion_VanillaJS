@@ -9,9 +9,8 @@ export default class MainPage extends Component{
   timer = null;
   async setup(id){
     this.state = this.props;
-    const documents = await this.fetchDocuments();
-    const documentContent = await this.fetchContent(id);
-    this.setState({id, documents, documentContent});
+    await this.fetchDocuments();
+    await this.fetchContent(id);
   }
 
   template(){
@@ -59,26 +58,21 @@ export default class MainPage extends Component{
       body : JSON.stringify(newDocument)
     })
     push(`/documents/${newId}`);
-    await this.fetchDocuments();
-    await this.fetchContent();
   }
 
   async onClickDelete (id){
     await request(`/documents/${id}`, {
       method : "DELETE"
     })
-    const documents = await this.fetchDocuments();
     if(id === this.state.id){
       replace("/");
-      this.setState({documents, id : null, documentContent : null});
       return;
     }
-    this.setState({documents});
+    await this.fetchDocuments();
   }
 
   async onClickDocument (id){
     push(`/documents/${id}`);
-    await this.fetchContent(id);
   }
 
   onEditTitle(post, $input){
@@ -122,18 +116,24 @@ export default class MainPage extends Component{
   }
 
   async fetchDocuments(){
-    return await request("/documents");
+    const documents = await request("/documents");
+    this.setState({
+      documents
+    });
   }
 
   async fetchContent(id){
-    if(!id) return null;
+    if(!id) return;
     const documentContent = await request(`/documents/${id}`);
     const tempContent = getLocalStorageItem(this.postLocalSaveKey, null);
     if(tempContent && tempContent.tempSaveDate > documentContent.updatedAt){
       if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
-        return tempContent;
+        this.setState({
+          documentContent : tempContent
+        });
+        return;
       }
     }
-    return documentContent;
+    this.setState({id, documentContent});
   }
 }

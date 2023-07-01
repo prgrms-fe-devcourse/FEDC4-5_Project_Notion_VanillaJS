@@ -1,4 +1,3 @@
-import Component from "./core/Component.js";
 import MainPage from "./pages/MainPage.js";
 import { initRouter } from "./utils/router.js";
 
@@ -10,7 +9,6 @@ export default class App{
       documents : [],
       documentContent : null
     })
-
     this.route();
     initRouter(() => this.route());
     window.addEventListener("popstate", () => {

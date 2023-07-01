@@ -3,7 +3,7 @@ import Component from "../core/Component.js";
 export default class Editor extends Component{
   template(){
     return `
-      <input type="text" name="title" style="width:600px;" autofocus>
+      <input type="text" name="title" style="width:600px;">
       <textarea name="content" style="width:600px; height:400px;"></textarea>
     `
   }
@@ -12,6 +12,7 @@ export default class Editor extends Component{
     this.$target.innerHTML = this.template();
     this.$target.querySelector("[name=title]").value = this.props.title;
     this.$target.querySelector("[name=content]").value = this.props.content;
+    this.$target.querySelector("[name=title]").focus();
   }
 
   setEvent(){
