@@ -1,7 +1,6 @@
 import DocumentList from "./components/DocumentList.js";
 import Editor from "./components/Editor.js";
-import { request } from "./service/api.js";
-import { initRouter } from "./service/router.js";
+import { initRouter, request } from "./service/index.js";
 
 export default class App {
   constructor({ $target }) {

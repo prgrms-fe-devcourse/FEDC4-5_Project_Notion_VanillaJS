@@ -1,4 +1,4 @@
-import { push } from "../service/router.js";
+import { push } from "../service/index.js";
 
 export default class DocumentList {
   constructor({ $parent, initialState }) {
