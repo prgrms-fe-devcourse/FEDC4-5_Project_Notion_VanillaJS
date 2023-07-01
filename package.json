@@ -6,7 +6,7 @@
   "author": "jgjgill <dbdltm22@naver.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn serve"
+    "dev": "yarn serve -s"
   },
   "devDependencies": {
     "serve": "^14.2.0"
