@@ -1,12 +1,9 @@
-import { getDocuments, postDocument } from "../../api/document.js";
+import { getDocument, getDocuments, postDocument } from "../../api/document.js";
 
 export default function Edit({ appElement }) {
   const containerElement = document.createElement("div");
 
-  this.state = {
-    title: "",
-    content: "",
-  };
+  this.state = { title: "", content: "" };
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -34,13 +31,22 @@ export default function Edit({ appElement }) {
     }
   });
 
-  this.render = () => {
+  this.render = async () => {
     appElement.append(containerElement);
+
+    let data;
+
+    const params = new URLSearchParams(window.location.search);
+    const documentId = params.get("document-id");
+
+    if (documentId) {
+      data = await getDocument(documentId);
+    }
 
     containerElement.innerHTML = `
       <h2>문서 작업 페이지<h2>
-      <input type="text" class="title" />
-      <div contentEditable class="edit"></div> 
+      <input type="text" class="title" value="${data?.title ?? ""}" />
+      <div contentEditable class="edit">${data?.content ?? ""}</div> 
       <button class="api-button">호출 버튼</button>
       <button class="temp-button">데이터 확인</button>
     `;

@@ -12,6 +12,10 @@ export const getDocuments = async () => {
   return await request(PATH.DOCUMENTS);
 };
 
+export const getDocument = async (documentId) => {
+  return await request(`${PATH.DOCUMENTS}/${documentId}`);
+};
+
 export const putDocument = async ({ documentId, data }) => {
   return await request(`${PATH.DOCUMENTS}/${documentId}`, {
     method: "PUT",

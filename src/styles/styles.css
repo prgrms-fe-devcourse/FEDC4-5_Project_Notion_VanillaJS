@@ -1,3 +1,8 @@
 .edit {
   border: 2px solid black;
 }
+
+.document-item {
+  display: flex;
+  gap: 5px;
+}
