@@ -1,6 +1,6 @@
 import { getDocument, getDocuments } from "../../api/document.js";
 
-export default function Edit({ appElement, onEditing }) {
+export default function Document({ appElement, onEditing }) {
   const containerElement = document.createElement("div");
 
   this.state = { title: "", content: "", documentId: "", parent: null };
