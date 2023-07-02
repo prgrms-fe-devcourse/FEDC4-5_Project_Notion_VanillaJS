@@ -20,26 +20,30 @@ export const request = async (url = '', options = {}) => {
   }
 };
 
-export const getDocuments = async id => {
-  return await request(`/${id}`);
+export const getAllDocuments = async () => {
+  return request('');
+};
+
+export const getDocument = async id => {
+  return request(`/${id}`);
 };
 
 export const createDocument = async document => {
-  return await request('', {
+  return request('', {
     method: 'POST',
     body: JSON.stringify(document),
   });
 };
 
 export const updateDocument = async (id, document) => {
-  return await request(`${id}`, {
+  return request(`${id}`, {
     method: 'PUT',
     body: JSON.stringify(document),
   });
 };
 
 export const deleteDocument = async id => {
-  return await request(`/${id}`, {
+  return request(`/${id}`, {
     method: 'DELETE',
   });
 };

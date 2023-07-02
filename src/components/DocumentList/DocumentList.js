@@ -1,38 +1,40 @@
 import { push } from '../../utils/router.js';
 
-export default function DocumentList({ $parent }) {
+export default function DocumentList({ $parent, initialState }) {
   const $documentsList = document.createElement('div');
   $parent.appendChild($documentsList);
 
-  this.state = [
-    {
-      id: 1, // Document id
-      title: '노션을 만들자', // Document title
-      documents: [
-        {
-          id: 2,
-          title: '블라블라',
-          documents: [
-            {
-              id: 3,
-              title: '함냐함냐',
-              documents: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: 'hello!',
-      documents: [],
-    },
-    {
-      id: 5,
-      title: '문서5',
-      documents: [],
-    },
-  ];
+  // this.state = [
+  //   {
+  //     id: 1, // Document id
+  //     title: '노션을 만들자', // Document title
+  //     documents: [
+  //       {
+  //         id: 2,
+  //         title: '블라블라',
+  //         documents: [
+  //           {
+  //             id: 3,
+  //             title: '함냐함냐',
+  //             documents: [],
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'hello!',
+  //     documents: [],
+  //   },
+  //   {
+  //     id: 5,
+  //     title: '문서5',
+  //     documents: [],
+  //   },
+  // ];
+
+  this.state = initialState;
 
   this.setState = nextState => {
     this.state = nextState;
