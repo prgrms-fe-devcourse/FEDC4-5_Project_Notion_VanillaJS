@@ -58,7 +58,6 @@ export const appendChildTogether = (target, childList) => {
 export const createDocumentElement = (document) => { // 재귀적으로 documentlist의 item들을 연결해주는
   const documentItem = createDomElementWithClass("div", "documentItem");
   documentItem.id = document.id;
-  // 전달받은 id 값을 data-id 속성으로 ?
 
   const documentContent = createDomElementWithClass("div", "documentContent");
   documentItem.appendChild(documentContent);

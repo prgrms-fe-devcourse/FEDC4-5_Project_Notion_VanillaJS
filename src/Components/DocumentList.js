@@ -8,6 +8,11 @@ export default function DocumentList({ target, initialState }) {
   target.appendChild(documentListElement);
 
   this.state = initialState;
+    
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
 
   this.render = () => {
     // 배열로 된 state에 따라, documentList에 들어가는 documentItem들을 쭉 만들어주기

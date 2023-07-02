@@ -11,9 +11,15 @@ export default function SideBar({ target, initialState }) {
   const titleElement = createDomElementWithId("div", "sideBar_title");
   sideBarElement.appendChild(titleElement);
 
-  new DocumentList({ target: sideBarElement, initialState });
+  const documentList = new DocumentList({ target: sideBarElement, initialState });
 
   this.state = initialState;
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+    documentList.setState(nextState);
+    this.render();
+  } 
 
   this.render = () => {};
 }
