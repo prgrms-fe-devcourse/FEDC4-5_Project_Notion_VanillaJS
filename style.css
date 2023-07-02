@@ -1,0 +1,30 @@
+.side-bar {
+  position: fixed;
+  background-color: #f1f1f1;
+  width: 200px;
+  height: 100%;
+  padding: 10px;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.document {
+  margin-bottom: 10px;
+}
+
+.document:hover {
+  background-color: #dcdcdc;
+  cursor: pointer;
+}
+
+.sub-list {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
