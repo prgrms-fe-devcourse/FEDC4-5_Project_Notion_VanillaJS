@@ -19,6 +19,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
+  cursor: pointer;
 }
 
 .buttons {
@@ -38,4 +39,8 @@
 
 .open {
   display: block;
+}
+
+.footer {
+  cursor: pointer;
 }

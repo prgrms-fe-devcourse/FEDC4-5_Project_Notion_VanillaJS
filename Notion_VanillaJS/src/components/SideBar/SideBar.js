@@ -18,13 +18,14 @@ export default class SideBar extends Component {
           ? this.getPostListTemplate(postList)
           : `<h2>로딩중</h2>`
       }
-      <footer data-id=null>
+      <footer class=${styles.footer} data-id=null>
         <i class="fa-solid fa-plus add"></i>
         새로운 페이지 추가
       </footer>`;
   }
 
   getPostListTemplate(postList) {
+    const hasChildren = (documents) => documents.length !== 0;
     return postList
       .map(
         ({ id, title, documents }) => `
@@ -32,11 +33,11 @@ export default class SideBar extends Component {
     <div class=${styles.container}>
       <div class=${styles.content}>
         ${
-          documents.length === 0
-            ? ''
-            : `<button class=${styles.dropDown}>
-        <i class="fa-solid fa-caret-right"></i>
-      </button>`
+          hasChildren(documents)
+            ? `<button class=${styles.dropDown}>
+            <i class="fa-solid fa-caret-right"></i>
+          </button>`
+            : ''
         }
         <h2 class=${styles.title} >${title}</h2>
       </div>
@@ -50,13 +51,13 @@ export default class SideBar extends Component {
       </div>
     </div>
     ${
-      documents.length === 0
-        ? ''
-        : `
-    <ul class=${styles.childList}>
-      ${this.getPostListTemplate(documents)}
-    </ul>
-    `
+      hasChildren(documents)
+        ? `
+        <ul class=${styles.childList}>
+          ${this.getPostListTemplate(documents)}
+        </ul>
+        `
+        : ''
     }
     </li>`
       )
@@ -104,6 +105,18 @@ export default class SideBar extends Component {
 
       dropDownButton.classList.toggle(`${styles.down}`);
       childList.classList.toggle(`${styles.open}`);
+    });
+
+    this.$target.addEventListener('click', ({ target }) => {
+      const title = target.closest(`.${styles.title}`);
+
+      if (!title) return;
+
+      const { id } = title.closest('[data-id]').dataset;
+
+      console.log(id);
+
+      push(`/posts/${id}`);
     });
   }
 }
