@@ -1,11 +1,9 @@
-import { request } from "../../util/api.js";
+import store from "../../util/Store.js";
 import DocumentInput from "./DocumentInput.js";
 export default class DocumentListEditor {
-  constructor({ $target, sendCreateFolderRequest, sendDeleteFolderRequest }) {
+  constructor({ $target }) {
     this.$editor = document.createElement("span");
     this.$target = $target;
-    this.sendCreateFolderRequest = sendCreateFolderRequest;
-    this.sendDeleteFolderRequest = sendDeleteFolderRequest;
     $target.appendChild(this.$editor);
 
     this.initEvent();
@@ -19,11 +17,10 @@ export default class DocumentListEditor {
       if (action === "produce") {
         new DocumentInput({
           $target: this.$target.nextElementSibling,
-          sendCreateFolderRequest: this.sendCreateFolderRequest,
-          parent: this.$target.id,
+          targetId: this.$target.id,
         });
       } else if (action === "delete") {
-        this.sendDeleteFolderRequest(this.$target.id);
+        store.documentDelete(this.$target.id);
       }
     });
   }

@@ -1,7 +1,7 @@
+import store from "../../util/Store.js";
 export default class DocumentInput {
-  constructor({ $target, sendCreateFolderRequest, parent }) {
-    this.parent = parent;
-    this.sendCreateFolderRequest = sendCreateFolderRequest;
+  constructor({ $target, targetId }) {
+    this.targetId = targetId;
     this.$inputContainer = document.querySelector(".input-container");
 
     if (this.$inputContainer) {
@@ -16,7 +16,7 @@ export default class DocumentInput {
   }
 
   initEvent() {
-    const { $inputContainer, parent, sendCreateFolderRequest } = this;
+    const { $inputContainer, targetId } = this;
 
     $inputContainer.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -24,7 +24,7 @@ export default class DocumentInput {
       const inputElement = event.target.querySelector("input[type='text']");
       const { value } = inputElement;
 
-      sendCreateFolderRequest({ title: value, parent });
+      store.documentProduce({ title: value, parent: targetId });
       this.hide();
     });
   }

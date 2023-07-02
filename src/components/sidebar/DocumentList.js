@@ -1,18 +1,16 @@
 import { DocumentListEditor } from "./index";
 import arrowImg from "../../../public/arrowImg.svg";
+import store from "../../util/Store.js";
 
 export default class DocumentList {
-  constructor({
-    $target,
-    initalState,
-    sendCreateFolderRequest,
-    sendDeleteFolderRequest,
-  }) {
+  constructor({ $target }) {
     this.$list = document.createElement("ul");
     this.$list.classList.add("document-list");
-    this.state = initalState;
-    this.sendCreateFolderRequest = sendCreateFolderRequest;
-    this.sendDeleteFolderRequest = sendDeleteFolderRequest;
+    this.state = store.state.documentsTree;
+
+    store.subscribeSidebar(() => {
+      this.setState(store.state.documentsTree);
+    });
 
     this.initEvent();
     $target.appendChild(this.$list);
@@ -53,8 +51,6 @@ export default class DocumentList {
       if (targetDocument.matches(".select-document")) {
         const documentListEditor = new DocumentListEditor({
           $target: targetDocument,
-          sendCreateFolderRequest: this.sendCreateFolderRequest,
-          sendDeleteFolderRequest: this.sendDeleteFolderRequest,
         });
 
         targetDocument.documentListEditor = documentListEditor;
