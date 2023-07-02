@@ -48,42 +48,19 @@ main {
   background-color: var(--color-dark-grey);
 }
 
-.documentItem{
+.documentItem {
   display: flex;
   flex-direction: column;
 }
 
-.documentContent{
+.documentContent {
   display: flex;
 }
 
-.childDocumentList{
+.childDocumentList {
   display: flex;
   flex-direction: column;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #editPage {
   flex-basis: 85%;

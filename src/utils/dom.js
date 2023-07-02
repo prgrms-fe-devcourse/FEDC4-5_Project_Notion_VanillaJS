@@ -55,14 +55,15 @@ export const appendChildTogether = (target, childList) => {
 //   return documentItemString;
 // };
 
-export const createDocumentElement = (document) => { // 재귀적으로 documentlist의 item들을 연결해주는
+export const createDocumentElement = (document) => {
+  // 재귀적으로 documentlist의 item들을 연결해주는
   const documentItem = createDomElementWithClass("div", "documentItem");
   documentItem.id = document.id;
 
   const documentContent = createDomElementWithClass("div", "documentContent");
   documentItem.appendChild(documentContent);
   documentContent.innerHTML = `
-      <button class="spreadButton">🔻</button>
+      <button class="spreadButton">⬇️</button>
       <span class="documentTitle">${document.title}</span>
       <button class="addChildDocumentButton">+</button>
       <button class="deleteDocumentButton">-</button>
@@ -81,4 +82,22 @@ export const createDocumentElement = (document) => { // 재귀적으로 document
   }
 
   return documentItem;
+};
+
+export const toggleDisplay = (element) => {
+  if (element) {
+    console.log(`변경 전: ${element.style.display}`);
+    element.style.display === "none"
+      ? (element.style.display = "flex")
+      : (element.style.display = "none");
+    console.log(`변경 후: ${element.style.display}`);
+  }
+};
+
+export const toggleSpreadIcon = (element) => {
+  if (element) {
+    element.innerHTML === "➡️"
+      ? (element.innerHTML = "⬇️")
+      : (element.innerHTML = "➡️");
+  }
 };

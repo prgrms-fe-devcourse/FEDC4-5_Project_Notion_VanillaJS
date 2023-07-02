@@ -6,7 +6,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "MinwooP" 
+        "x-username": "MinwooP",
       },
     });
 
@@ -20,14 +20,11 @@ export const request = async (url, options = {}) => {
   }
 };
 
-
-
 // 사용법
 // const createdPost = await request("/posts", {
 //   // 새로 post를 생성하는 API => postId 값을 return 해줌.
 //   method: "POST",
 //   body: JSON.stringify(post),
 // });
-
 
 // const posts = await request("/posts"); // 서버로부터 posts 불러오고

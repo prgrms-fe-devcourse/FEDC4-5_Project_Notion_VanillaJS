@@ -1,7 +1,13 @@
 import { createDomElementWithId } from "../utils/dom.js";
 import DocumentList from "./DocumentList.js";
 
-export default function SideBar({ target, initialState }) {
+export default function SideBar({
+  target,
+  initialState,
+  onChangeSelectedDocumentId,
+  onAddChildDocument,
+  onDeleteDocument,
+}) {
   const sideBarElement = createDomElementWithId("div", "sideBar");
   target.appendChild(sideBarElement);
 
@@ -11,7 +17,13 @@ export default function SideBar({ target, initialState }) {
   const titleElement = createDomElementWithId("div", "sideBar_title");
   sideBarElement.appendChild(titleElement);
 
-  const documentList = new DocumentList({ target: sideBarElement, initialState });
+  const documentList = new DocumentList({
+    target: sideBarElement,
+    initialState,
+    onChangeSelectedDocumentId,
+    onAddChildDocument,
+    onDeleteDocument,
+  });
 
   this.state = initialState;
 
@@ -19,7 +31,7 @@ export default function SideBar({ target, initialState }) {
     this.state = nextState;
     documentList.setState(nextState);
     this.render();
-  } 
+  };
 
   this.render = () => {};
 }
