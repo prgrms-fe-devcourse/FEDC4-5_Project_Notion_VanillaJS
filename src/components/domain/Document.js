@@ -1,4 +1,6 @@
 import { getDocument } from "../../api/document.js";
+import { PATH } from "../../constants/path.js";
+import { push } from "../../utils/route.js";
 import RecurChildDocument from "../template/RecurChildDocument.js";
 
 export default function Document({ appElement, onEditing }) {
@@ -20,6 +22,12 @@ export default function Document({ appElement, onEditing }) {
     }
 
     onEditing(this.state);
+  });
+
+  containerElement.addEventListener("click", (e) => {
+    if (e.target.closest(".child-document")) {
+      push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
+    }
   });
 
   this.render = async () => {

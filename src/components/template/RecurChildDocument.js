@@ -6,8 +6,8 @@
 export default function RecurChildDocument(rootDocument) {
   return rootDocument
     .map(
-      ({ title, documents }) =>
-        `<div>
+      ({ id, title, documents }) =>
+        `<div class="child-document" data-id="${id}">
           ${title ?? "제목 없음"}
           ${RecurChildDocument(documents)}
         </div>`
