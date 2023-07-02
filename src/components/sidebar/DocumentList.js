@@ -1,12 +1,15 @@
 import { DocumentListEditor } from "./index";
 
 export default class DocumentList {
-  constructor({ $target, store }) {
+  constructor({ $target, initalState, onSubmit }) {
     this.$list = document.createElement("ul");
+    this.$list.classList.add("document-list");
+    this.state = initalState;
+    this.onSubmit = onSubmit;
 
     this.initEvent();
     $target.appendChild(this.$list);
-    this.render({ store });
+    this.render();
   }
 
   initEvent() {
@@ -28,6 +31,7 @@ export default class DocumentList {
       if (targetDocument.matches(".select-document")) {
         const documentListEditor = new DocumentListEditor({
           $target: targetDocument,
+          onSubmit: this.onSubmit,
         });
 
         targetDocument.documentListEditor = documentListEditor;
@@ -41,9 +45,9 @@ export default class DocumentList {
 
   createCustomListString(document, string) {
     const nextDocument = document.documents;
-    string += `<li id=${document.id} class="select-document">
+    string += `<div id=${document.id} class="select-document">
       ${document.title}
-      </li>`;
+      </div>`;
     if (!!nextDocument) {
       string += "<ul>";
       for (const documents of nextDocument) {
@@ -54,13 +58,16 @@ export default class DocumentList {
     return string;
   }
 
-  async render({ store }) {
-    // await store.documentsGet();
-    const { documentsTree } = store.state;
-    const htmlString = documentsTree.reduce((acc, doc) => {
+  render() {
+    const htmlString = this.state.reduce((acc, doc) => {
       return this.createCustomListString(doc, acc);
     }, "");
     this.$list.innerHTML = htmlString;
+  }
+
+  setState(nextState) {
+    this.state = nextState;
+    this.render();
   }
 }
 

@@ -1,16 +1,25 @@
-import DocumentListPage from "./document/DocumentListPage";
-import store from "../util/store.js";
+import SidebarPage from "./sidebar/SidebarPage";
+import documentStore from "../util/documentStore.js";
 
 export default class App {
   constructor({ $target }) {
     this.$target = $target;
-    this.store = new store();
+    this.documentStore = new documentStore();
+
+    this.init();
+  }
+
+  async init() {
+    await this.documentStore.documentsGet();
     this.render();
   }
 
   render() {
-    // const { store } = this.store;
-    // console.log(store);
-    new DocumentListPage({ $target: this.$target, store: this.store });
+    const { documentStore } = this;
+
+    new SidebarPage({
+      $target: this.$target,
+      documentStore,
+    });
   }
 }

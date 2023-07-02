@@ -5,6 +5,7 @@ export const request = async (url, options = {}) => {
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
+        "Content-Type": "application/json",
         "x-username": "leehyeonjun",
       },
     });
@@ -18,3 +19,5 @@ export const request = async (url, options = {}) => {
     alert(e.message);
   }
 };
+
+export const documentsGet = async () => {};
