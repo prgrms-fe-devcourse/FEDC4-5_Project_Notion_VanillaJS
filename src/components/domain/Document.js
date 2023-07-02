@@ -1,4 +1,5 @@
-import { getDocument, getDocuments } from "../../api/document.js";
+import { getDocument } from "../../api/document.js";
+import RecurChildDocument from "../template/RecurChildDocument.js";
 
 export default function Document({ appElement, onEditing }) {
   const containerElement = document.createElement("div");
@@ -21,19 +22,13 @@ export default function Document({ appElement, onEditing }) {
     onEditing(this.state);
   });
 
-  containerElement.addEventListener("click", async (e) => {
-    if (e.target.closest(".temp-button")) {
-      const tempData = await getDocuments();
-      console.log(tempData);
-    }
-  });
-
   this.render = async () => {
     appElement.append(containerElement);
     const { pathname } = window.location;
 
     const documentId = pathname.split("/")[2];
     const data = await getDocument(documentId);
+
     this.setState({ title: data.title, content: data.content, documentId });
 
     containerElement.innerHTML = `
@@ -42,7 +37,7 @@ export default function Document({ appElement, onEditing }) {
         data.title ?? ""
       }" placeholder="제목 없음" />
       <div contentEditable class="content">${data.content ?? ""}</div>
-      <button class="temp-button">데이터 확인</button>
+      ${RecurChildDocument(data.documents)}
     `;
   };
 }

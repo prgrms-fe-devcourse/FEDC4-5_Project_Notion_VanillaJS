@@ -30,7 +30,7 @@ export default function DocumentItem({
 
     containerElement.innerHTML = `
       <li id="${id}" class="document-item">
-        <span>${title === null || title === "" ? "제목 없음" : title}</span>
+        <span>${title ?? "제목 없음"}</span>
         <div data-id="${id}" class="child-button">🆕</div>
         <div data-id="${id}" class="remove-button">❌</div>
       </li>

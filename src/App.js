@@ -4,9 +4,9 @@ import DocumentList from "./components/domain/DocumentList.js";
 import Document from "./components/domain/Document.js";
 import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
-import { getTreeDocument } from "./utils/getTreeDocument.js";
 import { initRouter } from "./utils/route.js";
 import { getItem, setItem } from "./utils/storage.js";
+import RecurDocumentList from "./components/template/RecurDocumentList.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -23,7 +23,7 @@ export default function App({ appElement }) {
     renderItemComponent: async (parentElement) => {
       const list = await getDocuments();
       setItem("documents", list);
-      return getTreeDocument(getItem("documents"), parentElement);
+      return RecurDocumentList(getItem("documents"), parentElement);
     },
   });
   const homeComponent = new Home({ appElement });
