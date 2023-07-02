@@ -1,4 +1,5 @@
 import { deleteDocument, postDocument } from "../../api/document.js";
+import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 
 export default function DocumentItem({
@@ -26,7 +27,7 @@ export default function DocumentItem({
     }
 
     if (Number(e.target.closest("li").id) === data.id) {
-      push(`/document/edit?document-id=${data.id}`);
+      push(`${PATH.DOCUMENTS}/${data.id}`);
     }
   });
 

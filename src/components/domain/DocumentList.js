@@ -1,4 +1,5 @@
 import { postDocument } from "../../api/document.js";
+import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 import AddButton from "../common/AddButton.js";
 
@@ -10,7 +11,7 @@ export default function DocumentList({ appElement, renderItemComponent }) {
     parentElement: containerElement,
     onClick: async () => {
       const data = await postDocument({ titls: null, parent: null });
-      push(`/document/edit?document-id=${data.id}`);
+      push(`${PATH.DOCUMENTS}/${data.id}`);
     },
   });
 

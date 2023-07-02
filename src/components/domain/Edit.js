@@ -37,21 +37,18 @@ export default function Edit({ appElement }) {
 
   this.render = async () => {
     appElement.append(containerElement);
+    const { pathname } = window.location;
 
-    let data;
-
-    const params = new URLSearchParams(window.location.search);
-    const documentId = params.get("document-id");
-
-    if (documentId) {
-      data = await getDocument(documentId);
-      this.setState({ title: data.title, content: data.content, documentId });
-    }
+    const documentId = pathname.split("/")[2];
+    const data = await getDocument(documentId);
+    this.setState({ title: data.title, content: data.content, documentId });
 
     containerElement.innerHTML = `
       <h2>문서 작업 페이지<h2>
-      <input type="text" class="title" value="${data?.title ?? ""}" />
-      <div contentEditable class="edit">${data?.content ?? ""}</div>
+      <input type="text" class="title" value="${
+        data.title ?? ""
+      }" placeholder="제목 없음" />
+      <div contentEditable class="edit">${data.content ?? ""}</div>
       <button class="put-button">문서 수정 버튼</button>
       <button class="temp-button">데이터 확인</button>
     `;

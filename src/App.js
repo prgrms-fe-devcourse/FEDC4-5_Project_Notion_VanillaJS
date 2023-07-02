@@ -41,7 +41,7 @@ export default function App({ appElement }) {
 
     if (pathname === PATH.HOME) {
       homeComponent.render();
-    } else if (pathname === "/document/edit") {
+    } else if (pathname.split("/")[1] === "documents") {
       editComponent.render();
     }
   };
