@@ -1,7 +1,7 @@
-import { Component, push } from '@/core';
-import Editor from '../../components/Editor/Editor';
+import { Component } from '@/core';
+import { Editor } from '@/components';
 import styles from './PostEdit.module.css';
-import { PostStore } from '@/store/PostStore';
+import { PostStore } from '@/store';
 
 export default class PostEdit extends Component {
   async setup() {

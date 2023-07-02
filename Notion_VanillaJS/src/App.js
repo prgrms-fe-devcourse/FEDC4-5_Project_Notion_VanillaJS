@@ -1,6 +1,6 @@
 import { Component, Router } from '@/core';
 import { SideBar } from '@/components/';
-import { PostListStore } from './store/PostListStore';
+import { PostListStore } from '@/store';
 
 export default class App extends Component {
   setup() {

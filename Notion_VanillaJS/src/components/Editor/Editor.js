@@ -1,9 +1,8 @@
-import { Component, replace } from '@/core';
+import { Component } from '@/core';
 import styles from './Editor.module.css';
-import { setItem, removeItem } from '../../api/storage';
-import { PostStore } from '@/store/PostStore';
+import { setItem, removeItem } from '@/api/storage';
+import { PostStore, PostListStore } from '@/store/';
 import { debounceSaveLocal } from '@/utils/';
-import { PostListStore } from '../../store/PostListStore';
 
 export default class Editor extends Component {
   setup() {

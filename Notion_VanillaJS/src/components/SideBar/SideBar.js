@@ -1,6 +1,5 @@
 import { Component, push } from '@/core';
-import { PostListStore } from '../../store/PostListStore';
-import { PostStore } from '../../store/PostStore';
+import { PostListStore, PostStore } from '@/store';
 import styles from './SideBar.module.css';
 
 export default class SideBar extends Component {
