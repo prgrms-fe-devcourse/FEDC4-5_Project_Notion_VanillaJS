@@ -32,11 +32,14 @@ export default function PostEditor({ target, initialState, onEdit }) {
       }
     });
 
-    const { title, content } = this.state;
+    if (this.state) {
+      // undefined가 아닐 때 : post 삭제 후 뒤로가기
+      const { title, content } = this.state;
 
-    editorElement.querySelector('.post-title').value = title;
-    editorElement.querySelector('.post-content').value = content;
-    console.log(editorElement.querySelector('.post-title').value);
+      editorElement.querySelector('.post-title').value = title;
+      editorElement.querySelector('.post-content').value = content;
+      console.log(editorElement.querySelector('.post-title').value);
+    }
   };
 
   // this.render();

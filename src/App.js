@@ -1,71 +1,14 @@
 import PostList from './components/PostList.js';
-import { request } from './api/request.js';
 import PostEditor from './components/PostEditor.js';
 import { pushRoute, popRoute, initRouter } from './router.js';
-const fetchPostDocument = async id => {
-  const response = await request(`/${id}`, {
-    method: 'GET',
-  });
-  return response;
-};
-const fetchNewPost = async id => {
-  const response = await request('', {
-    method: 'POST',
-    body: JSON.stringify({
-      title: '제목 없음',
-      parent: id,
-    }),
-  });
-  return response;
-};
-
-const modifyPost = async (id, postData) => {
-  const response = await request(`/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(postData),
-  });
-  return response;
-};
-
-const deletePost = async id => {
-  await request(`/${id}`, {
-    method: 'DELETE',
-  });
-};
-const changeParentId = async (parentId, document) => {
-  const { id } = await fetchNewPost(parentId);
-
-  await modifyPost(id, {
-    title: document.title,
-    content: document.content,
-  });
-
-  return id;
-};
-
-const moveSubTreesToRoot = async clickedId => {
-  const response = await fetchPostDocument(clickedId);
-
-  const subDocuments = response.documents;
-
-  const queue = [];
-  subDocuments.forEach(document => {
-    queue.push([null, document]);
-  });
-
-  while (queue.length) {
-    const [parentId, data] = queue.shift();
-    const subData = data.documents;
-
-    if (!data || !subData) continue;
-
-    const currentId = await changeParentId(parentId, data);
-
-    subData.forEach(document => {
-      queue.push([currentId, document]);
-    });
-  }
-};
+import {
+  fetchPostList,
+  fetchPostDocument,
+  fetchNewPost,
+  modifyPost,
+  deletePost,
+  changeParentId,
+} from './api/api.js';
 
 export default function App({ target }) {
   const postEditorContainer = document.createElement('div');
@@ -74,16 +17,12 @@ export default function App({ target }) {
   const postList = new PostList({
     target: postListContainer,
     initialState: [],
-    onClickPost: async id => {
-      // const response = await fetchPostDocument(id);
-      // postEditor.setState(response);
-    },
     onClickAddButton: async clickedId => {
       const { id } = await fetchNewPost(clickedId);
 
-      fetchPostList();
+      updatePostList();
 
-      const response = await fetchPostDocument(id);
+      fetchPostDocument(id);
 
       pushRoute(`/documents/${id}`);
     },
@@ -91,19 +30,20 @@ export default function App({ target }) {
       await moveSubTreesToRoot(clickedId);
 
       await deletePost(clickedId);
+      updatePostList();
 
-      fetchPostList();
-
-      pushRoute(`/`);
+      // pushRoute(`/`);
+      history.replaceState(null, null, `/`);
+      this.route();
     },
   });
 
   const postEditor = new PostEditor({
     target: postEditorContainer,
     initialState: {},
-    onEdit: async (id, postData) => {
-      await modifyPost(id, postData);
-      fetchPostList();
+    onEdit: (id, postData) => {
+      modifyPost(id, postData);
+      updatePostList();
     },
   });
 
@@ -123,38 +63,54 @@ export default function App({ target }) {
     }
   };
 
-  this.route = async () => {
+  this.route = () => {
     target.innerHTML = '';
     const { pathname } = window.location;
-    console.log(pathname);
 
     if (pathname === '/') {
       renderPostList();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
       renderPostList();
-      await renderPostEditor(postId);
+      renderPostEditor(postId);
     }
   };
-  this.route();
-  initRouter(() => this.route());
-  popRoute(() => this.route());
 
-  const fetchPostList = async () => {
-    const response = await request('', {
-      method: 'GET',
+  const updatePostList = async () => {
+    const newPostList = await fetchPostList();
+    postList.setState(newPostList);
+  };
+
+  const moveSubTreesToRoot = async clickedId => {
+    const response = await fetchPostDocument(clickedId);
+
+    const subDocuments = response.documents;
+
+    const queue = [];
+    subDocuments.forEach(document => {
+      queue.push([null, document]);
     });
 
-    postList.setState(response);
+    while (queue.length) {
+      const [parentId, data] = queue.shift();
+      const subData = data.documents;
+
+      if (!data || !subData) continue;
+
+      const currentId = await changeParentId(parentId, data);
+
+      subData.forEach(document => {
+        queue.push([currentId, document]);
+      });
+    }
   };
 
-  const init = async () => {
-    await fetchPostList();
+  const init = () => {
+    this.route();
+    initRouter(() => this.route());
+    popRoute(() => this.route());
 
-    const { pathname } = location;
-    if (pathname.length > 1) {
-      this.route();
-    }
+    updatePostList();
   };
 
   init();
