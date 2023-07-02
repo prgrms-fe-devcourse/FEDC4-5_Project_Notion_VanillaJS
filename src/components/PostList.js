@@ -1,5 +1,5 @@
-import { request } from '../api/request';
-
+import { request } from '../api/request.js';
+import { pushRoute } from '../router.js';
 export default function PostList({
   target,
   initialState,
@@ -8,7 +8,6 @@ export default function PostList({
   onClickDeleteButton,
 }) {
   const postListElement = document.createElement('div');
-  target.appendChild(postListElement);
 
   this.state = initialState;
 
@@ -34,6 +33,7 @@ export default function PostList({
         `;
   };
   this.render = () => {
+    target.appendChild(postListElement);
     // 로딩 : this.state가 undefined인 경우
     //문서가 아예없을 때
     postListElement.innerHTML = `
@@ -60,6 +60,7 @@ export default function PostList({
         // } else {
         //   onClickPost(null);
         // }
+        pushRoute(`/documents/${id}`);
       });
     });
 
@@ -69,9 +70,9 @@ export default function PostList({
       if (buttonType === 'add') {
         buttonElement.addEventListener('click', e => {
           const closestLi = e.target.closest('li');
+
           if (closestLi) {
             const { id } = closestLi.dataset;
-
             onClickAddButton(id);
           } else {
             onClickAddButton(null);
@@ -88,5 +89,5 @@ export default function PostList({
     });
   };
 
-  this.render();
+  // this.render();
 }

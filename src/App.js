@@ -1,30 +1,20 @@
-import PostList from './components/PostList';
-import { request } from './api/request';
-import PostEditor from './components/PostEditor';
-
-const DUMMY_DATA = {
-  id: 1,
-  title: '노션을 만들자',
-  content: '즐거운 자바스크립트의 세계!',
-  documents: [
-    {
-      id: 2,
-      title: '',
-      createdAt: '',
-      updatedAt: '',
-    },
-  ],
-  createdAt: '',
-  updatedAt: '',
-};
+import PostList from './components/PostList.js';
+import { request } from './api/request.js';
+import PostEditor from './components/PostEditor.js';
+import { pushRoute, popRoute, initRouter } from './router.js';
 export default function App({ target }) {
+  // const postEditorContainer = document.createElement('div');
+  // const postListContainer = document.createElement('div');
+
+  // target.appendChild(postListContainer);
+  // target.appendChild(postEditorContainer);
+
   const postList = new PostList({
     target,
     initialState: [],
     onClickPost: async id => {
-      const response = await fetchPost(id);
-
-      postEditor.setState(response);
+      // const response = await fetchPost(id);
+      // postEditor.setState(response);
     },
     onClickAddButton: async clickedId => {
       const { id } = await fetchNewPost(clickedId);
@@ -32,7 +22,11 @@ export default function App({ target }) {
       fetchPostList();
 
       const response = await fetchPost(id);
-      postEditor.setState(response);
+
+      // postEditor로 바뀔 때 history api도 변경 필요
+      // postEditor.setState(response);
+
+      pushRoute(`/documents/${id}`);
     },
     onClickDeleteButton: async clickedId => {
       await moveSubTreesToRoot(clickedId);
@@ -40,16 +34,37 @@ export default function App({ target }) {
       await deletePost(clickedId);
 
       fetchPostList();
+
+      pushRoute(`/`);
     },
   });
 
   const postEditor = new PostEditor({
     target,
-    initialState: DUMMY_DATA,
+    initialState: {},
     onEdit: (id, postData) => {
       modifyPost(id, postData);
     },
   });
+
+  this.route = async () => {
+    target.innerHTML = '';
+    const { pathname } = window.location;
+    console.log(pathname);
+
+    if (pathname === '/') {
+      postList.render();
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const [, , postId] = pathname.split('/');
+      postList.render();
+
+      const response = await fetchPost(postId);
+      postEditor.setState(response);
+    }
+  };
+  // this.route();
+  initRouter(() => this.route());
+  popRoute(() => this.route());
 
   const fetchPostList = async () => {
     const response = await request('', {
@@ -126,8 +141,13 @@ export default function App({ target }) {
     });
   };
 
-  const init = () => {
-    fetchPostList();
+  const init = async () => {
+    await fetchPostList();
+
+    const { pathname } = location;
+    if (pathname.length > 1) {
+      this.route();
+    }
   };
 
   init();

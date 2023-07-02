@@ -1,6 +1,5 @@
 export default function PostEditor({ target, initialState, onEdit }) {
   const editorElement = document.createElement('form');
-  target.appendChild(editorElement);
 
   this.state = initialState;
 
@@ -9,42 +8,43 @@ export default function PostEditor({ target, initialState, onEdit }) {
     this.render();
   };
 
-  let init = false;
+  let init = true;
 
   this.render = () => {
-    if (!init) {
-      editorElement.innerHTML = `
+    // if (init) {
+    target.appendChild(editorElement);
+    editorElement.innerHTML = `
         <input type='text' name='title' class='post-title'/>
         <textarea name='content' class='post-content'></textarea>
     `;
+    editorElement.addEventListener('keyup', e => {
+      const { target } = e;
 
-      editorElement.addEventListener('keyup', e => {
-        const { target } = e;
+      const name = target.getAttribute('name');
+      console.log(target.value);
+      if (this.state[name] !== undefined) {
+        const nextState = {
+          ...this.state,
+          [name]: target.value, // key - value
+        };
 
-        const name = target.getAttribute('name');
+        // this.setState(nextState);
 
-        if (this.state[name] !== undefined) {
-          const nextState = {
-            ...this.state,
-            [name]: target.value, // key - value
-          };
-
-          this.setState(nextState);
-
-          onEdit(this.state.id, {
-            title: this.state.title,
-            content: this.state.content,
-          });
-        }
-      });
-      init = true;
-    }
+        onEdit(nextState.id, {
+          title: nextState.title,
+          content: nextState.content,
+        });
+      }
+    });
+    // init = false;
+    // }
 
     const { title, content } = this.state;
 
     editorElement.querySelector('.post-title').value = title;
     editorElement.querySelector('.post-content').value = content;
+    console.log(editorElement.querySelector('.post-title').value);
   };
 
-  this.render();
+  // this.render();
 }
