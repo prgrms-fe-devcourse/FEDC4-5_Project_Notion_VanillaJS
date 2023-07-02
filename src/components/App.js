@@ -1,4 +1,5 @@
 import SidebarPage from "./sidebar/SidebarPage";
+import EditorPage from "./editor/editorPage";
 import store from "../util/Store.js";
 
 export default class App {
@@ -14,8 +15,14 @@ export default class App {
   }
 
   render() {
+    const { $target } = this;
+
     new SidebarPage({
-      $target: this.$target,
+      $target,
+    });
+
+    new EditorPage({
+      $target,
     });
   }
 }

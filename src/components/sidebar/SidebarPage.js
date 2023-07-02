@@ -4,24 +4,21 @@ import store from "../../util/Store.js";
 
 export default class SidebarPage {
   constructor({ $target }) {
-    this.$documentPage = document.createElement("setion");
-    $target.appendChild(this.$documentPage);
+    this.$sidebarPage = document.createElement("setion");
+    this.$sidebarPage.classList.add("sidebar-setion");
+    $target.appendChild(this.$sidebarPage);
     this.render();
   }
 
   render() {
-    const { $documentPage } = this;
+    const { $sidebarPage } = this;
 
-    const documentList = new DocumentList({
-      $target: $documentPage,
+    new DocumentList({
+      $target: $sidebarPage,
     });
 
     new DocumentAddBtn({
-      $target: $documentPage,
-      sendCreateFolderRequest: async (post) => {
-        await sidebarStore.documentProduce(post);
-        documentList.setState(sidebarStore.state.documentsTree);
-      },
+      $target: $sidebarPage,
     });
   }
 }

@@ -14,7 +14,6 @@ export default class DocumentAddBtn {
       event.preventDefault();
       new DocumentInput({
         $target: this.$target.querySelector(".document-list"),
-        sendCreateFolderRequest: this.sendCreateFolderRequest,
       });
     });
   }
