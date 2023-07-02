@@ -19,8 +19,10 @@ export default class SideBar extends Component {
           : `<h2>로딩중</h2>`
       }
       <footer class=${styles.footer} data-id=null>
-        <i class="fa-solid fa-plus add"></i>
+        <button class='add'>
+        <i class="fa-solid fa-plus"></i>
         새로운 페이지 추가
+        </button>
       </footer>`;
   }
 
@@ -65,58 +67,66 @@ export default class SideBar extends Component {
   }
 
   setEvent() {
-    this.$target.addEventListener('click', async ({ target }) => {
-      const deleteButton = target?.closest('.delete');
-
-      if (!deleteButton) return;
-
-      const deletedId = target.closest('li').dataset.id;
-      await PostListStore.dispatch({
-        actionType: 'DELETE',
-        payload: { id: deletedId },
-      });
-      const nowId = PostStore.getState()?.post?.id;
-      if (parseInt(deletedId) === nowId) push('/');
+    this.addEvent({
+      eventType: 'click',
+      selector: '.delete',
+      callback: this.onClickDelete,
     });
 
-    this.$target.addEventListener('click', async ({ target }) => {
-      const addButton = target?.closest('.add');
-
-      if (!addButton) return;
-
-      const id = target.closest(`[data-id]`).dataset.id;
-      await PostStore.dispatch({
-        actionType: 'CREATE_POST',
-        payload: { parent: id },
-      });
-      await PostListStore.dispatch({ actionType: 'INIT' });
+    this.addEvent({
+      eventType: 'click',
+      selector: '.add',
+      callback: this.onClickAdd,
     });
 
-    this.$target.addEventListener('click', ({ target }) => {
-      const dropDownButton = target?.closest(`.${styles.dropDown}`);
-
-      if (!dropDownButton) return;
-
-      const childList = dropDownButton
-        .closest('li')
-        .querySelector(`.${styles.childList}`);
-
-      if (!childList) return;
-
-      dropDownButton.classList.toggle(`${styles.down}`);
-      childList.classList.toggle(`${styles.open}`);
+    this.addEvent({
+      eventType: 'click',
+      selector: `.${styles.dropDown}`,
+      callback: this.onClickToggle,
     });
 
-    this.$target.addEventListener('click', ({ target }) => {
-      const title = target.closest(`.${styles.title}`);
-
-      if (!title) return;
-
-      const { id } = title.closest('[data-id]').dataset;
-
-      console.log(id);
-
-      push(`/posts/${id}`);
+    this.addEvent({
+      eventType: 'click',
+      selector: `.${styles.title}`,
+      callback: this.onClickLink,
     });
+  }
+
+  async onClickDelete({ target }) {
+    const deletedId = target.closest('[data-id]').dataset.id;
+    await PostListStore.dispatch({
+      actionType: 'DELETE',
+      payload: { id: deletedId },
+    });
+    const nowId = PostStore.getState()?.post?.id;
+    if (parseInt(deletedId) === nowId) push('/');
+  }
+
+  async onClickAdd({ target }) {
+    const id = target.closest(`[data-id]`).dataset.id;
+    await PostStore.dispatch({
+      actionType: 'CREATE_POST',
+      payload: { parent: id },
+    });
+    await PostListStore.dispatch({ actionType: 'INIT' });
+  }
+
+  onClickToggle({ target }) {
+    const dropDownButton = target.closest(`.${styles.dropDown}`);
+    const childList = dropDownButton
+      .closest('li')
+      .querySelector(`.${styles.childList}`);
+
+    if (!childList) return;
+
+    dropDownButton.classList.toggle(`${styles.down}`);
+    childList.classList.toggle(`${styles.open}`);
+  }
+
+  onClickLink({ target }) {
+    const title = target.closest(`.${styles.title}`);
+    const { id } = title.closest('[data-id]').dataset;
+
+    push(`/posts/${id}`);
   }
 }
