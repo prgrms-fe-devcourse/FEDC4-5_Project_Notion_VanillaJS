@@ -36,7 +36,9 @@ export default function DocumentItem({
 
     containerElement.innerHTML = `
       <li id="${data.id}" class="document-item">
-        <span>${data.title === null ? "제목 없음" : data.title}</span>
+        <span>${
+          data.title === null || data.title === "" ? "제목 없음" : data.title
+        }</span>
         <div data-id="${data.id}" class="child-button">🆕</div>
         <div data-id="${data.id}" class="remove-button">❌</div>
       </li>

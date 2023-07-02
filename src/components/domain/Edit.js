@@ -1,6 +1,6 @@
-import { getDocument, getDocuments, putDocument } from "../../api/document.js";
+import { getDocument, getDocuments } from "../../api/document.js";
 
-export default function Edit({ appElement }) {
+export default function Edit({ appElement, onEditing }) {
   const containerElement = document.createElement("div");
 
   this.state = { title: "", content: "", documentId: "", parent: null };
@@ -13,22 +13,15 @@ export default function Edit({ appElement }) {
     if (e.target.closest(".title")) {
       this.setState({ ...this.state, title: e.target.value });
     }
-  });
 
-  containerElement.addEventListener("input", (e) => {
-    if (e.target.closest(".edit")) {
+    if (e.target.closest(".content")) {
       this.setState({ ...this.state, content: e.target.innerHTML });
     }
+
+    onEditing(this.state);
   });
 
   containerElement.addEventListener("click", async (e) => {
-    /**
-     * @todo 게시물이 추가 될 때 리스트 최신화
-     */
-    if (e.target.closest(".put-button")) {
-      putDocument({ documentId: this.state.documentId, data: this.state });
-    }
-
     if (e.target.closest(".temp-button")) {
       const tempData = await getDocuments();
       console.log(tempData);
@@ -48,8 +41,7 @@ export default function Edit({ appElement }) {
       <input type="text" class="title" value="${
         data.title ?? ""
       }" placeholder="제목 없음" />
-      <div contentEditable class="edit">${data.content ?? ""}</div>
-      <button class="put-button">문서 수정 버튼</button>
+      <div contentEditable class="content">${data.content ?? ""}</div>
       <button class="temp-button">데이터 확인</button>
     `;
   };

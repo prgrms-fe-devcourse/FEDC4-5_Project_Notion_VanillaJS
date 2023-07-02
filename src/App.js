@@ -1,4 +1,4 @@
-import { getDocuments } from "./api/document.js";
+import { getDocuments, putDocument } from "./api/document.js";
 import Layout from "./components/common/Layout.js";
 import DocumentList from "./components/domain/DocumentList.js";
 import Edit from "./components/domain/Edit.js";
@@ -6,6 +6,7 @@ import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
 import { getTreeDocument } from "./utils/getTreeDocument.js";
 import { initRouter } from "./utils/route.js";
+import { getItem, setItem } from "./utils/storage.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -14,22 +15,43 @@ import { initRouter } from "./utils/route.js";
 export default function App({ appElement }) {
   if (!new.target) return new App(...arguments);
 
+  let timer = null;
+
   const layoutComponent = new Layout({ appElement });
   const documentListComponent = new DocumentList({
     appElement,
     renderItemComponent: async (parentElement) => {
       const list = await getDocuments();
-      return getTreeDocument(list, parentElement);
+      setItem("documents", list);
+      return getTreeDocument(getItem("documents"), parentElement);
     },
   });
   const homeComponent = new Home({ appElement });
-  const editComponent = new Edit({ appElement });
+  const editComponent = new Edit({
+    appElement,
+    onEditing: (document) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(async () => {
+        await putDocument({
+          documentId: document.documentId,
+          data: document,
+        });
+
+        this.route();
+      }, 1000);
+    },
+  });
 
   window.addEventListener("popstate", () => {
     this.route();
   });
 
   initRouter(() => this.route());
+
+  this.state = getItem("documents", []);
 
   this.route = () => {
     const { pathname } = window.location;
