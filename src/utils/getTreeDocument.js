@@ -12,7 +12,8 @@ export const getTreeDocument = (rootDocuments, parentElement) => {
       getChildDocument:
         rootDocument.documents.length === 0
           ? () => {}
-          : (parent) => getTreeDocument(rootDocument.documents, parent),
+          : (innerParentElement) =>
+              getTreeDocument(rootDocument.documents, innerParentElement),
       ...rootDocument,
     }).render()
   );

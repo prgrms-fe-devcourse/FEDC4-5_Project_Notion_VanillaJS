@@ -1,9 +1,4 @@
-import {
-  getDocument,
-  getDocuments,
-  postDocument,
-  putDocument,
-} from "../../api/document.js";
+import { getDocument, getDocuments, putDocument } from "../../api/document.js";
 
 export default function Edit({ appElement }) {
   const containerElement = document.createElement("div");
@@ -30,10 +25,6 @@ export default function Edit({ appElement }) {
     /**
      * @todo 게시물이 추가 될 때 리스트 최신화
      */
-    if (e.target.closest(".post-button")) {
-      postDocument(this.state);
-    }
-
     if (e.target.closest(".put-button")) {
       putDocument({ documentId: this.state.documentId, data: this.state });
     }
@@ -61,7 +52,6 @@ export default function Edit({ appElement }) {
       <h2>문서 작업 페이지<h2>
       <input type="text" class="title" value="${data?.title ?? ""}" />
       <div contentEditable class="edit">${data?.content ?? ""}</div>
-      <button class="post-button">문서 생성 버튼</button>
       <button class="put-button">문서 수정 버튼</button>
       <button class="temp-button">데이터 확인</button>
     `;
