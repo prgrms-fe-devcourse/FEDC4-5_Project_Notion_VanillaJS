@@ -8,6 +8,7 @@ export default class Store {
   }
 
   getState() {
+    console.log(this.#state);
     return { ...this.#state };
   }
 
@@ -16,10 +17,7 @@ export default class Store {
   }
 
   publish() {
-    Object.values(this.#listeners).forEach((listener) => {
-      console.log(listener);
-      listener();
-    });
+    Object.values(this.#listeners).forEach((listener) => listener());
   }
 
   async dispatch({ actionType, payload }) {

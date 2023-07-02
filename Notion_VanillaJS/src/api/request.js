@@ -18,9 +18,9 @@ export const mockRequest = async ({ url = '', options = {} }) => {
   }
 };
 
-export async function request({ url = '', options = {} }) {
+export async function request(url = '', options = {}) {
   try {
-    console.log(url);
+    console.log(typeof url);
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
@@ -38,44 +38,36 @@ export async function request({ url = '', options = {} }) {
 }
 
 export async function fetchPostList() {
-  const postList = await request({ url: '' });
+  const postList = await request();
   return postList;
 }
 
 export async function fetchPost(postId) {
-  const post = await request({ url: `/${postId}` });
+  const post = await request(`/${postId}`);
   return post;
 }
 
 export async function createPost(parent = null) {
-  const newPost = await request({
-    options: {
-      method: 'POST',
-      body: JSON.stringify({
-        title: 'undefined',
-        parent,
-      }),
-    },
+  const newPost = await request('', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'undefined',
+      parent,
+    }),
   });
 
   return newPost;
 }
 
 export async function updatePost(post) {
-  await request({
-    url: `/${post.id}`,
-    options: {
-      method: 'PUT',
-      body: JSON.stringify(post),
-    },
+  await request(`/${post.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(post),
   });
 }
 
 export async function deletePost(postId) {
-  await request({
-    url: `/${postId}`,
-    options: {
-      method: 'DELETE',
-    },
+  await request(`/${postId}`, {
+    method: 'DELETE',
   });
 }

@@ -24,6 +24,10 @@ button {
   padding: 0;
 }
 
+li {
+  list-style: none;
+}
+
 #app {
   display: grid;
   grid-template-columns: 20% 80%;

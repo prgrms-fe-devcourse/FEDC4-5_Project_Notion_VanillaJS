@@ -1,11 +1,16 @@
-import { Component } from '@/core';
+import { Component, replace } from '@/core';
 import styles from './Editor.module.css';
-import { setItem } from '../../api/storage';
+import { setItem, removeItem } from '../../api/storage';
+import { PostStore } from '@/store/PostStore';
+import { debounceSaveLocal } from '@/utils/';
 
 export default class Editor extends Component {
   setup() {
+    // PostStore.subscribe({
+    //   listenerKey: this.constructor.name,
+    //   listenerKey: this.render.bind(this),
+    // });
     this.state.isInit = false;
-    this.setState({ post: { postId: '1', title: '', content: '' } });
   }
 
   templates() {
@@ -16,8 +21,7 @@ export default class Editor extends Component {
   }
 
   render() {
-    const { isInit, post } = this.state;
-    const { title, content } = post;
+    const { isInit } = this.state;
 
     //초기화 안됐을 때
     if (!isInit) {
@@ -26,8 +30,10 @@ export default class Editor extends Component {
       return;
     }
 
-    this.$target.querySelector('[name=title]').value = title;
-    this.$target.querySelector('[name=content]').value = content;
+    const post = PostStore.getState()?.post;
+
+    this.$target.querySelector('[name=title]').value = post?.title;
+    this.$target.querySelector('[name=content]').value = post?.content;
 
     this.mounted();
   }
@@ -36,13 +42,32 @@ export default class Editor extends Component {
     this.addEvent({
       eventType: 'keyup',
       selector: '[name]',
-      callback: ({ target }) => {
-        const { name, value } = target;
-        this.setState({ post: { ...this.state.post, [name]: value } });
-
-        const postLocalSaveKey = `temp-post-${this.state.postId}`;
-        setItem(postLocalSaveKey, this.state.post);
-      },
+      callback: debounceSaveLocal(({ target }) => this.saveLocal(target)),
     });
+  }
+
+  async saveLocal(target) {
+    const { id } = this.props;
+    const { name, value } = target;
+    await PostStore.dispatch({
+      actionType: 'SAVE_POST',
+      payload: { [name]: value },
+    });
+    // this.setState({ post: { ...this.state.post, [name]: value } });
+    const postLocalSaveKey = `temp-post-${id}`;
+    setItem(postLocalSaveKey, PostStore.getState().post);
+    this.onEditing();
+  }
+
+  async onEditing() {
+    const { id } = this.props;
+    const isNew = id === 'new';
+    if (isNew) {
+      const postLocalSaveKey = `temp-post-${id}`;
+      await PostStore.dispatch({ actionType: 'CREATE_POST' });
+      removeItem(postLocalSaveKey);
+      replace(`/posts/${PostStore.getState().post.id}`);
+      return;
+    }
   }
 }

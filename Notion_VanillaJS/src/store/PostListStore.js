@@ -1,5 +1,5 @@
 import { Store } from '@/core';
-import { fetchPostList } from '../api/request';
+import { fetchPostList, deletePost } from '../api/request';
 
 /**
  *
@@ -11,6 +11,11 @@ async function reducer({ state, actionType, payload }) {
     case 'INIT':
       const postList = await fetchPostList();
       return { ...state, postList };
+    case 'DELETE':
+      await deletePost(payload.id);
+      const deletedPostList = await fetchPostList();
+      console.log(deletedPostList);
+      return { ...state, postList: deletedPostList };
   }
 }
 
