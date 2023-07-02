@@ -22,3 +22,9 @@ export const putDocument = async ({ documentId, data }) => {
     body: JSON.stringify(data),
   });
 };
+
+export const deleteDocument = async (documentId) => {
+  return await request(`${PATH.DOCUMENTS}/${documentId}`, {
+    method: "DELETE",
+  });
+};

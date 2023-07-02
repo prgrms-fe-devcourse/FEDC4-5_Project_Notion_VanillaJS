@@ -1,4 +1,4 @@
-import { postDocument } from "../../api/document.js";
+import { deleteDocument, postDocument } from "../../api/document.js";
 import { push } from "../../utils/route.js";
 
 export default function DocumentItem({
@@ -10,9 +10,17 @@ export default function DocumentItem({
 
   containerElement.addEventListener("click", async (e) => {
     if (e.target.closest(".child-button")) {
-      if (Number(e.target.closest(".child-button").dataset.id) === data.id) {
+      if (Number(e.target.dataset.id) === data.id) {
         const temp = await postDocument({ title: null, parent: data.id });
+
         console.log(temp);
+        return;
+      }
+    }
+
+    if (e.target.closest(".remove-button")) {
+      if (Number(e.target.dataset.id) === data.id) {
+        await deleteDocument(data.id);
         return;
       }
     }
@@ -29,6 +37,7 @@ export default function DocumentItem({
       <li id="${data.id}" class="document-item">
         <span>${data.title === null ? "제목 없음" : data.title}</span>
         <div data-id="${data.id}" class="child-button">🆕</div>
+        <div data-id="${data.id}" class="remove-button">❌</div>
       </li>
     `;
 
