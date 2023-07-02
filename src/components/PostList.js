@@ -70,7 +70,6 @@ export default function PostList({
       if (buttonType === 'add') {
         buttonElement.addEventListener('click', e => {
           const closestLi = e.target.closest('li');
-
           if (closestLi) {
             const { id } = closestLi.dataset;
             onClickAddButton(id);

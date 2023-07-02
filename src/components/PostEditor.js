@@ -8,10 +8,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
     this.render();
   };
 
-  let init = true;
-
   this.render = () => {
-    // if (init) {
     target.appendChild(editorElement);
     editorElement.innerHTML = `
         <input type='text' name='title' class='post-title'/>
@@ -21,14 +18,12 @@ export default function PostEditor({ target, initialState, onEdit }) {
       const { target } = e;
 
       const name = target.getAttribute('name');
-      console.log(target.value);
+
       if (this.state[name] !== undefined) {
         const nextState = {
           ...this.state,
           [name]: target.value, // key - value
         };
-
-        // this.setState(nextState);
 
         onEdit(nextState.id, {
           title: nextState.title,
@@ -36,8 +31,6 @@ export default function PostEditor({ target, initialState, onEdit }) {
         });
       }
     });
-    // init = false;
-    // }
 
     const { title, content } = this.state;
 
