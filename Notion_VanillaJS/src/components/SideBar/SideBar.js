@@ -8,14 +8,19 @@ export default class SideBar extends Component {
       listenerKey: this.constructor.name,
       listener: this.render.bind(this),
     });
+    PostStore.subscribe({
+      listenerKey: this.constructor.name,
+      listener: this.render.bind(this),
+    });
   }
 
   templates() {
     const postList = PostListStore.getState().postList;
-    return `<h1>Dongja's Notion</h1>
+    const postId = PostStore.getState()?.post?.id;
+    return `<h1 class=${styles.header}>📝 DongJa's Notion</h1>
       ${
         Array.isArray(postList)
-          ? this.getPostListTemplate(postList)
+          ? this.getPostListTemplate(postList, postId)
           : `<h2>로딩중</h2>`
       }
       <footer class=${styles.footer} data-id=null>
@@ -26,13 +31,14 @@ export default class SideBar extends Component {
       </footer>`;
   }
 
-  getPostListTemplate(postList) {
+  getPostListTemplate(postList, postId) {
     const hasChildren = (documents) => documents.length !== 0;
+    const isSelected = (id) => postId === id;
     return postList
       .map(
         ({ id, title, documents }) => `
-    <li data-id=${id} class="parent-list">
-    <div class=${styles.container}>
+    <li data-id=${id} class='parent-list'>
+    <div class='${styles.container}  ${isSelected(id) ? styles.active : ''}'>
       <div class=${styles.content}>
         ${
           hasChildren(documents)
@@ -44,10 +50,10 @@ export default class SideBar extends Component {
         <h2 class=${styles.title} >${title}</h2>
       </div>
       <div class=${styles.buttons}>
-        <button class ='delete'>
+        <button class =${styles.delete}>
           <i class="fa-solid fa-minus"></i>
         </button>
-        <button class='add'>
+        <button class='${styles.add} add'>
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
@@ -69,13 +75,13 @@ export default class SideBar extends Component {
   setEvent() {
     this.addEvent({
       eventType: 'click',
-      selector: '.delete',
+      selector: `.${styles.delete}`,
       callback: this.onClickDelete,
     });
 
     this.addEvent({
       eventType: 'click',
-      selector: '.add',
+      selector: `.add`,
       callback: this.onClickAdd,
     });
 
