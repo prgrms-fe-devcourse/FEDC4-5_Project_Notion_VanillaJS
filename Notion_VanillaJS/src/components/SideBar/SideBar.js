@@ -60,8 +60,13 @@ export default class SideBar extends Component {
 
       if (!deleteButton) return;
 
-      const id = target.closest('li').dataset.id;
-      await PostListStore.dispatch({ actionType: 'DELETE', payload: { id } });
+      const deletedId = target.closest('li').dataset.id;
+      await PostListStore.dispatch({
+        actionType: 'DELETE',
+        payload: { id: deletedId },
+      });
+      const nowId = PostStore.getState()?.post?.id;
+      if (parseInt(deletedId) === nowId) push('/');
     });
 
     this.$target.addEventListener('click', async ({ target }) => {

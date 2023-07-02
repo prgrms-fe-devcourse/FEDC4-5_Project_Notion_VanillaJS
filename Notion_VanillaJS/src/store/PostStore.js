@@ -13,7 +13,7 @@ async function reducer({ state, actionType, payload }) {
       return { ...state, post: { ...state.post, ...payload } };
     case 'GET_POST':
       const post = await fetchPost(payload.id);
-      return { ...state, post: { ...post, content: post.content ?? '' } };
+      return { ...state, post: { ...post, content: post?.content ?? '' } };
     case 'CREATE_POST':
       const newPost = await createPost(payload?.parent);
       push(`/posts/${newPost.id}`);
