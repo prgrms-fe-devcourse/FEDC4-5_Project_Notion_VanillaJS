@@ -1,7 +1,7 @@
 export default class DocumentInput {
-  constructor({ $target, onSubmit, parent }) {
+  constructor({ $target, sendCreateFolderRequest, parent }) {
     this.parent = parent;
-    this.onSubmit = onSubmit;
+    this.sendCreateFolderRequest = sendCreateFolderRequest;
     this.$inputContainer = document.querySelector(".input-container");
 
     if (this.$inputContainer) {
@@ -16,7 +16,7 @@ export default class DocumentInput {
   }
 
   initEvent() {
-    const { $inputContainer, parent, onSubmit } = this;
+    const { $inputContainer, parent, sendCreateFolderRequest } = this;
 
     $inputContainer.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -24,7 +24,7 @@ export default class DocumentInput {
       const inputElement = event.target.querySelector("input[type='text']");
       const { value } = inputElement;
 
-      onSubmit({ title: value, parent });
+      sendCreateFolderRequest({ title: value, parent });
       this.hide();
     });
   }
@@ -36,6 +36,7 @@ export default class DocumentInput {
         <button>생성</button>
       <form>
     `;
+    this.$inputContainer.querySelector("input[type='text']").focus();
   }
 
   hide() {

@@ -1,11 +1,18 @@
 import { DocumentListEditor } from "./index";
+import arrowImg from "../../../public/arrowImg.svg";
 
 export default class DocumentList {
-  constructor({ $target, initalState, onSubmit }) {
+  constructor({
+    $target,
+    initalState,
+    sendCreateFolderRequest,
+    sendDeleteFolderRequest,
+  }) {
     this.$list = document.createElement("ul");
     this.$list.classList.add("document-list");
     this.state = initalState;
-    this.onSubmit = onSubmit;
+    this.sendCreateFolderRequest = sendCreateFolderRequest;
+    this.sendDeleteFolderRequest = sendDeleteFolderRequest;
 
     this.initEvent();
     $target.appendChild(this.$list);
@@ -17,6 +24,21 @@ export default class DocumentList {
       const targetDocument = event.target;
       if (targetDocument.classList.contains("select-document")) {
         console.log(targetDocument);
+      }
+
+      if (targetDocument.classList.contains("toggle-folder")) {
+        const $subfolder = targetDocument.parentNode.nextElementSibling;
+        const state = $subfolder.dataset.toggle;
+
+        if (state === "true") {
+          $subfolder.style.display = "none";
+          $subfolder.dataset.toggle = "false";
+          targetDocument.style.transform = "rotate(-90deg)";
+        } else {
+          $subfolder.style.display = "";
+          $subfolder.dataset.toggle = "true";
+          targetDocument.style.transform = "rotate(0deg)";
+        }
       }
     });
 
@@ -31,7 +53,8 @@ export default class DocumentList {
       if (targetDocument.matches(".select-document")) {
         const documentListEditor = new DocumentListEditor({
           $target: targetDocument,
-          onSubmit: this.onSubmit,
+          sendCreateFolderRequest: this.sendCreateFolderRequest,
+          sendDeleteFolderRequest: this.sendDeleteFolderRequest,
         });
 
         targetDocument.documentListEditor = documentListEditor;
@@ -46,10 +69,11 @@ export default class DocumentList {
   createCustomListString(document, string) {
     const nextDocument = document.documents;
     string += `<div id=${document.id} class="select-document">
+      <img class="toggle-folder" src=${arrowImg} alt="arrow.svg"/>
       ${document.title}
       </div>`;
     if (!!nextDocument) {
-      string += "<ul>";
+      string += "<ul data-toggle='true' class='document-group'>";
       for (const documents of nextDocument) {
         string = this.createCustomListString(documents, string);
       }

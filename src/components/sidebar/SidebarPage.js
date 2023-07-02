@@ -15,15 +15,19 @@ export default class SidebarPage {
     const documentList = new DocumentList({
       $target: $documentPage,
       initalState: documentStore.state.documentsTree,
-      onSubmit: async (post) => {
+      sendCreateFolderRequest: async (post) => {
         await documentStore.documentProduce(post);
+        documentList.setState(documentStore.state.documentsTree);
+      },
+      sendDeleteFolderRequest: async (post) => {
+        await documentStore.documentDelet(post);
         documentList.setState(documentStore.state.documentsTree);
       },
     });
 
     new DocumentAddBtn({
       $target: $documentPage,
-      onSubmit: async (post) => {
+      sendCreateFolderRequest: async (post) => {
         await documentStore.documentProduce(post);
         documentList.setState(documentStore.state.documentsTree);
       },

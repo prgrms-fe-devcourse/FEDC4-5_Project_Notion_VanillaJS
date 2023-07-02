@@ -1,9 +1,9 @@
 import DocumentInput from "./DocumentInput.js";
 export default class DocumentAddBtn {
-  constructor({ $target, onSubmit }) {
+  constructor({ $target, sendCreateFolderRequest }) {
     this.$target = $target;
     this.$button = document.createElement("form");
-    this.onSubmit = onSubmit;
+    this.sendCreateFolderRequest = sendCreateFolderRequest;
     $target.appendChild(this.$button);
     this.initEvent();
     this.render();
@@ -14,7 +14,7 @@ export default class DocumentAddBtn {
       event.preventDefault();
       new DocumentInput({
         $target: this.$target.querySelector(".document-list"),
-        onSubmit: this.onSubmit,
+        sendCreateFolderRequest: this.sendCreateFolderRequest,
       });
     });
   }

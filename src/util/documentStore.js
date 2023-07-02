@@ -18,11 +18,17 @@ export default class store {
     this.setState({ ...this.state, documentsTree });
   }
 
-  //parent null 일때
   async documentProduce(post) {
     await request("/documents", {
       method: "POST",
       body: JSON.stringify(post),
+    });
+    await this.documentsGet();
+  }
+
+  async documentDelet(id) {
+    await request(`/documents/${id}`, {
+      method: "DELETE",
     });
     await this.documentsGet();
   }

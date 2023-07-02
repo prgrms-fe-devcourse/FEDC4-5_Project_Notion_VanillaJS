@@ -1,10 +1,11 @@
 import { request } from "../../util/api.js";
 import DocumentInput from "./DocumentInput.js";
 export default class DocumentListEditor {
-  constructor({ $target, onSubmit }) {
+  constructor({ $target, sendCreateFolderRequest, sendDeleteFolderRequest }) {
     this.$editor = document.createElement("span");
     this.$target = $target;
-    this.onSubmit = onSubmit;
+    this.sendCreateFolderRequest = sendCreateFolderRequest;
+    this.sendDeleteFolderRequest = sendDeleteFolderRequest;
     $target.appendChild(this.$editor);
 
     this.initEvent();
@@ -18,15 +19,11 @@ export default class DocumentListEditor {
       if (action === "produce") {
         new DocumentInput({
           $target: this.$target.nextElementSibling,
-          onSubmit: this.onSubmit,
+          sendCreateFolderRequest: this.sendCreateFolderRequest,
           parent: this.$target.id,
         });
       } else if (action === "delete") {
-        //따로 빼자
-        await request(`/documents/${this.$target.id}`, {
-          method: "DELETE",
-        });
-        //
+        this.sendDeleteFolderRequest(this.$target.id);
       }
     });
   }
