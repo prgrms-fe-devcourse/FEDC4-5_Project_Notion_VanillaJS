@@ -1,3 +1,5 @@
+import { setItem, removeItem, getItem } from '../utils/storage';
+
 export default function PostEditor({ target, initialState, onEdit }) {
   const editorElement = document.createElement('form');
 
@@ -5,8 +7,18 @@ export default function PostEditor({ target, initialState, onEdit }) {
 
   this.setState = nextState => {
     this.state = nextState;
+
+    const tempPost = getItem(`temp-post-${nextState.id}`);
+    if (tempPost) {
+      const callPrevData = window.confirm('지난 데이터를 불러오시겠습니까?');
+      if (callPrevData) this.state = tempPost;
+      else removeItem(`temp-post-${this.state.id}`);
+    }
+
     this.render();
   };
+
+  let timer = null;
 
   this.render = () => {
     target.appendChild(editorElement);
@@ -15,6 +27,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
         <textarea name='content' class='post-content'></textarea>
     `;
     editorElement.addEventListener('keyup', e => {
+      // 로딩 중 추가
       const { target } = e;
 
       const name = target.getAttribute('name');
@@ -25,10 +38,21 @@ export default function PostEditor({ target, initialState, onEdit }) {
           [name]: target.value, // key - value
         };
 
-        onEdit(nextState.id, {
-          title: nextState.title,
-          content: nextState.content,
-        });
+        setItem(`temp-post-${nextState.id}`, nextState);
+
+        if (timer !== null) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(async () => {
+          await onEdit(nextState.id, {
+            title: nextState.title,
+            content: nextState.content,
+          });
+
+          removeItem(`temp-post-${nextState.id}`);
+
+          // this.setState(nextState);
+        }, 2000);
       }
     });
 

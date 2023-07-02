@@ -1,6 +1,6 @@
 import PostList from './components/PostList.js';
 import PostEditor from './components/PostEditor.js';
-import { pushRoute, popRoute, initRouter } from './router.js';
+import { pushRoute, popRoute, initRouter } from './utils/router.js';
 import {
   fetchPostList,
   fetchPostDocument,
@@ -30,9 +30,9 @@ export default function App({ target }) {
       await moveSubTreesToRoot(clickedId);
 
       await deletePost(clickedId);
+
       updatePostList();
 
-      // pushRoute(`/`);
       history.replaceState(null, null, `/`);
       this.route();
     },
@@ -41,8 +41,8 @@ export default function App({ target }) {
   const postEditor = new PostEditor({
     target: postEditorContainer,
     initialState: {},
-    onEdit: (id, postData) => {
-      modifyPost(id, postData);
+    onEdit: async (id, postData) => {
+      await modifyPost(id, postData);
       updatePostList();
     },
   });
@@ -52,10 +52,10 @@ export default function App({ target }) {
     postList.render();
   };
 
-  const renderPostEditor = async postId => {
-    target.appendChild(postListContainer);
+  const renderPostPage = async postId => {
+    renderPostList();
+
     target.appendChild(postEditorContainer);
-    postList.render();
 
     if (postId) {
       const response = await fetchPostDocument(postId);
@@ -64,15 +64,15 @@ export default function App({ target }) {
   };
 
   this.route = () => {
-    target.innerHTML = '';
+    // target.innerHTML = '';
+
     const { pathname } = window.location;
 
     if (pathname === '/') {
       renderPostList();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
-      renderPostList();
-      renderPostEditor(postId);
+      renderPostPage(postId);
     }
   };
 
@@ -87,6 +87,7 @@ export default function App({ target }) {
     const subDocuments = response.documents;
 
     const queue = [];
+
     subDocuments.forEach(document => {
       queue.push([null, document]);
     });

@@ -1,4 +1,4 @@
-import { pushRoute } from '../router.js';
+import { pushRoute } from '../utils/router.js';
 
 export default function PostList({
   target,
@@ -41,6 +41,7 @@ export default function PostList({
     `;
 
     const spanElements = [...postListElement.querySelectorAll('li>span')];
+
     spanElements.forEach(spanElement => {
       spanElement.addEventListener('click', e => {
         const closestLi = e.target.closest('li');
@@ -61,7 +62,7 @@ export default function PostList({
             const { id } = closestLi.dataset;
             onClickAddButton(id);
           } else {
-            onClickAddButton(null);
+            onClickAddButton(null); // root에 추가
           }
         });
       } else if (buttonType === 'delete') {

@@ -4,14 +4,18 @@ export const fetchPostList = async () => {
   const response = await request('', {
     method: 'GET',
   });
+
   return response;
 };
+
 export const fetchPostDocument = async id => {
   const response = await request(`/${id}`, {
     method: 'GET',
   });
+
   return response;
 };
+
 export const fetchNewPost = async id => {
   const response = await request('', {
     method: 'POST',
@@ -20,6 +24,7 @@ export const fetchNewPost = async id => {
       parent: id,
     }),
   });
+
   return response;
 };
 
@@ -28,6 +33,7 @@ export const modifyPost = async (id, postData) => {
     method: 'PUT',
     body: JSON.stringify(postData),
   });
+
   return response;
 };
 
