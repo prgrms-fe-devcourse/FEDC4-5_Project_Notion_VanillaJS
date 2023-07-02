@@ -31,12 +31,22 @@ export default class SideBar extends Component {
     <li data-id=${id} class="parent-list">
     <div class=${styles.container}>
       <div class=${styles.content}>
-        <i class="fa-solid fa-angle-right"></i>
+        ${
+          documents.length === 0
+            ? ''
+            : `<button class=${styles.dropDown}>
+        <i class="fa-solid fa-caret-right"></i>
+      </button>`
+        }
         <h2 class=${styles.title} >${title}</h2>
       </div>
       <div class=${styles.buttons}>
-        <i class="fa-solid fa-minus delete"></i>
-        <i class="fa-solid fa-plus add"></i>
+        <button class ='delete'>
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button class='add'>
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </div>
     </div>
     ${
@@ -79,6 +89,21 @@ export default class SideBar extends Component {
         payload: { parent: id },
       });
       await PostListStore.dispatch({ actionType: 'INIT' });
+    });
+
+    this.$target.addEventListener('click', ({ target }) => {
+      const dropDownButton = target?.closest(`.${styles.dropDown}`);
+
+      if (!dropDownButton) return;
+
+      const childList = dropDownButton
+        .closest('li')
+        .querySelector(`.${styles.childList}`);
+
+      if (!childList) return;
+
+      dropDownButton.classList.toggle(`${styles.down}`);
+      childList.classList.toggle(`${styles.open}`);
     });
   }
 }

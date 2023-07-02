@@ -10,6 +10,10 @@
   overflow: hidden;
 }
 
+.dropDown {
+  transition: all 300ms ease-in-out;
+}
+
 .title {
   overflow: hidden;
   white-space: nowrap;
@@ -25,4 +29,13 @@
 
 .childList {
   padding-left: 1rem;
+  display: none;
+}
+
+.down {
+  transform: rotate(90deg);
+}
+
+.open {
+  display: block;
 }
