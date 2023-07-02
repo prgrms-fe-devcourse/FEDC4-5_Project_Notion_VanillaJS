@@ -1,6 +1,6 @@
 import { Store } from '@/core';
 import { createPost, deletePost, fetchPost, updatePost } from '../api/request';
-import { replace } from '@/core';
+import { push, replace } from '@/core';
 
 /**
  *
@@ -18,6 +18,7 @@ async function reducer({ state, actionType, payload }) {
       return { ...state, post };
     case 'CREATE_POST':
       const newPost = await createPost(payload?.parent);
+      push(`posts/${newPost.id}`);
       return { ...state, post: newPost };
     case 'UPDATE_POST':
       await updatePost(payload.post);

@@ -1,5 +1,6 @@
-import { Component } from '@/core';
+import { Component, push } from '@/core';
 import { PostListStore } from '../../store/PostListStore';
+import { PostStore } from '../../store/PostStore';
 import styles from './SideBar.module.css';
 
 export default class SideBar extends Component {
@@ -17,7 +18,7 @@ export default class SideBar extends Component {
     return (
       `<header>Dongja's Notion</header>` +
       this.getPostListTemplate(postList) +
-      `<footer>
+      `<footer data-id=null>
         <i class="fa-solid fa-plus add"></i>
         새로운 페이지 추가
       </footer>`
@@ -43,8 +44,8 @@ export default class SideBar extends Component {
       documents.length === 0
         ? ''
         : `
-    <ul class="child-list">
-      ${renderPost(documents)}
+    <ul class=${styles.childList}>
+      ${this.getPostListTemplate(documents)}
     </ul>
     `
     }
@@ -61,6 +62,19 @@ export default class SideBar extends Component {
 
       const id = target.closest('li').dataset.id;
       await PostListStore.dispatch({ actionType: 'DELETE', payload: { id } });
+    });
+
+    this.$target.addEventListener('click', async ({ target }) => {
+      const addButton = target?.closest('.add');
+
+      if (!addButton) return;
+
+      const id = target.closest(`[data-id]`).dataset.id;
+      await PostStore.dispatch({
+        actionType: 'CREATE_POST',
+        payload: { parent: id },
+      });
+      await PostListStore.dispatch({ actionType: 'INIT' });
     });
   }
 }
