@@ -1,3 +1,4 @@
+import ChildrenDocumentLink from "../components/ChildrenDocumentLink.js";
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
 import Component from "../core/Component.js";
@@ -17,6 +18,7 @@ export default class MainPage extends Component{
     return `
     <div class="sidebar"></div>
     <div class="editor"></div>
+    <div class="editor-below-links"></div>
     `;
   }
 
@@ -24,6 +26,7 @@ export default class MainPage extends Component{
     const {onEditTitle,onEditContent, onClickAdd, onClickDocument, onClickDelete} = this;
     const $sidebar = this.$target.querySelector(".sidebar");
     const $editor = this.$target.querySelector(".editor");
+    const $childLinks = this.$target.querySelector(".editor-below-links"); 
 
     if(!this.state.id) $editor.style.visibility = "hidden"; 
 
@@ -39,7 +42,12 @@ export default class MainPage extends Component{
       title : this.state.documentContent?.title,
       content : this.state.documentContent?.content,
       onEditTitle : onEditTitle.bind(this),
-      onEditContent : onEditContent.bind(this)
+      onEditContent : onEditContent.bind(this),
+    })
+
+    new ChildrenDocumentLink($childLinks, {
+      documentContent : this.state.documentContent,
+      onClickDocument : onClickDocument.bind(this)      
     })
   }
 
@@ -111,7 +119,7 @@ export default class MainPage extends Component{
         body : JSON.stringify(post)
       })
       removeLocalStorageItem(this.postLocalSaveKey);
-      $input.focus();
+
     }, 500)
   }
 
