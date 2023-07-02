@@ -1,10 +1,7 @@
-import SideBar from './components/SideBar.js';
+import PostsPage from './components/PostsPage.js'
 
 export default class App {
   constructor({ $target }) {
-    this.$target = $target;
-    this.$sideBar = new SideBar({
-      $target, initialState: []
-    })
+    this.$postsPage = new PostsPage({ $target })
   }
 }
