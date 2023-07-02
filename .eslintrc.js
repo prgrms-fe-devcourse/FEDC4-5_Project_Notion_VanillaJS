@@ -10,6 +10,14 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'import/prefer-default-export': 'off',
+    'import/extensions': ['off'],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'no-unused-expressions': 'off', // 바닐라 자바스크립트에서 삼항연산자나 ||, &&를 사용하려면 이 옵션을 꺼야함
   },
 };

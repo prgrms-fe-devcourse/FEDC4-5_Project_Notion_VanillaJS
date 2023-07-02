@@ -4,6 +4,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #2f3438;
+  /*background-color: #2f3438;*/
   overflow: hidden;
+}
+
+.sidebar {
+  /*width: 240px;*/
+  height: 100%;
+  /*background-color: #373c3f;*/
+  padding: 0;
 }
