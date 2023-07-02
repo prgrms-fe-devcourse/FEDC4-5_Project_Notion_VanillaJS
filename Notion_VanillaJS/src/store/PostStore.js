@@ -9,20 +9,20 @@ import { push, replace } from '@/core';
  */
 async function reducer({ state, actionType, payload }) {
   switch (actionType) {
-    case 'INIT_POST':
-      return { ...state, post: { ...state.post, ...payload } };
     case 'SAVE_POST':
       return { ...state, post: { ...state.post, ...payload } };
     case 'GET_POST':
       const post = await fetchPost(payload.id);
+      console.log(post);
       return { ...state, post };
     case 'CREATE_POST':
       const newPost = await createPost(payload?.parent);
-      push(`posts/${newPost.id}`);
+      push(`/posts/${newPost.id}`);
       return { ...state, post: newPost };
     case 'UPDATE_POST':
-      await updatePost(payload.post);
-      const updatedPost = await fetchPost(payload.post.id);
+      await updatePost(state.post);
+      const updatedPost = await fetchPost(state.post.id);
+      console.log(updatedPost);
       return { ...state, post: updatedPost };
     case 'DELETE_POST':
       await deletePost(payload.id);

@@ -14,7 +14,6 @@ async function reducer({ state, actionType, payload }) {
     case 'DELETE':
       await deletePost(payload.id);
       const deletedPostList = await fetchPostList();
-      console.log(deletedPostList);
       return { ...state, postList: deletedPostList };
   }
 }

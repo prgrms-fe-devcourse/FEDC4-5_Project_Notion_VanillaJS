@@ -4,20 +4,10 @@ import styles from './PostEdit.module.css';
 import { PostStore } from '@/store/PostStore';
 
 export default class PostEdit extends Component {
-  setup() {
-    const [, , postId] = location.pathname.split('/');
-    console.log(PostStore.getState());
-    const id = PostStore.getState()?.post?.id;
-    const isNew = postId === 'new';
-
-    if (isNew)
-      PostStore.dispatch({
-        actionType: 'INIT_POST',
-        payload: { id: 'new', title: '', content: '' },
-      });
-    else if (id !== postId)
-      PostStore.dispatch({ actionType: 'GET_POST', payload: { id: postId } });
-    this.state.id = postId;
+  async setup() {
+    const [, , id] = location.pathname.split('/');
+    console.log(id);
+    await PostStore.dispatch({ actionType: 'GET_POST', payload: { id } });
   }
 
   templates() {
@@ -29,7 +19,6 @@ export default class PostEdit extends Component {
     Component.attach({
       constructor: Editor,
       $target: $editor,
-      props: { id: this.state.id },
     });
   }
 

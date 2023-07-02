@@ -1,4 +1,4 @@
-import { Component, push } from '@/core';
+import { Component } from '@/core';
 import { PostListStore } from '../../store/PostListStore';
 import { PostStore } from '../../store/PostStore';
 import styles from './SideBar.module.css';

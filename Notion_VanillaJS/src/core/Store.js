@@ -8,7 +8,6 @@ export default class Store {
   }
 
   getState() {
-    console.log(this.#state);
     return { ...this.#state };
   }
 
