@@ -20,12 +20,20 @@ export default class Document extends Component {
 
     const addDocumentBtn = this.el.querySelector(".add-document");
     const docuContainer = this.el.querySelector(".container");
-    for (const key in this.state) {
-      const { id, title } = this.state[key];
-      const existingDocu = new DocumentItem();
-      existingDocu.setState({ id, title });
-      docuContainer.appendChild(existingDocu.el);
-    }
+
+    const renderDocuments = (container, docu) => {
+      for (const key in docu) {
+        const { id, title, documents } = docu[key];
+        const parentDocu = new DocumentItem();
+        parentDocu.setState({ id, title });
+        container.appendChild(parentDocu.el);
+        if (documents.length !== 0) {
+          renderDocuments(parentDocu.el, documents);
+        }
+      }
+    };
+
+    renderDocuments(docuContainer, this.state);
     addDocumentBtn.addEventListener("click", () => {
       const res = request("", {
         method: "POST",
@@ -38,7 +46,7 @@ export default class Document extends Component {
       res.then((value) => {
         documentItem.setState({ id: value.id, title: value.title });
       });
-      docuContainer.appendChild(documentItem.el);
+      docuContainer.append(documentItem.el);
     });
   }
 }
