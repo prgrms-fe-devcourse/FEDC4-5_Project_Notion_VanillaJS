@@ -6,7 +6,6 @@ import { PostStore } from '@/store/PostStore';
 export default class PostEdit extends Component {
   async setup() {
     const [, , id] = location.pathname.split('/');
-    console.log(id);
     await PostStore.dispatch({ actionType: 'GET_POST', payload: { id } });
   }
 
@@ -21,22 +20,4 @@ export default class PostEdit extends Component {
       $target: $editor,
     });
   }
-
-  // //TODO
-  // onEditing(post) {
-  //   setItem(postLocalSaveKey, {
-  //     ...post,
-  //     tempSaveData: new Date(),
-  //   });
-
-  // const isNew = this.state.postId === 'new';
-  // if (isNew) {
-  //   PostStore.dispatch({ actionType: 'CREATE_POST' });
-  //   removeItem(postLocalSaveKey);
-  //   return;
-  // }
-
-  //   // PostStore.dispatch({ actionType: 'UPDATE_POST', payload: post });
-  //   // removeItem(postLocalSaveKey);
-  // }
 }

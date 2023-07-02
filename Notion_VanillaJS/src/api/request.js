@@ -1,26 +1,9 @@
 export const API_END_POINT = 'https://kdt-frontend.programmers.co.kr/documents';
-export const MOCK_API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
 
-export const mockRequest = async ({ url = '', options = {} }) => {
-  try {
-    const res = await fetch(`${MOCK_API_END_POINT}${url}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!res.ok) throw new Error('API 처리중 뭔가 이상합니다');
-
-    return await res.json();
-  } catch (error) {
-    alert(error);
-  }
-};
+import { push } from '@/core';
 
 export async function request(url = '', options = {}) {
   try {
-    console.log(typeof url);
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
@@ -33,7 +16,8 @@ export async function request(url = '', options = {}) {
 
     return await res.json();
   } catch (error) {
-    alert(error);
+    alert('에러가 발생했습니다');
+    push('/');
   }
 }
 

@@ -31,10 +31,9 @@ export default class Editor extends Component {
       return;
     }
 
-    console.log(PostStore.getState());
     const { title, content } = PostStore.getState()?.post ?? {
-      title: '제목없음',
-      content: '내용없음',
+      title: '로딩 중',
+      content: '로딩 중',
     };
 
     this.$target.querySelector('[name=title]').value = title;

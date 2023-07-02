@@ -1,4 +1,4 @@
-import { Component } from '@/core';
+import { Component, push } from '@/core';
 import { PostListStore } from '../../store/PostListStore';
 import { PostStore } from '../../store/PostStore';
 import styles from './SideBar.module.css';
@@ -13,16 +13,16 @@ export default class SideBar extends Component {
 
   templates() {
     const postList = PostListStore.getState().postList;
-    console.log(postList);
-    if (!Array.isArray(postList)) return;
-    return (
-      `<header>Dongja's Notion</header>` +
-      this.getPostListTemplate(postList) +
-      `<footer data-id=null>
+    return `<header>Dongja's Notion</header>
+      ${
+        Array.isArray(postList)
+          ? this.getPostListTemplate(postList)
+          : `<h2>로딩중</h2>`
+      }
+      <footer data-id=null>
         <i class="fa-solid fa-plus add"></i>
         새로운 페이지 추가
-      </footer>`
-    );
+      </footer>`;
   }
 
   getPostListTemplate(postList) {
