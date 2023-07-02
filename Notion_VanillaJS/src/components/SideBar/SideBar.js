@@ -13,7 +13,7 @@ export default class SideBar extends Component {
 
   templates() {
     const postList = PostListStore.getState().postList;
-    return `<header>Dongja's Notion</header>
+    return `<h1>Dongja's Notion</h1>
       ${
         Array.isArray(postList)
           ? this.getPostListTemplate(postList)
@@ -33,9 +33,9 @@ export default class SideBar extends Component {
     <div class=${styles.container}>
       <div class=${styles.content}>
         <i class="fa-solid fa-angle-right"></i>
-        <h3 class="title" >${title}</h3>
+        <h2 class=${styles.title} >${title}</h2>
       </div>
-      <div class="buttons">
+      <div class=${styles.buttons}>
         <i class="fa-solid fa-minus delete"></i>
         <i class="fa-solid fa-plus add"></i>
       </div>

@@ -7,6 +7,20 @@
 .content {
   display: flex;
   align-items: center;
+  overflow: hidden;
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
 }
 
 .childList {
