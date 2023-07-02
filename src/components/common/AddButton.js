@@ -1,4 +1,4 @@
-export default function AddButton({ parentElement, onClick }) {
+export default function AddButton({ parentElement, onClick, text }) {
   const buttonElement = document.createElement("button");
 
   buttonElement.addEventListener("click", () => {
@@ -7,6 +7,6 @@ export default function AddButton({ parentElement, onClick }) {
 
   this.render = () => {
     parentElement.append(buttonElement);
-    buttonElement.textContent = "추가 버튼";
+    buttonElement.textContent = text;
   };
 }

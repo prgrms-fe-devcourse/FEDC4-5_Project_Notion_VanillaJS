@@ -1,3 +1,4 @@
+import { deleteDocument, postDocument } from "../api/document.js";
 import DocumentItem from "../components/domain/DocumentItem.js";
 /**
  *
@@ -14,6 +15,10 @@ export const getTreeDocument = (rootDocuments, parentElement) => {
           ? () => {}
           : (innerParentElement) =>
               getTreeDocument(rootDocument.documents, innerParentElement),
+      onClickChildButton: async (documentId) =>
+        await postDocument({ title: null, parent: documentId }),
+      onClickRemoveButton: async (documentId) =>
+        await deleteDocument(documentId),
       ...rootDocument,
     }).render()
   );

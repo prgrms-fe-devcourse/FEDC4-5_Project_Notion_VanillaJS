@@ -13,6 +13,7 @@ export default function DocumentList({ appElement, renderItemComponent }) {
       const data = await postDocument({ titls: null, parent: null });
       push(`${PATH.DOCUMENTS}/${data.id}`);
     },
+    text: "추가 버튼",
   });
 
   this.render = () => {

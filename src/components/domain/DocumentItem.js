@@ -1,46 +1,38 @@
-import { deleteDocument, postDocument } from "../../api/document.js";
 import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 
 export default function DocumentItem({
   parentElement,
   getChildDocument,
-  ...data
+  onClickChildButton,
+  onClickRemoveButton,
+  ...documentData
 }) {
   const containerElement = document.createElement("div");
 
-  containerElement.addEventListener("click", async (e) => {
-    if (e.target.closest(".child-button")) {
-      if (Number(e.target.dataset.id) === data.id) {
-        const temp = await postDocument({ title: null, parent: data.id });
+  containerElement.addEventListener("click", (e) => {
+    if (Number(e.target.closest("li").id) !== documentData.id) return;
 
-        console.log(temp);
-        return;
-      }
+    if (e.target.closest(".child-button")) {
+      return onClickChildButton(documentData.id);
     }
 
     if (e.target.closest(".remove-button")) {
-      if (Number(e.target.dataset.id) === data.id) {
-        await deleteDocument(data.id);
-        return;
-      }
+      return onClickRemoveButton(documentData.id);
     }
 
-    if (Number(e.target.closest("li").id) === data.id) {
-      push(`${PATH.DOCUMENTS}/${data.id}`);
-    }
+    push(`${PATH.DOCUMENTS}/${documentData.id}`);
   });
 
   this.render = () => {
+    const { id, title } = documentData;
     parentElement.append(containerElement);
 
     containerElement.innerHTML = `
-      <li id="${data.id}" class="document-item">
-        <span>${
-          data.title === null || data.title === "" ? "제목 없음" : data.title
-        }</span>
-        <div data-id="${data.id}" class="child-button">🆕</div>
-        <div data-id="${data.id}" class="remove-button">❌</div>
+      <li id="${id}" class="document-item">
+        <span>${title === null || title === "" ? "제목 없음" : title}</span>
+        <div data-id="${id}" class="child-button">🆕</div>
+        <div data-id="${id}" class="remove-button">❌</div>
       </li>
     `;
 
