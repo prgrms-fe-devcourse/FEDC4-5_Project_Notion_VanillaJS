@@ -26,7 +26,6 @@ export default function ChildrenList({ $target }) {
 
   $ul.addEventListener('click', event => {
     const $li = event.target.closest('li');
-    console.log($li);
     if ($li) {
       const { id } = $li.dataset;
       push(`/documents/${id}`);

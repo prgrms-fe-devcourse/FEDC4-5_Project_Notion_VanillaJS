@@ -31,6 +31,16 @@ export const requestAddDir = async (id = null) => {
   })
 }
 
+export const requestEditDir = async (id, title) => {
+  await request(`/documents/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      title: `dir/${title}`,
+      content: null,
+    })
+  })
+}
+
 export const requestAddDoc = async (parentId = null) => {
   await request('/documents', {
     method: 'POST',

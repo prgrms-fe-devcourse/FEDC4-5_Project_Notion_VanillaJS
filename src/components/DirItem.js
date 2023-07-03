@@ -1,27 +1,38 @@
-import { requestAddDir, requestAddDoc, requestDelItem } from "../services/api.js";
+import {
+  requestAddDir,
+  requestAddDoc,
+  requestDelItem,
+  requestEditDir,
+} from "../services/api.js";
+import { getItem, setItem } from "../services/storage.js";
 
-export default function DirItem({
-  $target,
-  dirName = "",
-  reRender,
-  parentId = null,
-  id,
-}) {
-  this.isDirOpen = true;
+export default function DirItem({ $target, dirName = "", reRender, id }) {
+  this.isDirOpen = getItem(id, true);
+  this.state = dirName;
+
+  this.setState = async (nextState) => {
+    this.state = nextState;
+    this.render();
+    await requestEditDir(id, this.state);
+  };
+
   const $dirItemWrapper = document.createElement("div");
   $dirItemWrapper.className = "dirItemWrapper";
 
   const $dirContentWrapper = document.createElement("div");
   const $dirIcon = document.createElement("i");
   const $dirTitle = document.createElement("span");
+  $dirTitle.contentEditable = dirName === '/root' ? false : true;
+  $dirTitle.className = "dirTitle";
   $dirContentWrapper.className = "dirContentWrapper";
-  $dirIcon.className = "dirIcon fa-regular fa-folder-open";
+  $dirIcon.className = `dirIcon fa-regular ${this.isDirOpen ? 'fa-folder-open' : 'fa-folder'}`;
 
   const $dirBtnWrapper = document.createElement("div");
   const $dirAddBtn = document.createElement("i");
   const $dirDelBtn = document.createElement("i");
   const $docAddBtn = document.createElement("i");
   $dirBtnWrapper.className = "dirBtnWrapper";
+  $dirBtnWrapper.style.display = this.isDirOpen ? "" : "none";
   $dirAddBtn.className = "fa-solid fa-folder-plus";
   $dirDelBtn.className = "fa-solid fa-folder-minus";
   $docAddBtn.className = "fa-regular fa-file";
@@ -32,16 +43,20 @@ export default function DirItem({
   $target.appendChild($dirItemWrapper);
 
   this.render = () => {
-    $dirTitle.textContent = dirName;
+    $dirTitle.textContent = this.state;
   };
 
-  this.toggleDir = () => {
+  this.toggleDir = (event) => {
+    if (event.target.className === "dirTitle" || event.target.textContent === '/root') return;
+
     const nextElementSibling = $dirItemWrapper.nextElementSibling;
     if (nextElementSibling.tagName === "UL") {
       nextElementSibling.style.display = this.isDirOpen ? "none" : "";
+      $dirBtnWrapper.style.display = this.isDirOpen ? "none" : "";
       $dirIcon.classList.toggle("fa-folder", this.isDirOpen);
       $dirIcon.classList.toggle("fa-folder-open", !this.isDirOpen);
       this.isDirOpen = !this.isDirOpen;
+      setItem(id, this.isDirOpen);
     }
   };
 
@@ -65,6 +80,10 @@ export default function DirItem({
 
   $dirBtnWrapper.addEventListener("click", this.handleButtonClick);
   $dirItemWrapper.addEventListener("click", this.toggleDir);
+  $dirTitle.addEventListener("keyup", (event) => {
+    event.stopPropagation();
+    this.setState(event.target.textContent);
+  });
 
   this.render();
 }
