@@ -11,6 +11,9 @@ export default class App extends Component {
     return `
     <aside class='sideBar'></aside>
     <section class ='page-Container'></section>
+    <dialog class='modal'>
+      <p class='modal-content'>게시글이 추가 되었습니다</p>
+    </dialog>
     `;
   }
 

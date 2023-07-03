@@ -1,5 +1,6 @@
 import { Store } from '@/core';
 import { fetchPostList, deletePost } from '../api/request';
+import { showModal } from '@/utils';
 
 /**
  *
@@ -13,6 +14,7 @@ async function reducer({ state, actionType, payload }) {
       return { ...state, postList };
     case 'DELETE':
       await deletePost(payload.id);
+      showModal('DELETE');
       const deletedPostList = await fetchPostList();
       return { ...state, postList: deletedPostList };
   }
