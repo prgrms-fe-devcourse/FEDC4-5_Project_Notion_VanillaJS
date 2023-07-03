@@ -16,9 +16,7 @@
 - [x] 특정 ID를 가진 Document의 왼쪽 펼침 버튼을 누르면 하위 Document 리스트를 렌더링한다.
 - [x] 특정 ID를 가진 Document를 누르면 해당하는 주소의 DocumentPage로 이동한다.
 - [x] 특정 ID를 가진 Document의 오른쪽 추가 버튼을 누르면 하위에 Document가 생성되고 해당하는 주소의 DocumentPage로 이동한다.
-- [ ] 글 수정시 몇 초 뒤 자동저장 기능만들기
-
-- [ ] App.js
-- [ ] DocumentPage.js
-- [ ] DocumentList.js
-- [ ] DocumentContent.js
+- [x] 글 수정시 몇 초 뒤 자동저장 기능만들기
+- [ ] 루트 페이지 추가 기능
+- [ ] 페이지 연쇄 삭제 기능
+- [ ] CSS 작업
