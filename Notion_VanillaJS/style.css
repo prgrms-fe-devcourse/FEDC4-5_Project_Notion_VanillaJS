@@ -58,3 +58,8 @@ li {
   opacity: 1;
   visibility: visible;
 }
+
+.page-Container {
+  display: grid;
+  grid-template-rows: 80% 20%;
+}

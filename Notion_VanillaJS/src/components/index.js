@@ -1,2 +1,3 @@
 export { default as SideBar } from './SideBar/SideBar';
 export { default as Editor } from './Editor/Editor';
+export { default as ChildPosts } from './ChildPosts/ChildPosts';
