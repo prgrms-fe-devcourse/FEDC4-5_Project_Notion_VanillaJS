@@ -1,7 +1,5 @@
 import DocumentList from "./DocumentList.js";
 import DocumentAddBtn from "./DocumnetAddBtn.js";
-import store from "../../util/Store.js";
-
 export default class SidebarPage {
   constructor({ $target }) {
     this.$sidebarPage = document.createElement("setion");

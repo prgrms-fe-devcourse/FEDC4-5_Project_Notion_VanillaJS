@@ -5,7 +5,6 @@ class Store {
     this.state = {
       documentsTree: [],
       documentContent: {},
-      selectDocumentId: 0,
     };
   }
   sidebarSubscribers = [];
@@ -48,6 +47,22 @@ class Store {
   async documentDelete(id) {
     await request(`/documents/${id}`, {
       method: "DELETE",
+    });
+    await this.documentsGet();
+  }
+
+  async documentGet(id) {
+    const response = await request(`/documents/${id}`);
+    this.setState({ ...this.state, documentContent: response });
+    this.notifyEditor();
+  }
+
+  async documentTitlePut({ id, title }) {
+    const { content } = this.state.documentContent;
+    console.log(title);
+    await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ title, content }),
     });
     await this.documentsGet();
   }

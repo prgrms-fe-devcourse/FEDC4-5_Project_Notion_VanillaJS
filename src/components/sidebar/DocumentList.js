@@ -23,7 +23,8 @@ export default class DocumentList {
     this.$list.addEventListener("click", (event) => {
       const targetDocument = event.target;
       if (targetDocument.classList.contains("select-document")) {
-        console.log(targetDocument);
+        history.pushState(null, null, `/${targetDocument.id}`);
+        store.documentGet(targetDocument.id);
       }
 
       if (targetDocument.classList.contains("toggle-folder")) {

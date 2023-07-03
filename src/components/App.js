@@ -1,12 +1,13 @@
 import SidebarPage from "./sidebar/SidebarPage";
 import EditorPage from "./editor/editorPage";
 import store from "../util/Store.js";
+import { popRouter } from "../util/router.js";
 
 export default class App {
   constructor({ $target }) {
     this.$target = $target;
-
     this.init();
+    popRouter();
   }
 
   async init() {
