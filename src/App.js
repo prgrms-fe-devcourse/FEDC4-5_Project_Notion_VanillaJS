@@ -10,35 +10,55 @@ export default class App {
     this.render();
   }
 
-  setDocumentContentState(nextState) {
-    this.documentContent.setState(nextState);
-  }
-  setDocumentListState(nextState) {
-    this.documentList.setState(nextState);
-  }
-
   render() {
     this.button = new Button({
       parentEl: this.appEl,
       onButtonClick: async () => {
-        const newDocument = await request.addDocumentItem(0);
-        history.pushState(null, null, `/${newDocument.id}`);
-        const nextState = await request.getDocumentItem(newDocument.id);
-        this.setDocumentContentState(nextState);
-        this.setDocumentListState(await request.getDocumentList());
+        const { id } = await request.addDocumentItem(0);
+        history.pushState(null, null, `/${id}`);
+        this.documentContent.setState(await request.getDocumentItem(id));
+        this.documentList.setState(await request.getDocumentList());
       },
       text: "페이지 추가하기",
     });
     this.documentList = new DocumentList({
       parentEl: this.appEl,
-      setDocumentContentState: (nextState) => {
-        this.setDocumentContentState(nextState);
+      onMovePageSpanClick: async (e) => {
+        const {
+          currentTarget: { id },
+        } = e;
+        history.pushState(null, null, `/${id}`);
+        this.documentContent.setState(await request.getDocumentItem(id));
+      },
+      onAddSubPageButtonClick: async (e) => {
+        const {
+          currentTarget: { parentNode },
+        } = e;
+        const { id } = await request.addDocumentItem(parentNode.id);
+        history.pushState(null, null, `/${id}`);
+        this.documentContent.setState(await request.getDocumentItem(id));
+        this.documentList.setState(await request.getDocumentList());
       },
     });
     this.documentContent = new DocumentContent({
       parentEl: this.appEl,
-      setDocumentListState: (nextState) => {
-        this.setDocumentListState(nextState);
+      onTextChange: (e) => {
+        const { pathname } = location;
+        let id = pathname.slice(1);
+
+        const { name, value } = e.currentTarget;
+
+        this.documentContent.state = {
+          ...this.documentContent.state,
+          [name]: value,
+        };
+        if (this.documentContent.timer !== null) {
+          clearTimeout(this.documentContent.timer);
+        }
+        this.documentContent.timer = setTimeout(async () => {
+          await request.updateDocumentItem(id, this.documentContent.state);
+          this.documentList.setState(await request.getDocumentList());
+        }, 1500);
       },
     });
   }

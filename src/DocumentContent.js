@@ -1,12 +1,13 @@
 import { request } from "./api";
 
 export default class DocumentContent {
-  constructor({ parentEl, setDocumentListState }) {
+  constructor({ parentEl, onTextChange }) {
     this.parentEl = parentEl;
-    this.documentContentEl = document.createElement("div");
-    this.parentEl.appendChild(this.documentContentEl);
+    this.currentEl = document.createElement("div");
+    this.parentEl.appendChild(this.currentEl);
 
-    this.setDocumentListState = setDocumentListState;
+    this.onTextChange = onTextChange;
+    this.timer = null;
 
     this.state = { title: "", content: "" };
     this.render(this.state);
@@ -18,51 +19,21 @@ export default class DocumentContent {
   }
 
   setEvent() {
-    const { pathname } = location;
-    let id = pathname.slice(1);
-
-    let timer = null;
-
-    const documentTitle =
-      this.documentContentEl.querySelector("#document-title");
-
-    documentTitle.addEventListener("keyup", (e) => {
-      this.state = { ...this.state, title: e.currentTarget.value };
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        await request.updateDocumentItem(id, this.state);
-        const documentListData = await request.getDocumentList();
-        this.setDocumentListState(documentListData);
-      }, 1500);
-    });
-
-    const documentContent =
-      this.documentContentEl.querySelector("#document-content");
-
-    documentContent.addEventListener("keyup", async (e) => {
-      this.state = { ...this.state, content: e.currentTarget.value };
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        await request.updateDocumentItem(id, this.state);
-        const documentListData = await request.getDocumentList();
-        this.setDocumentListState(documentListData);
-      }, 1500);
-    });
+    const titleInput = this.currentEl.querySelector("#title");
+    const contentInput = this.currentEl.querySelector("#content");
+    titleInput.addEventListener("keyup", this.onTextChange);
+    contentInput.addEventListener("keyup", this.onTextChange);
   }
 
   template({ title, content }) {
     return `
-    <input id="document-title" type="text" value="${title}">
-    <input id="document-content" type="text" value="${content}"/>
+    <input id="title" name="title" type="text" value="${title}">
+    <input id="content" name="content" type="text" value="${content}"/>
     `;
   }
 
   render(nextState) {
-    this.documentContentEl.innerHTML = this.template(nextState);
+    this.currentEl.innerHTML = this.template(nextState);
     this.setEvent();
   }
 }

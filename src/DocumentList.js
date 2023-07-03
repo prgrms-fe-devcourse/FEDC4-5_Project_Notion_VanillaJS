@@ -1,11 +1,13 @@
 import { request } from "./api";
 
 export default class DocumentList {
-  constructor({ parentEl, setDocumentContentState }) {
+  constructor({ parentEl, onMovePageSpanClick, onAddSubPageButtonClick }) {
     this.parentEl = parentEl;
-    this.documentListEl = document.createElement("div");
-    this.parentEl.appendChild(this.documentListEl);
-    this.setDocumentContentState = setDocumentContentState;
+    this.currentEl = document.createElement("div");
+    this.parentEl.appendChild(this.currentEl);
+
+    this.onMovePageSpanClick = onMovePageSpanClick;
+    this.onAddSubPageButtonClick = onAddSubPageButtonClick;
 
     (async () => {
       this.state = await request.getDocumentList();
@@ -21,24 +23,12 @@ export default class DocumentList {
   setEvent() {
     const linkSpans = document.querySelectorAll(".link-item");
     linkSpans.forEach((span) => {
-      span.addEventListener("click", async () => {
-        history.pushState(null, null, `/${span.id}`);
-
-        const nextState = await request.getDocumentItem(span.id);
-        this.setDocumentContentState(nextState);
-      });
+      span.addEventListener("click", this.onMovePageSpanClick);
     });
 
     const addButtons = document.querySelectorAll(".add-button");
     addButtons.forEach((button) => {
-      button.addEventListener("click", async (e) => {
-        const parentId = e.currentTarget.parentNode.id;
-        const newDocument = await request.addDocumentItem(parentId);
-        history.pushState(null, null, `/${newDocument.id}`);
-        const nextState = await request.getDocumentItem(newDocument.id);
-        this.setDocumentContentState(nextState);
-        this.setState(await request.getDocumentList());
-      });
+      button.addEventListener("click", this.onAddSubPageButtonClick);
     });
   }
 
@@ -61,7 +51,7 @@ export default class DocumentList {
   }
 
   render(nextState) {
-    this.documentListEl.innerHTML = this.template(nextState, 0);
+    this.currentEl.innerHTML = this.template(nextState, 0);
     this.setEvent();
   }
 }
