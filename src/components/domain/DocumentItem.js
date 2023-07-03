@@ -24,6 +24,8 @@ export default function DocumentItem({
     push(`${PATH.DOCUMENTS}/${documentData.id}`);
   });
 
+  this.state = "";
+
   this.render = () => {
     const { id, title } = documentData;
     parentElement.append(containerElement);

@@ -14,11 +14,19 @@ export default function DocumentEditor({ appElement, onEditing }) {
 
   containerElement.addEventListener("input", (e) => {
     if (e.target.closest(".title")) {
-      this.setState({ ...this.state, title: e.target.value });
+      this.setState({
+        ...this.state,
+        title: e.target.value,
+        isChangeTitle: true,
+      });
     }
 
     if (e.target.closest(".content")) {
-      this.setState({ ...this.state, content: e.target.innerHTML });
+      this.setState({
+        ...this.state,
+        content: e.target.innerHTML,
+        isChangeTitle: false,
+      });
     }
 
     onEditing(this.state);
@@ -34,7 +42,7 @@ export default function DocumentEditor({ appElement, onEditing }) {
     appElement.append(containerElement);
     const { pathname } = window.location;
 
-    const documentId = pathname.split("/")[2];
+    const documentId = Number(pathname.split("/")[2]);
     const data = await getDocument(documentId);
 
     this.setState({ title: data.title, content: data.content, documentId });

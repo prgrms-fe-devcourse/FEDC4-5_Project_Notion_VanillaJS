@@ -17,19 +17,37 @@ export default function App({ appElement }) {
 
   let timer = null;
 
+  this.state = [];
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+  };
+
   const layoutComponent = new Layout({ appElement });
   const documentListComponent = new DocumentList({
     appElement,
     renderItemComponent: async (parentElement) => {
       const list = await getDocuments();
+      this.setState(list);
       setItem("documents", list);
-      return RecurDocumentList(getItem("documents"), parentElement);
+      return RecurDocumentList(this.state, parentElement, () => {
+        documentListComponent.render();
+        documentEditorComponent.render();
+      });
     },
   });
   const homeComponent = new Home({ appElement });
   const documentEditorComponent = new DocumentEditor({
     appElement,
     onEditing: (document) => {
+      if (document.isChangeTitle) {
+        const newState = this.state.map((data) => ({
+          ...data,
+          title: data.id === document.documentId ? document.title : data.title,
+        }));
+        this.setState(newState);
+      }
+
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -39,8 +57,8 @@ export default function App({ appElement }) {
           documentId: document.documentId,
           data: document,
         });
-
-        this.route();
+        documentListComponent.render();
+        documentEditorComponent.render();
       }, 1000);
     },
   });
@@ -51,13 +69,14 @@ export default function App({ appElement }) {
 
   initRouter(() => this.route());
 
-  this.route = () => {
-    const { pathname } = window.location;
-
-    appElement.innerHTML = ``;
-
+  this.init = () => {
     layoutComponent.render();
     documentListComponent.render();
+    this.route();
+  };
+
+  this.route = () => {
+    const { pathname } = window.location;
 
     if (pathname === PATH.HOME) {
       homeComponent.render();
