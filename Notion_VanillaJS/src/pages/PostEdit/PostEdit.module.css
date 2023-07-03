@@ -1,4 +1,4 @@
 .Editor {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr 8fr;
 }

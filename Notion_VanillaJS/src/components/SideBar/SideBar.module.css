@@ -2,6 +2,10 @@
   font-size: 1.5rem;
 }
 
+.postList {
+  overflow: auto;
+}
+
 .container {
   display: flex;
   justify-content: space-between;

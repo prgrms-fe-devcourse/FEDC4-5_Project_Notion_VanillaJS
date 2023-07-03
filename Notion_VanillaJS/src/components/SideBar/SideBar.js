@@ -20,7 +20,9 @@ export default class SideBar extends Component {
     return `<h1 class=${styles.header}>📝 DongJa's Notion</h1>
       ${
         Array.isArray(postList)
-          ? this.getPostListTemplate(postList, postId)
+          ? `<ul class=${styles.postList}>
+              ${this.getPostListTemplate(postList, postId)}
+            </ul>`
           : `<h2>로딩중</h2>`
       }
       <footer class=${styles.footer} data-id=null>
