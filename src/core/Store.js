@@ -7,12 +7,12 @@ export default class Store {
         get: () => state[key],
         set: (newState) => {
           state[key] = newState;
-          this.observers[key](); // 지정된 콜백 함수 실행.
+          this.observers[key]();
         },
       });
     }
   }
-  // 상태 변경을 감지. 감시하는 상태에 대해 넘겨 받은 콜백 함수 지정.
+
   subscribe(key, cb) {
     this.observers[key] = cb;
   }
