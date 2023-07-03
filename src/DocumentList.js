@@ -6,40 +6,19 @@ export default class DocumentList {
     this.documentListEl = document.createElement("div");
     this.parentEl.appendChild(this.documentListEl);
     this.setDocumentContentState = setDocumentContentState;
-    this.state = [];
 
-    this.render();
-  }
-
-  async loadData() {
-    this.state = await request.getDocumentList();
-    this.setState(this.state);
+    (async () => {
+      this.state = await request.getDocumentList();
+      this.render(this.state);
+    })();
   }
 
   setState(nextState) {
     this.state = nextState;
-    this.render();
+    this.render(this.state);
   }
 
   setEvent() {
-    const spreadButtons = document.querySelectorAll(".spread-button");
-    spreadButtons.forEach((button) => {
-      button.addEventListener("click", (e) => {
-        const documentWrapperEl = document.querySelector(
-          `ul#ul-${e.target.id}`
-        );
-        if (documentWrapperEl) {
-          if (documentWrapperEl.style.display === "none") {
-            documentWrapperEl.style.display = "block";
-            e.currentTarget.textContent = "닫기";
-          } else {
-            documentWrapperEl.style.display = "none";
-            e.currentTarget.textContent = "펼치기";
-          }
-        }
-      });
-    });
-
     const linkSpans = document.querySelectorAll(".link-item");
     linkSpans.forEach((span) => {
       span.addEventListener("click", async () => {
@@ -58,33 +37,31 @@ export default class DocumentList {
         history.pushState(null, null, `/${newDocument.id}`);
         const nextState = await request.getDocumentItem(newDocument.id);
         this.setDocumentContentState(nextState);
-        this.render();
+        this.setState(await request.getDocumentList());
       });
     });
   }
 
-  template(documents, parentId) {
+  template(state, parentId) {
     return `
-    <ul id="ul-${parentId}" style="display:${
-      parentId === 0 ? "block" : "none"
-    };">
-        ${documents.map(
-          ({ id, title, documents }) =>
-            `
+    <ul id="ul-${parentId}">
+        ${state
+          .map(
+            ({ id, title, documents }) =>
+              `
                 <li id=${id}>
-                    <button class="spread-button" id=${id}>펼치기</button>
                     <span class="link-item" id=${id}>${title}</span>
-                    <button class="add-button">추가</button>
+                    <button class="add-button">+</button>
                     ${this.template(documents, id)}
                 </li>
             `
-        )}
+          )
+          .join("")}
     </ul>`;
   }
 
-  async render() {
-    this.state = await request.getDocumentList();
-    this.documentListEl.innerHTML = this.template(this.state, 0);
+  render(nextState) {
+    this.documentListEl.innerHTML = this.template(nextState, 0);
     this.setEvent();
   }
 }

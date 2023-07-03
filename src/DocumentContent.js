@@ -5,16 +5,16 @@ export default class DocumentContent {
     this.parentEl = parentEl;
     this.documentContentEl = document.createElement("div");
     this.parentEl.appendChild(this.documentContentEl);
+
     this.setDocumentListState = setDocumentListState;
 
     this.state = { title: "", content: "" };
-
-    this.render();
+    this.render(this.state);
   }
 
   setState(nextState) {
     this.state = nextState;
-    this.render();
+    this.render(this.state);
   }
 
   setEvent() {
@@ -54,19 +54,15 @@ export default class DocumentContent {
     });
   }
 
-  template() {
-    const { title, content } = this.state;
+  template({ title, content }) {
     return `
     <input id="document-title" type="text" value="${title}">
     <input id="document-content" type="text" value="${content}"/>
     `;
   }
 
-  async render() {
-    const { pathname } = location;
-    let id = pathname.slice(1);
-    this.state = await request.getDocumentItem(id);
-    this.documentContentEl.innerHTML = this.template();
+  render(nextState) {
+    this.documentContentEl.innerHTML = this.template(nextState);
     this.setEvent();
   }
 }
