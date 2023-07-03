@@ -4,6 +4,7 @@ import DocumentList from "./DocumentList.js";
 export default function SideBar({
   target,
   initialState,
+  onAddRootDocument,
   onChangeSelectedDocumentId,
   onAddChildDocument,
   onDeleteDocument,
@@ -15,7 +16,20 @@ export default function SideBar({
   sideBarElement.appendChild(headerElement);
 
   const titleElement = createDomElementWithId("div", "sideBar_title");
+  titleElement.innerHTML = `
+    <span id="sideBar_title_text">document List</span>
+    <button id="addRootDocumentButton">+</button>
+  `;
   sideBarElement.appendChild(titleElement);
+
+  const addRootDocumentButtonElement = document.querySelector(
+    "#addRootDocumentButton"
+  );
+
+  console.log(addRootDocumentButtonElement);
+  addRootDocumentButtonElement.addEventListener("click", async () => {
+    await onAddRootDocument();
+  });
 
   const documentList = new DocumentList({
     target: sideBarElement,

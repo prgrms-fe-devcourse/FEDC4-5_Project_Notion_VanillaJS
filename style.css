@@ -41,6 +41,14 @@ main {
 #sideBar_title {
   flex-basis: 10%;
   background-color: var(--color-light-grey);
+  display: flex;
+  justify-content: space-between;
+}
+
+#sideBar_title_text {
+}
+
+#addRootDocumentButton {
 }
 
 #sideBar_documentList {
@@ -67,4 +75,12 @@ main {
   display: flex;
   flex-direction: column;
   background-color: var(--color-light-white);
+}
+
+#title {
+  flex-basis: 20%;
+}
+
+#content {
+  flex-basis: 80%;
 }
