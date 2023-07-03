@@ -42,15 +42,15 @@ export default class SideBar extends Component {
       <div class=${styles.content}>
         ${
           hasChildren(documents)
-            ? `<button class=${styles.dropDown}>
+            ? `<button class='${styles.dropDown} dropDown'>
             <i class="fa-solid fa-caret-right"></i>
           </button>`
             : ''
         }
-        <h2 class=${styles.title} >${title}</h2>
+        <h2 class='${styles.title} title'>${title}</h2>
       </div>
       <div class=${styles.buttons}>
-        <button class =${styles.delete}>
+        <button class ='${styles.delete} delete'>
           <i class="fa-solid fa-minus"></i>
         </button>
         <button class='${styles.add} add'>
@@ -62,7 +62,7 @@ export default class SideBar extends Component {
       hasChildren(documents)
         ? `
         <ul class=${styles.childList}>
-          ${this.getPostListTemplate(documents)}
+          ${this.getPostListTemplate(documents, postId)}
         </ul>
         `
         : ''
@@ -75,7 +75,7 @@ export default class SideBar extends Component {
   setEvent() {
     this.addEvent({
       eventType: 'click',
-      selector: `.${styles.delete}`,
+      selector: `.delete`,
       callback: this.onClickDelete,
     });
 
@@ -87,13 +87,13 @@ export default class SideBar extends Component {
 
     this.addEvent({
       eventType: 'click',
-      selector: `.${styles.dropDown}`,
+      selector: `.dropDown`,
       callback: this.onClickToggle,
     });
 
     this.addEvent({
       eventType: 'click',
-      selector: `.${styles.title}`,
+      selector: `.title`,
       callback: this.onClickLink,
     });
   }
@@ -118,7 +118,7 @@ export default class SideBar extends Component {
   }
 
   onClickToggle({ target }) {
-    const dropDownButton = target.closest(`.${styles.dropDown}`);
+    const dropDownButton = target.closest(`.dropDown`);
     const childList = dropDownButton
       .closest('li')
       .querySelector(`.${styles.childList}`);
@@ -130,7 +130,7 @@ export default class SideBar extends Component {
   }
 
   onClickLink({ target }) {
-    const title = target.closest(`.${styles.title}`);
+    const title = target.closest(`.title`);
     const { id } = title.closest('[data-id]').dataset;
 
     push(`/posts/${id}`);
