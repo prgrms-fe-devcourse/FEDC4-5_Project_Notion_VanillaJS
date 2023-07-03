@@ -14,7 +14,7 @@ async function reducer({ state, actionType, payload }) {
       return { ...state, postList };
     case 'DELETE_POST_LIST':
       await deletePost(payload.id);
-      showModal('DELETE_POST_LIST');
+      showModal('DELETE');
       const deletedPostList = await fetchPostList();
       return { ...state, postList: deletedPostList };
   }

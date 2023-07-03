@@ -1,3 +1,5 @@
+@import '@/index.css';
+
 .title {
   font-size: 2rem;
 }
@@ -11,7 +13,7 @@
 
 .title::placeholder,
 .content::placeholder {
-  color: lightgrey;
+  color: var(--more-light-grey);
 }
 
 .content {

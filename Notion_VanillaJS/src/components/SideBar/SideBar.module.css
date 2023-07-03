@@ -1,8 +1,16 @@
+@import '@/index.css';
+
 .header {
   display: flex;
   align-items: center;
-  padding-left: 1.3rem;
+  padding-left: 1rem;
   color: black;
+}
+
+.logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.5rem;
 }
 
 .postList {
@@ -18,12 +26,12 @@
 }
 
 .container:hover {
-  background-color: lightgray;
+  background-color: var(--more-light-grey);
 }
 
 .active {
-  background-color: #9c93d1;
-  color: #ffffff;
+  background-color: var(--purple);
+  color: var(--pure-white);
 }
 
 .content {
@@ -35,13 +43,13 @@
 .dropDown {
   padding-right: 0.3rem;
   transition: all 300ms ease-in-out;
-  color: #b1b2ad;
+  color: var(--dark-grey);
   margin-right: 0.1rem;
   line-height: 100%;
 }
 
 .dropDown:hover {
-  color: #9c93d1;
+  color: var(--purple);
   transform: scale(1.3);
   transform: rotate(90deg);
 }
@@ -55,7 +63,7 @@
 }
 
 .noneTitle {
-  color: #b1b2ad;
+  color: var(--light-grey);
 }
 
 .buttons {
@@ -80,18 +88,18 @@
 .delete {
   border-radius: 100%;
   padding: 0.1rem;
-  color: #efeef1;
+  color: var(--main-white);
   transition: all 300ms ease-in-out;
 }
 
 .add:hover {
   transform: scale(1.1);
-  background-color: #9c93d1;
+  background-color: var(--purple);
 }
 
 .delete:hover {
-  /* transform: scale(1.1); */
-  background-color: #f2a6be;
+  transform: scale(1.1);
+  background-color: var(--pink);
 }
 
 .childList {
@@ -114,13 +122,13 @@
   align-items: center;
   padding: 0.2rem 0.5rem;
   transition: all 300ms ease-in-out;
-  border-top: 2px solid #f6f4f3;
+  border-top: 2px solid var(--border-sideBar-footer);
 }
 
 .footer:hover {
-  background-color: lightgray;
+  background-color: var(--more-light-grey);
 }
 
 .footerButton {
-  color: #91908a;
+  color: var(--light-grey);
 }

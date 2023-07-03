@@ -1,7 +1,7 @@
 import { Component, push } from '@/core';
 import { PostListStore, PostStore } from '@/store';
 import styles from './SideBar.module.css';
-
+import logo from '@/assets/notion.svg';
 export default class SideBar extends Component {
   setup() {
     PostListStore.subscribe({
@@ -17,7 +17,9 @@ export default class SideBar extends Component {
   templates() {
     const postList = PostListStore.getState().postList;
     const postId = PostStore.getState()?.post?.id;
-    return `<h1 class=${styles.header}>📝 DongJa's Notion</h1>
+    return `<h1 class=${styles.header}>
+    <img src=${logo} class=${styles.logo} alt='logo'/>
+     DongJa's Notion</h1>
       ${
         Array.isArray(postList)
           ? `<ul class=${styles.postList}>
