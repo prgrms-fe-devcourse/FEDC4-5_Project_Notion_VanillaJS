@@ -1,6 +1,5 @@
-import { Component } from '@/core';
+import { Component, push } from '@/core';
 import { PostStore } from '@/store';
-
 export default class ChildPosts extends Component {
   setup() {
     PostStore.subscribe({
@@ -11,19 +10,30 @@ export default class ChildPosts extends Component {
 
   templates() {
     const childPosts = PostStore.getState()?.post?.documents;
-    console.log(childPosts);
     return childPosts
       ? `<ul>
       ${childPosts
         .map(
-          (childPost) => `
-      <li data-id = ${childPost.id} class ='child-post'>
-        <h2 class='child-post-title'>${childPost.title}</h2>
-    </div>
+          ({ id, title }) => `
+      <li data-id = ${id} class ='child-post'>
+        <h2 class='child-post-title'>${title}</h2>
       </li>`
         )
         .join('')}
     </ul>`
       : '';
+  }
+
+  setEvent() {
+    this.addEvent({
+      eventType: 'click',
+      selector: '[data-id]',
+      callback: this.onClickChild,
+    });
+  }
+
+  onClickChild({ target }) {
+    const { id } = target.closest('[data-id]').dataset;
+    push(`/posts/${id}`);
   }
 }
