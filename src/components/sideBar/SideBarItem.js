@@ -1,9 +1,8 @@
 export default function SideBarItem({ $target, text, onClick }) {
-  const $sideBarItem = document.createElement("li");
+  const $sideBarItem = document.createElement("div");
+  $sideBarItem.setAttribute("class", "listItem");
   $target.appendChild($sideBarItem);
 
-  $sideBarItem.innerHTML = `
-    <span>${text}</span>
-  `;
+  $sideBarItem.textContent = text;
   $sideBarItem.addEventListener("click", () => onClick());
 }

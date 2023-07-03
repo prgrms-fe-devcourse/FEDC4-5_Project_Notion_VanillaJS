@@ -14,11 +14,11 @@
   padding: 20px 2px;
 }
 
-#sideBar li {
+.listItem {
   padding: 5px;
   border-radius: 3px;
   cursor: pointer;
 }
-#sideBar li:hover {
+.listItem:hover {
   background-color: #e7e7e5;
 }

@@ -1,4 +1,4 @@
-import SideBarItem from "./SideBarItem.js";
+import DocumentListItem from "./DocumentListItem.js";
 import { request } from "../../api.js";
 
 export default function DocumentList({ $target, initialState }) {
@@ -15,18 +15,10 @@ export default function DocumentList({ $target, initialState }) {
   console.log("this.state", this.state);
 
   this.render = () => {
-    const $buttonNewPage = new SideBarItem({
-      $target: $documentList,
-      text: "+ 페이지 추가",
-      onClick: () => {
-        request("/documents", {
-          method: "POST",
-          body: JSON.stringify({
-            title: "제목 없음",
-            parent: null,
-          }),
-        });
-      },
+    this.state.map((document) => {
+      new DocumentListItem({
+        $target: $documentList,
+      });
     });
   };
   this.render();
