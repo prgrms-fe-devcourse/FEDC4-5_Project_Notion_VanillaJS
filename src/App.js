@@ -1,5 +1,7 @@
+import Button from "./Button";
 import DocumentContent from "./DocumentContent";
 import DocumentList from "./DocumentList";
+import { request } from "./api.js";
 
 export default class App {
   constructor() {
@@ -16,6 +18,17 @@ export default class App {
   }
 
   render() {
+    this.button = new Button({
+      parentEl: this.appEl,
+      onButtonClick: async () => {
+        const newDocument = await request.addDocumentItem(0);
+        history.pushState(null, null, `/${newDocument.id}`);
+        const nextState = await request.getDocumentItem(newDocument.id);
+        this.setDocumentContentState(nextState);
+        this.setDocumentListState(await request.getDocumentList());
+      },
+      text: "페이지 추가하기",
+    });
     this.documentList = new DocumentList({
       parentEl: this.appEl,
       setDocumentContentState: (nextState) => {

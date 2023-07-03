@@ -37,7 +37,10 @@ export const request = {
     try {
       const response = await fetch(
         `${NOTION_API}/documents`,
-        config("POST", { title: "새 문서", parent: parentId })
+        config("POST", {
+          title: "새 문서",
+          parent: parentId,
+        })
       );
 
       const result = await response.json();
