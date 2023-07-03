@@ -1,5 +1,5 @@
-export default class Editor{
-  constructor ({ $target, initialState }) {
+export default class Editor {
+  constructor({ $target, initialState }) {
     this.state = initialState;
     this.$target = $target;
     this.$editor = document.createElement('div');
@@ -15,11 +15,8 @@ export default class Editor{
 
   render() {
     this.$editor.innerHTML = `
-    <input type='text' name='title' placeholder="제목"/>
-    <textarea name='content' placeholder='내용'></textarea>
-    `
-
-    this.$editor.querySelector('[name=title]').value = this.state.title;
-    this.$editor.querySelector('[name=content]').value = this.state.content;
+      <input type="text" name="title" placeholder="제목" value="${this.state.title || ''}">
+      <textarea name="content" placeholder="내용">${this.state.content || ''}</textarea>
+    `;
   }
 }
