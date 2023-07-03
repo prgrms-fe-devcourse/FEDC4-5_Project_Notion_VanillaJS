@@ -9,12 +9,12 @@ import { showModal } from '@/utils';
  */
 async function reducer({ state, actionType, payload }) {
   switch (actionType) {
-    case 'INIT':
+    case 'UPDATE_POST_LIST':
       const postList = await fetchPostList();
       return { ...state, postList };
-    case 'DELETE':
+    case 'DELETE_POST_LIST':
       await deletePost(payload.id);
-      showModal('DELETE');
+      showModal('DELETE_POST_LIST');
       const deletedPostList = await fetchPostList();
       return { ...state, postList: deletedPostList };
   }

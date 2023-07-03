@@ -1,3 +1,19 @@
-/* .content {
-  height: 100vh;
-} */
+.title {
+  font-size: 2rem;
+}
+
+.title,
+.content {
+  padding: 0 3rem;
+  outline: none;
+  border: none;
+}
+
+.title::placeholder,
+.content::placeholder {
+  color: lightgrey;
+}
+
+.content {
+  line-height: 2rem;
+}

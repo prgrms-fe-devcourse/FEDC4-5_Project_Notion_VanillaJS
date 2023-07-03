@@ -1,5 +1,8 @@
 .header {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1.3rem;
+  color: black;
 }
 
 .postList {
@@ -10,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.2rem 0.5rem;
+  padding: 0.3rem 1rem;
   transition: all 300ms ease-in-out;
 }
 
@@ -19,8 +22,8 @@
 }
 
 .active {
-  background-color: lightgray;
-  color: #efeef1;
+  background-color: #9c93d1;
+  color: #ffffff;
 }
 
 .content {
@@ -32,6 +35,9 @@
 .dropDown {
   padding-right: 0.3rem;
   transition: all 300ms ease-in-out;
+  color: #b1b2ad;
+  margin-right: 0.1rem;
+  line-height: 100%;
 }
 
 .dropDown:hover {
@@ -46,6 +52,10 @@
   text-overflow: ellipsis;
   word-break: break-all;
   cursor: pointer;
+}
+
+.noneTitle {
+  color: #b1b2ad;
 }
 
 .buttons {
@@ -104,13 +114,13 @@
   align-items: center;
   padding: 0.2rem 0.5rem;
   transition: all 300ms ease-in-out;
+  border-top: 2px solid #f6f4f3;
 }
 
 .footer:hover {
   background-color: lightgray;
 }
 
-.rootAdd {
-  flex-direction: column;
-  align-self: self-end;
+.footerButton {
+  color: #91908a;
 }

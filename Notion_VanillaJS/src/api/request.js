@@ -35,7 +35,7 @@ export async function createPost(parent = null) {
   const newPost = await request('', {
     method: 'POST',
     body: JSON.stringify({
-      title: '처음 제목',
+      title: '',
       parent,
     }),
   });

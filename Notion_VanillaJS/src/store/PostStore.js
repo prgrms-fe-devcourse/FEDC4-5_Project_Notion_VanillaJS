@@ -25,7 +25,7 @@ async function reducer({ state, actionType, payload }) {
       return { ...state, post: updatedPost };
     case 'DELETE_POST':
       await deletePost(payload.id);
-      showModal('DELETE');
+      showModal('DELETE_POST_LIST');
       return;
   }
 }

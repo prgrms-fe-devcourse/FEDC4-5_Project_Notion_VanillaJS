@@ -4,7 +4,7 @@ import { PostListStore } from '@/store';
 
 export default class App extends Component {
   setup() {
-    PostListStore.dispatch({ actionType: 'INIT' });
+    PostListStore.dispatch({ actionType: 'UPDATE_POST_LIST' });
   }
 
   templates() {

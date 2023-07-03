@@ -15,8 +15,8 @@ export default class Editor extends Component {
 
   templates() {
     return `
-      <input type='text' name='title' class='${styles.title}'/>
-      <textarea name='content' class='${styles.content}'></textarea>
+      <input type='text' name='title' class='${styles.title}' placeholder='제목을 입력하세요'/>
+      <textarea name='content' class='${styles.content}' placeholder='내용을 입력하세요'></textarea>
     `;
   }
 
@@ -61,6 +61,6 @@ export default class Editor extends Component {
 
     await PostStore.dispatch({ actionType: 'UPDATE_POST' });
     removeItem(postLocalSaveKey);
-    PostListStore.dispatch({ actionType: 'INIT' });
+    PostListStore.dispatch({ actionType: 'UPDATE_POST_LIST' });
   }
 }

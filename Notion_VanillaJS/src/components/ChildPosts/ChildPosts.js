@@ -1,5 +1,6 @@
 import { Component, push } from '@/core';
 import { PostStore } from '@/store';
+import styles from './ChildPosts.module.css';
 export default class ChildPosts extends Component {
   setup() {
     PostStore.subscribe({
@@ -16,7 +17,11 @@ export default class ChildPosts extends Component {
         .map(
           ({ id, title }) => `
       <li data-id = ${id} class ='child-post'>
-        <h2 class='child-post-title'>${title}</h2>
+        <h2 class='child-post-title'>${
+          title
+            ? title
+            : `<span class=${styles.noneTitle}>제목을 입력하세요<span>`
+        }</h2>
       </li>`
         )
         .join('')}

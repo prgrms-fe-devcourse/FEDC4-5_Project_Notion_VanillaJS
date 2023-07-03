@@ -26,7 +26,7 @@ export default class SideBar extends Component {
           : `<h2>로딩중</h2>`
       }
       <footer class=${styles.footer} data-id=null>
-        <button class='add'>
+        <button class='${styles.footerButton} add'>
         <i class="fa-solid fa-plus"></i>
         새로운 페이지 추가
         </button>
@@ -45,11 +45,15 @@ export default class SideBar extends Component {
         ${
           hasChildren(documents)
             ? `<button class='${styles.dropDown} dropDown'>
-            <i class="fa-solid fa-caret-right"></i>
+            <i class="fa-solid fa-chevron-right"></i>
           </button>`
             : ''
         }
-        <h2 class='${styles.title} title'>${title}</h2>
+        <h2 class='${styles.title} title'>${
+          title
+            ? title
+            : `<span class=${styles.noneTitle}>제목을 입력하세요<span>`
+        }</h2>
       </div>
       <div class=${styles.buttons}>
         <button class ='${styles.delete} delete'>
@@ -103,7 +107,7 @@ export default class SideBar extends Component {
   async onClickDelete({ target }) {
     const deletedId = target.closest('[data-id]').dataset.id;
     await PostListStore.dispatch({
-      actionType: 'DELETE',
+      actionType: 'DELETE_POST_LIST',
       payload: { id: deletedId },
     });
     const nowId = PostStore.getState()?.post?.id;
@@ -116,7 +120,7 @@ export default class SideBar extends Component {
       actionType: 'CREATE_POST',
       payload: { parent: id },
     });
-    await PostListStore.dispatch({ actionType: 'INIT' });
+    await PostListStore.dispatch({ actionType: 'UPDATE_POST_LIST' });
   }
 
   onClickToggle({ target }) {
