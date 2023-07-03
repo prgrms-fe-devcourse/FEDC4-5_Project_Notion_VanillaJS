@@ -1,13 +1,19 @@
 import { request } from "./api";
 
 export default class DocumentList {
-  constructor({ parentEl, onMovePageSpanClick, onAddSubPageButtonClick }) {
+  constructor({
+    parentEl,
+    onMovePageSpanClick,
+    onAddSubPageButtonClick,
+    onRemoveSubPageButtonClick,
+  }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
     this.parentEl.appendChild(this.currentEl);
 
     this.onMovePageSpanClick = onMovePageSpanClick;
     this.onAddSubPageButtonClick = onAddSubPageButtonClick;
+    this.onRemoveSubPageButtonClick = onRemoveSubPageButtonClick;
 
     (async () => {
       this.state = await request.getDocumentList();
@@ -30,6 +36,11 @@ export default class DocumentList {
     addButtons.forEach((button) => {
       button.addEventListener("click", this.onAddSubPageButtonClick);
     });
+
+    const removeButtons = document.querySelectorAll(".remove-button");
+    removeButtons.forEach((button) => {
+      button.addEventListener("click", this.onRemoveSubPageButtonClick);
+    });
   }
 
   template(state, parentId) {
@@ -39,7 +50,8 @@ export default class DocumentList {
           .map(
             ({ id, title, documents }) =>
               `
-                <li id=${id}>
+                <li id=li-${id}>
+                    <button id=${id} class="remove-button">-</button>
                     <span class="link-item" id=${id}>${title}</span>
                     <button class="add-button">+</button>
                     ${this.template(documents, id)}

@@ -51,10 +51,22 @@ export const request = {
   },
   updateDocumentItem: async (id, updateBody) => {
     try {
-      console.log("api 호출");
       const response = await fetch(
         `${NOTION_API}/documents/${id}`,
         config("PUT", updateBody)
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  },
+  deleteDocumentItem: async (id) => {
+    try {
+      const response = await fetch(
+        `${NOTION_API}/documents/${id}`,
+        config("DELETE")
       );
 
       const result = await response.json();

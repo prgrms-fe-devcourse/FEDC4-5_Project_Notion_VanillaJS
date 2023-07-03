@@ -34,9 +34,16 @@ export default class App {
         const {
           currentTarget: { parentNode },
         } = e;
-        const { id } = await request.addDocumentItem(parentNode.id);
+        const { id } = await request.addDocumentItem(parentNode.id.slice(3));
+
+        console.log(parentNode.id, id);
         history.pushState(null, null, `/${id}`);
         this.documentContent.setState(await request.getDocumentItem(id));
+        this.documentList.setState(await request.getDocumentList());
+      },
+      onRemoveSubPageButtonClick: async (e) => {
+        const id = e.currentTarget.id;
+        await request.deleteDocumentItem(id);
         this.documentList.setState(await request.getDocumentList());
       },
     });
