@@ -1,7 +1,7 @@
 import { getDocuments, putDocument } from "./api/document.js";
 import Layout from "./components/common/Layout.js";
 import DocumentList from "./components/domain/DocumentList.js";
-import Document from "./components/domain/Document.js";
+import DocumentEditor from "./components/domain/DocumentEditor.js";
 import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
 import { initRouter } from "./utils/route.js";
@@ -27,7 +27,7 @@ export default function App({ appElement }) {
     },
   });
   const homeComponent = new Home({ appElement });
-  const documentComponent = new Document({
+  const documentEditorComponent = new DocumentEditor({
     appElement,
     onEditing: (document) => {
       if (timer !== null) {
@@ -51,8 +51,6 @@ export default function App({ appElement }) {
 
   initRouter(() => this.route());
 
-  this.state = getItem("documents", []);
-
   this.route = () => {
     const { pathname } = window.location;
 
@@ -64,7 +62,7 @@ export default function App({ appElement }) {
     if (pathname === PATH.HOME) {
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {
-      documentComponent.render();
+      documentEditorComponent.render();
     }
   };
 }

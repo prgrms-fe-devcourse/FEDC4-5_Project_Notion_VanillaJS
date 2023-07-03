@@ -3,10 +3,10 @@ import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 import RecurChildDocument from "../template/RecurChildDocument.js";
 
-export default function Document({ appElement, onEditing }) {
+export default function DocumentEditor({ appElement, onEditing }) {
   const containerElement = document.createElement("div");
 
-  this.state = { title: "", content: "", documentId: "", parent: null };
+  this.state = { title: "", content: "", documentId: "" };
 
   this.setState = (nextState) => {
     this.state = nextState;
