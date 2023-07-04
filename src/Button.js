@@ -1,11 +1,11 @@
 export default class Button {
   constructor({ parentEl, onButtonClick, text }) {
     this.parentEl = parentEl;
-    this.currentRootEl = document.createElement("div");
+    this.currentEl = document.createElement("div");
     this.onButtonClick = onButtonClick;
     this.text = text;
 
-    this.parentEl.appendChild(this.currentRootEl);
+    this.parentEl.appendChild(this.currentEl);
     this.render();
   }
 
@@ -17,13 +17,13 @@ export default class Button {
   setState() {}
 
   setEvent() {
-    const button = this.currentRootEl.querySelector("button");
+    const button = this.currentEl.querySelector("button");
 
     button.addEventListener("click", this.onButtonClick);
   }
 
   render() {
-    this.currentRootEl.innerHTML = this.template(this.text);
+    this.currentEl.innerHTML = this.template(this.text);
     this.setEvent();
   }
 }
