@@ -4,7 +4,7 @@ import DocumentList from "./components/domain/DocumentList.js";
 import DocumentEditor from "./components/domain/DocumentEditor.js";
 import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
-import { initRouter } from "./utils/route.js";
+import { initRouter, push } from "./utils/route.js";
 import RecurDocumentList from "./components/template/RecurDocumentList.js";
 import {
   addChildDocument,
@@ -52,8 +52,12 @@ export default function App({ appElement }) {
         },
         (documentId) => {
           const newState = removeDocument(documentId, this.state);
+          if (Number(window.location.pathname.split("/")[2]) !== documentId) {
+            this.tempSetState(newState);
+          }
+
+          push(PATH.HOME);
           this.setState(newState);
-          this.tempSetState(newState);
         }
       );
     },
