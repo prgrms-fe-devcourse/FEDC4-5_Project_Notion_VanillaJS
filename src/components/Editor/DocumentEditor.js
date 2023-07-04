@@ -1,10 +1,4 @@
-import {
-  handlePreventNewLine,
-  handleCursorToContent,
-  handleRichContent,
-  handleChangeInput,
-  handleKeyDown,
-} from './events.js';
+import { onPreventNewLine, onEnterInTitle, onInputRichContent, onKeyDown, onInput } from './events.js';
 import './DocumentEditor.css';
 
 export default class DocumentEditor {
@@ -46,16 +40,16 @@ export default class DocumentEditor {
   initEvents() {
     const { $target, $title, $content, onChange, onOpenStyleMenu, onCloseStyleMenu } = this;
 
-    $title.addEventListener('keydown', (e) => handlePreventNewLine(e));
-    $title.addEventListener('keyup', (e) => handleCursorToContent(e, { $content }));
+    $title.addEventListener('keydown', (e) => onPreventNewLine(e));
+    $title.addEventListener('keyup', (e) => onEnterInTitle(e, { $content }));
 
-    $content.addEventListener('compositionend', (e) => handleRichContent(e, { $content }));
-    $content.addEventListener('keydown', (e) => handleKeyDown(e, { $content }));
-    $content.addEventListener('keyup', (e) => handleRichContent(e, { $content }));
+    $content.addEventListener('compositionend', (e) => onInputRichContent(e, { $content }));
+    $content.addEventListener('keydown', (e) => onKeyDown(e, { $content }));
+    $content.addEventListener('keyup', (e) => onInputRichContent(e, { $content }));
     $content.addEventListener('pointerdown', (e) => onCloseStyleMenu(e));
     $content.addEventListener('pointerup', (e) => onOpenStyleMenu(e));
 
-    $target.addEventListener('input', (e) => handleChangeInput(e, { onChange }));
+    $target.addEventListener('input', (e) => onInput(e, { onChange }));
   }
 
   render() {

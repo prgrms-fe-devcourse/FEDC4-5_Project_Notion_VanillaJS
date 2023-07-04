@@ -1,5 +1,5 @@
 import { foreColors, backColors } from '../../constants/colors.js';
-import { handleStyleMenuAction } from './events.js';
+import { onClickMenuItem } from './events.js';
 import template from './templates.js';
 import './StyleMenu.css';
 
@@ -32,8 +32,8 @@ export default class StyleMenu {
   initEvents() {
     const { $menu, $textMenu } = this;
 
-    $menu.addEventListener('click', (e) => handleStyleMenuAction(e, { $menu, $textMenu }));
-    $textMenu.addEventListener('click', (e) => handleStyleMenuAction(e, { $menu, $textMenu }));
+    $menu.addEventListener('click', (e) => onClickMenuItem(e, { $menu, $textMenu }));
+    $textMenu.addEventListener('click', (e) => onClickMenuItem(e, { $menu, $textMenu }));
   }
 
   render() {

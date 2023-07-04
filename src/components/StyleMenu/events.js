@@ -1,6 +1,6 @@
 import { applyTextStyle, toggleTextStyleMenu } from './richLogics.js';
 
-export const handleStyleMenuAction = (e, { $menu, $textMenu }) => {
+export const onClickMenuItem = (e, { $menu, $textMenu }) => {
   const command = e.target.closest('[data-command]')?.dataset.command;
   const role = e.target.closest('[data-role]')?.dataset.role;
   const color = e.target.closest('[data-color]')?.dataset.color;

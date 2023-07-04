@@ -50,7 +50,7 @@ export const applyRichContent = ({ $editor, key }) => {
   }
 };
 
-export const onEnter = (event, { $editor }) => {
+export const applyEnter = (event, { $editor }) => {
   const $parentNode = selection.anchorNode.parentNode;
   const $anchorNode = selection.anchorNode;
   const $line = $parentNode.closest('.editor__line');
@@ -97,7 +97,7 @@ export const onEnter = (event, { $editor }) => {
   }, 0);
 };
 
-export const onBackspace = (event) => {
+export const applyBackspace = (event) => {
   const $parentNode = selection.anchorNode.parentNode;
   const $line = $parentNode.closest('.editor__line');
   const $previousLine = $line?.previousSibling;

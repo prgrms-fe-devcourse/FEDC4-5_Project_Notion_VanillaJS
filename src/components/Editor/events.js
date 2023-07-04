@@ -1,25 +1,25 @@
-import { applyRichContent, onBackspace, onEnter } from './richLogics.js';
+import { applyRichContent, applyEnter, applyBackspace } from './richLogics.js';
 
-export const handlePreventNewLine = (e) => {
+export const onPreventNewLine = (e) => {
   if (e.key === 'Enter') e.preventDefault();
 };
 
-export const handleCursorToContent = (e, { $content }) => {
+export const onEnterInTitle = (e, { $content }) => {
   if (e.key !== 'Enter') return;
   $content.focus();
 };
 
-export const handleRichContent = (e, { $content }) => {
+export const onInputRichContent = (e, { $content }) => {
   if (e.isComposing) return;
   applyRichContent({ $editor: $content, key: e.key });
 };
 
-export const handleKeyDown = (e, { $content }) => {
-  if (e.key === 'Enter') onEnter(e, { $editor: $content }); // 개행 처리
-  else if (e.key === 'Backspace') onBackspace(e, { $editor: $content }); // 백스페이스 처리
+export const onKeyDown = (e, { $content }) => {
+  if (e.key === 'Enter') applyEnter(e, { $editor: $content });
+  else if (e.key === 'Backspace') applyBackspace(e, { $editor: $content });
 };
 
-export const handleChangeInput = (e, { onChange }) => {
+export const onInput = (e, { onChange }) => {
   const role = e.target.dataset.role;
   if (!role || !['title', 'content'].includes(role)) return;
 
