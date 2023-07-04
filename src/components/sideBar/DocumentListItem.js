@@ -1,3 +1,5 @@
+import { push } from "../../utils/router.js";
+
 export default function DocumentListItem({ $target, initialState }) {
   const $documentListItem = document.createElement("li");
   $documentListItem.setAttribute("class", "listItem");
@@ -11,4 +13,8 @@ export default function DocumentListItem({ $target, initialState }) {
     `;
   };
   this.render();
+
+  $documentListItem.addEventListener("click", () => {
+    push(`/documents/${this.state.id}`);
+  });
 }
