@@ -7,6 +7,7 @@ export default class Toolbar extends Component{
       <button class="italic">Italic</button>
       <button class="underline">Underline</button>
       <button class="line-through">Line Through</button>
+      <button class="code-block">Code Block</button>
     `;
   }
 
