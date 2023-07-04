@@ -12,12 +12,16 @@ export default function DocumentList({ $target, initialState }) {
     this.render();
   };
 
-  console.log("this.state", this.state);
-
   this.render = () => {
     this.state.map((document) => {
+      const initialState = {
+        title: document.title,
+        id: document.id,
+        documents: document.documents,
+      };
       new DocumentListItem({
         $target: $documentList,
+        initialState,
       });
     });
   };
