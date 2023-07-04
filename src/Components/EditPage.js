@@ -76,7 +76,7 @@ export default function EditPage({ target, initialState, updateSideBar }) {
 
   this.render = async () => {
     if (this.state.selectedDocumentId) {
-      // 현재 선택된 documentId가 있을 때, 해당 id에 대한 temp document가 있다면
+      // 현재 선택된 documentId가 있을 때
 
       // 서버의 documenet data
       const { title, content, documents, updatedAt } = await getDocumentAPI(
@@ -90,10 +90,10 @@ export default function EditPage({ target, initialState, updateSideBar }) {
       );
 
       if (tempDocument && tempDocument.tempSaveDate > updatedAt) {
-        // 로컬 스토리지에서 불러온 data의 tempSaveDate를 보고, 서버보다 최신이라면
+        // 현재 selectedDocumentId에 대한 temp document가 있고, 로컬 스토리지의 data가 서버보다 최신이라면
         if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
           // 불러온다고 하면, 로컬 스토리지 값을
-          // 1. value로 설정
+          // 1. content, title value로 설정
           titleElement.value = tempDocument.title;
           contentElement.value = tempDocument.content;
 
@@ -119,7 +119,8 @@ export default function EditPage({ target, initialState, updateSideBar }) {
       console.log(`documents: ${documents}`);
     } else {
       // null일 때는 mainPage 렌더링
-      contentElement.text = "노션 페이지 입니다 ! ";
+      titleElement.value = "노션 메인 페이지입니다 ! "
+      contentElement.value = "노션 페이지 입니다 ! ";
       console.log(`not selected`);
     }
   };

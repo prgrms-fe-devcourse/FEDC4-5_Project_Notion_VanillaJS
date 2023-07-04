@@ -6,80 +6,60 @@ import {
   deleteDocumentAPI,
 } from "./utils/api.js";
 
-export default function App({
-  target,
-  initialState = {
-    selectedDocumentId: null,
-  },
-}) {
-  this.state = initialState;
-  /*
-  {
-    selectedDocumentId: null
-  }
-*/
+export default function App({ target }) {
+  console.log("App 생성");
+  this.state = // 컴포넌트 생성 시, initialState를 null로 가지고 있는게 아니라, 처음부터 url에 해당하는 documentId로 설정 
+    location.pathname === "/"
+      ? { selectedDocumentId: null }
+      : { selectedDocumentId: location.pathname.split("/")[1] };
 
   this.setState = (nextState) => {
-    // selectedDocumentId를 바꿔줌 => editPage에서 이에 따라
     this.state = nextState;
     editPage.setState(nextState);
-    // this.render(); 해줘야 하나 ? 모르겟음
-    // => selectedId가 바뀌어도 sidebar가 바뀌는 건 없으므로 editPage의 setState만 나중에 호출해주면 될 듯
+    // => selectedId가 바뀌어도 sidebar가 바뀌는 건 없으므로 editPage의 setState 호출
   };
 
   const sideBar = new SideBar({
     target,
     initialState: [],
     onAddRootDocument: async () => {
-      // 새로운 root document를 추가 후
+      // 새로운 root document를 추가 후, route()를 통해 selectedId를 새로 생성된 root document의 id로 변경
       const createdRootDocument = await createDocumentAPI();
-      // 그 document의 Id를 현재 selectedDocumentId로 변경
-      this.setState({
-        selectedDocumentId: createdRootDocument.id,
-      });
-
-      // documentList도 다시 불러와서 sideBar 다시 렌더링
-      this.render();
+      history.pushState(null, null, `/${createdRootDocument.id}`);
+      this.route();
     },
 
     onChangeSelectedDocumentId: (newDocumentId) => {
       // 현재 selectedDocumentId를 변경
-      this.setState({
-        selectedDocumentId: newDocumentId,
-      });
-      console.log(`selectedDocumentId: ${this.state.selectedDocumentId}}`);
+      history.pushState(null, null, `/${newDocumentId}`);
+      this.route();
     },
 
     onAddChildDocument: async (documentId) => {
       const createdDocument = await createDocumentAPI(documentId); // documentId에 해당하는 docuent를 parent로 하는 새로운 document 생성
-      this.render(); // documentList 다시 불러오고, 렌더링
-      this.setState({
-        // 새로 생성한 document의 Id로 selectedId를 변경
-        selectedDocumentId: createdDocument.id,
-      });
+      history.pushState(null, null, `/${createdDocument.id}`);
+      this.route();
     },
 
     onDeleteDocument: async (documentId) => {
       if (this.state.selectedDocumentId === documentId) {
         // 만약 현재 selectedDocument가 삭제된다면 main page로 이동해야 하므로
-        this.setState({
-          selectedDocumentId: null,
-        });
+        history.pushState(null, null, `/`);
       }
 
       await deleteDocumentAPI(documentId);
+      this.route();
 
-      this.render(); // 삭제 후 다시 render
-      console.log(documentId);
-      console.log(this.state.selectedDocumentId);
+      console.log(`deleted Document Id: ${documentId}`);
+      console.log(
+        `현재 selected Document Id : ${this.state.selectedDocumentId}`
+      );
     },
   });
 
   const editPage = new EditPage({
     target,
-    initialState: {
-      selectedDocumentId: null, // title과 content도 상태로 넘겨줘야 하나 ?
-    },
+    initialState: this.state,
     updateSideBar: () => {
       this.render();
     },
@@ -92,5 +72,24 @@ export default function App({
     sideBar.setState(documentList);
   };
 
-  this.render();
+  this.route = () => {
+    // 현재 url의 pathname으로 selectedId를 변경
+    const { pathname } = location;
+
+    if (pathname === "/") {
+      this.setState({ selectedDocumentId: null });
+      this.render(); // 꼭 해줘야 하나 ?
+    } else {
+      const [, documentId] = pathname.split("/");
+      console.log(documentId);
+      this.setState({ selectedDocumentId: documentId });
+      this.render();
+    }
+  };
+
+  window.addEventListener("popstate", () => {
+    this.route();
+  });
+
+  this.route();
 }

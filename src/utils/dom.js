@@ -27,11 +27,6 @@ export const createDomElementWithClass = (
   return newElement;
 };
 
-// 자식들 한번에 추가
-export const appendChildTogether = (target, childList) => {
-  childList.foreach((child) => target.appendChild(child));
-};
-
 // export const createDocumentElement = (document) => {
 //   //
 //   const documentItemString = `
