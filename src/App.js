@@ -6,7 +6,11 @@ import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
 import { initRouter } from "./utils/route.js";
 import RecurDocumentList from "./components/template/RecurDocumentList.js";
-import { addChildDocument } from "./utils/document.js";
+import {
+  addChildDocument,
+  editTitleDocument,
+  removeDocument,
+} from "./utils/document.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -27,9 +31,12 @@ export default function App({ appElement }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
-
     documentListComponent.render();
+  };
+
+  this.tempSetState = (nextState) => {
+    this.state = nextState;
+    documentEditorComponent.render();
   };
 
   const layoutComponent = new Layout({ appElement });
@@ -43,9 +50,10 @@ export default function App({ appElement }) {
           const nextState = addChildDocument(parentId, this.state, newDocument);
           this.setState(nextState);
         },
-        (id) => {
-          const newState = this.state.filter((document) => document.id !== id);
+        (documentId) => {
+          const newState = removeDocument(documentId, this.state);
           this.setState(newState);
+          this.tempSetState(newState);
         }
       );
     },
@@ -59,14 +67,12 @@ export default function App({ appElement }) {
   const documentEditorComponent = new DocumentEditor({
     parentElement: rightContainerEleement,
     onEditing: (document) => {
-      /**
-       * @todo 자식 노드에서의 id 구하기
-       */
       if (document.isChangeTitle) {
-        const newState = this.state.map((data) => ({
-          ...data,
-          title: data.id === document.documentId ? document.title : data.title,
-        }));
+        const newState = editTitleDocument(
+          document.documentId,
+          this.state,
+          document.title
+        );
         this.setState(newState);
       }
 
