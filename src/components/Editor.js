@@ -1,5 +1,5 @@
 import Component from "../core/Component.js";
-import { onPressEnter, onPressTab, parseMarkdown } from "../utils/markdownParser.js";
+import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../utils/markdownParser.js";
 
 export default class Editor extends Component{
   template(){
@@ -51,6 +51,8 @@ export default class Editor extends Component{
       if(e.keyCode === 9){
         e.preventDefault();
         onPressTab();
+      }else if(e.keyCode === 32 || e.keyCode === 39){
+        onPressInCodeBlock(e);
       }
     })
   }

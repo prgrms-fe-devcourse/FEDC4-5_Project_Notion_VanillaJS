@@ -1,5 +1,6 @@
 const DUMMY_CHARACTER = "\u00a0";
 const SPACEBAR_KEY_CODE = 32;
+const RIGHT_ARROW_KEY_CODE = 39;
 const BACKTICK_KEY_CODE = 192;
 const ENTER_KEY_CODE = 13;
 const selection = window.getSelection();
@@ -30,29 +31,29 @@ export function onPressTab(){
   return;
 }
 
-export function onPressEnter(){
-  const range = selection.getRangeAt(0);
-  console.log(range.startContainer);
+export function onPressInCodeBlock(e){
+  const $currentParent = selection.anchorNode.parentElement;
+  const $current = selection.anchorNode;
+  if($currentParent.classList.contains("code-block") && 
+  selection.anchorOffset === $current.length){
+    e.preventDefault();
+    const $dummy = document.createTextNode(DUMMY_CHARACTER);
+    const range = selection.getRangeAt(0);
+    range.setStartAfter($currentParent);
+    range.setEndAfter($currentParent);
+    range.insertNode($dummy);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
 }
 
 export function parseMarkdown(key, e){
   const line = selection.anchorNode.textContent;
+  const $currentParent = selection.anchorNode.parentElement;
+  const $current = selection.anchorNode;
   if(key === SPACEBAR_KEY_CODE){
-    if(line.match(/^\#{6}/g)){
-      const $h6 = document.createElement("h6"); // 
-      $h6.textContent = DUMMY_CHARACTER;
-      permuteCursor($h6);
-      $h6.textContent = line.substring(6) || DUMMY_CHARACTER;
-    }else if(line.match(/^\#{5}/g)){
-      const $h5 = document.createElement("h5"); // 
-      $h5.textContent = DUMMY_CHARACTER;
-      permuteCursor($h5);
-      $h5.textContent = line.substring(5) || DUMMY_CHARACTER;
-    }else if(line.match(/^\#{4}/g)){
-      const $h4 = document.createElement("h4"); // 
-      $h4.textContent = DUMMY_CHARACTER;
-      permuteCursor($h4);
-      $h4.textContent = line.substring(4) || DUMMY_CHARACTER;
+    if(line.match(/^\#{4,}/g)){
+      return;
     }else if(line.match(/^\#{3}/g)){
       const $h3 = document.createElement("h3"); // 
       $h3.textContent = DUMMY_CHARACTER;
