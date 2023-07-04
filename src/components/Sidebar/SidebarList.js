@@ -35,6 +35,16 @@ export default function SidebarList({
     if (className === "add") {
       onAddDocument(id);
     }
+
+    if ($li) {
+      window.dispatchEvent(
+        new CustomEvent("route-change", {
+          detail: {
+            id,
+          },
+        })
+      );
+    }
   });
 
   const renderDocumentsList = (lists, depth = 0) => {

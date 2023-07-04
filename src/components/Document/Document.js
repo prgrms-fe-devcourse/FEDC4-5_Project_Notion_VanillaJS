@@ -7,6 +7,15 @@ export default function Document({ $target, initialState, onFetchSidebar }) {
   this.state = initialState;
 
   this.setState = async (nextState) => {
+    if (nextState.id === null) {
+      documentEditor.setState({
+        title: "제목 없음",
+        content: "내용 없음",
+      });
+
+      return;
+    }
+
     this.state = await getDocument(nextState.id);
 
     documentEditor.setState({

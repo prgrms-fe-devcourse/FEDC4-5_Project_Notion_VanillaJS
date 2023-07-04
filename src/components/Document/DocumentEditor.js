@@ -9,12 +9,9 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
   };
 
   $editor.innerHTML = `
-      <input name="title" type="text" style="width: 600px" value=${
-        !this.state.title ? "Untitled" : this.state.title
-      } />
-      <textarea name="content" contentEditable="true" style="width: 600px; height: 100vh; border: 1px solid black">${
-        !this.state.content ? "No Contents" : this.state.content
-      }</textarea>`;
+    <input name="title" type="text" style="width: 600px" value=${this.state.title} />
+    <textarea name="content" contentEditable="true" style="width: 600px; height: 100vh; border: 1px solid black">${this.state.content}</textarea>
+  `;
 
   $target.appendChild($editor);
 
