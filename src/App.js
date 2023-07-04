@@ -6,6 +6,7 @@ import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
 import { initRouter } from "./utils/route.js";
 import RecurDocumentList from "./components/template/RecurDocumentList.js";
+import { addChildDocument } from "./utils/document.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -26,6 +27,7 @@ export default function App({ appElement }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state);
 
     documentListComponent.render();
   };
@@ -34,11 +36,18 @@ export default function App({ appElement }) {
   const documentListComponent = new DocumentList({
     parentElement: leftContainerElement,
     renderItemComponent: (parentElement) => {
-      return RecurDocumentList(this.state, parentElement, (id) => {
-        const newState = this.state.filter((document) => document.id !== id);
-
-        this.setState(newState);
-      });
+      return RecurDocumentList(
+        this.state,
+        parentElement,
+        (parentId, newDocument) => {
+          const nextState = addChildDocument(parentId, this.state, newDocument);
+          this.setState(nextState);
+        },
+        (id) => {
+          const newState = this.state.filter((document) => document.id !== id);
+          this.setState(newState);
+        }
+      );
     },
     serverRender: (newState) => this.setState(newState),
     onAddButtonClick: (newDocument) => {

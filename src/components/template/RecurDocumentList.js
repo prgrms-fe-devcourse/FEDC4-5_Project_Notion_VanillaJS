@@ -11,7 +11,8 @@ import DocumentItem from "../domain/DocumentItem.js";
 export default function RecurDocumentList(
   rootDocuments,
   parentElement,
-  render
+  childRender,
+  removeRender
 ) {
   rootDocuments.map((rootDocument) =>
     new DocumentItem({
@@ -23,20 +24,20 @@ export default function RecurDocumentList(
               RecurDocumentList(
                 rootDocument.documents,
                 innerParentElement,
-                render
+                childRender,
+                removeRender
               ),
       onClickChildButton: async (documentId) => {
         const newDocument = await postDocument({
           title: null,
           parent: documentId,
         });
+        childRender(documentId, { ...newDocument, documents: [] });
         push(`${PATH.DOCUMENTS}/${newDocument.id}`);
-        // 구분시키기
-        render();
       },
       onClickRemoveButton: async (documentId) => {
         await deleteDocument(documentId);
-        render(documentId);
+        removeRender(documentId);
       },
       ...rootDocument,
     }).render()
