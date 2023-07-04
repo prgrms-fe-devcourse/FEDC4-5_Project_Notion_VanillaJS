@@ -92,7 +92,7 @@ li {
 
 .page-Container {
   display: grid;
-  grid-template-rows: 73% 25%;
+  grid-template-rows: 75% 25%;
 }
 
 .sideBar {

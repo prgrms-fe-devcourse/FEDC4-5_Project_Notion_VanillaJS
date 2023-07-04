@@ -1,0 +1,28 @@
+@import '@/index.css';
+.content {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+}
+
+.header {
+  margin-top: 5rem;
+  font-size: 2rem;
+}
+
+.purple {
+  color: var(--purple);
+}
+
+.description {
+  margin-top: 10rem;
+  color: var(--purple);
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 0.5rem;
+}
