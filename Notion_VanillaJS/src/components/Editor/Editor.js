@@ -16,7 +16,7 @@ export default class Editor extends Component {
   templates() {
     return `
       <input type='text' name='title' class='${styles.title}' placeholder='제목을 입력하세요'/>
-      <textarea name='content' class='${styles.content}' placeholder='내용을 입력하세요'></textarea>
+      <div name='content' class='${styles.content}' placeholder='내용을 입력하세요' contenteditable></div>
     `;
   }
 
@@ -36,31 +36,68 @@ export default class Editor extends Component {
     };
 
     this.$target.querySelector('[name=title]').value = title;
-    this.$target.querySelector('[name=content]').value = content;
-
+    const $content = this.$target.querySelector('[name=content]');
+    $content.innerHTML = content.replace('\n', '<br>');
+    this.focusLastChar($content);
     this.mounted();
   }
 
   setEvent() {
     this.addEvent({
       eventType: 'keyup',
-      selector: '[name]',
-      callback: debounceSaveLocal(({ target }) => this.saveLocal(target)),
+      selector: '[name=title]',
+      callback: debounceSaveLocal(({ target }) => this.saveTitle(target)),
+    });
+    this.addEvent({
+      eventType: 'keyup',
+      selector: '[name=content]',
+      callback: debounceSaveLocal(({ target }) => this.saveContent(target)),
     });
   }
 
-  async saveLocal(target) {
-    const id = PostStore.getState().post.id;
-    const { name, value } = target;
+  async saveTitle(target) {
+    const { value } = target;
     await PostStore.dispatch({
       actionType: 'SAVE_POST',
-      payload: { [name]: value },
+      payload: { title: value },
     });
-    const postLocalSaveKey = `temp-post-${id}`;
-    setItem(postLocalSaveKey, PostStore.getState().post);
 
+    const id = PostStore.getState().post.id;
+    const postLocalSaveKey = `temp-post-${id}`;
+
+    setItem(postLocalSaveKey, PostStore.getState().post);
     await PostStore.dispatch({ actionType: 'UPDATE_POST' });
     removeItem(postLocalSaveKey);
     PostListStore.dispatch({ actionType: 'UPDATE_POST_LIST' });
+  }
+
+  async saveContent(target) {
+    const { innerHTML } = target;
+    await PostStore.dispatch({
+      actionType: 'SAVE_POST',
+      payload: { content: innerHTML },
+    });
+
+    const id = PostStore.getState().post.id;
+    const postLocalSaveKey = `temp-post-${id}`;
+
+    setItem(postLocalSaveKey, PostStore.getState().post);
+    await PostStore.dispatch({ actionType: 'UPDATE_POST' });
+    removeItem(postLocalSaveKey);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} $content
+   * 1. range와 selection 객체를 가져온다
+   */
+  focusLastChar($content) {
+    const range = document.createRange();
+    const selection = getSelection();
+
+    range.selectNodeContents($content);
+    range.collapse();
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 }
