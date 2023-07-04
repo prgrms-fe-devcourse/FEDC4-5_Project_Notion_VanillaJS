@@ -1,0 +1,71 @@
+@import '@/index.css';
+
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 30% 50% 10% 10%;
+}
+
+.header {
+  padding-top: 2rem;
+  padding-left: 5rem;
+}
+
+.headerTitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.headerContent {
+  padding: 1rem 0;
+  color: var(--light-grey);
+}
+
+.cubeWrapper {
+  width: 200px;
+  height: 200px;
+  margin: 5rem auto;
+  transform-style: preserve-3d;
+  position: relative;
+  transition: 1s;
+  transform: rotateX(45deg) rotateY(45deg);
+}
+
+.cubeWrapper > div {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  line-height: 100%;
+}
+
+.cubeFront {
+  background-color: #ff0000;
+  transform: translate3d(0, 0, 100px);
+}
+.cubeBack {
+  background-color: #0000ff;
+  transform: rotateY(180deg) translate3d(0, 0, 100px);
+}
+.cubeTop {
+  background-color: #ffff00;
+  transform: rotateX(90deg) translate3d(0, 0, 100px);
+}
+.cubeBottom {
+  background-color: #de0081;
+  transform: rotateX(-90deg) translate3d(0, 0, 100px);
+}
+.cubeLeft {
+  background-color: #00ff00;
+  transform: rotateY(-90deg) translate3d(0, 0, 100px);
+}
+.cubeRight {
+  background-color: #f77c1c;
+  transform: rotateY(90deg) translate3d(0, 0, 100px);
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 0.5rem;
+}

@@ -10,8 +10,12 @@ export default class PostEdit extends Component {
   }
 
   templates() {
-    return `<section class='${styles.Editor} Editor'>postEdit</section>
-            <footer class='child-posts ${styles.footer}'><footer>`;
+    return `
+      <section class=${styles.container}>
+        <section class='${styles.Editor} Editor'>postEdit</section>
+        <footer class='child-posts ${styles.footer}'><footer>
+      </section>
+    `;
   }
 
   mounted() {

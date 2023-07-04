@@ -90,11 +90,6 @@ li {
   visibility: visible;
 }
 
-.page-Container {
-  display: grid;
-  grid-template-rows: 75% 25%;
-}
-
 .sideBar {
   display: grid;
   background-color: var(--bg-sideBar);
