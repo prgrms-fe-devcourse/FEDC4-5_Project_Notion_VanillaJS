@@ -6,6 +6,7 @@ export default class DocumentList {
     onMovePageSpanClick,
     onAddSubPageButtonClick,
     onRemoveSubPageButtonClick,
+    onToggleSubPageButtonClick,
   }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
@@ -14,6 +15,7 @@ export default class DocumentList {
     this.onMovePageSpanClick = onMovePageSpanClick;
     this.onAddSubPageButtonClick = onAddSubPageButtonClick;
     this.onRemoveSubPageButtonClick = onRemoveSubPageButtonClick;
+    this.onToggleSubPageButtonClick = onToggleSubPageButtonClick;
 
     (async () => {
       this.state = await request.getDocumentList();
@@ -41,6 +43,10 @@ export default class DocumentList {
     removeButtons.forEach((button) => {
       button.addEventListener("click", this.onRemoveSubPageButtonClick);
     });
+    const toggleButtons = document.querySelectorAll(".toggle-button");
+    toggleButtons.forEach((button) => {
+      button.addEventListener("click", this.onToggleSubPageButtonClick);
+    });
   }
 
   template(state, parentId) {
@@ -48,13 +54,14 @@ export default class DocumentList {
     <ul id="ul-${parentId}">
         ${state
           .map(
-            ({ id, title, documents }) =>
+            ({ id, title, documents, isSpread }) =>
               `
                 <li id=li-${id}>
+                    <button id=${id} class="toggle-button">열기</button>
                     <button id=${id} class="remove-button">-</button>
                     <span class="link-item" id=${id}>${title}</span>
                     <button class="add-button">+</button>
-                    ${this.template(documents, id)}
+                    ${isSpread ? this.template(documents, id) : ""}
                 </li>
             `
           )

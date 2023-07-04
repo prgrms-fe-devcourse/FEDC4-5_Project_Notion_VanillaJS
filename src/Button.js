@@ -6,7 +6,6 @@ export default class Button {
     this.text = text;
 
     this.parentEl.appendChild(this.currentRootEl);
-
     this.render();
   }
 
@@ -19,6 +18,7 @@ export default class Button {
 
   setEvent() {
     const button = this.currentRootEl.querySelector("button");
+
     button.addEventListener("click", this.onButtonClick);
   }
 
