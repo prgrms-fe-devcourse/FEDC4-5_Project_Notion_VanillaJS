@@ -57,4 +57,8 @@ export default function DocumentEditor({ parentElement, onEditing }) {
       ${RecurChildDocument(data.documents)}
     `;
   };
+
+  this.reset = () => {
+    containerElement.innerHTML = ``;
+  };
 }

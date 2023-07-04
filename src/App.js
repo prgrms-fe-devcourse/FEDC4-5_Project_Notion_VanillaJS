@@ -67,7 +67,7 @@ export default function App({ appElement }) {
       this.setState(nextState);
     },
   });
-  const homeComponent = new Home({ appElement });
+  const homeComponent = new Home({ parentElement: rightContainerEleement });
   const documentEditorComponent = new DocumentEditor({
     parentElement: rightContainerEleement,
     onEditing: (document) => {
@@ -115,8 +115,10 @@ export default function App({ appElement }) {
     const { pathname } = window.location;
 
     if (pathname === PATH.HOME) {
+      documentEditorComponent.reset();
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {
+      homeComponent.reset();
       documentEditorComponent.render();
     }
   };
