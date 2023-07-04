@@ -1,3 +1,7 @@
+import { request } from "./api.js";
+import DocumentPage from "./DocumentPage.js";
+import DocumentEditPage from "./DocumentEditPage.js";
+
 export default function App({ $target }) {
   this.state = {
     docId: null,
@@ -6,10 +10,11 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    documentPage.setState(nextState);
   };
 
   //sidebar-container
-  new DocumentPage({
+  const documentPage = new DocumentPage({
     $target,
     initialState: {
       docId: null,
@@ -18,7 +23,7 @@ export default function App({ $target }) {
   });
 
   //editor-container
-  new DocumentEditPage({
+  const documentEditPage = new DocumentEditPage({
     $target,
     initialState: {
       docId: "new",
@@ -28,4 +33,22 @@ export default function App({ $target }) {
       },
     },
   });
+
+  this.route = async () => {
+    await fetchDocuments();
+    documentPage.render();
+  };
+
+  const fetchDocuments = async () => {
+    const docs = await request("/documents", {
+      method: "GET",
+    });
+
+    this.setState({
+      ...this.state,
+      docs,
+    });
+  };
+
+  this.route();
 }
