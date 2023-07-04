@@ -41,9 +41,19 @@ export default function App({ $target }) {
     const { pathname } = window.location;
 
     if (pathname === "/") {
+      $target.innerHTML = "";
       documentPage.render();
+
+      this.setState({ ...this.state });
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , docId] = pathname.split("/");
+
+      documentEditPage.setState({ docId });
+
+      this.setState({
+        ...this.state,
+        docId,
+      });
     }
   };
 

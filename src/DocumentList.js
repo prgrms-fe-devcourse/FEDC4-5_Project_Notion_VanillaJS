@@ -1,3 +1,5 @@
+import { push } from "./router.js";
+
 export default function DocumentList({
   $target,
   initialState,
@@ -49,7 +51,7 @@ export default function DocumentList({
     const name = e.target.className;
 
     if (name === "title") {
-      console.log("display child documents");
+      push(`/documents/${id}`);
     } else if (name === "add") {
       onCreateDocument(id);
     } else if (name === "delete") {

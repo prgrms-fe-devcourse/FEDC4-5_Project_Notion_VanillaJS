@@ -42,10 +42,11 @@ export default function DocumentPage({ $target, initialState }) {
       };
 
       await deletedDoc(id);
+      push("/");
     },
   });
 
-  this.render = async () => {
+  this.render = () => {
     $target.appendChild($documentPage);
   };
 
