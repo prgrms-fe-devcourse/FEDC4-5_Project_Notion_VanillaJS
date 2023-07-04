@@ -1,3 +1,5 @@
+import { push } from "../../router.js";
+
 export default function SidebarList({
   $target,
   initialState,
@@ -37,13 +39,7 @@ export default function SidebarList({
     }
 
     if ($li) {
-      window.dispatchEvent(
-        new CustomEvent("route-change", {
-          detail: {
-            id,
-          },
-        })
-      );
+      push(`/documents/${id}`);
     }
   });
 

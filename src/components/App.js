@@ -1,5 +1,6 @@
 import Sidebar from "./Sidebar/Sidebar.js";
 import Document from "./Document/Document.js";
+import { initRoute } from "../router.js";
 
 export default function App({ $target }) {
   const sidebar = new Sidebar({ $target });
@@ -34,14 +35,7 @@ export default function App({ $target }) {
 
   this.route();
 
-  window.addEventListener("route-change", (e) => {
-    const { id } = e.detail;
-
-    if (id) {
-      history.pushState(null, null, `/documents/${id}`);
-      this.route();
-    }
-  });
+  initRoute(() => this.route());
 
   window.addEventListener("popstate", () => {
     this.route();
