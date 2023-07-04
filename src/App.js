@@ -7,8 +7,10 @@ import { PATH } from "./constants/path.js";
 import { initRouter, push } from "./utils/route.js";
 import RecurDocumentList from "./components/template/RecurDocumentList.js";
 import {
+  TrieDocument,
   addChildDocument,
   editTitleDocument,
+  findAllDocument,
   removeDocument,
 } from "./utils/document.js";
 
@@ -25,21 +27,26 @@ export default function App({ appElement }) {
   leftContainerElement.className = "left-container";
   rightContainerEleement.className = "right-container";
 
+  const trie = new TrieDocument();
+
   let timer = null;
 
   this.state = [];
 
   this.setState = (nextState) => {
     this.state = nextState;
+    findAllDocument(this.state, (title, id) => trie.insert(title, id));
+
     documentListComponent.render();
   };
 
-  this.tempSetState = (nextState) => {
+  this.editorSetState = (nextState) => {
     this.state = nextState;
     documentEditorComponent.render();
   };
 
   const layoutComponent = new Layout({ appElement });
+
   const documentListComponent = new DocumentList({
     parentElement: leftContainerElement,
     renderItemComponent: (parentElement) => {
@@ -53,7 +60,7 @@ export default function App({ appElement }) {
         (documentId) => {
           const newState = removeDocument(documentId, this.state);
           if (Number(window.location.pathname.split("/")[2]) !== documentId) {
-            this.tempSetState(newState);
+            this.editorSetState(newState);
           }
 
           push(PATH.HOME);
@@ -67,7 +74,12 @@ export default function App({ appElement }) {
       this.setState(nextState);
     },
   });
-  const homeComponent = new Home({ parentElement: rightContainerEleement });
+
+  const homeComponent = new Home({
+    parentElement: rightContainerEleement,
+    search: (text) => trie.search(text),
+  });
+
   const documentEditorComponent = new DocumentEditor({
     parentElement: rightContainerEleement,
     onEditing: (document) => {

@@ -64,3 +64,81 @@ export function editTitleDocument(documentId, state, documentTitle) {
 
   return tempState;
 }
+
+export function findAllDocument(state, temp) {
+  const stack = [];
+  const tempState = structuredClone(state);
+
+  for (const temp of tempState) {
+    stack.push(temp);
+  }
+
+  while (stack.length !== 0) {
+    const current = stack.pop();
+
+    temp(current.title ?? "", current.id);
+
+    for (const document of current.documents) {
+      stack.push(document);
+    }
+  }
+}
+
+function Node(value = "") {
+  this.value = value;
+  this.children = new Map();
+  this.isWord = false;
+  this.list = [];
+}
+
+export function TrieDocument() {
+  this.root = new Node();
+
+  this.insert = (string, id) => {
+    let currentNode = this.root;
+
+    for (const char of string) {
+      if (!currentNode.children.has(char)) {
+        currentNode.children.set(char, new Node(currentNode.value + char));
+      }
+      currentNode = currentNode.children.get(char);
+    }
+
+    currentNode.isWord = true;
+    currentNode.list.push({ title: string, id });
+  };
+
+  this.search = (value) => {
+    const queue = [];
+    const searchList = [];
+    let index = 0;
+    let currentNode = this.root;
+
+    for (const char of value) {
+      if (!currentNode.children.has(char)) {
+        return [];
+      }
+
+      currentNode = currentNode.children.get(char);
+    }
+
+    queue.push(currentNode);
+
+    while (index < queue.length) {
+      const currentNode = queue[index];
+      index += 1;
+
+      if (currentNode.isWord) {
+        for (const item of currentNode.list) {
+          searchList.push(item);
+        }
+      }
+
+      for (const [key, child] of currentNode.children) {
+        queue.push(child);
+      }
+    }
+
+    return searchList;
+  };
+}
