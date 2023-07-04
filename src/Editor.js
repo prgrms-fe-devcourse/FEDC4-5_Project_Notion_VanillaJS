@@ -1,11 +1,11 @@
 export default function Editor({ $target, initialState, onEditing }) {
-  const $editor = document.querySelector("div");
+  const $editor = document.createElement("div");
 
   this.state = initialState;
 
   $editor.innerHTML = `
     <input type="text" name="title" style="width:300px; display: flex" value="${this.state.title}" placeholder="Untitled"/>
-    <textarea name="content" style="width:300px; height:device-height" placeholder="Edit document">${this.state.content}</textarea>
+    <textarea name="content" style="width:300px; height:500px" placeholder="Edit document">${this.state.content}</textarea>
     `;
 
   this.setState = (nextState) => {

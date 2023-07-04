@@ -9,20 +9,56 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.state = initialState;
 
+  let docLocalSaveKey = `temp-document-${this.state.docId}`;
+  let timer = null;
+
   const editor = new Editor({
     $target: $documentEditPage,
     initialState: {
       title: "Untitled",
       content: "",
     },
-    onEditing: (doc) => {},
+    onEditing: (doc) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(async () => {
+        const isNewDocument = this.state.docId === "new";
+        if (isNewDocument) {
+          const createdDoc = await request("/documents", {
+            method: "POST",
+            body: JSON.stringify(doc),
+          });
+          await request(`/documents/${createdDoc.id}`, {
+            method: "PUT",
+            body: JSON.stringify(doc),
+          });
+
+          history.replaceState(null, null, `/documents/${createdDoc.id}`);
+
+          this.setState({
+            docId: createdDoc.id,
+          });
+
+          push(createdDoc.id);
+        } else {
+          await request(`/documents/${doc.id}`, {
+            method: "PUT",
+            body: JSON.stringify(doc),
+          });
+        }
+      }, 1000);
+    },
   });
 
   this.setState = async (nextState) => {
     if (this.state.docId === "new") {
+      this.state = nextState;
       editor.setState(this.state.doc);
 
       this.render();
+      return;
     } else {
       await fetchDocument();
     }
