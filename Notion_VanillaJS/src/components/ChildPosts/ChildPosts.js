@@ -13,16 +13,16 @@ export default class ChildPosts extends Component {
     const childPosts = PostStore.getState()?.post?.documents;
     return childPosts
       ? `<ul class='${styles.childList}'>
-      <h3>SubPostList</h3>
       ${childPosts
         .map(
           ({ id, title }) => `
       <li data-id = ${id} class ='item ${styles.item}'>
-        <h2 class='item-title ${styles.itemTitle}'>${
-            title
-              ? title
-              : `<span class=${styles.noneTitle}>제목을 입력하세요<span>`
-          }</h2>
+        <h3 class='item-title ${styles.itemTitle}'>
+        ${
+          title
+            ? ` <i class="fa-regular fa-file-lines"></i> ${title}`
+            : `<span class=${styles.noneTitle}><i class="fa-regular fa-file"></i> 제목을 입력하세요<span>`
+        }</h3>
       </li>`
         )
         .join('')}

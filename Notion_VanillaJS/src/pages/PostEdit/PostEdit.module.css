@@ -1,12 +1,21 @@
 .container {
   height: 100%;
   display: grid;
-  grid-template-rows: 75% 20% 5%;
+  grid-template-rows: 7% 63% 5% 20% 5%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
 }
 
 .Editor {
   display: grid;
   grid-template-rows: 1fr 8fr;
+}
+
+.subListTitle {
+  padding: 0 5rem;
 }
 
 .childPosts {

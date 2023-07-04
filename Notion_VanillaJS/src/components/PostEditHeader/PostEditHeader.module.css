@@ -1,0 +1,15 @@
+@import '@/index.css';
+
+.breadCrumb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item {
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.noneTitle {
+  color: var(--light-grey);
+}

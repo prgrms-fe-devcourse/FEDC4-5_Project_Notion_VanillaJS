@@ -51,11 +51,14 @@ export default class SideBar extends Component {
           </button>`
             : ''
         }
-        <h2 class='${styles.title} title'>${
-          title
-            ? title
-            : `<span class=${styles.noneTitle}>제목을 입력하세요<span>`
-        }</h2>
+        <h2 class='${styles.title} title'>
+          ${
+            title
+              ? `<i class="fa-regular fa-file-lines"></i> ${title}`
+              : `<span class=${styles.noneTitle}>
+              <i class="fa-regular fa-file"></i> 제목을 입력하세요
+              <span>`
+          }</h2>
       </div>
       <div class=${styles.buttons}>
         <button class ='${styles.delete} delete'>
