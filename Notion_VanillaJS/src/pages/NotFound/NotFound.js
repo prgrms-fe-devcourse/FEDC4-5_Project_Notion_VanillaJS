@@ -1,4 +1,5 @@
 import { Component } from '@/core';
+import { Footer } from '@/components';
 import styles from './NotFound.module.css';
 export default class NotFound extends Component {
   templates() {
@@ -20,9 +21,7 @@ export default class NotFound extends Component {
         <div class="${styles.cubeRight}"></div>
       </div>
       <button class='dice-button'>버튼을 눌러보세요</button>
-      <footer class = ${styles.footer}>
-      <p>© 2023. Dongja rights reserved.</p>
-    </footer>
+      <footer></footer>
     </section>`;
   }
 
@@ -35,6 +34,14 @@ export default class NotFound extends Component {
       dice.style.transform = `rotate3d(${Math.random()},${Math.random()},${Math.random()},${Math.floor(
         Math.random() * 360
       )}deg)`;
+    });
+  }
+
+  mounted() {
+    const $footer = this.$target.querySelector('footer');
+    Component.attach({
+      constructor: Footer,
+      $target: $footer,
     });
   }
 }

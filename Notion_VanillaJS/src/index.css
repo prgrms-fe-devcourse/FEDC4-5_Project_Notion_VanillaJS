@@ -13,22 +13,10 @@
   --pure-white: #ffffff;
   --bg-sideBar: #fafaf8;
   --border-sideBar-footer: #f6f4f3;
-}
-
-@font-face {
-  font-family: 'LINESeedKR-Lighter';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2')
-    format('woff2');
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'LINESeedKR-Normal';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2')
-    format('woff2');
-  font-weight: 400;
-  font-style: normal;
+  --dice-sky-blue: #00fbff;
+  --dice-yellow: #ffff00;
+  --dice-green: #00ff00;
+  --dice-orange: #f77c1c;
 }
 
 @font-face {
@@ -36,6 +24,14 @@
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2')
     format('woff2');
   font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 100;
   font-style: normal;
 }
 

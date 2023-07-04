@@ -38,33 +38,26 @@
 }
 
 .cubeFront {
-  background-color: #ff0000;
+  background-color: var(--dice-sky-blue);
   transform: translate3d(0, 0, 100px);
 }
 .cubeBack {
-  background-color: #0000ff;
+  background-color: var(--pink);
   transform: rotateY(180deg) translate3d(0, 0, 100px);
 }
 .cubeTop {
-  background-color: #ffff00;
+  background-color: var(--dice-yellow);
   transform: rotateX(90deg) translate3d(0, 0, 100px);
 }
 .cubeBottom {
-  background-color: #de0081;
+  background-color: var(--purple);
   transform: rotateX(-90deg) translate3d(0, 0, 100px);
 }
 .cubeLeft {
-  background-color: #00ff00;
+  background-color: var(--dice-green);
   transform: rotateY(-90deg) translate3d(0, 0, 100px);
 }
 .cubeRight {
-  background-color: #f77c1c;
+  background-color: var(--dice-orange);
   transform: rotateY(90deg) translate3d(0, 0, 100px);
-}
-
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  padding-bottom: 0.5rem;
 }

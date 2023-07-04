@@ -1,4 +1,5 @@
 import { Component } from '@/core';
+import { Footer } from '@/components';
 import styles from './Home.module.css';
 import homeImage from '@/assets/homeImage.png';
 
@@ -6,7 +7,6 @@ export default class Home extends Component {
   templates() {
     return `
     <section class ='${styles.container}'>
-
       <section class= '${styles.content}'>
         <h1 class='${styles.header}'>
           <span class=${styles.purple}>D</span>ong
@@ -18,11 +18,16 @@ export default class Home extends Component {
         </section>
         <p class=${styles.description}>게시글을 추가, 삭제, 수정할 수 있으며 작성중인 게시글은 자동으로 저장됩니다</p>
       </section>
-
-      <footer class = '${styles.footer}'>
-        <p>© 2023. Dongja rights reserved.</p>
-      </footer>
+      <footer></footer>
     </section>
     `;
+  }
+
+  mounted() {
+    const $footer = this.$target.querySelector('footer');
+    Component.attach({
+      constructor: Footer,
+      $target: $footer,
+    });
   }
 }

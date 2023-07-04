@@ -1,5 +1,5 @@
 import { Component } from '@/core';
-import { Editor, ChildPosts } from '@/components';
+import { Editor, ChildPosts, Footer } from '@/components';
 import styles from './PostEdit.module.css';
 import { PostStore } from '@/store';
 
@@ -12,11 +12,9 @@ export default class PostEdit extends Component {
   templates() {
     return `
       <section class=${styles.container}>
-        <section class='${styles.Editor} Editor'>postEdit</section>
-        <section class='child-posts ${styles.footer}'></secton>
-        <footer class = '${styles.footer}'>
-          <p>© 2023. Dongja rights reserved.</p>
-        </footer>
+        <section class='${styles.Editor} Editor'></section>
+        <section class='child-posts ${styles.childPosts}'></section>
+        <footer></footer>
       </section>
     `;
   }
@@ -31,6 +29,11 @@ export default class PostEdit extends Component {
     Component.attach({
       constructor: ChildPosts,
       $target: $childPosts,
+    });
+    const $footer = this.$target.querySelector('footer');
+    Component.attach({
+      constructor: Footer,
+      $target: $footer,
     });
   }
 }

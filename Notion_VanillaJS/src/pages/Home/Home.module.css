@@ -39,10 +39,3 @@
 .description {
   color: var(--purple);
 }
-
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  padding-bottom: 0.5rem;
-}
