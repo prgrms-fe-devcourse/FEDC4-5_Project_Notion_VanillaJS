@@ -3,8 +3,9 @@ import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 import RecurChildDocument from "../template/RecurChildDocument.js";
 
-export default function DocumentEditor({ appElement, onEditing }) {
+export default function DocumentEditor({ parentElement, onEditing }) {
   const containerElement = document.createElement("div");
+  containerElement.className = "document-editor";
 
   this.state = { title: "", content: "", documentId: "" };
 
@@ -39,7 +40,7 @@ export default function DocumentEditor({ appElement, onEditing }) {
   });
 
   this.render = async () => {
-    appElement.append(containerElement);
+    parentElement.append(containerElement);
     const { pathname } = window.location;
 
     const documentId = Number(pathname.split("/")[2]);

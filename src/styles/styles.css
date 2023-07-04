@@ -6,3 +6,7 @@
   display: flex;
   gap: 5px;
 }
+
+.wrapper-container {
+  display: flex;
+}

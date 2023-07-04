@@ -1,11 +1,10 @@
-import { getDocuments, putDocument } from "./api/document.js";
+import { putDocument } from "./api/document.js";
 import Layout from "./components/common/Layout.js";
 import DocumentList from "./components/domain/DocumentList.js";
 import DocumentEditor from "./components/domain/DocumentEditor.js";
 import Home from "./components/domain/Home.js";
 import { PATH } from "./constants/path.js";
 import { initRouter } from "./utils/route.js";
-import { getItem, setItem } from "./utils/storage.js";
 import RecurDocumentList from "./components/template/RecurDocumentList.js";
 
 /**
@@ -14,6 +13,12 @@ import RecurDocumentList from "./components/template/RecurDocumentList.js";
 
 export default function App({ appElement }) {
   if (!new.target) return new App(...arguments);
+  const wrapperContainer = document.createElement("div");
+  const leftContainerElement = document.createElement("div");
+  const rightContainerEleement = document.createElement("div");
+  wrapperContainer.className = "wrapper-container";
+  leftContainerElement.className = "left-container";
+  rightContainerEleement.className = "right-container";
 
   let timer = null;
 
@@ -21,25 +26,33 @@ export default function App({ appElement }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+
+    documentListComponent.render();
   };
 
   const layoutComponent = new Layout({ appElement });
   const documentListComponent = new DocumentList({
-    appElement,
-    renderItemComponent: async (parentElement) => {
-      const list = await getDocuments();
-      this.setState(list);
-      setItem("documents", list);
-      return RecurDocumentList(this.state, parentElement, () => {
-        documentListComponent.render();
-        documentEditorComponent.render();
+    parentElement: leftContainerElement,
+    renderItemComponent: (parentElement) => {
+      return RecurDocumentList(this.state, parentElement, (id) => {
+        const newState = this.state.filter((document) => document.id !== id);
+
+        this.setState(newState);
       });
+    },
+    serverRender: (newState) => this.setState(newState),
+    onAddButtonClick: (newDocument) => {
+      const nextState = [...this.state, newDocument];
+      this.setState(nextState);
     },
   });
   const homeComponent = new Home({ appElement });
   const documentEditorComponent = new DocumentEditor({
-    appElement,
+    parentElement: rightContainerEleement,
     onEditing: (document) => {
+      /**
+       * @todo 자식 노드에서의 id 구하기
+       */
       if (document.isChangeTitle) {
         const newState = this.state.map((data) => ({
           ...data,
@@ -57,8 +70,6 @@ export default function App({ appElement }) {
           documentId: document.documentId,
           data: document,
         });
-        documentListComponent.render();
-        documentEditorComponent.render();
       }, 1000);
     },
   });
@@ -70,9 +81,15 @@ export default function App({ appElement }) {
   initRouter(() => this.route());
 
   this.init = () => {
+    documentListComponent.getServer();
+
     layoutComponent.render();
     documentListComponent.render();
+
     this.route();
+
+    appElement.append(wrapperContainer);
+    wrapperContainer.append(leftContainerElement, rightContainerEleement);
   };
 
   this.route = () => {

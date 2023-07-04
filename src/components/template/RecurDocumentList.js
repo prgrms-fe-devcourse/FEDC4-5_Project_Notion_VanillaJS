@@ -31,11 +31,12 @@ export default function RecurDocumentList(
           parent: documentId,
         });
         push(`${PATH.DOCUMENTS}/${newDocument.id}`);
+        // 구분시키기
         render();
       },
       onClickRemoveButton: async (documentId) => {
         await deleteDocument(documentId);
-        render();
+        render(documentId);
       },
       ...rootDocument,
     }).render()
