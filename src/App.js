@@ -1,6 +1,10 @@
 import EditPage from "./Components/EditPage.js";
 import SideBar from "./Components/SideBar.js";
-import { request } from "./utils/api.js";
+import {
+  getAllDocumentAPI,
+  createDocumentAPI,
+  deleteDocumentAPI,
+} from "./utils/api.js";
 
 export default function App({
   target,
@@ -28,14 +32,7 @@ export default function App({
     initialState: [],
     onAddRootDocument: async () => {
       // 새로운 root document를 추가 후
-      const createdRootDocument = await request("", {
-        method: "POST", 
-        body: JSON.stringify({
-          title: "new Root",
-          parent: null,
-        }),
-      });
-
+      const createdRootDocument = await createDocumentAPI();
       // 그 document의 Id를 현재 selectedDocumentId로 변경
       this.setState({
         selectedDocumentId: createdRootDocument.id,
@@ -54,15 +51,7 @@ export default function App({
     },
 
     onAddChildDocument: async (documentId) => {
-      const createdDocument = await request("", {
-        // 새로운 하위 document 생성
-        method: "POST",
-        body: JSON.stringify({
-          title: "new Child",
-          parent: documentId,
-        }),
-      });
-
+      const createdDocument = await createDocumentAPI(documentId); // documentId에 해당하는 docuent를 parent로 하는 새로운 document 생성
       this.render(); // documentList 다시 불러오고, 렌더링
       this.setState({
         // 새로 생성한 document의 Id로 selectedId를 변경
@@ -78,9 +67,7 @@ export default function App({
         });
       }
 
-      await request(`/${documentId}`, {
-        method: "DELETE",
-      });
+      await deleteDocumentAPI(documentId);
 
       this.render(); // 삭제 후 다시 render
       console.log(documentId);
@@ -93,11 +80,15 @@ export default function App({
     initialState: {
       selectedDocumentId: null, // title과 content도 상태로 넘겨줘야 하나 ?
     },
+    updateSideBar: () => {
+      this.render();
+    },
   });
 
   this.render = async () => {
     // 서버로부터 새로 전체 document 받아와서, sidebar setState 다시 하고, 다시 렌더링 => sidebar의 각 document 삭제되거나 그랬을 때, 이거 다시 호출해야되서 이를 콜백함수로 넘기거나 할 듯
-    const documentList = await request(""); // 전체 document 조회 API
+    const documentList = await getAllDocumentAPI(); // 전체 document 조회 API
+    console.log(documentList);
     sideBar.setState(documentList);
   };
 
