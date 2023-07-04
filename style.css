@@ -63,10 +63,11 @@ main {
 
 .documentContent {
   display: flex;
+  margin-bottom: 8px;
 }
 
 .childDocumentList {
-  display: flex;
+  padding-left: 12px;
   flex-direction: column;
 }
 

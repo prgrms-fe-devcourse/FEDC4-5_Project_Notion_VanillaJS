@@ -1,3 +1,8 @@
+import {
+  setSpreadDocumentToStorage,
+  getSpreadDocumentFromStorage,
+} from "./storage.js";
+
 export const createDomElementWithId = (tagName, id = null, text = null) => {
   const newElement = document.createElement(tagName);
   if (id) {
@@ -27,38 +32,15 @@ export const createDomElementWithClass = (
   return newElement;
 };
 
-// export const createDocumentElement = (document) => {
-//   //
-//   const documentItemString = `
-//   <div class="documentItem" id=${document.id}>
-//     <div class="documentContent">
-// <button class="spreadButton">🔻</button>
-// <span class="documentTitle">${document.title}</span>
-// <button class="addChildDocumentButton">+</button>
-// <button class="deleteDocumentButton">-</button>
-//     </div>
-
-//     <div class="childDocumentList">
-//     ${document.documents ? document.documents
-//       .map((document) => {
-//         createDocumentElement(document);
-//       })
-//       .join("") : ""}
-//     </div>
-//   </div>
-//   `;
-//   return documentItemString;
-// };
-
-export const createDocumentElement = (document) => {
-  // 재귀적으로 documentlist의 item들을 연결해주는
+export const createDocumentElement = (document, spreadDocumentList) => {
+  // 재귀적으로 documentlist의 item들을 연결해주는 과정
   const documentItem = createDomElementWithClass("div", "documentItem");
   documentItem.id = document.id;
 
   const documentContent = createDomElementWithClass("div", "documentContent");
   documentItem.appendChild(documentContent);
   documentContent.innerHTML = `
-      <button class="spreadButton">⬇️</button>
+      <button class="spreadButton">▶</button>
       <span class="documentTitle">${document.title}</span>
       <button class="addChildDocumentButton">+</button>
       <button class="deleteDocumentButton">-</button>
@@ -70,9 +52,24 @@ export const createDocumentElement = (document) => {
   );
   documentItem.appendChild(childDocumentList);
 
+  // spreadDocumentList에 현재 documentId가 존재한다면 display: flex, 없다면 display: none으로 설정
+  if (
+    spreadDocumentList &&
+    spreadDocumentList.includes(document.id.toString())
+  ) {
+    childDocumentList.style.display = "flex";
+    documentItem.querySelector(".spreadButton").innerHTML = "▼";
+  } else {
+    childDocumentList.style.display = "none";
+    documentItem.querySelector(".spreadButton").innerHTML = "▶";
+  }
+
   if (document.documents) {
+    // 자식들이 있을 때,
     document.documents.forEach((document) => {
-      childDocumentList.appendChild(createDocumentElement(document));
+      childDocumentList.appendChild(
+        createDocumentElement(document, spreadDocumentList)
+      );
     });
   }
 
@@ -81,18 +78,37 @@ export const createDocumentElement = (document) => {
 
 export const toggleDisplay = (element) => {
   if (element) {
-    console.log(`변경 전: ${element.style.display}`);
-    element.style.display === "none"
-      ? (element.style.display = "flex")
-      : (element.style.display = "none");
-    console.log(`변경 후: ${element.style.display}`);
+    element.style.display === "flex"
+      ? (element.style.display = "none")
+      : (element.style.display = "flex");
   }
 };
 
 export const toggleSpreadIcon = (element) => {
   if (element) {
-    element.innerHTML === "➡️"
-      ? (element.innerHTML = "⬇️")
-      : (element.innerHTML = "➡️");
+    element.innerHTML === "▼"
+      ? (element.innerHTML = "▶")
+      : (element.innerHTML = "▼");
+  }
+};
+
+// 특정 documentId가 SpreadDocumentList에 존재한다면 list에서 삭제, 존재하지 않으면 추가
+export const toggleToSpreadDoucmentList = (documentId) => {
+  const spreadDocumentList = getSpreadDocumentFromStorage();
+
+  if (spreadDocumentList && spreadDocumentList.includes(documentId)) {
+    // list가 있고, list 안에 id가 있다면 => list에서 제거
+    const newList = spreadDocumentList.filter(
+      (spreadId) => spreadId !== documentId
+    );
+    setSpreadDocumentToStorage(newList);
+  } else {
+    // list 안에 id가 없다면 => 기존 list에 현재 documentId 추가
+    if (spreadDocumentList) {
+      setSpreadDocumentToStorage([...spreadDocumentList, documentId]);
+    } else {
+      // list가 아예 없거나 비어있다면(null) => 현재 documentId 추가
+      setSpreadDocumentToStorage([documentId]);
+    }
   }
 };

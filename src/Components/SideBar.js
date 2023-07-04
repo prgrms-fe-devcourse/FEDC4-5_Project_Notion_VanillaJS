@@ -24,9 +24,7 @@ export default function SideBar({
 
   const addRootDocumentButtonElement = document.querySelector(
     "#addRootDocumentButton"
-  );
-
-  console.log(addRootDocumentButtonElement);
+  )
   addRootDocumentButtonElement.addEventListener("click", async () => {
     await onAddRootDocument();
   });
@@ -43,7 +41,7 @@ export default function SideBar({
 
   this.setState = (nextState) => {
     this.state = nextState;
-    documentList.setState(nextState);
+    documentList.setState(nextState); 
     this.render();
   };
 

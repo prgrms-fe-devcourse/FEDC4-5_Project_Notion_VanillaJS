@@ -3,7 +3,9 @@ import {
   createDomElementWithId,
   toggleDisplay,
   toggleSpreadIcon,
+  toggleToSpreadDoucmentList,
 } from "../utils/dom.js";
+import { getSpreadDocumentFromStorage } from "../utils/storage.js";
 
 export default function DocumentList({
   target,
@@ -36,6 +38,7 @@ export default function DocumentList({
         // 버튼 icon 및 display 토글하기
         toggleSpreadIcon(e.target);
         toggleDisplay(documentItem.querySelector(".childDocumentList"));
+        toggleToSpreadDoucmentList(id.toString());
       } else if (className === "addChildDocumentButton") {
         // 현재 document의 하위 document 생성
         onAddChildDocument(id);
@@ -50,7 +53,8 @@ export default function DocumentList({
   });
 
   this.render = () => {
-    // render 될 때마다, documentlist 다 새로 그려줌 => onClickListener도 다시 달아줘야 하나 ?
+    console.log("render 실행 ")
+    // render 될 때마다, documentlist 다 새로 그려줌 
     // 배열로 된 state에 따라, documentList에 들어가는 documentItem들을 쭉 만들어주기
 
     // root의 자식 element들 먼저 다 지워주고,
@@ -58,8 +62,14 @@ export default function DocumentList({
       documentListElement.removeChild(documentListElement.firstChild);
     }
 
+    const spreadDocumentList = getSpreadDocumentFromStorage();
+    console.log(`현재 spreadDocumentList: ${spreadDocumentList}`)
+    // spread 되어있는 documentId들을 전달해서 여기 있는 애들은 childDocumentList display flex, 없으면 none
+
     this.state.forEach((document) => {
-      documentListElement.appendChild(createDocumentElement(document));
+      documentListElement.appendChild(
+        createDocumentElement(document, spreadDocumentList)
+      );
     });
   };
 
