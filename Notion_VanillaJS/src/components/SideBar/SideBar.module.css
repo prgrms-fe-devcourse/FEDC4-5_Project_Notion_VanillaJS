@@ -5,6 +5,7 @@
   align-items: center;
   padding-left: 1rem;
   color: black;
+  cursor: pointer;
 }
 
 .logo {
@@ -27,11 +28,6 @@
 
 .container:hover {
   background-color: var(--more-light-grey);
-}
-
-.active {
-  background-color: var(--purple);
-  color: var(--pure-white);
 }
 
 .content {
@@ -131,4 +127,13 @@
 
 .footerButton {
   color: var(--light-grey);
+}
+
+.active {
+  background-color: var(--purple);
+}
+
+.active h2,
+.active span {
+  color: var(--pure-white);
 }

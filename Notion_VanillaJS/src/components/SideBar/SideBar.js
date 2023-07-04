@@ -17,7 +17,7 @@ export default class SideBar extends Component {
   templates() {
     const postList = PostListStore.getState().postList;
     const postId = PostStore.getState()?.post?.id;
-    return `<h1 class=${styles.header}>
+    return `<h1 class='${styles.header} sidebar-header'>
     <img src=${logo} class=${styles.logo} alt='logo'/>
      DongJa's Notion</h1>
       ${
@@ -103,6 +103,14 @@ export default class SideBar extends Component {
       eventType: 'click',
       selector: `.title`,
       callback: this.onClickLink,
+    });
+
+    this.addEvent({
+      eventType: 'click',
+      selector: `.sidebar-header`,
+      callback: () => {
+        push('/');
+      },
     });
   }
 
