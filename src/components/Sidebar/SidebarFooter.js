@@ -1,4 +1,4 @@
-export default function SideBarFooter({ $target }) {
+export default function SideBarFooter({ $target, onAddRootDocumnet }) {
   const $addDocumentButton = document.createElement("button");
 
   $target.appendChild($addDocumentButton);
@@ -8,4 +8,13 @@ export default function SideBarFooter({ $target }) {
   };
 
   this.render();
+
+  $addDocumentButton.addEventListener("click", async () => {
+    const newDocument = {
+      title: "제목 없음",
+      parent: null,
+    };
+
+    onAddRootDocumnet(newDocument);
+  });
 }
