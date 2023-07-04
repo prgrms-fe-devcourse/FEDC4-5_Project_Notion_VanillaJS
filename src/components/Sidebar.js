@@ -11,23 +11,24 @@ export default class Sideber extends Component{
 
   setEvent(){
     const {onClickAdd, onClickDelete, onClickDocument} = this.props;
-    this.$target.addEventListener("click", (e) => {
-      const {className} = e.target;
-      const $li = e.target.closest("li");
-      if(className === "add-root"){
-        onClickAdd(null);
-        return;
-      }
+    this.addEvent("click", ".add-root", () => {
+      onClickAdd(null);
+    })
 
-      if($li){
-        const {id} = $li.dataset;
-        if(className === "add-document"){
-          onClickAdd(id);
-        }else if(className === "delete-document"){
-          onClickDelete(id);
-        }else{
-          onClickDocument(id);
-        }
+    this.addEvent("click", "li", ({target}) => {
+      const $li = target.closest("li");
+      const {id} = $li.dataset;
+      const {className} = target;
+
+      switch(className){
+        case "add-document" : onClickAdd(id);
+        break;
+
+        case "delete-document" : onClickDelete(id);
+        break;
+
+        default : onClickDocument(id);
+        break;
       }
     })
   }

@@ -1,6 +1,7 @@
 import ChildrenDocumentLink from "../components/ChildrenDocumentLink.js";
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
+import Toolbar from "../components/Toolbar.js";
 import Component from "../core/Component.js";
 import { request } from "../utils/api.js";
 import { push, replace } from "../utils/router.js";
@@ -17,6 +18,7 @@ export default class MainPage extends Component{
   template(){
     return `
     <div class="sidebar"></div>
+    <div class="toolbar"></div>
     <div class="editor"></div>
     <div class="editor-below-links"></div>
     `;
@@ -25,6 +27,7 @@ export default class MainPage extends Component{
   mounted(){
     const {onEditTitle,onEditContent, onClickAdd, onClickDocument, onClickDelete} = this;
     const $sidebar = this.$target.querySelector(".sidebar");
+    const $toolbar = this.$target.querySelector(".toolbar");
     const $editor = this.$target.querySelector(".editor");
     const $childLinks = this.$target.querySelector(".editor-below-links"); 
 
@@ -38,9 +41,11 @@ export default class MainPage extends Component{
       onClickDocument : onClickDocument.bind(this)  
     });
 
+    new Toolbar($toolbar, {
+    });
+
     new Editor($editor, {
-      title : this.state.documentContent?.title,
-      content : this.state.documentContent?.content,
+      documentContent : this.state.documentContent ? this.state.documentContent : {title : "", content : ""},
       onEditTitle : onEditTitle.bind(this),
       onEditContent : onEditContent.bind(this),
     })
@@ -99,12 +104,13 @@ export default class MainPage extends Component{
         body : JSON.stringify(post)
       })
       await this.fetchDocuments();
+      this.setState({documentContent : post});
       removeLocalStorageItem(this.documentLocalSaveKey);
       $input.focus();
     }, 500)
   }
 
-  onEditContent(post, $input){
+  onEditContent(post){
     const {id} = this.state;
     if(this.timer !== null){
       clearTimeout(this.timer);
@@ -119,7 +125,6 @@ export default class MainPage extends Component{
         body : JSON.stringify(post)
       })
       removeLocalStorageItem(this.postLocalSaveKey);
-
     }, 500)
   }
 
@@ -133,7 +138,7 @@ export default class MainPage extends Component{
   async fetchContent(id){
     if(!id) return;
     const documentContent = await request(`/documents/${id}`);
-    const tempContent = getLocalStorageItem(this.postLocalSaveKey, null);
+    const tempContent = getLocalStorageItem(this.postLocalSaveKey, {title : "", content : ""});
     if(tempContent && tempContent.tempSaveDate > documentContent.updatedAt){
       if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
         this.setState({

@@ -7,7 +7,10 @@ export default class App{
       $target, {
       id : null,
       documents : [],
-      documentContent : null
+      documentContent : {
+        title : "",
+        content:  ""
+      }
     })
     this.route();
     initRouter(() => this.route());
