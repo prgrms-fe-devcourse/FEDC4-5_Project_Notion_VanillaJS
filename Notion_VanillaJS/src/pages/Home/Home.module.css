@@ -1,13 +1,19 @@
 @import '@/index.css';
+
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 95% 5%;
+}
+
 .content {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-around; */
+  display: grid;
+  grid-template-rows: 20% 50% 30%;
+  justify-content: center;
   align-items: center;
 }
 
 .header {
-  margin-top: 5rem;
   font-size: 2rem;
 }
 
@@ -15,8 +21,22 @@
   color: var(--purple);
 }
 
+.pink {
+  color: var(--pink);
+}
+
+.imageContainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.homeImage {
+  max-height: 100%;
+  object-fit: cover;
+}
+
 .description {
-  margin-top: 10rem;
   color: var(--purple);
 }
 

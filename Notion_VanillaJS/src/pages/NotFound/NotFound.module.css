@@ -3,12 +3,11 @@
 .container {
   display: grid;
   height: 100vh;
-  grid-template-rows: 30% 50% 10% 10%;
+  grid-template-rows: 30% 55% 10% 5%;
 }
 
 .header {
-  padding-top: 2rem;
-  padding-left: 5rem;
+  padding: 2rem 5rem;
 }
 
 .headerTitle {
