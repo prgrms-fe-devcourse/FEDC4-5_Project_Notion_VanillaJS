@@ -13,6 +13,9 @@ export default function App({ $target }) {
       createdAt: null,
       updatedAt: null,
     },
+    onFetchSidebar: () => {
+      sidebar.setState();
+    },
   });
 
   sidebar.setState();
