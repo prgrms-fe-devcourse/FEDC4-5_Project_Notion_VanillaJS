@@ -1,6 +1,7 @@
 import { request } from "./api.js";
 import DocumentPage from "./DocumentPage.js";
 import DocumentEditPage from "./DocumentEditPage.js";
+import { initRouter } from "./router.js";
 
 export default function App({ $target }) {
   this.state = {
@@ -36,7 +37,14 @@ export default function App({ $target }) {
 
   this.route = async () => {
     await fetchDocuments();
-    documentPage.render();
+
+    const { pathname } = window.location;
+
+    if (pathname === "/") {
+      documentPage.render();
+    } else if (pathname.indexOf("/documents/") === 0) {
+      const [, , docId] = pathname.split("/");
+    }
   };
 
   const fetchDocuments = async () => {
@@ -51,4 +59,8 @@ export default function App({ $target }) {
   };
 
   this.route();
+
+  initRouter(() => this.route());
+
+  window.addEventListener("popstate", () => this.route());
 }

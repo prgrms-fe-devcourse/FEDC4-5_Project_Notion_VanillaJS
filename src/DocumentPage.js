@@ -1,5 +1,6 @@
 import { request } from "./api.js";
 import DocumentList from "./DocumentList.js";
+import { push } from "./router.js";
 
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
@@ -28,13 +29,19 @@ export default function DocumentPage({ $target, initialState }) {
           parent: id,
         }),
       });
+
+      push(`/documents/${createdDoc.id}`);
     },
     onDeleteDocument: async (id) => {
+      const { pathname } = window.location;
+
       const deletedDoc = async (id) => {
         await request(`/documents/${id}`, {
           method: "DELETE",
         });
       };
+
+      await deletedDoc(id);
     },
   });
 

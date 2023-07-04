@@ -15,7 +15,7 @@ export default function DocumentList({
     this.render();
   };
 
-  this.displayDocumentList = (docList, depth = 0) => {
+  this.displayDocumentList = (docList) => {
     return docList
       .map(
         (doc) =>
@@ -25,10 +25,7 @@ export default function DocumentList({
             <button class="delete">x</button>
             ${
               doc.documents.length > 0
-                ? `<ul>${this.displayDocumentList(
-                    doc.documents,
-                    depth + 1
-                  )}</ul>`
+                ? `<ul>${this.displayDocumentList(doc.documents)}</ul>`
                 : ""
             }          
         </li>`
@@ -44,4 +41,19 @@ export default function DocumentList({
         `;
     $target.appendChild($documentList);
   };
+
+  $documentList.addEventListener("click", (e) => {
+    const $li = e.target.closest("li");
+
+    const { id } = $li.dataset;
+    const name = e.target.className;
+
+    if (name === "title") {
+      console.log("display child documents");
+    } else if (name === "add") {
+      onCreateDocument(id);
+    } else if (name === "delete") {
+      onDeleteDocument(id);
+    }
+  });
 }
