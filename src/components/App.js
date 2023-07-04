@@ -1,3 +1,7 @@
+import Sidebar from "./Sidebar/Sidebar.js";
+
 export default function App({ $target }) {
-  console.log("hello world");
+  const sidebar = new Sidebar({ $target });
+
+  sidebar.setState();
 }
