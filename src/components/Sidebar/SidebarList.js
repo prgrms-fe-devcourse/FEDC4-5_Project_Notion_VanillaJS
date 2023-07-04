@@ -1,4 +1,9 @@
-export default function SidebarList({ $target, initialState }) {
+export default function SidebarList({
+  $target,
+  initialState,
+  onAddDocument,
+  onDeleteDocument,
+}) {
   const $sidebarList = document.createElement("div");
 
   this.state = initialState;
@@ -17,6 +22,20 @@ export default function SidebarList({ $target, initialState }) {
     $sidebarList.innerHTML = tem;
     tem = "";
   };
+
+  $sidebarList.addEventListener("click", (e) => {
+    const { className } = e.target;
+    const $li = e.target.closest("li");
+    const { id } = $li.dataset;
+
+    if (className === "delete") {
+      onDeleteDocument(id);
+    }
+
+    if (className === "add") {
+      onAddDocument(id);
+    }
+  });
 
   const renderDocumentsList = (lists, depth = 0) => {
     tem += `<ul>`;
