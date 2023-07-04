@@ -1,8 +1,12 @@
 import store from "./Store.js";
 
 const handlePopState = () => {
+  const { pathname } = window.location;
+  const [, pathSegment, id] = pathname.split("/");
   store.documentsGet();
-  store.documentGet(window.location.pathname.substring(1));
+  if (pathSegment === "documents") {
+    store.documentGet(id);
+  }
 };
 
 export const popRouter = () => {

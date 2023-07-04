@@ -23,7 +23,7 @@ export default class DocumentList {
     this.$list.addEventListener("click", (event) => {
       const targetDocument = event.target;
       if (targetDocument.classList.contains("select-document")) {
-        history.pushState(null, null, `/${targetDocument.id}`);
+        history.pushState(null, null, `/documents/${targetDocument.id}`);
         store.documentGet(targetDocument.id);
       }
 

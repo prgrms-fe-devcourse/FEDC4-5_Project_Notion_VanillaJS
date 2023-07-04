@@ -10,6 +10,7 @@ module.exports = {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -34,6 +35,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: path.resolve(__dirname, "src/index.html"),
+      publicPath: "/",
     }),
   ],
   devServer: {

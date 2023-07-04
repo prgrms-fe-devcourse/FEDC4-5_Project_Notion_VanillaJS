@@ -14,9 +14,10 @@ export const request = async (url, options = {}) => {
       return await res.json();
     }
 
-    throw new Error("API 처리중 뭔가 이상합니다!");
+    throw new Error("올바르지 않은 접근 입니다.");
   } catch (e) {
     alert(e.message);
+    history.replaceState(null, null, "/"); // 수정 뒤로가기 안되게
   }
 };
 

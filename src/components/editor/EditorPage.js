@@ -20,12 +20,13 @@ export default class EditorPage {
     this.hide();
     const { $editorPage } = this;
     const { pathname } = window.location;
+    const pattern = /^\/documents\/[0-9]+$/;
 
     if (pathname === "/") {
       new DefaultPage({
         $target: $editorPage,
       });
-    } else {
+    } else if (pattern.test(pathname)) {
       new DocumentTilte({
         $target: $editorPage,
       });
