@@ -1,6 +1,6 @@
 import Component from "./Component.js";
 
-export default class Editor extends Component {
+export default class EditorComponent extends Component {
   render() {
     console.log(this.state);
     this.$target.innerHTML = `

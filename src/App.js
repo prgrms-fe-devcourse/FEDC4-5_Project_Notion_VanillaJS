@@ -1,6 +1,9 @@
-import Component from "./Component/Component.js";
-import DocumentTree from "./Component/DocumentTree.js";
-import Editor from "./Component/Editor.js";
+import {
+  Component,
+  DocumentTreeComponent,
+  EditorComponent,
+} from "./Component/index.js";
+import { DocumentTree, Document } from "./domain/index.js";
 import { request } from "./api.js";
 import { getItem, setItem, removeItem } from "./storage/storage.js";
 
@@ -13,9 +16,9 @@ export default class App extends Component {
 
     const $documentTree = this.$target.querySelector("#documentTree");
     const $editor = this.$target.querySelector("#editor");
-    this.documentTree = new DocumentTree({
+    this.documentTree = new DocumentTreeComponent({
       $target: $documentTree,
-      initialState: await this.getDocumentTree(),
+      initialState: [],
       props: {
         events: [
           {
@@ -45,7 +48,6 @@ export default class App extends Component {
                 );
                 return;
               }
-
               const [, , $childUl] = target.children;
               target.insertBefore(document.createElement("input"), $childUl);
             },
@@ -62,10 +64,7 @@ export default class App extends Component {
                 removeItem("documents/" + res.id);
                 history.pushState(null, null, "/");
               });
-
-              await request("/documents").then(
-                (res) => (this.documentTree.state = res)
-              );
+              setDocumentTree();
             },
           },
           {
@@ -74,42 +73,23 @@ export default class App extends Component {
             target: "li",
             callback: async ({ event, target }) => {
               const { value } = event.target;
-              if (target === null) {
-                const rootDocument = {
-                  title: value,
-                  parent: null,
-                };
-                await request("/documents", {
-                  method: "POST",
-                  body: JSON.stringify(rootDocument),
-                }).then((res) => console.log(res));
-
-                await request("/documents").then(
-                  (res) => (this.documentTree.state = res)
-                );
-                return;
-              }
-
-              const newDocument = {
-                title: value,
-                parent: target.id,
-              };
 
               await request("/documents", {
                 method: "POST",
-                body: JSON.stringify(newDocument),
+                body: JSON.stringify({
+                  title: value,
+                  parent: target ? target.id : null,
+                }),
               });
 
-              await request("/documents").then(
-                (res) => (this.documentTree.state = res)
-              );
+              this.setDocumentTree();
             },
           },
         ],
       },
     });
 
-    this.editor = new Editor({
+    this.editor = new EditorComponent({
       $target: $editor,
       initialState: [],
       props: {
@@ -154,7 +134,15 @@ export default class App extends Component {
   }
 
   async getDocumentTree() {
-    return await request("/documents", { mothod: "GET" });
+    const documentTreeData = await request("/documents", { mothod: "GET" });
+    const documentTree = new DocumentTree(documentTreeData);
+    return documentTree.data;
+  }
+
+  async setDocumentTree() {
+    const documentTreeData = await request("/documents", { mothod: "GET" });
+    const documentTree = new DocumentTree(documentTreeData);
+    this.documentTree.state = documentTree.data;
   }
 
   async route(props) {

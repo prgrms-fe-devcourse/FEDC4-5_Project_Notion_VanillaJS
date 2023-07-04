@@ -1,6 +1,6 @@
 import Component from "./Component.js";
 
-export default class DocumentTree extends Component {
+export default class DocumentTreeComponent extends Component {
   render() {
     this.$target.innerHTML = `
       <button id="addDocumentButton">+</button>
