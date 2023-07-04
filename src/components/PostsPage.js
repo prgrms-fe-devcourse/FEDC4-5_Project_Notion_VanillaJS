@@ -1,4 +1,4 @@
-import { get } from '../utils/api.js'
+import { request } from '../utils/api.js'
 import SideBar from './SideBar.js'
 import Editor from './Editor.js'
 
@@ -19,7 +19,7 @@ export default class PostsPage {
   }
 
   async setState() {
-    const documents = await get('/documents');
+    const documents = await request('/documents');
     this.$sideBar.setState(documents);
     this.render();
   }
@@ -34,7 +34,7 @@ export default class PostsPage {
 
   async getDocument(documentId) {
     try {
-      const document = await get(`/documents/${documentId}`);
+      const document = await request(`/documents/${documentId}`);
       this.$editor.setState({
         title: document.title,
         content: document.content,
