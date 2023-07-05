@@ -2,6 +2,7 @@ import { request } from "./api.js";
 import DocumentList from "./DocumentList.js";
 import { push } from "./router.js";
 import { setItem, removeItem } from "./storage.js";
+import LinkButton from "./LinkButton.js";
 
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
@@ -31,14 +32,6 @@ export default function DocumentPage({ $target, initialState }) {
         }),
       });
 
-      await request(`/documents/${createdDoc.content}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: "Untitled",
-          content: "nothing",
-        }),
-      });
-
       setItem(id, {
         id: id,
       });
@@ -56,6 +49,14 @@ export default function DocumentPage({ $target, initialState }) {
 
       await deletedDoc(id);
       push("/");
+    },
+  });
+
+  new LinkButton({
+    $target: $documentPage,
+    initialState: {
+      text: "+ Add a document",
+      link: "/documents/new",
     },
   });
 
