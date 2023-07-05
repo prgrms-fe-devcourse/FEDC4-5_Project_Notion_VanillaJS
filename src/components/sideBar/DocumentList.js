@@ -24,6 +24,30 @@ export default function DocumentList({ $target, initialState }) {
       new DocumentListItem({
         $target: $documentList,
         initialState,
+        onAdd: async () => {
+          const createdSubDocument = await request("/documents", {
+            method: "POST",
+            body: JSON.stringify({
+              title: "제목 없음",
+              parent: this.state.id,
+            }),
+          });
+          push(`/documents/${createdSubDocument.id}`);
+        },
+        onDelete: async (id) => {
+          const targetIndex = this.state.findIndex(
+            (document) => document.id === id
+          );
+          const nextState = [...this.state];
+          nextState.splice(targetIndex, 1);
+          this.setState(nextState);
+          await request(`/documents/${document.id}`, {
+            method: "DELETE",
+          });
+          if (window.location.pathname === `/documents/${id}`)
+            alert("이 페이지는 삭제되었습니다.");
+          history.replaceState(null, null, "/");
+        },
       });
     });
   };

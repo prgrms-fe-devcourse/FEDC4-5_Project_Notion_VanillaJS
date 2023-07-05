@@ -2,7 +2,12 @@ import { request } from "../../api.js";
 import { push } from "../../utils/router.js";
 import DocumentList from "./DocumentList.js";
 
-export default function DocumentListItem({ $target, initialState }) {
+export default function DocumentListItem({
+  $target,
+  initialState,
+  onAdd,
+  onDelete,
+}) {
   const $documentListItem = document.createElement("li");
   const $subDocumentList = document.createElement("ul");
   $subDocumentList.setAttribute("class", "subDocumentList");
@@ -12,6 +17,7 @@ export default function DocumentListItem({ $target, initialState }) {
   this.state = initialState;
 
   this.render = () => {
+    console.log("this.state.documents", this.state.documents);
     const { pathname } = window.location;
     const isActive = pathname === `/documents/${this.state.id}`;
     $documentListItem.innerHTML = `
@@ -20,10 +26,12 @@ export default function DocumentListItem({ $target, initialState }) {
           <span class="toggleButton">> </span>
           <span class="itemTitle">${this.state.title}</span>
         </div>
+        <div class="deleteButton">-</div>
         <div class="addButton">+</div>
       </div>
     `;
-    this.state.documents.length !== 0 &&
+    this.state.documents &&
+      this.state.documents.length !== 0 &&
       new DocumentList({
         $target: $subDocumentList,
         initialState: this.state.documents,
@@ -35,14 +43,10 @@ export default function DocumentListItem({ $target, initialState }) {
     const { className } = e.target;
     if (className === "toggleButton") {
     } else if (className === "addButton") {
-      const createdSubDocument = await request("/documents", {
-        method: "POST",
-        body: JSON.stringify({
-          title: "제목 없음",
-          parent: this.state.id,
-        }),
-      });
-      push(`/documents/${createdSubDocument.id}`);
+      onAdd();
+      return;
+    } else if (className === "deleteButton") {
+      onDelete(this.state.id);
       return;
     }
     push(`/documents/${this.state.id}`);
