@@ -5,6 +5,7 @@ class Store {
     this.state = {
       documentsTree: [],
       documentContent: {},
+      selectedStyles: "",
     };
   }
   sidebarSubscribers = [];
@@ -59,8 +60,7 @@ class Store {
 
   async documentTitlePut({ id, title }) {
     const { content } = this.state.documentContent;
-    console.log(title);
-    await request(`/documents/${id}`, {
+    await request(`/${id}`, {
       method: "PUT",
       body: JSON.stringify({ title, content }),
     });

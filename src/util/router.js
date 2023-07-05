@@ -6,6 +6,8 @@ const handlePopState = () => {
   store.documentsGet();
   if (pathSegment === "documents") {
     store.documentGet(id);
+  } else {
+    store.notifyEditor();
   }
 };
 

@@ -8,9 +8,6 @@ export default class DocumentTilte {
     this.initEvent();
     this.render();
   }
-  // console.log(timer === null);
-  // if (timer !== null) {
-  // }
 
   initEvent() {
     const { $title } = this;

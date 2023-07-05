@@ -17,7 +17,7 @@ export const request = async (url, options = {}) => {
     throw new Error("올바르지 않은 접근 입니다.");
   } catch (e) {
     alert(e.message);
-    history.replaceState(null, null, "/"); // 수정 뒤로가기 안되게
+    history.replaceState(null, null, "/");
   }
 };
 

@@ -1,6 +1,8 @@
 import DocumentTilte from "./DocumentTitle.js";
 import DefaultPage from "./DefaultPage.js";
 import store from "../../util/Store.js";
+import DocumentEditor from "./DocumentEditor.js";
+import DocumentToolbar from "./DocumentToolbar.js";
 
 export default class EditorPage {
   constructor({ $target }) {
@@ -30,14 +32,22 @@ export default class EditorPage {
       new DocumentTilte({
         $target: $editorPage,
       });
+
+      new DocumentToolbar({
+        $target: $editorPage,
+      });
+
+      new DocumentEditor({
+        $target: $editorPage,
+      });
     }
   }
 
   hide() {
     const { $editorPage } = this;
-    const childComponent = $editorPage.firstElementChild;
-    if (childComponent) {
-      childComponent.remove();
+
+    while ($editorPage.firstChild) {
+      $editorPage.removeChild($editorPage.firstChild);
     }
   }
 }

@@ -41,7 +41,7 @@ export default class DocumentList {
           $subfolder.style.display = "none";
           $subfolder.dataset.toggle = "false";
           targetDocument.style.transform = "rotate(-90deg)";
-        } else {
+        } else if (folded === "false") {
           const foldedList = getItem("folded", []);
           foldedList.splice(foldedList.indexOf($targetParent.id), 1);
           setItem("folded", [...foldedList]);
