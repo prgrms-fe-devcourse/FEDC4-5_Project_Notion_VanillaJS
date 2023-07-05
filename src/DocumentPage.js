@@ -83,8 +83,6 @@ export default function DocumentPage({ $target, initialState }) {
           history.replaceState(null, null, "/");
           push("/");
         } else if (selectedChildIds.includes(Number(currentPageId))) {
-          console.log(selectedChildIds.includes(Number(currentPageId)));
-
           history.replaceState(null, null, "/");
           push("/");
         } else {

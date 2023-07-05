@@ -44,18 +44,20 @@ export default function DocumentList({
           `<li class="title" data-id="${doc.id}" title="${
             doc.title
           }" style="list-style:none;">
-          ${this.displayedChild(doc.id) === "none" ? ">" : "v"}    
-        ${doc.title}
+            <button class="displayChild">
+            ${this.displayedChild(doc.id) === "none" ? ">" : "v"}
+            </button>    
+            ${doc.title}
             <button class="add">+</button>
             <button class="delete">x</button>
             ${
               doc.documents.length > 0
                 ? `<ul style="display: ${this.displayedChild(doc.id)};">
-                ${this.displayDocumentList(doc.documents)}
-                </ul>`
+                  ${this.displayDocumentList(doc.documents)}
+                  </ul>`
                 : ""
             }          
-        </li>`
+          </li>`
       )
       .join("");
   };
@@ -82,10 +84,8 @@ export default function DocumentList({
     const { id } = $li.dataset;
     const name = e.target.className;
 
-    if (name === "title") {
-      push(`/documents/${id}`);
-
-      const $ul = $li.childNodes[5];
+    if (name === "displayChild") {
+      const $ul = $li.childNodes[7];
 
       if (!$ul) {
         setItem(id, {
@@ -109,6 +109,8 @@ export default function DocumentList({
           displayed: "",
         });
       }
+      push(`/documents/${id}`);
+    } else if (name === "title") {
       push(`/documents/${id}`);
     } else if (name === "add") {
       onCreateDocument(id);

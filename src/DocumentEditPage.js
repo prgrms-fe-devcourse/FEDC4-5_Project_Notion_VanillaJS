@@ -16,7 +16,7 @@ export default function DocumentEditPage({ $target, initialState }) {
   const editor = new Editor({
     $target: $documentEditPage,
     initialState: {
-      title: "",
+      title: "Untitled",
       content: "",
     },
     onEditing: (doc) => {

@@ -1,4 +1,8 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({
+  $target,
+  initialState = { title: "", content: "" },
+  onEditing,
+}) {
   const $editor = document.createElement("div");
 
   this.state = initialState;
