@@ -32,12 +32,19 @@ export function removeDocument(documentId, state) {
 
     for (let i = 0; i < current.length; i++) {
       if (current[i].id === documentId) {
-        current.splice(i, 1);
+        const temp = current.splice(i, 1);
+        if (temp[0].documents.length !== 0) {
+          tempState.push(...temp[0].documents);
+          tempState.sort((a, b) => a.id - b.id);
+        }
+
         return tempState;
       }
+
       stack.push(current[i].documents);
     }
   }
+
   return tempState;
 }
 
