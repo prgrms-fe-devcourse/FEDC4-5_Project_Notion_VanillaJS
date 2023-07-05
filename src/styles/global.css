@@ -17,12 +17,22 @@
 }
 
 .listItem {
+  display: flex;
+  justify-content: space-between;
   padding: 5px;
   border-radius: 3px;
   cursor: pointer;
 }
 .listItem:hover {
   background-color: #e7e7e5;
+}
+
+.subDocumentList {
+  padding-left: 20px;
+}
+
+.addButton {
+  float: right;
 }
 
 #contentSection {
