@@ -27,9 +27,9 @@ export default class DocumentListEditor {
 
   render() {
     this.$editor.innerHTML = `
-        <button data-action="produce">생성</button>
+        <button data-action="produce">+</button>
         <form style="display: inline-block">
-          <button data-action="delete">삭제</button>
+          <button data-action="delete">-</button>
         </form>
     `;
   }

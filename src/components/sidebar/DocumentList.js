@@ -1,11 +1,12 @@
 import { DocumentListEditor } from "./index";
 import arrowImg from "../../../public/arrowImg.svg";
+import documentImg from "../../../public/documentImg.svg";
 import store from "../../util/Store.js";
-import { setItem, getItem } from "../../util/storage.js";
+import { setItem, getItem } from "../../util/storage.js"; // 분리
 
 export default class DocumentList {
   constructor({ $target }) {
-    this.$list = document.createElement("ul");
+    this.$list = document.createElement("div");
     this.$list.classList.add("document-list");
     this.state = store.state.documentsTree;
     this.foldedList = getItem("folded", []);
@@ -22,7 +23,10 @@ export default class DocumentList {
   initEvent() {
     this.$list.addEventListener("click", (event) => {
       const targetDocument = event.target;
-      if (targetDocument.classList.contains("select-document")) {
+      if (
+        targetDocument.classList.contains("document-list-title") ||
+        targetDocument.classList.contains("  select-document")
+      ) {
         history.pushState(null, null, `/documents/${targetDocument.id}`);
         store.documentGet(targetDocument.id);
       }
@@ -84,17 +88,22 @@ export default class DocumentList {
     }
 
     const nextDocument = document.documents;
-    string += `<div id=${document.id} class="select-document">
-      <img class="toggle-folder" ${imgStyle} src=${arrowImg} alt="arrow.svg"/>
-      ${document.title}
-      </div>`;
-    if (!!nextDocument) {
-      string += `<ul data-toggle='true' ${ulStyle} class='document-group'>`;
-      for (const documents of nextDocument) {
-        string = this.createCustomListString(documents, string);
+    string += `<span id=${document.id} class="select-document">
+      ${
+        nextDocument.length
+          ? `<img class="toggle-folder" ${imgStyle} src=${arrowImg} alt="arrow.svg"/>`
+          : ""
       }
-      string += "</ul>";
+      <img src=${documentImg} alt="document.svg"/>
+      <span  id=${document.id} class="document-list-title">${
+      document.title
+    }</span>
+      </span>`;
+    string += `<ul data-toggle='true' ${ulStyle} class='document-group'>`;
+    for (const documents of nextDocument) {
+      string = this.createCustomListString(documents, string);
     }
+    string += "</ul>";
     return string;
   }
 

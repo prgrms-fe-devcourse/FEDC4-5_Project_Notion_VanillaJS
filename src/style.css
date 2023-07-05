@@ -22,16 +22,7 @@ h6 {
 
 body {
   line-height: 1;
-}
-
-.editor-section {
-  background-color: rgb(113, 105, 156);
-  width: 70vw;
-  height: 100vh;
-}
-
-.sidebar-setion {
-  width: 30vw;
+  width: 100vw;
   height: 100vh;
 }
 
@@ -39,16 +30,16 @@ main {
   display: flex;
 }
 
-.sidebar-setion ul {
-  padding-left: 15px;
+.editor-section {
+  background-color: rgb(113, 105, 156);
+  width: 70vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .select-document:hover {
   background-color: lightblue;
-}
-
-.document-group {
-  border-left: solid 1px rgba(163, 163, 163, 0.678);
 }
 
 .editor-default-section {
@@ -61,10 +52,102 @@ main {
 
 .editor-section #documentContent {
   width: 100%;
-  height: 100%;
+  height: 70%;
   background-color: rgb(194, 191, 191);
 }
 
 .document-toolbar {
   display: flex;
+  flex-wrap: wrap;
+}
+
+input:focus {
+  outline: none;
+}
+
+/* ========================= */
+.sidebar-setion {
+  width: 30vw;
+  height: 100vh;
+
+  background: rgb(255, 255, 255);
+  min-width: 343px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-setion ul {
+  padding-left: 30px;
+  margin: 0;
+}
+
+.document-button-form button {
+  width: 85%;
+  height: 100px;
+  background: rgb(1, 196, 212);
+  border-radius: 10px;
+  border: none;
+
+  font-size: 20px;
+  font-weight: 700;
+  color: aliceblue;
+
+  margin: 15% 5%;
+
+  cursor: pointer;
+}
+
+.document-list {
+  padding-left: 5px;
+  max-height: 70%;
+  overflow: auto;
+}
+
+.document-group {
+  border-left: solid 2px rgba(30, 175, 201, 0.678);
+}
+
+.input-container input {
+  border: none;
+  border-right: 5px solid rgba(30, 175, 201, 0.678);
+  border-left: 1px solid rgba(30, 175, 201, 0.678);
+  border-radius: 2px;
+  height: 30px;
+  box-shadow: 0px 5px 12px 0 rgba(30, 175, 201, 0.278);
+}
+
+.input-container button {
+  border: none;
+  background: rgb(1, 196, 212);
+  box-shadow: 5px 5px 5px rgba(30, 175, 201, 0.278);
+  cursor: pointer;
+  color: white;
+}
+
+.select-document {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 30px;
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.document-list-title {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.select-document img {
+  margin: 0 6px 0 3px;
+}
+
+.select-document button {
+  border: none;
+  background: rgb(1, 196, 212);
+  box-shadow: 5px 5px 5px rgba(30, 175, 201, 0.278);
+  cursor: pointer;
+  color: white;
 }

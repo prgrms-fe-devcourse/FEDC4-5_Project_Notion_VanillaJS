@@ -1,9 +1,9 @@
 import DocumentInput from "./DocumentInput.js";
 export default class DocumentAddBtn {
-  constructor({ $target, sendCreateFolderRequest }) {
+  constructor({ $target }) {
     this.$target = $target;
     this.$button = document.createElement("form");
-    this.sendCreateFolderRequest = sendCreateFolderRequest;
+    this.$button.classList.add("document-button-form");
     $target.appendChild(this.$button);
     this.initEvent();
     this.render();
@@ -20,7 +20,7 @@ export default class DocumentAddBtn {
 
   render() {
     this.$button.innerHTML = `
-        <button> 문서 추가 하기 </button>
+        <button> 문서 생성 </button>
       `;
   }
 }

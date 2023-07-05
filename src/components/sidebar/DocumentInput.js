@@ -1,4 +1,5 @@
 import store from "../../util/Store.js";
+import plusImg from "../../../public/plusImg.svg";
 export default class DocumentInput {
   constructor({ $target, targetId }) {
     this.targetId = targetId;
@@ -8,9 +9,9 @@ export default class DocumentInput {
       this.hide();
     }
 
-    this.$inputContainer = document.createElement("ul");
+    this.$inputContainer = document.createElement("form");
     this.$inputContainer.classList.add("input-container");
-    $target.insertAdjacentElement("afterend", this.$inputContainer);
+    $target.insertAdjacentElement("beforeend", this.$inputContainer);
     this.initEvent();
     this.render();
   }
@@ -31,10 +32,8 @@ export default class DocumentInput {
 
   render() {
     this.$inputContainer.innerHTML = `
-      <form>
         <input type="text"/>
-        <button>생성</button>
-      <form>
+        <button>+</button>
     `;
     this.$inputContainer.querySelector("input[type='text']").focus();
   }
