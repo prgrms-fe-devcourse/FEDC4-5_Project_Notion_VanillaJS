@@ -1,4 +1,5 @@
 import DocumentListItem from "./DocumentListItem.js";
+import { push } from "../../utils/router.js";
 import { request } from "../../api.js";
 
 export default function DocumentList({ $target, initialState }) {
@@ -29,7 +30,7 @@ export default function DocumentList({ $target, initialState }) {
             method: "POST",
             body: JSON.stringify({
               title: "제목 없음",
-              parent: this.state.id,
+              parent: document.id,
             }),
           });
           push(`/documents/${createdSubDocument.id}`);
