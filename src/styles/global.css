@@ -23,7 +23,8 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.listItem:hover {
+.listItem:hover,
+.activeListItem {
   background-color: #e7e7e5;
 }
 

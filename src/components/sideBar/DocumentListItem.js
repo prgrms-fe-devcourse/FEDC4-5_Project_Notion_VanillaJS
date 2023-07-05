@@ -12,8 +12,10 @@ export default function DocumentListItem({ $target, initialState }) {
   this.state = initialState;
 
   this.render = () => {
+    const { pathname } = window.location;
+    const isActive = pathname === `/documents/${this.state.id}`;
     $documentListItem.innerHTML = `
-      <div class="listItem">
+      <div class="listItem${isActive ? " activeListItem" : ""}">
         <div class="listItemInfo">
           <span class="toggleButton">> </span>
           <span class="itemTitle">${this.state.title}</span>
@@ -40,7 +42,8 @@ export default function DocumentListItem({ $target, initialState }) {
           parent: this.state.id,
         }),
       });
-      console.log("createdSubDocument", createdSubDocument);
+      push(`/documents/${createdSubDocument.id}`);
+      return;
     }
     push(`/documents/${this.state.id}`);
   });
