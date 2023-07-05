@@ -7,11 +7,13 @@
 .header {
   display: flex;
   align-items: center;
+  margin-left: 1rem;
 }
 
 .Editor {
   display: grid;
-  grid-template-rows: 1fr 8fr;
+  grid-template-rows: 1fr 1fr 7fr;
+  padding: 1rem 0;
 }
 
 .subListTitle {

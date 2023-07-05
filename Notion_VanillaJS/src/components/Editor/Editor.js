@@ -16,6 +16,25 @@ export default class Editor extends Component {
   templates() {
     return `
       <input type='text' name='title' class='${styles.title}' placeholder='제목을 입력하세요'/>
+      <section class =${styles.buttons}>
+        <button>h1</button>
+        <button>h2</button>
+        <button>h3</button>
+        <button>
+          <i class="fa-solid fa-bold"></i>
+        </button>
+        <button>
+          <i class="fa-solid fa-italic"></i>
+        </button>
+        <button>
+          <i class="fa-solid fa-underline"></i>
+        </button>
+        <button>
+        <i class="fa-solid fa-strikethrough"></i>
+        </button>
+
+
+      </section>
       <div name='content' class='${styles.content}' placeholder='내용을 입력하세요' contenteditable></div>
     `;
   }

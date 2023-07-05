@@ -24,6 +24,7 @@
   align-items: center;
   padding: 0.3rem 1rem;
   transition: all 300ms ease-in-out;
+  border-radius: 4px;
 }
 
 .container:hover {

@@ -8,7 +8,8 @@
   --purple: #9c93d1;
   --pink: #f2a6be;
   --dark-grey: #666666;
-  --more-light-grey: #d3d3d3;
+  /* --more-light-grey: #d3d3d3;ㄴ */
+  --more-light-grey: #eeeeee;
   --light-grey: #b1b2ad;
   --pure-white: #ffffff;
   --bg-sideBar: #fafaf8;
@@ -31,7 +32,7 @@
   font-family: 'Pretendard-Regular';
   src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
     format('woff');
-  font-weight: 100;
+  font-weight: 400;
   font-style: normal;
 }
 
