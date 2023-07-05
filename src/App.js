@@ -28,15 +28,13 @@ export default class App extends Component {
             callback: async ({ event }) => {
               event.preventDefault();
               const url = event.target.href;
-              const urlSplit = url.split("/");
-              const targetId = urlSplit[urlSplit.length - 1];
               history.pushState(null, null, url);
               this.route();
             },
           },
           {
             action: "click",
-            tag: "#addDocumentButton",
+            tag: ".addDocumentButton",
             target: "li",
             callback: ({ event, target }) => {
               if (target === null) {
@@ -46,13 +44,14 @@ export default class App extends Component {
                 );
                 return;
               }
-              const [, , , $childUl] = target.children;
-              target.insertBefore(document.createElement("input"), $childUl);
+              const [, $childUl] = target.children;
+              console.log($childUl);
+              target.appendChild(document.createElement("input"));
             },
           },
           {
             action: "click",
-            tag: "#deleteDocumentButton",
+            tag: ".deleteDocumentButton",
             target: "li",
             callback: async ({ event, target }) => {
               const { id } = target;

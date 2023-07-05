@@ -1,31 +1,71 @@
-body{
+body {
   width: 100vw;
   height: 100vh;
   margin: 0;
 }
 
-#app{
+#app {
   display: flex;
   height: 100%;
   width: 100%;
 }
 
-#documentTree{
+#documentTree {
   box-sizing: border-box;
   display: flex;
   width: 250px;
   height: 100%;
   flex-direction: column;
-  
   border: 1px solid black;
+  overflow-x: scroll;
+  padding: 10px;
 }
 
-#editor{
+li {
+  list-style-type: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.documentLicontainer {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 15px;
+  margin: 15px;
+}
+
+.documentLink {
+  display: inline-block;
+  white-space: nowrap;
+  width: fit-content;
+  text-decoration: none;
+  color: #000;
+  font-size: 20px;
+}
+
+.addDocumentButton,
+.deleteDocumentButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  appearance: none;
+  border: none;
+  width: 20px;
+  height: 20px;
+}
+
+.addRootDocumentButton {
+}
+
+#editor {
   width: calc(100% - 250px);
   border: 1px solid black;
 }
 
-#textarea{
+#textarea {
   width: 100%;
   height: 100%;
 }
