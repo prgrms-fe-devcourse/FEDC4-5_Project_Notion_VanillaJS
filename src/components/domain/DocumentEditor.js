@@ -3,7 +3,11 @@ import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 import RecurChildDocument from "../template/RecurChildDocument.js";
 
-export default function DocumentEditor({ parentElement, onEditing }) {
+export default function DocumentEditor({
+  parentElement,
+  onEditing,
+  getChildDocuments,
+}) {
   const containerElement = document.createElement("div");
   containerElement.className = "document-editor";
 
@@ -47,6 +51,7 @@ export default function DocumentEditor({ parentElement, onEditing }) {
 
     parentElement.append(containerElement);
 
+    const childDocuments = getChildDocuments(documentId);
     const data = await getDocument(documentId);
 
     this.setState({ title: data.title, content: data.content, documentId });
@@ -56,7 +61,7 @@ export default function DocumentEditor({ parentElement, onEditing }) {
         data.title ?? ""
       }" placeholder="제목 없음" />
       <div contentEditable class="content">${data.content ?? ""}</div>
-      ${RecurChildDocument(data.documents)}
+      ${RecurChildDocument(childDocuments)}
     `;
   };
 

@@ -11,6 +11,7 @@ import {
   addChildDocument,
   editTitleDocument,
   findAllDocument,
+  findChildDocuments,
   removeDocument,
 } from "./utils/document.js";
 
@@ -104,6 +105,8 @@ export default function App({ appElement }) {
         await putDocument({ documentId, data: document });
       }, 1000);
     },
+    getChildDocuments: (documentId) =>
+      findChildDocuments(this.state, documentId),
   });
 
   window.addEventListener("popstate", () => {

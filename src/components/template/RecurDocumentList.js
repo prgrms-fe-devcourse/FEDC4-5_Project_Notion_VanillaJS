@@ -39,8 +39,10 @@ export default function RecurDocumentList({
       },
       onClickRemoveButton: async (documentId) => {
         await deleteDocument(documentId);
-
         removeRender(documentId);
+      },
+      onClickRoute: async (documentId) => {
+        push(`${PATH.DOCUMENTS}/${documentId}`);
       },
       ...rootDocument,
     }).render()

@@ -1,11 +1,9 @@
-import { PATH } from "../../constants/path.js";
-import { push } from "../../utils/route.js";
-
 export default function DocumentItem({
   parentElement,
   getChildDocument,
   onClickChildButton,
   onClickRemoveButton,
+  onClickRoute,
   ...documentData
 }) {
   const containerElement = document.createElement("div");
@@ -22,7 +20,7 @@ export default function DocumentItem({
       return onClickRemoveButton(documentData.id);
     }
 
-    push(`${PATH.DOCUMENTS}/${documentData.id}`);
+    onClickRoute(documentData.id);
   });
 
   this.state = "";

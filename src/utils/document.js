@@ -72,7 +72,7 @@ export function editTitleDocument(documentId, state, documentTitle) {
   return tempState;
 }
 
-export function findAllDocument(state, temp) {
+export function findAllDocument(state, insert) {
   const stack = [];
   const tempState = structuredClone(state);
 
@@ -83,12 +83,35 @@ export function findAllDocument(state, temp) {
   while (stack.length !== 0) {
     const current = stack.pop();
 
-    temp(current.title ?? "", current.id);
+    insert(current.title ?? "", current.id);
 
     for (const document of current.documents) {
       stack.push(document);
     }
   }
+}
+
+export function findChildDocuments(state, documentId) {
+  const stack = [];
+  const tempState = structuredClone(state);
+
+  for (const temp of tempState) {
+    stack.push(temp);
+  }
+
+  while (stack.length !== 0) {
+    const current = stack.pop();
+
+    if (current.id === documentId) {
+      return current.documents;
+    }
+
+    for (const document of current.documents) {
+      stack.push(document);
+    }
+  }
+
+  return [];
 }
 
 function Node(value = "") {
