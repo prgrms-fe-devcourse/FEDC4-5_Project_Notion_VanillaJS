@@ -38,14 +38,12 @@ export default function DocumentContent({ $target, initialState }) {
 
   const fetchData = async () => {
     const currentId = this.state.documentId;
-    if (currentId !== "new") {
-      const document = await request(`/documents/${currentId}`);
-      console.log(document);
-      editor.setState({
-        title: document.title,
-        content: document.content,
-      });
-    }
+    const document = await request(`/documents/${currentId}`);
+    console.log(document);
+    editor.setState({
+      title: document.title,
+      content: document.content,
+    });
   };
 
   this.render = () => {
