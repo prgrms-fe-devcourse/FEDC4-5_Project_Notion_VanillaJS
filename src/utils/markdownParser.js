@@ -1,6 +1,7 @@
-import {DUMMY_CHARACTER, SPACEBAR_KEY_CODE, ENTER_KEY_CODE} from "../constants/constants.js"
+import {DUMMY_CHARACTER, SPACEBAR_KEY_CODE, ENTER_KEY_CODE, BACKTICK_KEY_CODE} from "../constants/constants.js"
 
 const selection = window.getSelection();
+let offset = null;
 
 export function insertElementInEditor($element){
     const range = selection.getRangeAt(0);
@@ -73,6 +74,38 @@ export function parseMarkdown(key){
       const $newDiv = document.createElement("div");
       $newDiv.innerHTML = `<br>`;
       $parentDiv.replaceChild($newDiv, $deleteDiv);
+    }
+  }else if(key === BACKTICK_KEY_CODE){
+    const range = selection.getRangeAt(0);
+    let $divParent = range.commonAncestorContainer.parentElement;
+    while($divParent.nodeName !== "DIV"){
+      $divParent = $divParent.parentElement;
+    }
+    if(selection.anchorNode.length !== selection.anchorOffset){
+      offset = null;
+      return;
+    }
+    if(!offset){
+      offset = selection.anchorOffset - 1;
+      return;
+    }else{
+      const startOffset = offset;
+      const endOffset = selection.anchorOffset;
+      const $span = document.createElement("span");
+
+      range.setStart($divParent.lastChild, startOffset);
+      range.setEnd($divParent.lastChild, endOffset);
+
+      const extractedText = range.extractContents().textContent.substring(1);
+      $span.classList.add("code-block");
+      $span.textContent = extractedText.substring(0, extractedText.length - 1);
+      
+      range.insertNode($span);
+      range.setStartAfter($span);
+      range.setEndAfter($span);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      offset = null;
     }
   }
 }

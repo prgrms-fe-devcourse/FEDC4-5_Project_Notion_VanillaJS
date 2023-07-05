@@ -1,3 +1,16 @@
+#app{
+  display : flex;
+  width: 100%;
+}
+
+.sidebar{
+  width : 30%;
+}
+
+.contentSide{
+  width : 70%;
+}
+
 .selected-document-span{
   color: red;
 }

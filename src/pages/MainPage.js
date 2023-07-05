@@ -26,8 +26,10 @@ export default class MainPage extends Component{
   template(){
     return `
     <div class="sidebar"></div>
-    <div class="toolbar"></div>
-    <div class="editor"></div>
+    <div class="contentSide">
+      <div class="toolbar"></div>
+      <div class="editor"></div>
+    </div>
     `;
   }
 
