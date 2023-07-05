@@ -1,4 +1,3 @@
-import ChildrenDocumentLink from "../components/ChildrenDocumentLink.js";
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
 import Toolbar from "../components/Toolbar.js";
@@ -20,7 +19,6 @@ export default class MainPage extends Component{
     <div class="sidebar"></div>
     <div class="toolbar"></div>
     <div class="editor"></div>
-    <div class="editor-below-links"></div>
     `;
   }
 
@@ -29,9 +27,11 @@ export default class MainPage extends Component{
     const $sidebar = this.$target.querySelector(".sidebar");
     const $toolbar = this.$target.querySelector(".toolbar");
     const $editor = this.$target.querySelector(".editor");
-    const $childLinks = this.$target.querySelector(".editor-below-links"); 
 
-    if(!this.state.id) $editor.style.visibility = "hidden"; 
+    if(!this.state.id) {
+      $toolbar.style.visibility = "hidden";
+      $editor.style.visibility = "hidden"; 
+    }
 
     new Sidebar($sidebar, {
       id : this.state.id,
@@ -42,30 +42,26 @@ export default class MainPage extends Component{
     });
 
     new Toolbar($toolbar, {
+      onEditContent : onEditContent.bind(this)
     });
 
     new Editor($editor, {
       documentContent : this.state.documentContent ? this.state.documentContent : {title : "", content : ""},
       onEditTitle : onEditTitle.bind(this),
       onEditContent : onEditContent.bind(this),
-    })
-
-    new ChildrenDocumentLink($childLinks, {
-      documentContent : this.state.documentContent,
-      onClickDocument : onClickDocument.bind(this)      
+      onClickDocument : onClickDocument.bind(this)
     })
   }
 
-  get postLocalSaveKey () {
-    return `temp-post-${this.state.id}`;
-  }
+  getPostLocalSaveKey (id){
+    return `temp-post-${id}`;  
+  }   
 
   async onClickAdd (id){
     const newDocument = {
       title : "빈 제목",
       parent : id,
     }
-
     const {id : newId} = await request("/documents", {
       method : "POST",
       body : JSON.stringify(newDocument)
@@ -88,14 +84,15 @@ export default class MainPage extends Component{
     push(`/documents/${id}`);
   }
 
-  onEditTitle(post, $input){
+  onEditTitle(post){
     const {id} = this.state;
+    const localSaveKey = this.getPostLocalSaveKey(id);
     if(this.timer !== null){
       clearTimeout(this.timer);
     }
     document.querySelector(".selected-document-span").textContent = post.title;
     this.timer = setTimeout(async () => {
-      setLocalStorageItem(this.postLocalSaveKey, {
+      setLocalStorageItem(localSaveKey, {
         ...post,
         tempSaveDate : new Date()
       })
@@ -105,18 +102,18 @@ export default class MainPage extends Component{
       })
       await this.fetchDocuments();
       this.setState({documentContent : post});
-      removeLocalStorageItem(this.documentLocalSaveKey);
-      $input.focus();
+      removeLocalStorageItem(localSaveKey);
     }, 500)
   }
 
   onEditContent(post){
     const {id} = this.state;
+    const localSaveKey = this.getPostLocalSaveKey(id);
     if(this.timer !== null){
       clearTimeout(this.timer);
     }
     this.timer = setTimeout(async () => {
-      setLocalStorageItem(this.postLocalSaveKey, {
+      setLocalStorageItem(localSaveKey, {
         ...post,
         tempSaveDate : new Date()
       })
@@ -124,7 +121,7 @@ export default class MainPage extends Component{
         method : "PUT",
         body : JSON.stringify(post)
       })
-      removeLocalStorageItem(this.postLocalSaveKey);
+      removeLocalStorageItem(localSaveKey);
     }, 500)
   }
 

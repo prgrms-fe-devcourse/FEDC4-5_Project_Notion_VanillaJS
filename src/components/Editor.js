@@ -1,44 +1,49 @@
+import { RIGHT_ARROW_KEY_CODE, SPACEBAR_KEY_CODE, TAB_KEY_CODE } from "../constants/constants.js";
 import Component from "../core/Component.js";
 import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../utils/markdownParser.js";
+import ChildrenDocumentLink from "./ChildrenDocumentLink.js";
 
 export default class Editor extends Component{
   template(){
     return `
       <input type="text" name="title" style="width:600px;">
-      <div name="content" contentEditable="true" style="width:600px; height:400px; border: 1px solid black;">
-      </div>
+      <div name="content" contentEditable="true" style="width:600px; height:400px;"></div>
     `
   }
-
   render(){
     const {title, content} = this.props.documentContent;
-    
-    const splitedContent = content?.split("<div>");
-    let contentParsed = null;
-    if(splitedContent && splitedContent[0]){
-      contentParsed = `<div>${splitedContent[0]}</div>${splitedContent.slice(1).map(line => `<div>${line}`).join("")}`
-    }else{
-      contentParsed = content;
-    }
     this.$target.innerHTML = this.template();
     this.$target.querySelector("[name=title]").value = title;
-    this.$target.querySelector("[name=content]").innerHTML = contentParsed;
+    this.$target.querySelector("[name=content]").innerHTML = (content || "") + this.childDocumentsLinkHTML;
     this.$target.querySelector("[name=title]").focus();
   }
 
+  get childDocumentsLinkHTML(){
+    const {documents} = this.props.documentContent;
+    if(!documents || !documents.length) return ``;
+    return `
+      <br><br>
+      ${documents.map(child => `
+        <div class="children-documents-link" data-id="${child.id}">
+          <span>${child.title}</span>
+        </div>
+      `).join("")}
+    `;
+  }
+
   setEvent(){
-    const {documentContent, onEditTitle, onEditContent} = this.props;
+    const {documentContent, onEditTitle, onEditContent, onClickDocument} = this.props;
     this.addEvent("input", "[name=title]", ({target}) => {
       onEditTitle({
-        ...documentContent,
-        title : target.value
-      }, target);
+        title : target.value,
+        content : target.innerHTML.replace(/<br><br><div\sclass="children-documents-link\sdata-id=".+">\s.+/g, "")
+      });
     }); 
 
     this.addEvent("input", "[name=content]", ({target}) => {
       onEditContent({
-        ...documentContent,
-        content : target.innerHTML
+        title :  documentContent.title,
+        content : target.innerHTML.replace(/<br><br><div\sclass="children-documents-link\sdata-id=".+">\s.+/g, "")
       });
     })
 
@@ -47,13 +52,18 @@ export default class Editor extends Component{
     })
 
     this.addEvent("keydown", "[name=content]", (e) => {
-      console.log(e.keyCode);
-      if(e.keyCode === 9){
+      if(e.keyCode === TAB_KEY_CODE){
         e.preventDefault();
         onPressTab();
-      }else if(e.keyCode === 32 || e.keyCode === 39){
+      }else if(e.keyCode === SPACEBAR_KEY_CODE || e.keyCode === RIGHT_ARROW_KEY_CODE){
         onPressInCodeBlock(e);
       }
+    })
+
+    this.addEvent("click", ".children-documents-link", ({target}) => {
+      const $div = target.closest("div");
+      const {id} = $div.dataset;
+      onClickDocument(id);
     })
   }
 }

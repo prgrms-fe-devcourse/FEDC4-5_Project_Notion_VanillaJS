@@ -2,6 +2,7 @@ import Component from "../core/Component.js";
 
 export default class ChildrenDocumentLink extends Component{
   template(){
+    console.log("d");
     const documents = this.props.documentContent?.documents || [];
     return `
       <ul>${documents.map((child) => {
