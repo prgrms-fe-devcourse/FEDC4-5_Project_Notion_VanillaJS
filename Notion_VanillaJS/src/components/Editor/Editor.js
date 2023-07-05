@@ -3,6 +3,16 @@ import styles from './Editor.module.css';
 import { setItem, removeItem } from '@/api/storage';
 import { PostStore, PostListStore } from '@/store/';
 import { debounceSaveLocal } from '@/utils/';
+import {
+  isApplied,
+  isSafeRange,
+  applyStyle,
+  deleteStyle,
+  focusLastChar,
+  isDefaultAlign,
+  isFlex,
+  isAlign,
+} from './helper';
 
 export default class Editor extends Component {
   setup() {
@@ -17,28 +27,25 @@ export default class Editor extends Component {
     return `
       <input type='text' name='title' class='${styles.title}' placeholder='제목을 입력하세요'/>
       <section class =${styles.buttons}>
-        <button>h1</button>
-        <button>h2</button>
-        <button>h3</button>
-        <button data-style='bold'>
+        <button data-style='fontWeight/bold'>
           <i class="fa-solid fa-bold"></i>
         </button>
-        <button data-style='italic'>
+        <button data-style='fontStyle/italic'>
           <i class="fa-solid fa-italic"></i>
         </button>
-        <button data-style='underline'>
+        <button data-style='textDecoration/underline'>
           <i class="fa-solid fa-underline"></i>
         </button>
-        <button data-style='line-through'>
+        <button data-style='textDecoration/line-through'>
           <i class="fa-solid fa-strikethrough"></i>
         </button>
-        <button data-style='start'>
+        <button data-style='align/start'>
           <i class="fa-solid fa-align-left"></i>
         </button>
-        <button data-style='center'>
+        <button data-style='align/center'>
           <i class="fa-solid fa-align-center"></i>
         </button>
-        <button data-style='end'>
+        <button data-style='align/end'>
           <i class="fa-solid fa-align-right"></i>
         </button>
       </section>
@@ -49,7 +56,6 @@ export default class Editor extends Component {
   render() {
     const { isInit } = this.state;
 
-    //초기화 안됐을 때
     if (!isInit) {
       this.$target.innerHTML = this.templates();
       this.setState({ isInit: true });
@@ -64,7 +70,7 @@ export default class Editor extends Component {
     this.$target.querySelector('[name=title]').value = title;
     const $content = this.$target.querySelector('[name=content]');
     $content.innerHTML = content.replace('\n', '<br>');
-    this.focusLastChar($content);
+    focusLastChar($content);
     this.mounted();
   }
 
@@ -82,74 +88,8 @@ export default class Editor extends Component {
     this.addEvent({
       eventType: 'click',
       selector: '[data-style]',
-      callback: ({ target }) => {
-        const { style } = target.closest('[data-style]').dataset;
-
-        const selection = window.getSelection();
-
-        if (selection.rangeCount === 0) return;
-
-        const { parentElement } = selection.anchorNode;
-        const $content = parentElement.closest('.content');
-
-        if (!$content) return;
-
-        const isApplied =
-          (parentElement.tagName === 'SPAN' &&
-            ((style === 'bold' && parentElement.style.fontWeight === 'bold') ||
-              (style === 'italic' &&
-                parentElement.style.fontStyle === 'italic') ||
-              (style === 'underline' &&
-                parentElement.style.textDecoration === 'underline'))) ||
-          (style === 'line-through' &&
-            parentElement.style.textDecoration === 'line-through') ||
-          (style === 'start' &&
-            parentElement.style.display === 'flex' &&
-            parentElement.style.justifyContent === 'start') ||
-          (style === 'center' &&
-            parentElement.style.display === 'flex' &&
-            parentElement.style.justifyContent === 'center') ||
-          (style === 'end' &&
-            parentElement.style.display === 'flex' &&
-            parentElement.style.justifyContent === 'end');
-
-        const range = selection.getRangeAt(0);
-
-        if (isApplied) {
-          // 스타일 해제
-          range.selectNode(parentElement);
-          const innerText = document.createTextNode(parentElement.innerText);
-          range.deleteContents();
-          range.insertNode(innerText);
-          selection.removeAllRanges();
-        } else {
-          // 스타일 적용
-          const span = document.createElement('span');
-          if (style === 'bold') this.applyBold(span);
-          if (style === 'italic') span.style.fontStyle = 'italic';
-          if (style === 'underline') span.style.textDecoration = 'underline';
-          if (style === 'line-through')
-            span.style.textDecoration = 'line-through';
-          if (['start', 'center', 'end'].includes(style)) {
-            if (parentElement.style.display === 'flex') {
-              parentElement.style.justifyContent = style;
-              return;
-            }
-            if (parentElement.style.display !== 'flex' && style === 'start')
-              return;
-            span.style.display = 'flex';
-            span.style.justifyContent = style;
-          }
-
-          range.surroundContents(span);
-          selection.removeAllRanges();
-        }
-      },
+      callback: this.onClickStyleButton,
     });
-  }
-
-  applyBold(span) {
-    span.style.fontWeight = 'bold';
   }
 
   async saveTitle(target) {
@@ -183,18 +123,35 @@ export default class Editor extends Component {
     removeItem(postLocalSaveKey);
   }
 
-  /**
-   *
-   * @param {HTMLElement} $content
-   * 1. range와 selection 객체를 가져온다
-   */
-  focusLastChar($content) {
-    const range = document.createRange();
-    const selection = getSelection();
+  onClickStyleButton({ target }) {
+    const { style } = target.closest('[data-style]').dataset;
+    const selection = window.getSelection();
+    const isNotSelected = selection.rangeCount === 0;
 
-    range.selectNodeContents($content);
-    range.collapse();
+    if (isNotSelected) return;
+
+    const $parent = selection.anchorNode.parentElement;
+    const range = selection.getRangeAt(0);
+    const $content = $parent.closest('.content');
+
+    if (!$content || !isSafeRange(range)) return;
+
+    if (isApplied($parent, style)) {
+      deleteStyle(selection, range, $parent);
+      return;
+    }
+
+    const $newParent = document.createElement('span');
+
+    if (isDefaultAlign($parent, style)) return;
+    if (isFlex($parent) && isAlign(style)) {
+      const [, align] = style.split('/');
+      $parent.style.justifyContent = align;
+      return;
+    }
+
+    applyStyle($newParent, style);
+    range.surroundContents($newParent);
     selection.removeAllRanges();
-    selection.addRange(range);
   }
 }

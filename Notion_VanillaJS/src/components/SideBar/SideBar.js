@@ -41,7 +41,7 @@ export default class SideBar extends Component {
     return postList
       .map(
         ({ id, title, documents }) => `
-    <li data-id=${id} class='parent-list'>
+    <li data-id=${id} class='parent-list ${styles.item}'>
     <div class='${styles.container}  ${isSelected(id) ? styles.active : ''}'>
       <div class=${styles.content}>
         ${

@@ -83,20 +83,22 @@
 
 .add,
 .delete {
-  border-radius: 100%;
-  padding: 0.1rem;
-  color: var(--main-white);
+  border-radius: 4px;
+  padding: 0.2rem;
+  color: var(--light-grey);
   transition: all 300ms ease-in-out;
 }
 
 .add:hover {
   transform: scale(1.1);
   background-color: var(--purple);
+  color: var(--pure-white);
 }
 
 .delete:hover {
   transform: scale(1.1);
   background-color: var(--pink);
+  color: var(--pure-white);
 }
 
 .childList {
