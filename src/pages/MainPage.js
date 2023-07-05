@@ -1,17 +1,26 @@
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
 import Toolbar from "../components/Toolbar.js";
+import { API_WAIT_TIME } from "../constants/constants.js";
 import Component from "../core/Component.js";
 import { request } from "../utils/api.js";
-import { push, replace } from "../utils/router.js";
+import { pushHistory, replaceHistory } from "../utils/router.js";
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from "../utils/storage.js";
 
 export default class MainPage extends Component{
-  timer = null;
+  titleTimer = null;
+  contentTimer = null;
+  init = false;
+
   async setup(id){
-    this.state = this.props;
+    if(!this.init) {
+      this.state = this.props;
+      this.init = true; 
+    }
     await this.fetchDocuments();
-    await this.fetchContent(id);
+    if(id){
+        await this.fetchContent(id);  
+    }
   }
 
   template(){
@@ -28,11 +37,6 @@ export default class MainPage extends Component{
     const $toolbar = this.$target.querySelector(".toolbar");
     const $editor = this.$target.querySelector(".editor");
 
-    if(!this.state.id) {
-      $toolbar.style.visibility = "hidden";
-      $editor.style.visibility = "hidden"; 
-    }
-
     new Sidebar($sidebar, {
       id : this.state.id,
       documents : this.state.documents,
@@ -40,33 +44,34 @@ export default class MainPage extends Component{
       onClickDelete : onClickDelete.bind(this),
       onClickDocument : onClickDocument.bind(this)  
     });
-
-    new Toolbar($toolbar, {
-      onEditContent : onEditContent.bind(this)
-    });
-
-    new Editor($editor, {
-      documentContent : this.state.documentContent ? this.state.documentContent : {title : "", content : ""},
-      onEditTitle : onEditTitle.bind(this),
-      onEditContent : onEditContent.bind(this),
-      onClickDocument : onClickDocument.bind(this)
-    })
+    if(this.state.documentContent){
+      new Toolbar($toolbar, {
+        onEditContent : onEditContent.bind(this)
+      });
+      new Editor($editor, {
+        documentContent : this.state.documentContent,
+        onEditTitle : onEditTitle.bind(this),
+        onEditContent : onEditContent.bind(this),
+        onClickDocument : onClickDocument.bind(this),
+        onClickAdd : onClickDocument.bind(this)
+      })
+    }
   }
 
   getPostLocalSaveKey (id){
     return `temp-post-${id}`;  
-  }   
+  }
 
   async onClickAdd (id){
     const newDocument = {
-      title : "빈 제목",
+      title : "제목 없음",
       parent : id,
     }
     const {id : newId} = await request("/documents", {
       method : "POST",
       body : JSON.stringify(newDocument)
     })
-    push(`/documents/${newId}`);
+    pushHistory(`/documents/${newId}`);
   }
 
   async onClickDelete (id){
@@ -74,55 +79,51 @@ export default class MainPage extends Component{
       method : "DELETE"
     })
     if(id === this.state.id){
-      replace("/");
+      replaceHistory("/");
       return;
     }
     await this.fetchDocuments();
   }
 
   async onClickDocument (id){
-    push(`/documents/${id}`);
+    pushHistory(`/documents/${id}`);
   }
 
   onEditTitle(post){
     const {id} = this.state;
-    const localSaveKey = this.getPostLocalSaveKey(id);
-    if(this.timer !== null){
+    if(this.titleTimer !== null){
       clearTimeout(this.timer);
     }
     document.querySelector(".selected-document-span").textContent = post.title;
-    this.timer = setTimeout(async () => {
-      setLocalStorageItem(localSaveKey, {
-        ...post,
-        tempSaveDate : new Date()
-      })
+    setLocalStorageItem(this.getPostLocalSaveKey(id), {
+      ...post,
+      tempSaveDate : new Date()
+    })
+    this.titleTimer = setTimeout(async () => {
       await request(`/documents/${id}`, {
         method : "PUT",
         body : JSON.stringify(post)
       })
-      await this.fetchDocuments();
-      this.setState({documentContent : post});
-      removeLocalStorageItem(localSaveKey);
-    }, 500)
+      removeLocalStorageItem(this.getPostLocalSaveKey(id));
+    }, API_WAIT_TIME)
   }
 
   onEditContent(post){
     const {id} = this.state;
-    const localSaveKey = this.getPostLocalSaveKey(id);
-    if(this.timer !== null){
+    if(this.contentTimer !== null){
       clearTimeout(this.timer);
     }
-    this.timer = setTimeout(async () => {
-      setLocalStorageItem(localSaveKey, {
-        ...post,
-        tempSaveDate : new Date()
-      })
+    setLocalStorageItem(this.getPostLocalSaveKey(id), {
+      ...post,
+      tempSaveDate : new Date()
+    })
+    this.contentTimer = setTimeout(async () => {
       await request(`/documents/${id}`, {
         method : "PUT",
         body : JSON.stringify(post)
       })
-      removeLocalStorageItem(localSaveKey);
-    }, 500)
+      removeLocalStorageItem(this.getPostLocalSaveKey(id));
+    }, API_WAIT_TIME)
   }
 
   async fetchDocuments(){
@@ -134,16 +135,20 @@ export default class MainPage extends Component{
 
   async fetchContent(id){
     if(!id) return;
-    const documentContent = await request(`/documents/${id}`);
-    const tempContent = getLocalStorageItem(this.postLocalSaveKey, {title : "", content : ""});
-    if(tempContent && tempContent.tempSaveDate > documentContent.updatedAt){
+    const tempContent = getLocalStorageItem(this.getPostLocalSaveKey(id), null);
+    if(tempContent){
       if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
         this.setState({
+          id,
           documentContent : tempContent
         });
-        return;
+      }else{
+        const documentContent = await request(`/documents/${id}`);
+        this.setState({id, documentContent});
       }
+      return;
     }
+    const documentContent = await request(`/documents/${id}`);
     this.setState({id, documentContent});
   }
 }

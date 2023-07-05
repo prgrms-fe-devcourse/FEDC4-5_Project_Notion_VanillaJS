@@ -5,7 +5,7 @@ export default class Sideber extends Component{
     const {documents, id} = this.props;
     return `
       <button class="add-root">+</button>
-      ${this.getDirectoryTree(documents, +id)} 
+      ${this.getDirectoryTree(documents, +id)}
     `
   }
 
@@ -37,20 +37,20 @@ export default class Sideber extends Component{
     if(!Array.isArray(documents) || documents.length === 0){
       return ``;
     }
-    let ret = ``;
+    let resultHTML = ``;
     documents.forEach(document => {
       const {title, id} = document;
-      ret += `
+      resultHTML += `
       <ul>
         <li data-id="${id}" ${id === selectedId ? 'class="selected-document"' : ''}>
-          <span ${id === selectedId ? 'class="selected-document-span"' : ''}>${title}</span>
+          <span data-id="${id}" ${id === selectedId ? 'class="selected-document-span"' : ''}>${title}</span>
           <button class="add-document">+</button>
           <button class="delete-document">X</button>
         </li>
       `
-      ret += this.getDirectoryTree(document.documents, selectedId);
-      ret += `</ul>`
+      resultHTML += this.getDirectoryTree(document.documents, selectedId);
+      resultHTML += `</ul>`
     })
-    return ret;
+    return resultHTML;
   }
 }

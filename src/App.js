@@ -3,14 +3,11 @@ import { initRouter } from "./utils/router.js";
 
 export default class App{
   constructor($target){
-    this.mainPage = new MainPage(
+    this.$mainPage = new MainPage(
       $target, {
       id : null,
       documents : [],
-      documentContent : {
-        title : "",
-        content:  ""
-      }
+      documentContent : null
     })
     this.route();
     initRouter(() => this.route());
@@ -22,10 +19,10 @@ export default class App{
   route(){
     const {pathname} = window.location;
     if(pathname === "/"){
-      this.mainPage.setup(null);
+      this.$mainPage.setup(null);
     }else if(pathname.indexOf("/documents/") === 0){
       const [, , id] = pathname.split("/");
-      this.mainPage.setup(id);
+      this.$mainPage.setup(id);
     }
   }
 }

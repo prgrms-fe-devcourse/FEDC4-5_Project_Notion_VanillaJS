@@ -1,4 +1,4 @@
-import {DUMMY_CHARACTER, SPACEBAR_KEY_CODE, RIGHT_ARROW_KEY_CODE, BACKTICK_KEY_CODE, ENTER_KEY_CODE} from "../constants/constants.js"
+import {DUMMY_CHARACTER, SPACEBAR_KEY_CODE, ENTER_KEY_CODE} from "../constants/constants.js"
 
 const selection = window.getSelection();
 
@@ -44,7 +44,7 @@ export function onPressInCodeBlock(e){
   }
 }
 
-export function parseMarkdown(key, e){
+export function parseMarkdown(key){
   const line = selection.anchorNode.textContent;
   if(key === SPACEBAR_KEY_CODE){
     if(line.match(/^\#/g)){

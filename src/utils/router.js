@@ -21,7 +21,7 @@ export const initRouter = (onRoute) => {
   })
 }
 
-export const push = (nextUrl) => {
+export const pushHistory = (nextUrl) => {
   window.dispatchEvent(new CustomEvent("route-change", {
     detail : {
       nextUrl
@@ -29,7 +29,7 @@ export const push = (nextUrl) => {
   }));
 }
 
-export const replace = (newUrl) => {
+export const replaceHistory = (newUrl) => {
   window.dispatchEvent(new CustomEvent("route-replace", {
     detail : {
       newUrl
