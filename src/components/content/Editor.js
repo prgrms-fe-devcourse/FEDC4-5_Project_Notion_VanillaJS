@@ -1,9 +1,10 @@
 export default function Editor({ $target, initialState }) {
   const $editor = document.createElement("div");
+  $editor.setAttribute("id", "editor");
 
   $editor.innerHTML = `
-    <input type="text" name="title"/>
-    <div name="content" contentEditable="true"></div>
+    <input type="text" name="title" id="title"/>
+    <textarea name="content" placeholder="내용을 입력하세요" id="content" />
   `;
 
   this.state = initialState;
