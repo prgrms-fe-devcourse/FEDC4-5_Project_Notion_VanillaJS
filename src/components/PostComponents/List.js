@@ -7,7 +7,6 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     new List({
       $target,
       initalState,
-
       onAdd,
       onDelete,
     });

@@ -1,3 +1,4 @@
+import ButtonContainer from "../EditComponents/ButtonContainer.js";
 import Editor from "../EditComponents/Editor.js";
 import Header from "../Header.js";
 
@@ -10,14 +11,28 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
-    editor.setState(this.state.posts || { title: "Untitle", content: "" });
+    header.setState(this.state.post.title || { title: "Untitle" });
+    editor.setState(this.state.post || { title: "Untitle", content: "" });
+    buttonContainer.setState(
+      { documents: this.state.post.documents } || { documents: [] }
+    );
     this.render();
   };
 
+  const header = new Header({
+    $target: $page,
+    initalState: { title: "Untitle" },
+  });
+
   const editor = new Editor({
     $target: $page,
-    initalState: this.state.post,
+    initalState: { title: "Untitle", content: "" },
     onEdit,
+  });
+
+  const buttonContainer = new ButtonContainer({
+    $target: $page,
+    initalState: { documents: [] },
   });
 
   this.render = () => {

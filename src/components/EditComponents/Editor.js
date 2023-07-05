@@ -6,7 +6,7 @@ export default function Editor({
   if (!new.target)
     new Editor({
       $target,
-      initalState: { title: "Untitle", content: "" },
+      initalState,
       onEdit,
     });
 
