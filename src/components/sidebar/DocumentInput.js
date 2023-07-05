@@ -25,8 +25,13 @@ export default class DocumentInput {
       const inputElement = event.target.querySelector("input[type='text']");
       const { value } = inputElement;
 
-      store.documentProduce({ title: value, parent: targetId });
-      this.hide();
+      const newId = await store.documentProduce({
+        title: value,
+        parent: targetId,
+      });
+      history.pushState(null, null, `/documents/${newId}`);
+      store.documentGet(newId);
+      store.documentsGet();
     });
   }
 

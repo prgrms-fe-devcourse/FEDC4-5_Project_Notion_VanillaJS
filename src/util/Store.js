@@ -38,11 +38,12 @@ class Store {
   }
 
   async documentProduce(post) {
-    await request("/documents", {
+    const { id } = await request("/documents", {
       method: "POST",
       body: JSON.stringify(post),
     });
-    await this.documentsGet();
+    return id;
+    // await this.documentsGet();
   }
 
   async documentDelete(id) {
