@@ -14,14 +14,22 @@ export default class DocumentItem extends Component {
   }
   render() {
     this.el.innerHTML = `
-      <li>
-        <button class="showChildDocu">></button>
-        <a class="docuTitle">${this.state.title}</a>
-        <a>${this.state.id}</a>
-        <button class="createChildDocu">+</button>
-        <button class="deleteDocu">-</button>
-      </li>
+        <li style="display: flex">
+          <button class="showChildDocu">></button>
+          <div class="docuTitleDiv">
+          <a class="docuTitle" id="${this.state.id}">${this.state.title}</a>
+          </div>
+          <button class="createChildDocu">+</button>
+          <button class="deleteDocu">-</button>
+        </li>
     `;
+
+    const docuTitleEl = this.el.querySelector(".docuTitle");
+    docuTitleEl.addEventListener("click", () => {
+      history.pushState(null, null, `/post/${this.state.id}`);
+      const routeEvent = new Event("route-event");
+      dispatchEvent(routeEvent);
+    });
 
     const deleteDocuBtnEl = this.el.querySelector(".deleteDocu");
     deleteDocuBtnEl.addEventListener("click", () => {
