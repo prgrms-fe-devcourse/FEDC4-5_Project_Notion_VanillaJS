@@ -6,6 +6,7 @@ export default function Home({ parentElement, search }) {
   if (!new.target) return new Home(...arguments);
 
   const containerElement = document.createElement("div");
+  containerElement.className = "";
 
   let timer = null;
 
@@ -50,8 +51,7 @@ export default function Home({ parentElement, search }) {
   this.render = () => {
     parentElement.append(containerElement);
     containerElement.innerHTML = `
-      <h1>Home 입니다.</h1>
-      <input placeholder="종션 전체 문서 검색" autofocus class="search-input" value="${
+      <input placeholder="Jongtion 전체 문서 검색" autofocus class="search-input" value="${
         this.state.text
       }" />
       ${

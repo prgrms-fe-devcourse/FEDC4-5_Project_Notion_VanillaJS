@@ -12,16 +12,19 @@ export default function DocumentList({
   if (!new.target) return new DocumentList(...arguments);
 
   const containerElement = document.createElement("div");
+  const wrapperTopElement = document.createElement("div");
+
   containerElement.className = "document-list";
+  wrapperTopElement.className = "document-list-top";
 
   const addButtonComponent = new AddButton({
-    parentElement: containerElement,
+    parentElement: wrapperTopElement,
     onClick: async () => {
       const newDocument = await postDocument({ titls: null, parent: null });
       onAddButtonClick({ ...newDocument, documents: [] });
       push(`${PATH.DOCUMENTS}/${newDocument.id}`);
     },
-    text: "추가 버튼",
+    text: "+",
   });
 
   this.getServer = async () => {
@@ -32,8 +35,11 @@ export default function DocumentList({
   };
 
   this.render = () => {
+    containerElement.innerHTML = ``;
+    wrapperTopElement.innerHTML = `<span>페이지 목록</span>`;
+
     parentElement.append(containerElement);
-    containerElement.innerHTML = `<span>페이지 목록</span>`;
+    containerElement.append(wrapperTopElement);
 
     addButtonComponent.render();
     renderItemComponent(containerElement);

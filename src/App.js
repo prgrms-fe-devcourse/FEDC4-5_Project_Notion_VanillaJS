@@ -38,8 +38,6 @@ export default function App({ appElement }) {
   this.setState = (nextState) => {
     this.state = nextState;
 
-    findAllDocument(this.state, (title, id) => trie.insert(title, id));
-
     documentListComponent.render();
   };
 
@@ -49,30 +47,30 @@ export default function App({ appElement }) {
     documentEditorComponent.render();
   };
 
-  const layoutComponent = new Layout({ appElement });
+  const layoutComponent = new Layout({ parentElement: leftContainerElement });
 
   const documentListComponent = new DocumentList({
     parentElement: leftContainerElement,
     renderItemComponent: (parentElement) => {
-      return RecurDocumentList(
-        this.state,
+      return RecurDocumentList({
+        rootDocuments: this.state,
         parentElement,
-        (parentId, newDocument) => {
+        childRender: (parentId, newDocument) => {
           const nextState = addChildDocument(parentId, this.state, newDocument);
 
           this.setState(nextState);
         },
-        (documentId) => {
+        removeRender: (documentId) => {
           const newState = removeDocument(documentId, this.state);
-          if (Number(window.location.pathname.split("/")[2]) !== documentId) {
-            this.editorSetState(newState);
-          }
+          const stringDocumentId = window.location.pathname.split("/")[2];
 
-          push(PATH.HOME);
+          Number(stringDocumentId) !== documentId
+            ? this.editorSetState(newState)
+            : push(PATH.HOME);
 
           this.setState(newState);
-        }
-      );
+        },
+      });
     },
     serverRender: (newState) => this.setState(newState),
     onAddButtonClick: (newDocument) => {
@@ -130,6 +128,8 @@ export default function App({ appElement }) {
     const { pathname } = window.location;
 
     if (pathname === PATH.HOME) {
+      findAllDocument(this.state, (title, id) => trie.insert(title, id));
+
       documentEditorComponent.reset();
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {

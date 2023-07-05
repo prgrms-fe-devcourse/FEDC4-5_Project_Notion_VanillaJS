@@ -14,7 +14,7 @@ export default function DocumentEditor({ parentElement, onEditing }) {
   };
 
   containerElement.addEventListener("input", (e) => {
-    if (e.target.closest(".title")) {
+    if (e.target.closest(".editor-title")) {
       this.setState({
         ...this.state,
         title: e.target.value,
@@ -40,17 +40,19 @@ export default function DocumentEditor({ parentElement, onEditing }) {
   });
 
   this.render = async () => {
-    parentElement.append(containerElement);
     const { pathname } = window.location;
-
     const documentId = Number(pathname.split("/")[2]);
+
+    if (!documentId) return;
+
+    parentElement.append(containerElement);
+
     const data = await getDocument(documentId);
 
     this.setState({ title: data.title, content: data.content, documentId });
 
     containerElement.innerHTML = `
-      <h2>문서 작업 페이지<h2>
-      <input type="text" class="title" value="${
+      <input type="text" class="editor-title" value="${
         data.title ?? ""
       }" placeholder="제목 없음" />
       <div contentEditable class="content">${data.content ?? ""}</div>

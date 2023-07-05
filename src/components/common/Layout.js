@@ -1,7 +1,7 @@
 import { PATH } from "../../constants/path.js";
 import { push } from "../../utils/route.js";
 
-export default function Layout({ appElement }) {
+export default function Layout({ parentElement }) {
   if (!new.target) return new Layout(...arguments);
 
   const containerElement = document.createElement("div");
@@ -13,9 +13,9 @@ export default function Layout({ appElement }) {
   });
 
   this.render = () => {
-    appElement.append(containerElement);
+    parentElement.append(containerElement);
     containerElement.innerHTML = `
-      <h1>Jongtion</h1>
+      <h1 class="logo">Jongtion</h1>
     `;
   };
 }

@@ -10,12 +10,12 @@ import DocumentItem from "../domain/DocumentItem.js";
  * @description 트리 형태로 문서를 불러오는 함수
  */
 
-export default function RecurDocumentList(
+export default function RecurDocumentList({
   rootDocuments,
   parentElement,
   childRender,
-  removeRender
-) {
+  removeRender,
+}) {
   rootDocuments.map((rootDocument) =>
     new DocumentItem({
       parentElement,
@@ -23,12 +23,12 @@ export default function RecurDocumentList(
         rootDocument.documents.length === 0
           ? () => {}
           : (innerParentElement) =>
-              RecurDocumentList(
-                rootDocument.documents,
-                innerParentElement,
+              RecurDocumentList({
+                rootDocuments: rootDocument.documents,
+                parentElement: innerParentElement,
                 childRender,
-                removeRender
-              ),
+                removeRender,
+              }),
       onClickChildButton: async (documentId) => {
         const newDocument = await postDocument({
           title: null,
