@@ -28,18 +28,21 @@ export default function SidebarList({
   $sidebarList.addEventListener("click", (e) => {
     const { className } = e.target;
     const $li = e.target.closest("li");
-    const { id } = $li.dataset;
-
-    if (className === "delete") {
-      onDeleteDocument(id);
-    }
-
-    if (className === "add") {
-      onAddDocument(id);
-    }
 
     if ($li) {
-      push(`/documents/${id}`);
+      const { id } = $li.dataset;
+
+      if (id) {
+        if (className === "delete") {
+          onDeleteDocument(id);
+        }
+
+        if (className === "add") {
+          onAddDocument(id);
+        }
+
+        push(`/documents/${id}`);
+      }
     }
   });
 
