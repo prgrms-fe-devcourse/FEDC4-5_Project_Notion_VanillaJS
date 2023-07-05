@@ -92,7 +92,7 @@ export default function DocumentEditPage({ $target, initialState }) {
     }
 
     if (this.state.docId !== nextState.docId) {
-      docLocalSaveKey = `temp-document-${nextState.id}`;
+      docLocalSaveKey = `temp-document-${nextState.docId}`;
       this.state = nextState;
 
       if (this.state.docId === "new") {

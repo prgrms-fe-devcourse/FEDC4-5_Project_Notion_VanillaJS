@@ -16,7 +16,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       $editor.querySelector("[name=title]").placeholder = "Untitled";
 
       $editor.querySelector("[name=content]").value = "";
-      $editor.querySelector("[name=contenet]").placeholder = "Edit document";
+      $editor.querySelector("[name=content]").placeholder = "Edit document";
     } else {
       $editor.querySelector("[name=title]").value = this.state.title;
       $editor.querySelector("[name=content]").value = this.state.content;
@@ -35,8 +35,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       this.setState(nextState);
       onEditing(this.state);
     }
-
-    console.log(this.state);
   });
 
   $target.appendChild($editor);

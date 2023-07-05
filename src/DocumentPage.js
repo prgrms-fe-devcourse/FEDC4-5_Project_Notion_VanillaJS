@@ -31,6 +31,14 @@ export default function DocumentPage({ $target, initialState }) {
         }),
       });
 
+      await request(`/documents/${createdDoc.content}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: "Untitled",
+          content: "nothing",
+        }),
+      });
+
       setItem(id, {
         id: id,
       });
@@ -38,8 +46,6 @@ export default function DocumentPage({ $target, initialState }) {
       push(`/documents/${createdDoc.id}`);
     },
     onDeleteDocument: async (id) => {
-      const { pathname } = window.location;
-
       const deletedDoc = async (id) => {
         await request(`/documents/${id}`, {
           method: "DELETE",

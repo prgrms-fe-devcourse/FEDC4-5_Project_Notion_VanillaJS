@@ -1,4 +1,5 @@
 import { push } from "./router.js";
+import { request } from "./api.js";
 
 export default function DocumentList({
   $target,
@@ -54,8 +55,19 @@ export default function DocumentList({
       push(`/documents/${id}`);
     } else if (name === "add") {
       onCreateDocument(id);
+      fetchDocument();
     } else if (name === "delete") {
       onDeleteDocument(id);
     }
   });
+
+  const fetchDocument = async () => {
+    const docs = await request("/documents", {
+      method: "GET",
+    });
+    this.setState({
+      ...this.state,
+      docs,
+    });
+  };
 }
