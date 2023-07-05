@@ -32,6 +32,15 @@ export default class Editor extends Component {
         <button data-style='line-through'>
           <i class="fa-solid fa-strikethrough"></i>
         </button>
+        <button data-style='start'>
+          <i class="fa-solid fa-align-left"></i>
+        </button>
+        <button data-style='center'>
+          <i class="fa-solid fa-align-center"></i>
+        </button>
+        <button data-style='end'>
+          <i class="fa-solid fa-align-right"></i>
+        </button>
       </section>
       <div name='content' class='${styles.content}' placeholder='내용을 입력하세요' contenteditable></div>
     `;
@@ -86,11 +95,16 @@ export default class Editor extends Component {
               (style === 'underline' &&
                 parentElement.style.textDecoration === 'underline'))) ||
           (style === 'line-through' &&
-            parentElement.style.textDecoration === 'line-through');
-
-        console.log(style, isApplied);
-
-        console.log(selection.anchorOffset, selection.focusOffset);
+            parentElement.style.textDecoration === 'line-through') ||
+          (style === 'start' &&
+            parentElement.style.display === 'flex' &&
+            parentElement.style.justifyContent === 'start') ||
+          (style === 'center' &&
+            parentElement.style.display === 'flex' &&
+            parentElement.style.justifyContent === 'center') ||
+          (style === 'end' &&
+            parentElement.style.display === 'flex' &&
+            parentElement.style.justifyContent === 'end');
 
         if (selection.rangeCount === 0) return;
 
@@ -106,16 +120,29 @@ export default class Editor extends Component {
         } else {
           // 스타일 적용
           const span = document.createElement('span');
-          if (style === 'bold') span.style.fontWeight = 'bold';
+          if (style === 'bold') this.applyBold(span);
           if (style === 'italic') span.style.fontStyle = 'italic';
           if (style === 'underline') span.style.textDecoration = 'underline';
           if (style === 'line-through')
             span.style.textDecoration = 'line-through';
+          if (['start', 'center', 'end'].includes(style)) {
+            if (parentElement.style.display === 'flex') {
+              parentElement.style.justifyContent = style;
+              return;
+            }
+            span.style.display = 'flex';
+            span.style.justifyContent = 'left';
+          }
+
           range.surroundContents(span);
           selection.removeAllRanges();
         }
       },
     });
+  }
+
+  applyBold(span) {
+    span.style.fontWeight = 'bold';
   }
 
   async saveTitle(target) {
