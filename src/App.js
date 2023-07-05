@@ -31,9 +31,7 @@ export default class App extends Component {
               const urlSplit = url.split("/");
               const targetId = urlSplit[urlSplit.length - 1];
               history.pushState(null, null, url);
-              await request("/documents/" + targetId, {
-                method: "GET",
-              }).then((res) => this.route({ savedDocument: res }));
+              this.route();
             },
           },
           {
@@ -123,7 +121,6 @@ export default class App extends Component {
                 }
               ).then((res) => {
                 alert("저장되었습니다.");
-                console.log(res.id);
                 removeItem("documents/" + res.id);
               });
             },
@@ -148,18 +145,25 @@ export default class App extends Component {
     this.documentTree.state = documentTree.data;
   }
 
-  async route(props) {
-    const { savedDocument } = props;
+  async getDocument(documentId) {
+    return await request(`/documents/${documentId}`, { mothod: "GET" });
+  }
+
+  async route() {
     const { pathname } = window.location;
-    const [, , documentId] = pathname.split("/");
-    console.log(documentId);
-    const tmpDocument = getItem("documents/" + documentId);
-    if (tmpDocument && tmpDocument.tmpSaveDate > savedDocument.updatedAt) {
-      if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-        this.editor.state = tmpDocument;
-        return;
-      }
+    const [, routeName, documentId] = pathname.split("/");
+    switch (routeName) {
+      case "documents":
+        const savedDocument = new Document(await this.getDocument(documentId));
+        const tmpDocument = getItem("documents/" + documentId);
+        if (tmpDocument && tmpDocument.tmpSaveDate > savedDocument.updatedAt) {
+          if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
+            this.editor.state = tmpDocument;
+            return;
+          }
+        }
+        this.editor.state = savedDocument;
+        break;
     }
-    this.editor.state = savedDocument;
   }
 }
