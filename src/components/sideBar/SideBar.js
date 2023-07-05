@@ -14,13 +14,15 @@ export default function SideBar({ $target }) {
   const $buttonNewPage = new SideBarItem({
     $target: $sideBar,
     text: "+ 페이지 추가",
-    onClick: () => {
-      request("/documents", {
+    onClick: async () => {
+      const newDocument = {
+        title: "제목 없음",
+        parent: null,
+      };
+      documentList.setState([...documentList.state, newDocument]);
+      await request("/documents", {
         method: "POST",
-        body: JSON.stringify({
-          title: "제목 없음",
-          parent: null,
-        }),
+        body: JSON.stringify(newDocument),
       });
     },
   });

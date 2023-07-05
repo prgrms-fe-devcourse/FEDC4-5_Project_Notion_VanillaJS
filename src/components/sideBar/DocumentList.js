@@ -13,6 +13,8 @@ export default function DocumentList({ $target, initialState }) {
   };
 
   this.render = () => {
+    // 렌더링할 때마다 documentListItem이 누적되어 쌓이므로 우선 비워줍니다.
+    $documentList.innerHTML = "";
     this.state.map((document) => {
       const initialState = {
         title: document.title,
