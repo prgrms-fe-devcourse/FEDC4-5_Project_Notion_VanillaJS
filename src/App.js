@@ -2,6 +2,7 @@ import DocumentPage from './pages/DocumentPage.js';
 import DocumentStore from './stores/documentStore.js';
 import EditorStore from './stores/editorStore.js';
 import storage from './utils/storage.js';
+import { findDocumentRoute } from './helpers/documentHelper.js';
 import { OPENED_DOCUMENTS } from './constants/storageKeys.js';
 import { navigate } from './utils/navigate.js';
 import { initialDocument } from './stores/editorStore.js';
@@ -58,7 +59,7 @@ export default class App {
     window.addEventListener('click', (e) => {
       const $link = e.target.closest('a');
       if (!$link) return;
-      
+
       e.preventDefault();
       navigate($link.getAttribute('href'));
     });
@@ -78,14 +79,19 @@ export default class App {
 
     if (pathname === '/') {
     } else if (pathname.indexOf('/documents/') === 0) {
-      const [, , documentId] = pathname.split('/');
-      if (isNaN(documentId) || Number(documentId) === 0) return;
+      let [, , id] = pathname.split('/');
+      const documentId = Number(id);
 
-      // 새로운 문서를 열면 데이터 가져오기
+      // 새로운 문서 페이지를 접속하면 상위 문서를 모두 열림 처리
+      findDocumentRoute(documentId, documentStore.state.documents)
+        .filter(({ id }) => id !== documentId)
+        .forEach(({ id }) => documentStore.setOpened(id, true));
+
+      // 새로운 문서 페이지를 접속하면 데이터 가져오기
       if (editorStore.state.documentId !== documentId) {
         try {
           await editorStore.fetchDocument(documentId);
-          editorStore.setState({ ...editorStore.state, documentId: Number(documentId) });
+          editorStore.setState({ ...editorStore.state, documentId });
         } catch (err) {
           console.error(err);
         }
