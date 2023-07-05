@@ -1,5 +1,6 @@
 import { push } from "./router.js";
 import { request } from "./api.js";
+import { setItem, getItem } from "./storage.js";
 
 export default function DocumentList({
   $target,
@@ -18,17 +19,40 @@ export default function DocumentList({
     this.render();
   };
 
+  this.displayedChild = (id) => {
+    let isChild = getItem(id, {
+      id: id,
+      displayed: null,
+    });
+
+    if (isChild.displayed === null) {
+      setItem(id, {
+        id: id,
+        displayed: "none",
+      });
+    }
+
+    isChild = getItem(id);
+
+    return isChild.displayed;
+  };
+
   this.displayDocumentList = (docList) => {
     return docList
       .map(
         (doc) =>
-          `<li class="title" data-id="${doc.id}" title="${doc.title}">    
+          `<li class="title" data-id="${doc.id}" title="${
+            doc.title
+          }" style="list-style:none;">
+          ${this.displayedChild(doc.id) === "none" ? ">" : "v"}    
         ${doc.title}
             <button class="add">+</button>
             <button class="delete">x</button>
             ${
               doc.documents.length > 0
-                ? `<ul>${this.displayDocumentList(doc.documents)}</ul>`
+                ? `<ul style="display: ${this.displayedChild(doc.id)};">
+                ${this.displayDocumentList(doc.documents)}
+                </ul>`
                 : ""
             }          
         </li>`
@@ -48,16 +72,43 @@ export default function DocumentList({
 
   $documentList.addEventListener("click", (e) => {
     if (e.target === e.target.closest("div")) {
-      console.log("here");
       push("/documents/new");
       return;
     }
+
     const $li = e.target.closest("li");
+    if (!$li) return;
 
     const { id } = $li.dataset;
     const name = e.target.className;
 
     if (name === "title") {
+      push(`/documents/${id}`);
+
+      const $ul = $li.childNodes[5];
+
+      if (!$ul) {
+        setItem(id, {
+          id: id,
+          displayed: "none",
+        });
+        push(`/documents/${id}`);
+        return;
+      }
+
+      if ($ul.style.display === "") {
+        $ul.style.display = "none";
+        setItem(id, {
+          id: id,
+          displayed: "none",
+        });
+      } else {
+        $ul.style.display = "";
+        setItem(id, {
+          id: id,
+          displayed: "",
+        });
+      }
       push(`/documents/${id}`);
     } else if (name === "add") {
       onCreateDocument(id);

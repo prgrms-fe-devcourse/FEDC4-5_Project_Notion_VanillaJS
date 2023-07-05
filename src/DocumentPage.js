@@ -33,6 +33,7 @@ export default function DocumentPage({ $target, initialState }) {
 
       setItem(id, {
         id: id,
+        displayed: "",
       });
 
       push(`/documents/${createdDoc.id}`);
