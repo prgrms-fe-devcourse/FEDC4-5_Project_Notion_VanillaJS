@@ -10,16 +10,29 @@ export default function DocumentContent({ $target, initialState }) {
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
       this.state = nextState;
-      fetchData();
+      await fetchData();
     }
     this.render();
   };
+
+  let timer = null;
 
   const editor = new Editor({
     $target: $contentSection,
     initialState: {
       title: this.state.title,
       content: this.state.content,
+    },
+    onEditing: (document) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        await request(`/documents/${this.state.documentId}`, {
+          method: "PUT",
+          body: JSON.stringify(document),
+        });
+      }, 2000);
     },
   });
 
