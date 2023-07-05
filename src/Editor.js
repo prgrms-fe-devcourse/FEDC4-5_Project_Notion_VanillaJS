@@ -4,15 +4,23 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   $editor.innerHTML = `
-    <input type="text" name="title" style="width:300px; display: flex" value="${this.state.title}" placeholder="Untitled"/>
-    <textarea name="content" style="width:300px; height:500px" placeholder="Edit document">${this.state.content}</textarea>
+    <input type="text" name="title" style="width:300px; display: flex" value="${this.state.title}"/>
+    <textarea name="content" style="width:300px; height:500px">${this.state.content}</textarea>
     `;
 
   this.setState = (nextState) => {
     this.state = nextState;
 
-    $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").value = this.state.content;
+    if (this.state.title === "Untitled") {
+      $editor.querySelector("[name=title]").value = "";
+      $editor.querySelector("[name=title]").placeholder = "Untitled";
+
+      $editor.querySelector("[name-content]").value = "";
+      $editor.querySelector("[name=contenet]").placeholder = "Edit document";
+    } else {
+      $editor.querySelector("[name=title]").value = this.state.title;
+      $editor.querySelector("[name=content]").value = this.state.content;
+    }
   };
 
   $editor.addEventListener("keyup", (e) => {
