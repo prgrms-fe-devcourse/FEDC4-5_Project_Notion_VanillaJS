@@ -6,7 +6,9 @@ import {
   getRootDocuments,
   createDocument,
   deleteDocument,
+  getDocument,
 } from "../../api/api.js";
+import { push } from "../../router.js";
 
 export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("div");
@@ -35,8 +37,33 @@ export default function Sidebar({ $target }) {
       this.setState();
     },
     onDeleteDocument: async (id) => {
-      await deleteDocument(id);
+      const selectedIds = [];
+      const selectedDocument = await getDocument(id);
+      const { documents } = selectedDocument;
+
+      const getChildrenDocumentId = (childrenDocuments) => {
+        childrenDocuments.forEach(({ id, documents }) => {
+          selectedIds.push(id);
+
+          if (documents.length) {
+            getChildrenDocumentId(documents);
+          }
+        });
+      };
+
+      if (documents.length) {
+        getChildrenDocumentId(documents);
+      }
+
+      selectedIds.reverse();
+      selectedIds.push(id);
+
+      for (const selectedId of selectedIds) {
+        await deleteDocument(selectedId);
+      }
+
       this.setState();
+      push("/");
     },
   });
 
