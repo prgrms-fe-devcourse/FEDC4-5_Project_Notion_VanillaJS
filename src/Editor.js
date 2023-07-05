@@ -4,7 +4,9 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   $editor.innerHTML = `
-    <input type="text" name="title" style="width:300px; height: 50px" display: flex" value="${this.state.title}"/>
+  <div>
+    <input type="text" name="title" style="width:300px; height: 50px" display: block" value="${this.state.title}"/>
+    </div>
     <textarea name="content" style="width:300px; height:500px">${this.state.content}</textarea>
     `;
 

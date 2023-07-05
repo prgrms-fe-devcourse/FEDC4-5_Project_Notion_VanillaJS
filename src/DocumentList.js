@@ -72,7 +72,7 @@ export default function DocumentList({
 
   $documentList.addEventListener("click", (e) => {
     if (e.target === e.target.closest("div")) {
-      push("/documents/new");
+      onCreateDocument("new");
       return;
     }
 
