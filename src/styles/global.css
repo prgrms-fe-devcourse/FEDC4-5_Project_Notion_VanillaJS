@@ -3,6 +3,7 @@
 }
 
 #sideBar {
+  float: left;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -21,4 +22,9 @@
 }
 .listItem:hover {
   background-color: #e7e7e5;
+}
+
+#contentSection {
+  float: left;
+  display: flex;
 }
