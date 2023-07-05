@@ -20,14 +20,16 @@ export default function SideBar({ $target }) {
         id: "new",
         parent: null,
       };
-      documentList.setState([...documentList.state, newDocument]);
-      await request("/documents", {
+      // documentList.setState([...documentList.state, newDocument]); // 낙관적 업데이트
+      const createdDocument = await request("/documents", {
         method: "POST",
         body: JSON.stringify({
           title: "제목 없음",
           parent: null,
         }),
       });
+      documentList.setState([...documentList.state, createdDocument]);
+      history.replaceState(null, null, `/documents/${createdDocument.id}`);
     },
   });
 
