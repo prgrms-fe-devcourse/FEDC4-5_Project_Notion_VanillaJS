@@ -14,6 +14,7 @@ import {
   findChildDocuments,
   removeDocument,
 } from "./utils/document.js";
+import NotFound from "./components/common/Notfound.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -112,6 +113,10 @@ export default function App({ appElement }) {
       findChildDocuments(this.state, documentId),
   });
 
+  const notFoundComponent = new NotFound({
+    parentCompoent: rightContainerEleement,
+  });
+
   window.addEventListener("popstate", () => {
     this.route();
   });
@@ -140,6 +145,8 @@ export default function App({ appElement }) {
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {
       documentEditorComponent.render();
+    } else {
+      notFoundComponent.render();
     }
   };
 }
