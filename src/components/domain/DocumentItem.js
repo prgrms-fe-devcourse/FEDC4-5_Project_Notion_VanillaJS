@@ -22,6 +22,11 @@ export default function DocumentItem({
       return onClickRemoveButton(documentData.id);
     }
 
+    if (e.target.closest(".toggle-button")) {
+      containerElement.classList.toggle("toggle");
+      return;
+    }
+
     onClickRoute(documentData.id);
   });
 
@@ -33,6 +38,7 @@ export default function DocumentItem({
 
     containerElement.innerHTML = `
       <li id="${id}" class="document-item">
+        <div class="toggle-button"></div>
         <span class="document-title">${title ?? "제목 없음"}</span>
         <div class="button-group-container">
           <div data-id="${id}" class="child-button">+</div>
