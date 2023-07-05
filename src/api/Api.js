@@ -1,11 +1,12 @@
-const BASE_URL = "https://kdt-frontend.programmers.co.kr";
+import API_BASE_URL from "../utils/ApiKey.js";
 
 export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, {
+    const res = await fetch(`${API_BASE_URL}${url}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
+        "x-username": "dahyeon-Ju",
       },
     });
 
