@@ -1,5 +1,5 @@
-import { getItem, setItem } from "../util/storaged.js";
-import { VISITED_LOCAL_KEY } from "../constant.js";
+import { getItem, setItem } from "../../util/storaged.js";
+import { VISITED_LOCAL_KEY } from "../../constant.js";
 
 export default function List({
   $target,
@@ -34,7 +34,9 @@ export default function List({
     visitedDocumentsId
   ) => {
     arr.push(`
-      <li data-document-id="${id}" class="item">
+      <li data-document-id="${id}" class="item ${
+      this.state.selectedId === id ? "item__fiexed" : ""
+    }">
         <button type="button" class="toggle ${
           visitedDocumentsId.indexOf(id) > -1 ? "active" : ""
         }">▶</button>
@@ -66,7 +68,7 @@ export default function List({
 
   this.render = () => {
     if (!Array.isArray(this.state.posts)) {
-      $list.innerHTML = ``;
+      $list.innerHTML = `페이지를 추가해주세요!`;
       return;
     }
 
@@ -90,14 +92,16 @@ export default function List({
     } = $li;
     const id = parseInt(documentId);
     if (className === "add") {
-      // onAdd(id);
+      onAdd(id);
+      const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
+      setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, id]);
+      this.render();
     } else if (className === "toggle " || className === "toggle active") {
       ToggleItem(event.target, id);
     } else if (className === "delete") {
       // onDelete(id);
     } else if (className === "item" || className === "item block") {
       // onItemClick(id);
-      onItemClick(e.target);
     }
   });
 
