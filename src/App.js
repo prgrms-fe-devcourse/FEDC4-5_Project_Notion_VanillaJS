@@ -18,7 +18,7 @@ export default class App extends Component {
     const $editor = this.$target.querySelector("#editor");
     this.documentTree = new DocumentTreeComponent({
       $target: $documentTree,
-      initialState: this.getDocumentTree(),
+      initialState: await this.getDocumentTree(),
       props: {
         events: [
           {
@@ -64,7 +64,7 @@ export default class App extends Component {
                 removeItem("documents/" + res.id);
                 history.pushState(null, null, "/");
               });
-              setDocumentTree();
+              updateDocumentTree();
             },
           },
           {
@@ -82,7 +82,7 @@ export default class App extends Component {
                 }),
               });
 
-              this.setDocumentTree();
+              this.updateDocumentTree();
             },
           },
         ],
@@ -134,12 +134,15 @@ export default class App extends Component {
   }
 
   async getDocumentTree() {
-    const documentTreeData = await request("/documents", { mothod: "GET" });
-    const documentTree = new DocumentTree(documentTreeData);
+    const documentTree = await request("/documents", {
+      mothod: "GET",
+    }).then((res) => {
+      return new DocumentTree(res);
+    });
     return documentTree.data;
   }
 
-  async setDocumentTree() {
+  async updateDocumentTree() {
     const documentTreeData = await request("/documents", { mothod: "GET" });
     const documentTree = new DocumentTree(documentTreeData);
     this.documentTree.state = documentTree.data;

@@ -3,7 +3,6 @@ export default class DocumentTree {
 
   constructor(documentTree = []) {
     this.#documentTree = documentTree;
-    console.log(documentTree);
     this.#documentTree.forEach((element) => {
       this.validate(element);
     });
