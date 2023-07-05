@@ -5,10 +5,14 @@
 }
 
 .main__editor [contenteditable='true'] {
+  padding-left: 30rem;
+  padding-right: 30rem;
   transition: padding ease-out 0.15s;
 }
 
 .main__child-document-links {
+  margin-left: 30rem;
+  margin-right: 30rem;
   transition: margin ease-out 0.15s;
 }
 
