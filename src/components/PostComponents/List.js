@@ -1,18 +1,13 @@
 import { getItem, setItem } from "../../util/storaged.js";
 import { VISITED_LOCAL_KEY } from "../../constant.js";
+import { push } from "../../util/router.js";
 
-export default function List({
-  $target,
-  initalState,
-  onItemClick,
-  onAdd,
-  onDelete,
-}) {
+export default function List({ $target, initalState, onAdd, onDelete }) {
   if (!new.target)
     new List({
       $target,
       initalState,
-      onItemClick,
+
       onAdd,
       onDelete,
     });
@@ -24,7 +19,7 @@ export default function List({
   $target.appendChild($list);
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     this.render();
   };
 
@@ -57,9 +52,9 @@ export default function List({
       arr.push(`</ul>`);
     } else {
       arr.push(
-        `<p style="display:${
+        `<span class="item__no__result" style="display:${
           visitedDocumentsId.indexOf(id) > -1 ? "block" : "none"
-        }">No result</p>`
+        }">No result</span>`
       );
     }
 
@@ -93,15 +88,13 @@ export default function List({
     const id = parseInt(documentId);
     if (className === "add") {
       onAdd(id);
-      const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
-      setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, id]);
-      this.render();
     } else if (className === "toggle " || className === "toggle active") {
       ToggleItem(event.target, id);
     } else if (className === "delete") {
       // onDelete(id);
     } else if (className === "item" || className === "item block") {
-      // onItemClick(id);
+      push(`/documents/${id}`);
+      // this.render();
     }
   });
 

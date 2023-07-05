@@ -6,12 +6,14 @@ export default function PostPage({
   $target,
   initalState = { selectedId: null, posts: [] },
   onAdd,
+  onDelete,
 }) {
   if (!new.target)
     new PostPage({
       $target,
       initalState: { selectedId: null, posts: [] },
       onAdd,
+      onDelete,
     });
 
   const $page = document.createElement("section");
@@ -31,8 +33,7 @@ export default function PostPage({
     $target: $page,
     initalState: this.state,
     onAdd,
-    // onDelete,
-    // onItemClick,
+    onDelete,
   });
 
   new Button({
