@@ -25,6 +25,32 @@ export default function NotionPage({ $target, initialState }) {
     $target: $sidebarContainer,
     initialState: {
       documents: this.state.documents,
+      documentId: this.state.documentId,
+      openedDocuments: this.state.openedDocuments,
+    },
+    onToggle: (id, $ul) => {
+      const index = this.state.openedDocuments.indexOf(parseInt(id));
+
+      if (index > -1) {
+        // 토글 닫기
+        const copyOpenedDocuments = [...this.state.openedDocuments];
+        copyOpenedDocuments.splice(index, 1);
+
+        closeSubList($ul, copyOpenedDocuments);
+
+        this.setState({
+          ...this.state,
+          openedDocuments: copyOpenedDocuments,
+        });
+        setItem('opened-documents', copyOpenedDocuments);
+      } else {
+        // 토글 열기
+        this.setState({
+          ...this.state,
+          openedDocuments: [...this.state.openedDocuments, parseInt(id)],
+        });
+        setItem('opened-documents', this.state.openedDocuments);
+      }
     },
     onCreate: async (id) => {
       const createdDocument = await request('/documents', {
@@ -34,6 +60,12 @@ export default function NotionPage({ $target, initialState }) {
       await fetchDocuments();
 
       push(`/documents/${createdDocument.id}`);
+
+      this.setState({
+        ...this.state,
+        openedDocuments: [...this.state.openedDocuments, id],
+      });
+      setItem('opened-documents', this.state.openedDocuments);
     },
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
@@ -42,6 +74,19 @@ export default function NotionPage({ $target, initialState }) {
       await fetchDocuments();
 
       push(`/documents/${id === this.state.documentId ? this.state.documents[0]?.id ?? null : this.state.documentId}`);
+
+      const index = this.state.openedDocuments.indexOf(id);
+
+      if (index > -1) {
+        const copyOpenedDocuments = [...this.state.openedDocuments];
+        copyOpenedDocuments.splice(index, 1);
+
+        this.setState({
+          ...this.state,
+          openedDocuments: copyOpenedDocuments,
+        });
+        setItem('opened-documents', copyOpenedDocuments);
+      }
     },
   });
 
@@ -100,14 +145,31 @@ export default function NotionPage({ $target, initialState }) {
     this.state = nextState;
 
     documentList.setState({
+      documentId: this.state.documentId,
       documents: this.state.documents,
+      openedDocuments: this.state.openedDocuments,
     });
+
     editor.setState(
       this.state.document || {
         title: '',
         content: '',
       }
     );
+  };
+
+  // 하위 목록 토글 닫기
+  const closeSubList = ($ul, copyOpenedDocuments) => {
+    if ($ul) {
+      $ul.querySelectorAll('li').forEach(($li) => {
+        const { id } = $li.dataset;
+        const index = [...copyOpenedDocuments].indexOf(parseInt(id));
+        if (index > -1) {
+          copyOpenedDocuments.splice(index, 1);
+          closeSubList($li.querySelector('ul'), copyOpenedDocuments);
+        }
+      });
+    }
   };
 
   const fetchDocuments = async () => {

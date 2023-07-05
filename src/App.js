@@ -1,12 +1,16 @@
 import NotionPage from './pages/NotionPage.js';
 import { initRouter } from './utils/router.js';
+import { getItem } from './utils/storage.js';
 
 export default function App({ $target }) {
+  const openedDocuments = getItem('opened-documents', []);
+
   const notionPage = new NotionPage({
     $target,
     initialState: {
       documents: [],
       documentId: null,
+      openedDocuments: openedDocuments,
     },
   });
 

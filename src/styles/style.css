@@ -1,0 +1,16 @@
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+ul:not(.expanded) {
+  display: none;
+}
+
+.document-item-container.selected {
+  font-weight: 600;
+}
+
+.document-item-container button.expanded {
+  transform: rotate(90deg);
+}
