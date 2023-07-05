@@ -11,6 +11,12 @@ export default function DocumentList({
   const $documentList = document.createElement("div");
 
   $documentList.className = "documentList";
+  $documentList.style = `
+    overflow: auto;
+    white-space: nowrap;
+    height: 98vh;
+    backgroundColor: #EDECE9;
+  `;
 
   this.state = initialState;
 
@@ -43,13 +49,18 @@ export default function DocumentList({
         (doc) =>
           `<li class="title" data-id="${doc.id}" title="${
             doc.title
-          }" style="list-style:none;">
-            <button class="displayChild">
-            ${this.displayedChild(doc.id) === "none" ? ">" : "v"}
-            </button>    
-            ${doc.title}
-            <button class="add">+</button>
-            <button class="delete">x</button>
+          }" style="list-style:none;background-color:initial;">
+            <p class="title" style="margin:0;display:inline-block;"onmouseover="this.style.background='#dcdcdc';"
+            onmouseout="this.style.background='';">
+              <button class="displayChild">
+              ${this.displayedChild(doc.id) === "none" ? ">" : "v"}
+              </button>    
+              ${doc.title}
+            </p>
+            <p class="buttons" style="display: inline-block;">
+              <button class="add" style="position:sticky;right:25px;">+</button>
+              <button class="delete" style="position:sticky;right:1px;">x</button>
+            </p>
             ${
               doc.documents.length > 0
                 ? `<ul style="display: ${this.displayedChild(doc.id)};">

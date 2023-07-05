@@ -8,16 +8,17 @@ export default function Editor({
   this.state = initialState;
 
   $editor.innerHTML = `
-    <div>
-      <input type="text" name="title" style="width:300px;height:50px" display:block" value="${this.state.title}" />
-    </div>
-    <textarea name="content" style="width:300px; height:500px">${this.state.content}</textarea>
+    <input type="text" name="title" style="width:95%; display:block" value="${this.state.title}" />
+    <textarea name="content" style="width:95%; height:600px">${this.state.content}</textarea>
     `;
 
   this.setState = (nextState) => {
     this.state = nextState;
 
-    if (this.state.title === "Untitled") {
+    if (
+      (this.state.title === "Untitled" || this.state.title === "") &&
+      this.state.content === ""
+    ) {
       $editor.querySelector("[name=title]").value = "";
       $editor.querySelector("[name=title]").placeholder = "Untitled";
 

@@ -1,3 +1,5 @@
+import { push } from "../routes/router.js";
+
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const request = async (url, options = {}) => {
@@ -16,5 +18,6 @@ export const request = async (url, options = {}) => {
     throw new Error("API 연결에 오류가 발생했습니다.");
   } catch (e) {
     alert(e);
+    push("/");
   }
 };

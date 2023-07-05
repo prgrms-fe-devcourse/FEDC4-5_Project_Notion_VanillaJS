@@ -8,6 +8,12 @@ export default function DocumentPage({ $target, initialState }) {
 
   $documentPage.className = "DocumentPage";
 
+  $documentPage.style = `
+    width:20%;
+    height:100vh;
+    background-color:#fffafa	;
+  `;
+
   this.state = initialState;
 
   this.setState = async (nextState) => {
@@ -40,10 +46,12 @@ export default function DocumentPage({ $target, initialState }) {
     },
     onDeleteDocument: async (selectedDocId) => {
       const { pathname } = window.location;
+
       const selectedChildIds = [selectedDocId];
       const selectedDocument = await request(`/documents/${selectedDocId}`, {
         method: "GET",
       });
+
       const { documents } = selectedDocument;
 
       const deletedDoc = async (selectedDocId) => {

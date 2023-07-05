@@ -1,12 +1,16 @@
 import Editor from "./Editor.js";
 import { request } from "../api/api.js";
 import { push } from "../routes/router.js";
+//import { push, update } from "../utils/router.js";
 import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $documentEditPage = document.createElement("div");
 
   $documentEditPage.className = "documentEditPage";
+
+  $documentEditPage.style.width = "60%";
+  $documentEditPage.style.margin = "3%";
 
   this.state = initialState;
 
@@ -65,6 +69,8 @@ export default function DocumentEditPage({ $target, initialState }) {
 
           removeItem(docLocalSaveKey);
         }
+
+        //update(doc.id);
       }, 1000);
     },
   });
@@ -126,6 +132,8 @@ export default function DocumentEditPage({ $target, initialState }) {
       const doc = await request(`/documents/${docId}`, {
         method: "GET",
       });
+
+      //if(doc.content===null) doc.content="";
 
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
