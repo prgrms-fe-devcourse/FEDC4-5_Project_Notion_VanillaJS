@@ -1,7 +1,7 @@
 import Editor from "./Editor.js";
-import { request } from "./api.js";
-import { push } from "./router.js";
-import { getItem, setItem, removeItem } from "./storage.js";
+import { request } from "../api/api.js";
+import { push } from "../routes/router.js";
+import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $documentEditPage = document.createElement("div");

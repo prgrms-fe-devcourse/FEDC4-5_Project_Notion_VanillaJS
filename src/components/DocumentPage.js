@@ -1,7 +1,7 @@
-import { request } from "./api.js";
+import { request } from "../api/api.js";
 import DocumentList from "./DocumentList.js";
-import { push } from "./router.js";
-import { setItem, removeItem } from "./storage.js";
+import { push } from "../routes/router.js";
+import { setItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");

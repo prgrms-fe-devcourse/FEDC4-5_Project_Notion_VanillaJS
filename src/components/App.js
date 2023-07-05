@@ -1,7 +1,7 @@
-import { request } from "./api.js";
+import { request } from "../api/api.js";
 import DocumentPage from "./DocumentPage.js";
 import DocumentEditPage from "./DocumentEditPage.js";
-import { initRouter } from "./router.js";
+import { initRouter } from "../routes/router.js";
 
 export default function App({ $target }) {
   this.state = {

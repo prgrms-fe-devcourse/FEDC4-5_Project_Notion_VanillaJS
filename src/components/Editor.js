@@ -8,8 +8,8 @@ export default function Editor({
   this.state = initialState;
 
   $editor.innerHTML = `
-  <div>
-    <input type="text" name="title" style="width:300px; height: 50px" display: block" value="${this.state.title}"/>
+    <div>
+      <input type="text" name="title" style="width:300px;height:50px" display:block" value="${this.state.title}" />
     </div>
     <textarea name="content" style="width:300px; height:500px">${this.state.content}</textarea>
     `;
@@ -32,7 +32,7 @@ export default function Editor({
   $editor.addEventListener("keyup", (e) => {
     const name = e.target.getAttribute("name");
 
-    if (this.state[name] !== undefined) {
+    if (this.state[name]) {
       const nextState = {
         ...this.state,
         [name]: e.target.value,

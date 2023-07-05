@@ -1,4 +1,4 @@
-import App from "./App.js";
+import App from "./components/App.js";
 
 const $notionApp = document.querySelector("#notion-app");
 

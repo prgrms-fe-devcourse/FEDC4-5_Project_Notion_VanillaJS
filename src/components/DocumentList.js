@@ -1,6 +1,6 @@
-import { push } from "./router.js";
-import { request } from "./api.js";
-import { setItem, getItem } from "./storage.js";
+import { push } from "../routes/router.js";
+import { request } from "../api/api.js";
+import { setItem, getItem } from "../utils/storage.js";
 
 export default function DocumentList({
   $target,
@@ -75,6 +75,7 @@ export default function DocumentList({
   $documentList.addEventListener("click", (e) => {
     if (e.target === e.target.closest("div")) {
       onCreateDocument("new");
+      fetchDocument();
       return;
     }
 
