@@ -7,6 +7,26 @@
     height: 100vh;
 }
 
+#document-app .container {
+    margin-right: 20px;
+}
+
+#document-app .container ul {
+    margin-bottom: 15px;
+}
+
+#document-app .container li {
+    margin-bottom: 15px;
+}
+
+.docuTitleDiv {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+}
+
 #editor-app {
     width: 1000px;
     height: 100vh;
@@ -14,17 +34,24 @@
     flex-direction: column;
 }
 
-#editor-app .container {
+#editor-app .editor-view {
     width: 1000px;
-    text-align: center;
+    text-align: left;
+    margin-top: 100px;
+    margin-left: 100px;
 }
 
-.titleInput {
-    width: 500px;
-    height: 50px;
-}
-
-.contentInput {
+.editor-view .title {
     width: 800px;
-    height: 100vh;
+    height: 100px;
+    font-size: 40px;
+    font-weight: bold;
+    border: none;
+}
+
+.editor-view .content {
+    width: 800px;
+    height: 80vh;
+    font-size: 18px;
+    border: none;
 }
