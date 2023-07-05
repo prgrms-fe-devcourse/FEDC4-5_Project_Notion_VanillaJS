@@ -9,13 +9,11 @@ export default function Home({ parentElement, search }) {
 
   let timer = null;
 
-  this.state = {
-    text: "",
-    list: [],
-  };
+  this.state = { text: "", list: [] };
 
   this.setState = (nextState) => {
     this.state = nextState;
+
     this.render();
   };
 
@@ -33,6 +31,7 @@ export default function Home({ parentElement, search }) {
       }
 
       const searchList = search(e.target.value);
+
       this.setState({ text: e.target.value, list: searchList });
     }, 1000);
   });
@@ -41,6 +40,7 @@ export default function Home({ parentElement, search }) {
     if (!e.target.closest("li")) return;
 
     push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
+
     setItem("recent-search-list", [
       ...getItem("recent-search-list", []),
       { id: e.target.dataset.id, title: e.target.innerText },

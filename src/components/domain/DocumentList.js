@@ -24,11 +24,9 @@ export default function DocumentList({
     text: "추가 버튼",
   });
 
-  this.state = [];
-
   this.getServer = async () => {
     const newState = await getDocuments();
-    // this.state = newState;
+
     serverRender(newState);
     this.render();
   };

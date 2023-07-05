@@ -20,9 +20,11 @@ import {
 
 export default function App({ appElement }) {
   if (!new.target) return new App(...arguments);
+
   const wrapperContainer = document.createElement("div");
   const leftContainerElement = document.createElement("div");
   const rightContainerEleement = document.createElement("div");
+
   wrapperContainer.className = "wrapper-container";
   leftContainerElement.className = "left-container";
   rightContainerEleement.className = "right-container";
@@ -35,6 +37,7 @@ export default function App({ appElement }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+
     findAllDocument(this.state, (title, id) => trie.insert(title, id));
 
     documentListComponent.render();
@@ -42,6 +45,7 @@ export default function App({ appElement }) {
 
   this.editorSetState = (nextState) => {
     this.state = nextState;
+
     documentEditorComponent.render();
   };
 
@@ -55,6 +59,7 @@ export default function App({ appElement }) {
         parentElement,
         (parentId, newDocument) => {
           const nextState = addChildDocument(parentId, this.state, newDocument);
+
           this.setState(nextState);
         },
         (documentId) => {
@@ -64,6 +69,7 @@ export default function App({ appElement }) {
           }
 
           push(PATH.HOME);
+
           this.setState(newState);
         }
       );
@@ -71,6 +77,7 @@ export default function App({ appElement }) {
     serverRender: (newState) => this.setState(newState),
     onAddButtonClick: (newDocument) => {
       const nextState = [...this.state, newDocument];
+
       this.setState(nextState);
     },
   });
@@ -83,12 +90,11 @@ export default function App({ appElement }) {
   const documentEditorComponent = new DocumentEditor({
     parentElement: rightContainerEleement,
     onEditing: (document) => {
+      const { documentId, title } = document;
+
       if (document.isChangeTitle) {
-        const newState = editTitleDocument(
-          document.documentId,
-          this.state,
-          document.title
-        );
+        const newState = editTitleDocument(documentId, this.state, title);
+
         this.setState(newState);
       }
 
@@ -97,10 +103,7 @@ export default function App({ appElement }) {
       }
 
       timer = setTimeout(async () => {
-        await putDocument({
-          documentId: document.documentId,
-          data: document,
-        });
+        await putDocument({ documentId, data: document });
       }, 1000);
     },
   });
