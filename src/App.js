@@ -73,7 +73,10 @@ export default function App({ appElement }) {
         },
       });
     },
-    serverRender: (newState) => this.setState(newState),
+    serverRender: (newState) => {
+      this.setState(newState);
+      findAllDocument(newState, (title, id) => trie.insert(title, id));
+    },
     onAddButtonClick: (newDocument) => {
       const nextState = [...this.state, newDocument];
 
@@ -129,14 +132,13 @@ export default function App({ appElement }) {
 
   this.route = () => {
     const { pathname } = window.location;
+    rightContainerEleement.innerHTML = ``;
 
     if (pathname === PATH.HOME) {
       findAllDocument(this.state, (title, id) => trie.insert(title, id));
 
-      documentEditorComponent.reset();
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {
-      homeComponent.reset();
       documentEditorComponent.render();
     }
   };

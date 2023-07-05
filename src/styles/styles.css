@@ -6,19 +6,30 @@
   color: #6e6d68;
 }
 
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
 .edit {
   border: 2px solid black;
 }
 .wrapper-container {
   display: flex;
   height: 100vh;
+  width: 100vw;
 }
 
 .left-container {
   display: flex;
   flex-direction: column;
   background-color: #f6f5f4;
-  width: 300px;
+  flex: 1;
 }
 
 .logo {
@@ -31,13 +42,14 @@
   color: #37352f;
 
   &:hover {
-    background-color: #d3d1cb;
+    background-color: #ebebea;
   }
 }
 
 .document-list {
   overflow: auto;
   padding: 0 10px;
+  width: 300px;
 
   > .document-container {
     padding-left: 0;
@@ -47,10 +59,7 @@
 .document-list-top {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
-}
-
-.document-list-content {
+  padding: 10px 5px;
 }
 
 .document-container {
@@ -75,10 +84,11 @@
 .document-title {
   flex: 1;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.wrapper-button-group {
+.button-group-container {
   display: flex;
   gap: 5px;
 }
@@ -109,18 +119,101 @@
 }
 
 .right-container {
-  flex: 1;
+  flex: 4;
   padding: 50px;
 }
 
+/* home */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 60vw;
+
+  height: 100%;
+}
+
+.search-container {
+  height: 50%;
+  overflow: auto;
+}
+
+.search {
+  border: none;
+  padding: 10px;
+  padding-left: 0;
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.search-result-item {
+  cursor: pointer;
+  font-size: x-large;
+  padding: 10px;
+
+  &:hover {
+    background-color: #ebebea;
+  }
+}
+
+.recent-search-container {
+  height: 50%;
+  overflow: auto;
+}
+
+.recent-search-title {
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.recent-search-item {
+  cursor: pointer;
+  font-size: x-large;
+  padding: 10px;
+
+  &:hover {
+    background-color: #ebebea;
+  }
+}
+
 /* document-editor */
-.document-editor {
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+
+  height: 100%;
 }
 
 .editor-title {
   border: none;
   padding: 10px;
   font-size: xx-large;
+  font-weight: 700;
+
+  &::placeholder {
+    color: #e1e1e0;
+  }
+}
+
+.editor-content {
+  font-size: x-large;
+  height: 100%;
+  flex: 1;
+
+  padding: 10px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+/* recur-child-document */
+
+.child-document {
+  display: flex;
+  gap: 10px;
 }
 
 /* add-button */

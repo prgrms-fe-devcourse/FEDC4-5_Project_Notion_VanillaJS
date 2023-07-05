@@ -32,7 +32,7 @@ export default function DocumentItem({
     containerElement.innerHTML = `
       <li id="${id}" class="document-item">
         <span class="document-title">${title ?? "제목 없음"}</span>
-        <div class="wrapper-button-group">
+        <div class="button-group-container">
           <div data-id="${id}" class="child-button">+</div>
           <div data-id="${id}" class="remove-button">x</div>
         </div>      

@@ -9,7 +9,7 @@ export default function DocumentEditor({
   getChildDocuments,
 }) {
   const containerElement = document.createElement("div");
-  containerElement.className = "document-editor";
+  containerElement.className = "editor-container";
 
   this.state = { title: "", content: "", documentId: "" };
 
@@ -26,7 +26,7 @@ export default function DocumentEditor({
       });
     }
 
-    if (e.target.closest(".content")) {
+    if (e.target.closest(".editor-content")) {
       this.setState({
         ...this.state,
         content: e.target.innerHTML,
@@ -60,12 +60,8 @@ export default function DocumentEditor({
       <input type="text" class="editor-title" value="${
         data.title ?? ""
       }" placeholder="제목 없음" />
-      <div contentEditable class="content">${data.content ?? ""}</div>
+      <div contentEditable class="editor-content">${data.content ?? ""}</div>
       ${RecurChildDocument(childDocuments)}
     `;
-  };
-
-  this.reset = () => {
-    containerElement.innerHTML = ``;
   };
 }

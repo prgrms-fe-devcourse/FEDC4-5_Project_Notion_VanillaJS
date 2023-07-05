@@ -6,7 +6,7 @@ export default function Home({ parentElement, search }) {
   if (!new.target) return new Home(...arguments);
 
   const containerElement = document.createElement("div");
-  containerElement.className = "";
+  containerElement.className = "home-container";
 
   let timer = null;
 
@@ -19,7 +19,7 @@ export default function Home({ parentElement, search }) {
   };
 
   containerElement.addEventListener("input", (e) => {
-    if (!e.target.closest(".search-input")) return;
+    if (!e.target.closest(".search")) return;
 
     if (timer !== null) {
       clearTimeout(timer);
@@ -30,11 +30,10 @@ export default function Home({ parentElement, search }) {
         this.setState({ text: e.target.value, list: [] });
         return;
       }
-
       const searchList = search(e.target.value);
 
       this.setState({ text: e.target.value, list: searchList });
-    }, 1000);
+    }, 500);
   });
 
   containerElement.addEventListener("click", (e) => {
@@ -51,7 +50,8 @@ export default function Home({ parentElement, search }) {
   this.render = () => {
     parentElement.append(containerElement);
     containerElement.innerHTML = `
-      <input placeholder="Jongtion 전체 문서 검색" autofocus class="search-input" value="${
+      <div class="search-container">
+      <input placeholder="Jongtion 전체 문서 검색" autofocus class="search" value="${
         this.state.text
       }" />
       ${
@@ -60,25 +60,25 @@ export default function Home({ parentElement, search }) {
           : `<ul>${this.state.list
               .map(
                 (item) =>
-                  `<li data-id=${item.id}>${
+                  `<li data-id=${item.id} class="search-result-item">${
                     item.title === "" ? "제목 없음" : item.title
                   }</li>`
               )
               .join("")}
             </ul>`
       }
-      <div>
-      <h3>최근 검색어 목록</h3>
-      <ul>
-      ${getItem("recent-search-list", [])
-        .map((item) => `<li data-id="${item.id}">${item.title}</li>`)
-        .join("")}
-      </ul>
+      </div>
+      <div class="recent-search-container">
+        <h2 class="recent-search-title">최근 검색어 목록</h2>
+        <ul>
+        ${getItem("recent-search-list", [])
+          .map(
+            (item) =>
+              `<li data-id="${item.id}" class="recent-search-item">${item.title}</li>`
+          )
+          .join("")}
+        </ul>
       </div>
     `;
-  };
-
-  this.reset = () => {
-    containerElement.innerHTML = ``;
   };
 }
