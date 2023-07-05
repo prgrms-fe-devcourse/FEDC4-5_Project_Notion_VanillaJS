@@ -1,5 +1,5 @@
 import { request } from "./api.js";
-
+import { getItem } from "./storage.js";
 class Store {
   constructor() {
     this.state = {
@@ -54,8 +54,28 @@ class Store {
   }
 
   async documentGet(id) {
+    const saveLocalData = getItem(id, false);
     const response = await request(`/documents/${id}`);
-    this.setState({ ...this.state, documentContent: response });
+    const { updatedAt } = response;
+
+    if (saveLocalData) {
+      const { content, saveTime } = saveLocalData;
+
+      const localTime = new Date(saveTime);
+      const serverTime = new Date(updatedAt);
+
+      if (localTime.getTime() < serverTime.getTime()) {
+        this.setState({ ...this.state, documentContent: response });
+      } else {
+        this.setState({
+          ...this.state,
+          documentContent: {
+            ...this.state.documentContent,
+            content: content,
+          },
+        });
+      }
+    }
     this.notifyEditor();
   }
 
@@ -66,6 +86,15 @@ class Store {
       body: JSON.stringify({ title, content }),
     });
     await this.documentsGet();
+  }
+
+  async documentContentPut({ id, content }) {
+    const { title } = this.state.documentContent;
+
+    await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ title, content }),
+    });
   }
 }
 

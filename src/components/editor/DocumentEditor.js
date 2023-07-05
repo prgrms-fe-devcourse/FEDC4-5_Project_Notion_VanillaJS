@@ -1,10 +1,12 @@
 import store from "../../util/Store";
-
+import { setItem } from "../../util/storage";
 export default class DocumentEditor {
   constructor({ $target }) {
+    const { pathname } = window.location;
     this.$editor = document.createElement("div");
     this.$editor.setAttribute("id", "documentContent");
     this.$editor.setAttribute("contenteditable", "true");
+    this.documentId = pathname.split("/")[2];
     $target.appendChild(this.$editor);
     this.initEvent();
     this.render();
@@ -19,10 +21,15 @@ export default class DocumentEditor {
   initEvent() {
     let timer = null;
     let delay = 1000;
-    this.$editor.addEventListener("input", () => {
-      clearTimeout(timer);
+    this.$editor.addEventListener("input", (event) => {
+      const content = event.target.innerHTML;
+      const currentTime = new Date().toISOString();
 
-      timer = setTimeout(() => {}, delay);
+      clearTimeout(timer);
+      setItem(this.documentId, { content, saveTime: currentTime });
+      timer = setTimeout(async () => {
+        await store.documentContentPut({ id: this.documentId, content });
+      }, delay);
     });
 
     this.$editor.addEventListener("keydown", (event) => {
@@ -32,6 +39,9 @@ export default class DocumentEditor {
 
   render() {
     this.$editor.focus();
+
+    const content = store.state.documentContent.content ?? "";
+    this.$editor.innerHTML = content;
   }
 }
 
