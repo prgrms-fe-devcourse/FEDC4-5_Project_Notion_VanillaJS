@@ -40,6 +40,11 @@ export default function DocumentPage({ $target, initialState }) {
     },
     onDeleteDocument: async (selectedDocId) => {
       const { pathname } = window.location;
+      const selectedChildIds = [];
+      const selectedDocument = await request(`/documents/${selectedDocId}`, {
+        method: "GET",
+      });
+      const { documents } = selectedDocument;
 
       const deletedDoc = async (selectedDocId) => {
         await request(`/documents/${selectedDocId}`, {
@@ -49,6 +54,26 @@ export default function DocumentPage({ $target, initialState }) {
         removeItem(`temp-document-${selectedDocId}`);
       };
 
+      const getChildDocIds = (childDocs) => {
+        childDocs.forEach(({ id, documents }) => {
+          selectedChildIds.push(id);
+
+          if (documents.length) {
+            getChildDocIds(documents);
+          }
+        });
+      };
+
+      if (documents.length) {
+        getChildDocIds(documents);
+      }
+
+      for (const childId of selectedChildIds) {
+        await deletedDoc(childId);
+      }
+
+      console.log("삭제된 아이디: ", selectedChildIds);
+
       if (pathname.indexOf("/documents/") === 0) {
         const [, , currentPageId] = pathname.split("/");
 
@@ -57,10 +82,15 @@ export default function DocumentPage({ $target, initialState }) {
 
           history.replaceState(null, null, "/");
           push("/");
+        } else if (selectedChildIds.includes(Number(currentPageId))) {
+          console.log(selectedChildIds.includes(Number(currentPageId)));
+
+          history.replaceState(null, null, "/");
+          push("/");
         } else {
           await deletedDoc(selectedDocId);
 
-          push(`/document/${currentPageId}`);
+          push(`/documents/${currentPageId}`);
         }
         return;
       } else {
