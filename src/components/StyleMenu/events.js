@@ -8,5 +8,5 @@ export const onClickMenuItem = (e, { $menu, $textMenu }) => {
 
   if (command) document.execCommand(command, false, null);
   if (role && role === 'toggleTextMenu') toggleTextStyleMenu({ $textMenu });
-  if (role && role === 'applyTextStyle') applyTextStyle({ color, backgroundColor });
+  if (role && role === 'applyTextStyle') applyTextStyle({ $textMenu, color, backgroundColor });
 };
