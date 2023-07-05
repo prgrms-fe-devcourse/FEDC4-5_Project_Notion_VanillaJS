@@ -28,9 +28,9 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     visitedDocumentsId
   ) => {
     arr.push(`
-      <li data-document-id="${id}" class="item ${
-      this.state.selectedId === id ? "item__fiexed" : ""
-    }">
+      <li data-document-id="${
+        id === "new" ? this.state.selectedId : id
+      }" class="item ${this.state.selectedId === id ? "item__fiexed" : ""}">
         <button type="button" class="toggle ${
           visitedDocumentsId.indexOf(id) > -1 ? "active" : ""
         }">▶</button>
@@ -84,20 +84,22 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     const {
       dataset: { documentId },
     } = $li;
+    if (documentId === "new") {
+    }
     const id = parseInt(documentId);
     if (className === "add") {
       onAdd(id);
     } else if (className === "toggle " || className === "toggle active") {
       ToggleItem(event.target, id);
     } else if (className === "delete") {
-      // onDelete(id);
+      onDelete(id);
     } else if (className === "item" || className === "item block") {
       push(`/documents/${id}`);
-      // this.render();
     }
   });
 
   const ToggleItem = (target, id) => {
+    console.log("as");
     const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
     target.classList.contains("active")
       ? setItem(

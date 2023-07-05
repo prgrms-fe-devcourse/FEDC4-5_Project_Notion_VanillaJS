@@ -1,4 +1,4 @@
-export default function Button({ $target, initalState, onEvent }) {
+export default function Button({ $target, initalState, onAdd }) {
   if (!new.target) new Button({ $target, onPageAdd });
 
   const $button = document.createElement("button");
@@ -13,7 +13,7 @@ export default function Button({ $target, initalState, onEvent }) {
     $button.textContent = this.state.text;
   };
 
-  $button.addEventListener("click", (event) => onEvent(event));
+  $button.addEventListener("click", () => onAdd("new"));
 
   this.render();
 }

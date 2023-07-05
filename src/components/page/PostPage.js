@@ -39,9 +39,7 @@ export default function PostPage({
   new Button({
     $target: $page,
     initalState: { className: "page_add", text: "+ add Page" },
-    onEvent: (event) => {
-      console.log(event);
-    },
+    onAdd,
   });
 
   this.render = () => {

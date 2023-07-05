@@ -1,6 +1,8 @@
+import { push } from "../../util/router.js";
 import ButtonContainer from "../EditComponents/ButtonContainer.js";
 import Editor from "../EditComponents/Editor.js";
 import Header from "../Header.js";
+import { request } from "../../util/api.js";
 
 export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   if (!new.target) new EditPage({ $target, initalState, onEdit, onDelete });
@@ -9,14 +11,26 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   $page.classList.add("edit");
   this.state = initalState;
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
+    if (this.state.selectedId === nextState.selectedId && nextState.post) {
+      this.state = { ...this.state, ...nextState };
+      header.setState(this.state.post.title || { title: "Untitle" });
+      editor.setState(this.state.post || { title: "Untitle", content: "" });
+      buttonContainer.setState(
+        { documents: this.state.post.documents } || { documents: [] }
+      );
+      this.render();
+      return;
+    }
     this.state = { ...this.state, ...nextState };
-    header.setState(this.state.post.title || { title: "Untitle" });
-    editor.setState(this.state.post || { title: "Untitle", content: "" });
-    buttonContainer.setState(
-      { documents: this.state.post.documents } || { documents: [] }
-    );
-    this.render();
+    if (this.state.selectedId === "new") {
+      header.setState({ title: "Untitle" });
+      editor.setState({ title: "Untitle", content: "" });
+      buttonContainer.setState({ documents: [] });
+      this.render();
+    } else {
+      await loadPost();
+    }
   };
 
   const header = new Header({
@@ -36,6 +50,20 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   });
 
   this.render = () => {
-    $target.appendChild($page);
+    if (this.state.selectedId !== null) {
+      $target.appendChild($page);
+    }
+  };
+
+  const loadPost = async () => {
+    const post = await request(`/documents/${this.state.selectedId}`, {
+      method: "GET",
+    });
+    if (!post) {
+      alert("현재 post가 없습니다");
+      push("/");
+      return;
+    }
+    this.setState({ post });
   };
 }

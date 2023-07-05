@@ -12,6 +12,7 @@ export default function Editor({
 
   const $editor = document.createElement("div");
   $target.appendChild($editor);
+
   this.state = initalState;
 
   let isInit = false;
