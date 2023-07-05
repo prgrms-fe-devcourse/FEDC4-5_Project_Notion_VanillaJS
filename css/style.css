@@ -1,0 +1,13 @@
+button{
+  border:none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.toggle.active{
+  transform: rotate(90deg);
+}
+
+.block{
+  background-color: bisque;
+}
