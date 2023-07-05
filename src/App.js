@@ -14,7 +14,6 @@ export default function App({ $target }) {
     documentPage.setState(nextState);
   };
 
-  //sidebar-container
   const documentPage = new DocumentPage({
     $target,
     initialState: {
@@ -23,7 +22,6 @@ export default function App({ $target }) {
     },
   });
 
-  //editor-container
   const documentEditPage = new DocumentEditPage({
     $target,
     initialState: {

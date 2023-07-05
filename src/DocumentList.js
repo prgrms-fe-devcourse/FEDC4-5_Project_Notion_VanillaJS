@@ -66,8 +66,8 @@ export default function DocumentList({
     $documentList.innerHTML = `
         <ul>
         ${this.displayDocumentList(this.state.docs)}
-        </ul>
         <div role="button">+ Add a document</div>
+        </ul>
         `;
     $target.appendChild($documentList);
   };
