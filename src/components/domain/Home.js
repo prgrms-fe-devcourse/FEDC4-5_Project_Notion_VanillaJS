@@ -8,6 +8,8 @@ export default function Home({ parentElement, search }) {
   const containerElement = document.createElement("div");
   containerElement.className = "home-container";
 
+  let timer = null;
+
   this.state = { text: "", list: [] };
 
   this.setState = (nextState) => {
@@ -18,8 +20,6 @@ export default function Home({ parentElement, search }) {
 
   containerElement.addEventListener("input", (e) => {
     if (!e.target.closest(".search")) return;
-
-    let timer = null;
 
     if (timer !== null) {
       clearTimeout(timer);
@@ -37,14 +37,17 @@ export default function Home({ parentElement, search }) {
   });
 
   containerElement.addEventListener("click", (e) => {
-    if (!e.target.closest("li")) return;
+    if (!e.target.closest(".search-result-item")) return;
 
     push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
 
-    setItem("recent-search-list", [
-      ...getItem("recent-search-list", []),
-      { id: e.target.dataset.id, title: e.target.innerText },
-    ]);
+    setItem(
+      "recent-search-list",
+      [
+        { id: e.target.dataset.id, title: e.target.innerText },
+        ...getItem("recent-search-list", []),
+      ].slice(0, 5)
+    );
   });
 
   this.render = () => {
@@ -80,5 +83,12 @@ export default function Home({ parentElement, search }) {
         </ul>
       </div>
     `;
+
+    const searchElement = containerElement.querySelector(".search");
+
+    searchElement.focus();
+    var val = searchElement.value;
+    searchElement.value = "";
+    searchElement.value = val;
   };
 }

@@ -33,6 +33,8 @@ export default function App({ appElement }) {
 
   const trie = new TrieDocument();
 
+  let timer = null;
+
   this.state = [];
 
   this.setState = (nextState) => {
@@ -92,7 +94,6 @@ export default function App({ appElement }) {
     parentElement: rightContainerEleement,
     onEditing: (document) => {
       const { documentId, title } = document;
-      let timer = null;
 
       if (document.isChangeTitle) {
         const newState = editTitleDocument(documentId, this.state, title);

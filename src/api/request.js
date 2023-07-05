@@ -1,3 +1,6 @@
+import { PATH } from "../constants/path.js";
+import { push } from "../utils/route.js";
+
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const request = async (url, options = {}) => {
@@ -17,5 +20,6 @@ export const request = async (url, options = {}) => {
     throw new Error("API 에러가 발생했습니다!");
   } catch (err) {
     alert(err.message);
+    push(PATH.HOME);
   }
 };
