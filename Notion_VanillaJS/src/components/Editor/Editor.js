@@ -20,20 +20,18 @@ export default class Editor extends Component {
         <button>h1</button>
         <button>h2</button>
         <button>h3</button>
-        <button>
+        <button data-command='bold'>
           <i class="fa-solid fa-bold"></i>
         </button>
-        <button>
+        <button data-command='italic'>
           <i class="fa-solid fa-italic"></i>
         </button>
-        <button>
+        <button data-command='Underline'>
           <i class="fa-solid fa-underline"></i>
         </button>
-        <button>
-        <i class="fa-solid fa-strikethrough"></i>
+        <button data-command='strikeThrough'>
+          <i class="fa-solid fa-strikethrough"></i>
         </button>
-
-
       </section>
       <div name='content' class='${styles.content}' placeholder='내용을 입력하세요' contenteditable></div>
     `;
@@ -71,6 +69,15 @@ export default class Editor extends Component {
       eventType: 'keyup',
       selector: '[name=content]',
       callback: debounceSaveLocal(({ target }) => this.saveContent(target)),
+    });
+    this.addEvent({
+      eventType: 'click',
+      selector: '[data-command]',
+      callback: ({ target }) => {
+        const { command } = target.closest('[data-command]').dataset;
+        document.execCommand(command);
+        console.log(command);
+      },
     });
   }
 
