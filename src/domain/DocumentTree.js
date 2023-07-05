@@ -11,24 +11,20 @@ export default class DocumentTree {
 
   validate(document) {
     if (typeof document.id !== "number") {
-      return false;
+      throw new Error("DocumentTree: id는 number 타입이어야 합니다.");
     }
 
     if (typeof document.title !== "string") {
-      return false;
+      throw new Error("DocumentTree: title은 string 타입이어야 합니다.");
     }
 
     if (!Array.isArray(document.documents)) {
-      return false;
+      throw new Error("DocumentTree: documents는 array 타입이어야 합니다.");
     }
 
     document.documents.forEach((childDocument) => {
-      if (!this.validate(childDocument)) {
-        return false;
-      }
+      this.validate(childDocument);
     });
-
-    return true;
   }
 
   get data() {

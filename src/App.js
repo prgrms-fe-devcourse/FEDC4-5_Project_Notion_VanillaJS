@@ -18,7 +18,7 @@ export default class App extends Component {
     const $editor = this.$target.querySelector("#editor");
     this.documentTree = new DocumentTreeComponent({
       $target: $documentTree,
-      initialState: [],
+      initialState: this.getDocumentTree(),
       props: {
         events: [
           {
