@@ -1,6 +1,7 @@
 import { request } from "./api.js";
 import DocumentList from "./DocumentList.js";
 import { push } from "./router.js";
+import { setItem, removeItem } from "./storage.js";
 
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
@@ -30,6 +31,10 @@ export default function DocumentPage({ $target, initialState }) {
         }),
       });
 
+      setItem(id, {
+        id: id,
+      });
+
       push(`/documents/${createdDoc.id}`);
     },
     onDeleteDocument: async (id) => {
@@ -39,6 +44,8 @@ export default function DocumentPage({ $target, initialState }) {
         await request(`/documents/${id}`, {
           method: "DELETE",
         });
+        removeItem(id);
+        removeItem(`temp-document-${id}`);
       };
 
       await deletedDoc(id);
