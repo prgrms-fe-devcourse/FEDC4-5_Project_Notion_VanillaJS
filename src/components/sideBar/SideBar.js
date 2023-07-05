@@ -17,6 +17,7 @@ export default function SideBar({ $target }) {
     onClick: async () => {
       const newDocument = {
         title: "제목 없음",
+        id: "new",
         parent: null,
       };
       documentList.setState([...documentList.state, newDocument]);
