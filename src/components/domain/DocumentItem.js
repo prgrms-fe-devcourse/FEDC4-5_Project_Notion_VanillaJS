@@ -4,10 +4,12 @@ export default function DocumentItem({
   onClickChildButton,
   onClickRemoveButton,
   onClickRoute,
+  count,
   ...documentData
 }) {
   const containerElement = document.createElement("div");
   containerElement.className = "document-container";
+  containerElement.style.setProperty("--count", count > 10 ? 0 : "20px");
 
   containerElement.addEventListener("click", (e) => {
     if (Number(e.target.closest("li").id) !== documentData.id) return;
@@ -35,7 +37,7 @@ export default function DocumentItem({
         <div class="button-group-container">
           <div data-id="${id}" class="child-button">+</div>
           <div data-id="${id}" class="remove-button">x</div>
-        </div>      
+        </div>
       </li>
     `;
 

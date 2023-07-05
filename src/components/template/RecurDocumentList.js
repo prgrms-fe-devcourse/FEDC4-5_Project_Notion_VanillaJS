@@ -14,6 +14,7 @@ export default function RecurDocumentList({
   parentElement,
   childRender,
   removeRender,
+  count,
 }) {
   rootDocuments.map((rootDocument) =>
     new DocumentItem({
@@ -27,6 +28,7 @@ export default function RecurDocumentList({
                 parentElement: innerParentElement,
                 childRender,
                 removeRender,
+                count: count + 1,
               }),
       onClickChildButton: async (documentId) => {
         const newDocument = await postDocument({
@@ -43,6 +45,7 @@ export default function RecurDocumentList({
       onClickRoute: async (documentId) => {
         push(`${PATH.DOCUMENTS}/${documentId}`);
       },
+      count,
       ...rootDocument,
     }).render()
   );

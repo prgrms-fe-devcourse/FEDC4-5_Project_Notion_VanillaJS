@@ -72,6 +72,7 @@ export default function App({ appElement }) {
 
           this.setState(newState);
         },
+        count: 1,
       });
     },
     serverRender: (newState) => {
