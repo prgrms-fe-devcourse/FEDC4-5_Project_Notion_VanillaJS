@@ -20,16 +20,16 @@ export default class Editor extends Component {
         <button>h1</button>
         <button>h2</button>
         <button>h3</button>
-        <button data-command='bold'>
+        <button data-style='bold'>
           <i class="fa-solid fa-bold"></i>
         </button>
-        <button data-command='italic'>
+        <button data-style='italic'>
           <i class="fa-solid fa-italic"></i>
         </button>
-        <button data-command='Underline'>
+        <button data-style='underline'>
           <i class="fa-solid fa-underline"></i>
         </button>
-        <button data-command='strikeThrough'>
+        <button data-style='line-through'>
           <i class="fa-solid fa-strikethrough"></i>
         </button>
       </section>
@@ -72,11 +72,48 @@ export default class Editor extends Component {
     });
     this.addEvent({
       eventType: 'click',
-      selector: '[data-command]',
+      selector: '[data-style]',
       callback: ({ target }) => {
-        const { command } = target.closest('[data-command]').dataset;
-        document.execCommand(command);
-        console.log(command);
+        const { style } = target.closest('[data-style]').dataset;
+
+        const selection = window.getSelection();
+        const { parentElement } = selection.anchorNode;
+        const isApplied =
+          (parentElement.tagName === 'SPAN' &&
+            ((style === 'bold' && parentElement.style.fontWeight === 'bold') ||
+              (style === 'italic' &&
+                parentElement.style.fontStyle === 'italic') ||
+              (style === 'underline' &&
+                parentElement.style.textDecoration === 'underline'))) ||
+          (style === 'line-through' &&
+            parentElement.style.textDecoration === 'line-through');
+
+        console.log(style, isApplied);
+
+        console.log(selection.anchorOffset, selection.focusOffset);
+
+        if (selection.rangeCount === 0) return;
+
+        const range = selection.getRangeAt(0);
+
+        if (isApplied) {
+          // 스타일 해제
+          range.selectNode(parentElement);
+          const innerText = document.createTextNode(parentElement.innerText);
+          range.deleteContents();
+          range.insertNode(innerText);
+          selection.removeAllRanges();
+        } else {
+          // 스타일 적용
+          const span = document.createElement('span');
+          if (style === 'bold') span.style.fontWeight = 'bold';
+          if (style === 'italic') span.style.fontStyle = 'italic';
+          if (style === 'underline') span.style.textDecoration = 'underline';
+          if (style === 'line-through')
+            span.style.textDecoration = 'line-through';
+          range.surroundContents(span);
+          selection.removeAllRanges();
+        }
       },
     });
   }
