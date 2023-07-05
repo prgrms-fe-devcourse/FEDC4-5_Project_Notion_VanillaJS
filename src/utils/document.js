@@ -72,7 +72,7 @@ export function editTitleDocument(documentId, state, documentTitle) {
   return tempState;
 }
 
-export function findAllDocument(state, insert) {
+export function insertAllDocument(state, insert) {
   const stack = [];
   const tempState = structuredClone(state);
 
@@ -170,5 +170,9 @@ export function TrieDocument() {
     }
 
     return searchList;
+  };
+
+  this.reset = () => {
+    this.root = new Node();
   };
 }

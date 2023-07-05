@@ -10,7 +10,7 @@ import {
   TrieDocument,
   addChildDocument,
   editTitleDocument,
-  findAllDocument,
+  insertAllDocument,
   findChildDocuments,
   removeDocument,
 } from "./utils/document.js";
@@ -32,8 +32,6 @@ export default function App({ appElement }) {
   rightContainerEleement.className = "right-container";
 
   const trie = new TrieDocument();
-
-  let timer = null;
 
   this.state = [];
 
@@ -76,7 +74,7 @@ export default function App({ appElement }) {
     },
     serverRender: (newState) => {
       this.setState(newState);
-      findAllDocument(newState, (title, id) => trie.insert(title, id));
+      insertAllDocument(newState, (title, id) => trie.insert(title, id));
     },
     onAddButtonClick: (newDocument) => {
       const nextState = [...this.state, newDocument];
@@ -94,6 +92,7 @@ export default function App({ appElement }) {
     parentElement: rightContainerEleement,
     onEditing: (document) => {
       const { documentId, title } = document;
+      let timer = null;
 
       if (document.isChangeTitle) {
         const newState = editTitleDocument(documentId, this.state, title);
@@ -140,7 +139,8 @@ export default function App({ appElement }) {
     rightContainerEleement.innerHTML = ``;
 
     if (pathname === PATH.HOME) {
-      findAllDocument(this.state, (title, id) => trie.insert(title, id));
+      trie.reset();
+      insertAllDocument(this.state, (title, id) => trie.insert(title, id));
 
       homeComponent.render();
     } else if (pathname.split("/")[1] === "documents") {

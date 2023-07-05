@@ -4,7 +4,6 @@ import { push } from "../../utils/route.js";
 import DocumentItem from "../domain/DocumentItem.js";
 
 /**
- *
  * @param {rootDocument} listData
  * @param {parentElement} listElement
  * @description 트리 형태로 문서를 불러오는 함수

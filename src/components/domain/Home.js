@@ -8,8 +8,6 @@ export default function Home({ parentElement, search }) {
   const containerElement = document.createElement("div");
   containerElement.className = "home-container";
 
-  let timer = null;
-
   this.state = { text: "", list: [] };
 
   this.setState = (nextState) => {
@@ -20,6 +18,8 @@ export default function Home({ parentElement, search }) {
 
   containerElement.addEventListener("input", (e) => {
     if (!e.target.closest(".search")) return;
+
+    let timer = null;
 
     if (timer !== null) {
       clearTimeout(timer);
@@ -69,7 +69,7 @@ export default function Home({ parentElement, search }) {
       }
       </div>
       <div class="recent-search-container">
-        <h2 class="recent-search-title">최근 검색어 목록</h2>
+        <h2 class="recent-search-title">최근 검색 문서 목록</h2>
         <ul>
         ${getItem("recent-search-list", [])
           .map(
