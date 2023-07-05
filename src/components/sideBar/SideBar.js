@@ -23,7 +23,10 @@ export default function SideBar({ $target }) {
       documentList.setState([...documentList.state, newDocument]);
       await request("/documents", {
         method: "POST",
-        body: JSON.stringify(newDocument),
+        body: JSON.stringify({
+          title: "제목 없음",
+          parent: null,
+        }),
       });
     },
   });
