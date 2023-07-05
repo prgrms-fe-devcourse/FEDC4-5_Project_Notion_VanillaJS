@@ -37,17 +37,36 @@ export default function DocumentPage({ $target, initialState }) {
 
       push(`/documents/${createdDoc.id}`);
     },
-    onDeleteDocument: async (id) => {
-      const deletedDoc = async (id) => {
-        await request(`/documents/${id}`, {
+    onDeleteDocument: async (selectedDocId) => {
+      const { pathname } = window.location;
+
+      const deletedDoc = async (selectedDocId) => {
+        await request(`/documents/${selectedDocId}`, {
           method: "DELETE",
         });
-        removeItem(id);
-        removeItem(`temp-document-${id}`);
+        removeItem(selectedDocId);
+        removeItem(`temp-document-${selectedDocId}`);
       };
 
-      await deletedDoc(id);
-      push("/");
+      if (pathname.indexOf("/documents/") === 0) {
+        const [, , currentPageId] = pathname.split("/");
+
+        if (selectedDocId === currentPageId) {
+          await deletedDoc(selectedDocId);
+
+          history.replaceState(null, null, "/");
+          push("/");
+        } else {
+          await deletedDoc(selectedDocId);
+
+          push(`/document/${currentPageId}`);
+        }
+        return;
+      } else {
+        await deletedDoc(selectedDocId);
+
+        push("/");
+      }
     },
   });
 
