@@ -41,11 +41,17 @@ export default function DocumentList({
         <ul>
         ${this.displayDocumentList(this.state.docs)}
         </ul>
+        <div role="button">+ Add a document</div>
         `;
     $target.appendChild($documentList);
   };
 
   $documentList.addEventListener("click", (e) => {
+    if (e.target === e.target.closest("div")) {
+      console.log("here");
+      push("/documents/new");
+      return;
+    }
     const $li = e.target.closest("li");
 
     const { id } = $li.dataset;

@@ -1,14 +1,15 @@
 import { push } from "./router.js";
 
 export default function LinkButton({ $target, initialState }) {
-  const $linkButton = document.createElement("button");
+  const $linkButton = document.createElement("div");
   this.state = initialState;
 
   $target.appendChild($linkButton);
   this.render = () => {
-    $linkButton.textContent = this.state.text;
+    $linkButton.innerHTML = `${this.state.text}`;
   };
-  this.render();
+
+  //this.render();
 
   $linkButton.addEventListener("click", () => {
     push(this.state.link);
