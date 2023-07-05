@@ -42,7 +42,7 @@ export default class Editor extends Component {
           <i class="fa-solid fa-align-right"></i>
         </button>
       </section>
-      <div name='content' class='${styles.content}' placeholder='내용을 입력하세요' contenteditable></div>
+      <div name='content' class='${styles.content} content' placeholder='내용을 입력하세요' contenteditable></div>
     `;
   }
 
@@ -86,7 +86,14 @@ export default class Editor extends Component {
         const { style } = target.closest('[data-style]').dataset;
 
         const selection = window.getSelection();
+
+        if (selection.rangeCount === 0) return;
+
         const { parentElement } = selection.anchorNode;
+        const $content = parentElement.closest('.content');
+
+        if (!$content) return;
+
         const isApplied =
           (parentElement.tagName === 'SPAN' &&
             ((style === 'bold' && parentElement.style.fontWeight === 'bold') ||
@@ -105,8 +112,6 @@ export default class Editor extends Component {
           (style === 'end' &&
             parentElement.style.display === 'flex' &&
             parentElement.style.justifyContent === 'end');
-
-        if (selection.rangeCount === 0) return;
 
         const range = selection.getRangeAt(0);
 
@@ -130,8 +135,10 @@ export default class Editor extends Component {
               parentElement.style.justifyContent = style;
               return;
             }
+            if (parentElement.style.display !== 'flex' && style === 'start')
+              return;
             span.style.display = 'flex';
-            span.style.justifyContent = 'left';
+            span.style.justifyContent = style;
           }
 
           range.surroundContents(span);
