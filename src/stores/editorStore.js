@@ -9,6 +9,7 @@ export const initialDocument = {
   content: '',
   updatedAt: '1970-01-01T09:00:00.000Z',
 };
+
 export default class EditorStore {
   constructor({
     initialState = {
@@ -58,7 +59,7 @@ export default class EditorStore {
   /**
    * 로컬 스토리지에 존재하는 모든 데이터를 읽고, 서버에서 가져온 문서보다 최신 정보인 경우에 서버에 업데이트 요청을 합니다.
    * @param {array} documents 서버에서 가져온 문서 목록
-   * @returns
+   * @returns Promise
    */
   pushStorageDocuments(documents = []) {
     const promises = Object.keys(localStorage)
