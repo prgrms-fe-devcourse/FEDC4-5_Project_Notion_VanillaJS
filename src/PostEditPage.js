@@ -32,11 +32,14 @@ export default function PostEditPage({ $target, initialState }) {
 
         const isNew = this.state.postId === "new";
         if (isNew) {
-          const createdPost = await request("", {
+          const createdPost = await request('', {
             method: "POST",
-            body: JSON.stringify(post),
+            body: {
+              title: post.title,
+              parent: null,
+            },
           });
-          history.replaceState(null, null, `/post/${createdPost.id}`);
+          history.replaceState(null, null, `/${createdPost.id}`);
           removeItem(postLocalSaveKey);
 
           this.setState({
@@ -90,7 +93,7 @@ export default function PostEditPage({ $target, initialState }) {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/posts/${postId}`);
+      const post = await request(`/${postId}`);
 
       const tempPost = getItem(postLocalSaveKey, {
         title: "",

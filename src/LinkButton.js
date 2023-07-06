@@ -1,4 +1,4 @@
-import { pushRouter, pushRouter } from "./router.js";
+import { pushRouter } from "./router.js";
 
 export default function LinkButton({ $target, initialState }) {
   this.state = initialState;

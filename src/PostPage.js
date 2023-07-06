@@ -19,7 +19,7 @@ export default function PostPage({ $target }) {
   });
 
   this.setState = async () => {
-    const post = await request("post");
+    const post = await request();
     postList.setState(post);
     this.render();
   };
