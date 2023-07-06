@@ -3,6 +3,20 @@
   outline: none;
 }
 
+#welcomePage {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+#welcomeMessage {
+  font-size: 50px;
+  font-weight: 900;
+}
+
 #sideBar {
   float: left;
   display: flex;
