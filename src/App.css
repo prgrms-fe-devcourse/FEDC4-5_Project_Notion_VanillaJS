@@ -1,0 +1,263 @@
+:root {
+  --nav-bg-color: rgb(251, 251, 250);
+  --list-font-color: rgba(25, 23, 17, 0.6);
+  --list-btn-hover-color: rgb(224, 224, 222);
+  --list-hover-color: rgb(237, 237, 235);
+  --edit-font-color: rgb(55, 53, 47);
+  --nav-scrollbar-track-color: rgb(237, 236, 233);
+  --nav-scrollbar-thumb-color: rgb(211, 209, 203);
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+}
+
+nav {
+  position: relative;
+  min-width: 250px;
+  background-color: var(--nav-bg-color);
+  overflow-y: auto;
+}
+
+nav::-webkit-scrollbar {
+  width: 10px;
+}
+nav::-webkit-scrollbar-track {
+  background-color: var(--nav-scrollbar-track-color);
+}
+nav::-webkit-scrollbar-thumb {
+  background-color: var(--nav-scrollbar-thumb-color);
+}
+
+.userSection {
+  position: fixed;
+  width: 229px;
+  height: 40px;
+  padding-top: 18px;
+  padding-left: 11px;
+  margin-bottom: 18px;
+  background-color: var(--nav-bg-color);
+  z-index: 1000;
+}
+
+.userSection .user {
+  cursor: pointer;
+}
+
+.fill {
+  width: 240px;
+  height: 60px;
+}
+
+.documentList {
+  box-sizing: border-box;
+  color: var(--list-font-color);
+}
+
+.documentList .topSpace {
+  position: relative;;
+  height: 25px;
+  line-height: 25px;
+  padding-left: 11px;
+  margin-bottom: 8px;
+}
+
+.documentList .createRoot {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  right: 5px;
+  color: var(--list-font-color);
+}
+
+.documentList .createRoot:hover {
+  background-color: var(--list-btn-hover-color);
+}
+
+.documentList ul {
+  margin-top: 4px;
+}
+
+.documentList ul li {
+  display: block;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.documentList li > ul {
+  padding-left: 12px;
+}
+
+.documentList .document {
+  padding-left: 7px;
+}
+
+.documentList .document:hover {
+  background-color: var(--list-hover-color);
+}
+
+.documentList .title {
+  display: inline-block;
+  font-size: 0.9rem;
+  width: 100px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.documentList .current {
+  font-weight: bold;
+  color: black;
+}
+
+.documentList .toggle {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  margin-bottom: 3.5px;
+  color: var(--list-font-color);
+}
+
+.documentList .toggle.open {
+  transform: rotate(0.25turn);
+}
+
+.documentList .toggle:hover {
+  background-color: var(--list-btn-hover-color);
+}
+
+.documentList .createDelete {
+  position: absolute;
+  right: 5px;
+}
+
+.documentList .create, .delete {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--list-font-color);
+  margin-top: 3.5px;
+}
+
+.documentList .create:hover, .delete:hover {
+  background-color: var(--list-btn-hover-color);
+}
+
+main {
+  min-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 0 50px 100px;
+  overflow-y: auto;
+}
+
+main::-webkit-scrollbar {
+  width: 10px;
+}
+main::-webkit-scrollbar-track {
+  background-color: var(--nav-scrollbar-track-color);
+}
+main::-webkit-scrollbar-thumb {
+  background-color: var(--nav-scrollbar-thumb-color);
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: var(--edit-font-color);
+}
+
+.editor input {
+  width: 600px;
+  padding: 0 10px 10px 10px;
+  font-size: 21px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid var(--list-font-color);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.editor textarea {
+  width: 600px;
+  min-height: 700px;
+  padding: 10px;
+  resize: none;
+  font-size: 18px;
+  outline: none;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid var(--list-font-color);
+}
+
+.editor textarea::-webkit-scrollbar {
+  width: 10px;
+}
+.editor textarea::-webkit-scrollbar-track {
+  background-color: var(--nav-scrollbar-track-color);
+}
+.editor textarea::-webkit-scrollbar-thumb {
+  background-color: var(--nav-scrollbar-thumb-color);
+}
+
+.documentSubList {
+  box-sizing: border-box;
+  margin-top: 10px;
+  padding-top: 5px;
+  padding-left: 20px;
+  max-width: 600px;
+  min-height: 200px;
+  overflow-y: auto;
+}
+
+.documentSubList::-webkit-scrollbar {
+  width: 10px;
+}
+.documentSubList::-webkit-scrollbar-track {
+  background-color: var(--nav-scrollbar-track-color);
+}
+.documentSubList::-webkit-scrollbar-thumb {
+  background-color: var(--nav-scrollbar-thumb-color);
+}
+
+.documentSubList ul {
+  list-style: square;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--list-font-color);
+}
+
+.documentSubList ul li .title {
+  cursor: pointer;
+}
+
+.documentSubList ul li .title:hover {
+  color: black;
+}
