@@ -44,9 +44,10 @@
 
 .document-blob:hover {
   background-color: #ebebea;
-  .document-blob-right {
-    visibility: visible;
-  }
+}
+
+.document-blob:hover .document-blob-right {
+  visibility: visible;
 }
 
 .document-blob-btn {
