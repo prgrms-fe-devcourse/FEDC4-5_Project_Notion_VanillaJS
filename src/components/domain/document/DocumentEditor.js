@@ -38,9 +38,9 @@ export default function DocumentEditor({
   });
 
   containerElement.addEventListener("click", (e) => {
-    if (e.target.closest(".child-document")) {
-      push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
-    }
+    if (!e.target.closest(".child-document")) return;
+
+    push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
   });
 
   this.render = async () => {
@@ -62,7 +62,9 @@ export default function DocumentEditor({
         title ?? ""
       }" placeholder="제목 없음" />
       <div contentEditable class="editor-content">${content ?? ""}</div>
-      ${RecurChildDocument(childDocuments)}
+      <div class="container-child-document">${RecurChildDocument(
+        childDocuments
+      )}</div>
     `;
   };
 }

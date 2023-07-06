@@ -1,7 +1,11 @@
 import { PATH } from "../../../constants/path.js";
 import { debounce } from "../../../utils/debounce.js";
 import { push } from "../../../utils/route.js";
-import { getItem, setItem } from "../../../utils/storage.js";
+import {
+  RECENT_SEARCH_LIST,
+  getItem,
+  setItem,
+} from "../../../utils/storage.js";
 
 export default function Home({ parentElement, search }) {
   if (!new.target) return new Home(...arguments);
@@ -14,35 +18,35 @@ export default function Home({ parentElement, search }) {
       this.setState({ text: value, list: [] });
       return;
     }
-    const searchList = search(value);
 
-    this.setState({ text: value, list: searchList });
+    const newState = { text: value, list: search(value) };
+    this.setState(newState);
   });
 
   this.state = { text: "", list: [] };
 
   this.setState = (nextState) => {
     this.state = nextState;
-
     this.render();
   };
 
   containerElement.addEventListener("input", (e) => {
     if (!e.target.closest(".search")) return;
+
     processSearch(e.target.value);
   });
 
   containerElement.addEventListener("click", (e) => {
     if (!e.target.closest(".search-result-item")) return;
 
-    push(`${PATH.DOCUMENTS}/${e.target.dataset.id}`);
+    const { dataset, innerText } = e.target;
+    const newSearchItem = { id: dataset.id, title: innerText };
+
+    push(`${PATH.DOCUMENTS}/${dataset.id}`);
 
     setItem(
-      "recent-search-list",
-      [
-        { id: e.target.dataset.id, title: e.target.innerText },
-        ...getItem("recent-search-list", []),
-      ].slice(0, 5)
+      RECENT_SEARCH_LIST,
+      [newSearchItem, ...getItem(RECENT_SEARCH_LIST, [])].slice(0, 5)
     );
   });
 
@@ -70,7 +74,7 @@ export default function Home({ parentElement, search }) {
       <div class="recent-search-container">
         <h2 class="recent-search-title">최근 검색 문서 목록</h2>
         <ul>
-        ${getItem("recent-search-list", [])
+        ${getItem(RECENT_SEARCH_LIST, [])
           .map(
             (item) =>
               `<li data-id="${item.id}" class="recent-search-item">${item.title}</li>`
@@ -83,7 +87,7 @@ export default function Home({ parentElement, search }) {
     const searchElement = containerElement.querySelector(".search");
 
     searchElement.focus();
-    var val = searchElement.value;
+    const val = searchElement.value;
     searchElement.value = "";
     searchElement.value = val;
   };

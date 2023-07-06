@@ -249,11 +249,28 @@ button {
   }
 }
 
+.container-child-document {
+  width: 60vw;
+  height: 100px;
+  overflow: auto;
+  border-top: 2px solid #dededd;
+  padding-top: 10px;
+}
+
 /* recur-child-document */
 
 .child-document {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.child-document-title {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ebebea;
+  }
 }
 
 /* add-button */

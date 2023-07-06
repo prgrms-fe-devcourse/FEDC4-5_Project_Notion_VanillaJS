@@ -1,5 +1,7 @@
 const storage = window.localStorage;
 
+export const RECENT_SEARCH_LIST = "recent-search-list";
+
 export const getItem = (key, defaultValue) => {
   try {
     const storedValue = storage.getItem(key);
