@@ -1,41 +1,104 @@
-function navDraw(documents, $target) {
+import { request } from "./api.js";
+import modal from "./Modal.js";
+
+function navDraw(documents, $target, fetchSidebar, onChange) {
   const $div = document.createElement("div");
-  $div.style = "padding-left: 10px";
-  if ($target.parentNode.tagName.toLowerCase() !== "main")
+
+  if ($target.parentNode.className !== "notion-sidebar-container")
     $div.style.setProperty("display", "none");
-  $target.appendChild($div);
 
-  $div.addEventListener("click", (e) => {
-    const children = e.target.childNodes;
-    for (let i = 0; i < children.length; i++) {
-      if (
-        children[i].nodeType === 1 &&
-        children[i].tagName.toLowerCase() === "div"
-      )
-        children[i].style.setProperty("display", "block");
-    }
-  });
-
+  // 데이터 추가하기
   for (let i = 0; i < documents.length; i++) {
     const $list = document.createElement("div");
     $list.setAttribute("data-id", documents[i].id);
-    $list.innerText = documents[i].title;
-    $div.append($list);
-    if (documents[i].documents.length !== 0)
-      navDraw(documents[i].documents, $list);
-  }
+    $list.className = "container";
+    $list.addEventListener("click", (e) => {
+      history.pushState(
+        null,
+        null,
+        `/content/${e.target.parentNode.getAttribute("data-id")}`
+      );
+      onChange(e.target.parentNode.getAttribute("data-id"));
+    });
 
-  return $div;
+    $list.addEventListener("mouseover", (e) => {
+      if (e.target.tagName === "SPAN") {
+        e.target.parentNode.style.backgroundColor = "lightgray";
+      }
+    });
+
+    $list.addEventListener("mouseout", (e) => {
+      if (e.target.tagName === "SPAN") {
+        e.target.parentNode.style.backgroundColor = "";
+      }
+    });
+
+    const $toggleButton = document.createElement("button");
+    $toggleButton.innerText = ">";
+    $toggleButton.addEventListener("click", (e) => {
+      const childNode = e.target.nextSibling.childNodes;
+      for (let i = 0; i < childNode.length; i++) {
+        if (childNode[i].nodeName === "DIV")
+          childNode[i].style.display === "block"
+            ? (childNode[i].style.display = "none")
+            : (childNode[i].style.display = "block");
+      }
+    });
+    $list.appendChild($toggleButton);
+
+    const $span = document.createElement("span");
+    $span.innerText = documents[i].title;
+    $list.appendChild($span);
+
+    const $deleteButton = document.createElement("button");
+    $deleteButton.innerText = "-";
+    $deleteButton.className = "delete";
+    $deleteButton.addEventListener("click", async (e) => {
+      const id = e.target.parentNode.getAttribute("data-id");
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      fetchSidebar();
+    });
+    $list.appendChild($deleteButton);
+
+    buttonModal($list);
+    $div.append($list);
+
+    if (documents[i].documents.length !== 0)
+      navDraw(documents[i].documents, $span);
+  }
+  // 마지막에 자식노드 바꾸기
+  const secondChild = $target.children[1];
+  if (secondChild) $target.replaceChild($div, $target.children[1]);
+  else $target.appendChild($div);
 }
 
-export default function Sidebar({ $target, initialState }) {
-  const $nav = document.createElement("nav");
+function buttonModal($target) {
   const $button = document.createElement("button");
-  $nav.innerText = "사이드바";
+  const $modal = document.getElementById("modal");
+
   $button.innerText = "+";
+  $button.className = "plus";
+
+  $button.addEventListener("click", (e) => {
+    $modal.style.display = "block";
+  });
+  $target.appendChild($button);
+}
+
+export default function Sidebar({ $target, initialState, onChange }) {
+  const fetchSidebar = async () => {
+    const documents = await request("/documents");
+    this.setState(documents);
+  };
+  modal(fetchSidebar);
+  const $nav = document.createElement("nav");
+  $nav.innerText = "사이드바";
 
   $target.appendChild($nav);
-  $nav.appendChild($button);
+  buttonModal($nav, fetchSidebar);
+  fetchSidebar();
 
   this.state = initialState;
 
@@ -45,7 +108,7 @@ export default function Sidebar({ $target, initialState }) {
   };
 
   this.render = () => {
-    navDraw(this.state, $nav);
+    navDraw(this.state, $nav, fetchSidebar, onChange);
   };
 
   this.render();
