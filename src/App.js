@@ -11,7 +11,7 @@ export default class App extends Component {
   async render() {
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
-      <section id='editor'>편집하는 곳</section>
+      <section id='editor'></section>
     `;
 
     const $documentTree = this.$target.querySelector("#documentTree");
@@ -45,7 +45,6 @@ export default class App extends Component {
                 return;
               }
               const [, $childUl] = target.children;
-              console.log($childUl);
               target.appendChild(document.createElement("input"));
             },
           },
@@ -94,21 +93,22 @@ export default class App extends Component {
           {
             action: "keyup",
             tag: ".textarea",
-            target: "div",
+            target: ".textarea",
             callback: ({ target }) => {
               const { innerHTML } = target;
-              setItem("documents/" + this.getDocumentIdByPathname(), {
-                content: innerHTML,
-                tmpSaveDate: new Date(),
-              });
+              clearTimeout(timeout);
+              var timeout = setTimeout(() => {
+                this.saveDocumentToStorage({ content: innerHTML });
+              }, 1000);
             },
           },
           {
-            action: "click",
-            tag: ".saveButton",
-            target: ".editorContainer",
-            callback: () => {
-              this.saveDocument();
+            action: "dbclick",
+            tag: ".textarea",
+            target: ".textarea",
+            callback: ({ event }) => {
+              const { innerHTML } = event.target;
+              console.log(innerHTML);
             },
           },
         ],
@@ -145,20 +145,27 @@ export default class App extends Component {
     });
   }
 
-  async saveDocument() {
+  saveDocumentToStorage({ content }) {
+    setItem("documents/" + this.getDocumentIdByPathname(), {
+      content,
+      tmpSaveDate: new Date(),
+    });
+  }
+
+  async savedDocumentToServer({ content }) {
     await request(`/documents/${this.getDocumentIdByPathname()}`, {
       method: "PUT",
-      body: JSON.stringify(this.editor.state),
+      body: JSON.stringify({ content }),
     }).then((res) => {
-      alert("저장되었습니다.");
-      removeItem("documents/" + res.id);
-      this.editor.state = new Document(res);
+      // console.log(res);
     });
   }
 
   async route() {
     const { pathname } = window.location;
     const [, routeName, documentId] = pathname.split("/");
+    this.savedDocumentToServer({ content: this.editor.state.content });
+
     switch (routeName) {
       case "documents":
         const savedDocument = new Document(await this.getDocument(documentId));
@@ -170,6 +177,7 @@ export default class App extends Component {
           }
         }
         this.editor.state = savedDocument;
+        removeItem("documents/" + documentId);
         break;
     }
   }
