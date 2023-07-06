@@ -105,7 +105,7 @@ export default class App extends Component {
               clearTimeout(timeout);
               timeout = setTimeout(() => {
                 this.saveDocumentToStorage({ content: innerHTML });
-              }, 500);
+              }, 200);
             },
           },
           {
@@ -117,18 +117,28 @@ export default class App extends Component {
               clearTimeout(timeout);
               timeout = setTimeout(() => {
                 this.saveDocumentToStorage({ title: innerHTML });
-                this.editor.state = this.editor.state.cloneNewDocument({
-                  title: innerHTML,
-                });
-              }, 500);
+              }, 200);
+            },
+          },
+          {
+            action: "focusout",
+            tag: ".title",
+            target: ".title",
+            callback: async ({ target }) => {
+              const { innerHTML } = target;
+              this.editor.state = this.editor.state.cloneNewDocument({
+                title: innerHTML,
+              });
+              await this.saveDocumentToServer({ title: innerHTML });
+              this.updateDocumentTree();
             },
           },
           {
             action: "focusout",
             tag: ".textarea",
             target: ".textarea",
-            callback: ({ event }) => {
-              const { innerHTML } = event.target;
+            callback: ({ target }) => {
+              const { innerHTML } = target;
               this.editor.state = this.editor.state.cloneNewDocument({
                 content: innerHTML,
               });
@@ -170,6 +180,7 @@ export default class App extends Component {
 
   saveDocumentToStorage({ title, content }) {
     setItem("documents/" + this.getDocumentIdByPathname(), {
+      title,
       content,
       tmpSaveDate: new Date(),
     });
@@ -184,7 +195,8 @@ export default class App extends Component {
 
   async route({ url }) {
     if (this.editor.state.id !== -1) {
-      this.saveDocumentToServer({ content: this.editor.state.content });
+      const { title, content } = this.editor.state;
+      this.saveDocumentToServer({ title, content });
     }
     history.pushState(null, null, url);
     const urlSplit = url.split("/");
@@ -196,10 +208,13 @@ export default class App extends Component {
       case "documents":
         const savedDocument = new Document(await this.getDocument(documentId));
         try {
-          const { content, tmpSaveDate } = getItem("documents/" + documentId);
+          const { title, content, tmpSaveDate } = getItem(
+            "documents/" + documentId
+          );
           if (tmpSaveDate > savedDocument.updatedAt) {
             if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
               this.editor.state = savedDocument.cloneNewDocument({
+                title,
                 content,
               });
               return;
