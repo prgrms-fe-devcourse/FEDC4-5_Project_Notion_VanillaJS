@@ -37,14 +37,14 @@ export default class App extends Component {
             tag: ".addDocumentButton",
             target: "li",
             callback: ({ event, target }) => {
+              const $input = document.createElement("input");
+              $input.placeholder = "제목";
+              $input.className = "documentInput";
               if (target === null) {
-                event.target.parentNode.insertBefore(
-                  document.createElement("input"),
-                  event.target
-                );
+                event.target.parentNode.insertBefore($input, event.target);
                 return;
               }
-              target.appendChild(document.createElement("input"));
+              target.appendChild($input);
             },
           },
           {
