@@ -30,6 +30,10 @@ export async function getRootDocuments() {
   return await request("/documents");
 }
 
+export async function getDocument({ documentId }) {
+  return await request(`/documents/${documentId}`);
+}
+
 export async function postDocument({ title, parent }) {
   return await request("/documents", {
     method: "POST",

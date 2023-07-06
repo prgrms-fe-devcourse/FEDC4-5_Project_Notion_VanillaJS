@@ -25,9 +25,12 @@ export function isObjectState(state) {
 }
 
 const documentType = {
-  documentId: "number",
+  id: "number",
   title: "string",
   content: "string",
+  documents: "object",
+  createdAt: "string",
+  updatedAt: "string",
 };
 
 export function isDocumentState(state) {
@@ -37,7 +40,15 @@ export function isDocumentState(state) {
       (() => {
         for (const [key, val] of Object.entries(state)) {
           if (!documentType.hasOwnProperty(key)) return true;
-          if (typeof val !== documentType[key]) return true;
+          if (key !== "content" && typeof val !== documentType[key])
+            return true;
+          if (
+            key === "content" &&
+            val !== null &&
+            typeof val !== documentType[key]
+          )
+            return true;
+          if (key === "documents" && !Array.isArray(val)) return true;
         }
         return false;
       })(),

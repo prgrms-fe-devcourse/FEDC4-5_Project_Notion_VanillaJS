@@ -9,9 +9,10 @@ export default function Document({ $target }) {
   const $document = document.createElement("section");
 
   this.state = {
-    documentId: 0,
+    id: 0,
     title: "",
     content: "",
+    documents: [],
   };
 
   this.setState = (nextState) => {
@@ -51,5 +52,11 @@ export default function Document({ $target }) {
     if ($target.firstElementChild === null) {
       $target.appendChild($document);
     }
+
+    const $title = $document.querySelector("[name=title]");
+    $title.value = this.state.title;
+
+    const $content = $document.querySelector("[name=content]");
+    $content.value = this.state.content;
   };
 }
