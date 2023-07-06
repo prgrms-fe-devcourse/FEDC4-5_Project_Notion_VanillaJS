@@ -1,4 +1,3 @@
-import { findDocumentRoute, findDocument } from '../helpers/documentHelper.js';
 import {
   createChildDocumentLinks,
   createEditor,
@@ -6,6 +5,13 @@ import {
   createSidebar,
   createStyleMenu,
 } from './constructors/index.js';
+import {
+  renderChildDocumentLinks,
+  renderEditor,
+  renderNavbar,
+  renderSidebar,
+  renderStyleMenu,
+} from './renders/index.js';
 import html from './DocumentPage.html';
 import './DocumentPage.css';
 
@@ -18,6 +24,7 @@ export default class DocumentPage {
     this.documentStore = documentStore;
 
     this.initComponents();
+    this.initRenders();
     this.render();
   }
 
@@ -29,46 +36,12 @@ export default class DocumentPage {
     this.childDocumentLinks = createChildDocumentLinks.call(this);
   }
 
-  renderEditor() {
-    const { editor, editorStore } = this;
-
-    editor.setState({
-      documentId: editorStore.state.documentId,
-      document: editorStore.state.document,
-    });
-  }
-
-  renderSidebar() {
-    const { sidebar } = this;
-    const { documentStore, editorStore } = this;
-
-    sidebar.setState({
-      documents: documentStore.state.documents,
-      openedDocuments: documentStore.state.openedDocuments,
-      currentDocumentId: editorStore.state.documentId,
-    });
-  }
-
-  renderNavbar() {
-    const { navbar } = this;
-    const { editorStore, documentStore } = this;
-
-    navbar.setState({ routes: findDocumentRoute(editorStore.state.documentId, documentStore.state.documents) });
-  }
-
-  renderStyleMenu() {
-    const { styleMenu } = this;
-
-    styleMenu.setState({ ...styleMenu.state, isShowMenu: false, isShowTextMenu: false });
-  }
-
-  renderChildDocumentLinks() {
-    const { childDocumentLinks } = this;
-    const { documentStore, editorStore } = this;
-
-    childDocumentLinks.setState({
-      documents: findDocument(editorStore.state.documentId, documentStore.state.documents)?.documents || [],
-    });
+  initRenders() {
+    this.renderEditor = renderEditor.bind(this);
+    this.renderSidebar = renderSidebar.bind(this);
+    this.renderNavbar = renderNavbar.bind(this);
+    this.renderStyleMenu = renderStyleMenu.bind(this);
+    this.renderChildDocumentLinks = renderChildDocumentLinks.bind(this);
   }
 
   render() {
