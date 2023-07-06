@@ -29,7 +29,9 @@ export default class DocumentListItem extends Component {
           expanded[documentItem.id] ? ExpandedIcon : CollapsedIcon
         }" alt="Image" heigth="12" width="12">
       </button>
-      <a class="${SIDEBAR.DOCUMENT_LIST_ITEM.TITLE}">${documentItem.title}</a>
+      <a class="${SIDEBAR.DOCUMENT_LIST_ITEM.TITLE}">${
+      documentItem.title || 'Untitled'
+    }</a>
       <div class="${SIDEBAR.DOCUMENT_LIST_ITEM.BUTTON_CONTAINER.ROOT}">
         <button class="${
           SIDEBAR.DOCUMENT_LIST_ITEM.BUTTON_CONTAINER.DELETE_BUTTON

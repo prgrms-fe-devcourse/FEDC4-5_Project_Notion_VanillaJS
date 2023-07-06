@@ -17,6 +17,7 @@ export default class NotionEditorTitle extends Component {
     this.$titleEditor.contentEditable = true;
     this.$titleEditor.className = 'notion-editor-title';
     this.$titleEditor.dataset.name = 'title';
+    this.$titleEditor.setAttribute('placeholder', 'Untitled');
 
     this.$target.appendChild(this.$titleEditor);
   }

@@ -11,3 +11,9 @@
     outline: none;
   }
 }
+
+.notion-editor-title:empty::before {
+  content: attr(placeholder);
+  display: block;
+  color: #e4e4e3;
+}

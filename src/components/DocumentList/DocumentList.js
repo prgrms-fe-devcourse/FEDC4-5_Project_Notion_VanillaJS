@@ -35,7 +35,7 @@ export default class DocumentList extends Component {
   };
 
   handleCreateIndsideButtonClick = async (id) => {
-    const newDocument = await createDocument({ title: 'Untitled', parent: id });
+    const newDocument = await createDocument({ title: '', parent: id });
     history.push(`/documents/${newDocument.id}`);
   };
 

@@ -22,6 +22,16 @@ export default class NotionEditor extends Component {
     });
   }
 
+  focusTitleEditor() {
+    const $titleEditor = this.$target.querySelector('.notion-editor-title');
+    $titleEditor.focus();
+  }
+
+  focusContentEditor() {
+    const $contentEditor = this.$target.querySelector('.notion-editor-content');
+    $contentEditor.focus();
+  }
+
   handleEditorInputChange(name, value) {
     const { onEdit } = this.props;
 
@@ -33,10 +43,7 @@ export default class NotionEditor extends Component {
 
   handlePressEnterKey(name) {
     if (name === 'title') {
-      const $contentEditor = this.$target.querySelector(
-        '.notion-editor-content'
-      );
-      $contentEditor.focus();
+      this.focusContentEditor();
     }
   }
 
@@ -46,5 +53,11 @@ export default class NotionEditor extends Component {
     const { title, content } = this.state;
     this.$title.setState({ title });
     this.$content.setState({ content });
+  }
+
+  render() {
+    if (this.state?.title === '') {
+      this.focusTitleEditor();
+    }
   }
 }
