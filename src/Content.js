@@ -1,11 +1,12 @@
 import { getRightNextState } from "./util";
 import { request } from "./api";
-import DocumentContent from "./DocumentContent";
+import DocumentEditor from "./DocumentEditor";
 
 export default class Content {
   constructor({ parentEl, getDocumentListState, setDocumentListState }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
+    this.currentEl.classList.add("content");
     this.getDocumentListState = getDocumentListState;
     this.setDocumentListState = setDocumentListState;
     this.parentEl.appendChild(this.currentEl);
@@ -14,7 +15,7 @@ export default class Content {
   }
 
   render() {
-    this.documentContent = new DocumentContent({
+    this.documentEditor = new DocumentEditor({
       parentEl: this.currentEl,
       onTextChange: (e) => {
         const { pathname } = location;
@@ -22,15 +23,15 @@ export default class Content {
 
         const { name, value } = e.currentTarget;
 
-        this.documentContent.state = {
-          ...this.documentContent.state,
+        this.documentEditor.state = {
+          ...this.documentEditor.state,
           [name]: value,
         };
-        if (this.documentContent.timer !== null) {
-          clearTimeout(this.documentContent.timer);
+        if (this.documentEditor.timer !== null) {
+          clearTimeout(this.documentEditor.timer);
         }
-        this.documentContent.timer = setTimeout(async () => {
-          await request.updateDocumentItem(id, this.documentContent.state);
+        this.documentEditor.timer = setTimeout(async () => {
+          await request.updateDocumentItem(id, this.documentEditor.state);
           console.log(this.documentListState);
           const nextState = getRightNextState(
             this.getDocumentListState(),

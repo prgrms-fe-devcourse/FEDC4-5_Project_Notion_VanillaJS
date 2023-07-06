@@ -3,19 +3,22 @@ import Content from "./Content";
 
 export default class App {
   constructor() {
-    this.appEl = document.querySelector("#app");
+    this.parentEl = document.querySelector("#app");
+    this.currentEl = document.createElement("div");
+    this.currentEl.classList.add("container");
+    this.parentEl.appendChild(this.currentEl);
     this.render();
   }
 
   render() {
     this.sideBar = new SideBar({
-      parentEl: this.appEl,
-      setDocumentContentState: (nextState) => {
-        this.content.documentContent.setState(nextState);
+      parentEl: this.currentEl,
+      setDocumentEditorState: (nextState) => {
+        this.content.documentEditor.setState(nextState);
       },
     });
     this.content = new Content({
-      parentEl: this.appEl,
+      parentEl: this.currentEl,
       getDocumentListState: () => this.sideBar.documentList.state,
       setDocumentListState: (nextState) => {
         this.sideBar.documentList.setState(nextState);

@@ -10,6 +10,7 @@ export default class DocumentList {
   }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
+    this.currentEl.classList.add("document-list-wrapper");
     this.parentEl.appendChild(this.currentEl);
 
     this.onMovePageSpanClick = onMovePageSpanClick;
@@ -43,7 +44,9 @@ export default class DocumentList {
     removeButtons.forEach((button) => {
       button.addEventListener("click", this.onRemoveSubPageButtonClick);
     });
-    const toggleButtons = document.querySelectorAll(".toggle-button");
+    const toggleButtons = document.querySelectorAll(
+      ".document-list__toggle-button"
+    );
     toggleButtons.forEach((button) => {
       button.addEventListener("click", this.onToggleSubPageButtonClick);
     });
@@ -51,18 +54,33 @@ export default class DocumentList {
 
   template(state, parentId) {
     return `
-    <ul id="ul-${parentId}">
+    <ul id="ul-${parentId}" class="document-list-container">
         ${state
           .map(
             ({ id, title, documents, isSpread }) =>
               `
-                <li id=li-${id}>
-                    <button id=${id} class="toggle-button">열기</button>
-                    <button id=${id} class="remove-button">-</button>
-                    <span class="link-item" id=${id}>${title}</span>
-                    <button class="add-button">+</button>
+                <li id=li-${id} class="document-list">
+                  <div class="document-list__box">
+                    <button id=${id} class="document-list__toggle-button">
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="document-list__text">
+                      <span class="link-item" id=${id}>${title}</span>
+                      <div class="document-list_buttons">
+                        <button id=${id} class="remove-button">
+                          <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <button class="add-button">
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
                     ${isSpread ? this.template(documents, id) : ""}
+                  </div>
                 </li>
+                
             `
           )
           .join("")}

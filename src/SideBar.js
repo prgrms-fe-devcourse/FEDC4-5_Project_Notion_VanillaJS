@@ -2,24 +2,29 @@ import Button from "./Button";
 import { request } from "./api.js";
 import { getRightNextState } from "./util";
 import DocumentList from "./DocumentList";
+import MockUp from "./MockUp";
 
 export default class SideBar {
-  constructor({ parentEl, setDocumentContentState }) {
+  constructor({ parentEl, setDocumentEditorState }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
-    this.setDocumentContentState = setDocumentContentState;
+    this.currentEl.classList.add("sidebar");
+    this.setDocumentEditorState = setDocumentEditorState;
     this.parentEl.appendChild(this.currentEl);
 
     this.render();
   }
 
   render() {
+    this.mockUp = new MockUp({
+      parentEl: this.currentEl,
+    });
     this.button = new Button({
       parentEl: this.currentEl,
       onButtonClick: async () => {
         const { id } = await request.addDocumentItem(0);
         history.pushState(null, null, `/${id}`);
-        this.setDocumentContentState(await request.getDocumentItem(id));
+        this.setDocumentEditorState(await request.getDocumentItem(id));
 
         const nextState = getRightNextState(
           this.documentList.state,
@@ -28,7 +33,7 @@ export default class SideBar {
 
         this.documentList.setState(nextState);
       },
-      text: "페이지 추가하기",
+      text: "페이지 추가",
     });
     this.documentList = new DocumentList({
       parentEl: this.currentEl,
@@ -37,16 +42,22 @@ export default class SideBar {
           currentTarget: { id },
         } = e;
         history.pushState(null, null, `/${id}`);
-        this.setDocumentContentState(await request.getDocumentItem(id));
+        this.setDocumentEditorState(await request.getDocumentItem(id));
       },
       onAddSubPageButtonClick: async (e) => {
         const {
-          currentTarget: { parentNode },
+          currentTarget: {
+            parentNode: {
+              parentNode: {
+                parentNode: { parentNode },
+              },
+            },
+          },
         } = e;
         const { id } = await request.addDocumentItem(parentNode.id.slice(3));
 
         history.pushState(null, null, `/${id}`);
-        this.setDocumentContentState(await request.getDocumentItem(id));
+        this.setDocumentEditorState(await request.getDocumentItem(id));
 
         const nextState = getRightNextState(
           this.documentList.state,

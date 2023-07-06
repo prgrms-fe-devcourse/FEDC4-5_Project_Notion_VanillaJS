@@ -4,6 +4,7 @@ export default class DocumentContent {
   constructor({ parentEl, onTextChange }) {
     this.parentEl = parentEl;
     this.currentEl = document.createElement("div");
+    this.currentEl.classList.add("document-editor");
     this.parentEl.appendChild(this.currentEl);
 
     this.onTextChange = onTextChange;
@@ -27,8 +28,10 @@ export default class DocumentContent {
 
   template({ title, content }) {
     return `
-    <input id="title" name="title" type="text" value="${title}">
-    <input id="content" name="content" type="text" value="${content}"/>
+    <input id="title" name="title" type="text" value="${title}" placeholder="제목 없음">
+    <input id="content" name="content" type="text" value="${
+      content ? content : ""
+    }" placeholder="내용을 입력하세요"/>
     `;
   }
 
