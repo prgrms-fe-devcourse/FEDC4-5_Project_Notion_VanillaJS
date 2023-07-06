@@ -1,4 +1,4 @@
-import { push } from '../utils/router.js';
+import { push } from '../../utils/router.js';
 
 export default function DocumentList({ $target, initialState, onToggle, onCreate, onDelete }) {
   const $documentList = document.createElement('div');

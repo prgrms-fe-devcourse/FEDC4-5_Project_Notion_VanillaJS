@@ -2,9 +2,11 @@ import { request } from '../api.js';
 import { getItem, setItem, removeItem } from '../utils/storage.js';
 import { push } from '../utils/router.js';
 import { TEMP_DOCUMENT_KEY, OPENED_DOCUMENTS_KEY, INIT_DOCUMENT } from '../constants.js';
-import DocumentList from '../components/DocumentList.js';
-import CreateButton from '../components/CreateButton.js';
-import Editor from '../components/Editor.js';
+import SidebarHeader from '../components/Sidebar/SidebarHeader.js';
+import DocumentList from '../components/Sidebar/DocumentList.js';
+import CreateButton from '../components/Sidebar/CreateButton.js';
+import DocumentHeader from '../components/Document/DocumentHeader.js';
+import Editor from '../components/Document/Editor.js';
 
 export default function NotionPage({ $target, initialState }) {
   const $sidebarContainer = document.createElement('div');
@@ -18,6 +20,13 @@ export default function NotionPage({ $target, initialState }) {
   let documentLocalSaveKey = `${TEMP_DOCUMENT_KEY(this.state.documentId)}`;
   let timer = null;
   const doc = getItem(documentLocalSaveKey, INIT_DOCUMENT);
+
+  new SidebarHeader({
+    $target: $sidebarContainer,
+    initialState: {
+      heading: '📚 Notion',
+    },
+  });
 
   const documentList = new DocumentList({
     $target: $sidebarContainer,
@@ -116,6 +125,11 @@ export default function NotionPage({ $target, initialState }) {
     },
   });
 
+  const documentHeader = new DocumentHeader({
+    $target: $documentContainer,
+    initialState: doc,
+  });
+
   const editor = new Editor({
     $target: $documentContainer,
     initialState: doc,
@@ -159,7 +173,7 @@ export default function NotionPage({ $target, initialState }) {
       documents: this.state.documents,
       openedDocuments: this.state.openedDocuments,
     });
-
+    documentHeader.setState(this.state.document || INIT_DOCUMENT);
     editor.setState(this.state.document || INIT_DOCUMENT);
   };
 
