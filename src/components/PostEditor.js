@@ -75,7 +75,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
           if (editorElement.hasChildNodes(loadingElement)) {
             editorElement.removeChild(loadingElement);
           }
-        }, 1500);
+        }, 500);
       }
     }
   };
