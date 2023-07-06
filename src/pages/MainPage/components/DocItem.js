@@ -1,4 +1,5 @@
 import { requestDelItem } from "../../../services/api.js";
+import { replace } from "../../../services/router.js";
 
 export default function DocItem({ $target, item, reRender }) {
   const $li = document.createElement("li");
@@ -19,6 +20,7 @@ export default function DocItem({ $target, item, reRender }) {
       const { id } = $li.dataset;
       event.target.className = "fa-solid fa-spinner";
       await requestDelItem(id);
+      replace('/');
       reRender();
     }
   });
