@@ -1,6 +1,7 @@
 import { isConstructor, isHeaderState } from "@Utils/validation";
 import "./Header.css";
 import { once } from "@Utils/once";
+import { routeToDocument } from "@Utils/router";
 
 export default function Header({ $target }) {
   if (!isConstructor(new.target)) {
@@ -24,6 +25,13 @@ export default function Header({ $target }) {
   this.init = once(() => {
     $header.className = "header";
     $target.appendChild($header);
+
+    $header.addEventListener("click", (e) => {
+      const $linkElement = e.target.closest("[data-id]");
+      if (!$linkElement) return;
+
+      routeToDocument($linkElement.dataset.id);
+    });
   });
 
   this.render = () => {
