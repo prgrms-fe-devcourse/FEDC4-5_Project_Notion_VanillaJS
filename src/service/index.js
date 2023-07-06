@@ -1,7 +1,7 @@
 export { request } from "./api.js";
-export { initRouter, push } from "./router.js";
+export { initRouter, pushHistory, replaceHistory } from "./router.js";
 export {
-  setStorageItem,
   getStorageItem,
+  setStorageItem,
   removeStorageItem,
 } from "./storage.js";
