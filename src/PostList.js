@@ -62,7 +62,6 @@ export default function PostList({ $target, initialState }) {
       const [commend, id] = $button.id.split("_");
 
       if (commend === "createButton") {
-        pushRouter(`/`);
         const createdPost = await request("", {
           method: "POST",
           body: JSON.stringify({
@@ -70,6 +69,7 @@ export default function PostList({ $target, initialState }) {
             parent: id,
           }),
         });
+        pushRouter(`/${createdPost.id}`);
       } else {
         pushRouter(`/`);
         request(`/${id}`, {
@@ -82,6 +82,7 @@ export default function PostList({ $target, initialState }) {
 
   const getDocuments = async () => {
     const documents = await request();
+    console.log(documents)
     this.setState(documents);
   };
 }

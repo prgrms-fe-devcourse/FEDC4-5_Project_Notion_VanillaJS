@@ -8,12 +8,12 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let postLocalSaveKey = `temp-post-${this.state.postId}`;
+  //let postLocalSaveKey = `temp-post-${this.state.postId}`;
 
-  const post = getItem(postLocalSaveKey, {
+  const post = {//getItem(postLocalSaveKey, {
     title: "",
     content: "",
-  });
+  };//);
 
   let timer = null;
 
@@ -25,10 +25,10 @@ export default function PostEditPage({ $target, initialState }) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        setItem(postLocalSaveKey, {
+        /*setItem(postLocalSaveKey, {
           ...post,
           tempSaveDate: new Date(),
-        });
+        });*/
 
         const isNew = this.state.postId === "new";
         //const pathname = window.location.href.split('/')
@@ -41,7 +41,7 @@ export default function PostEditPage({ $target, initialState }) {
             }),
           });
           history.replaceState(null, null, `/${createdPost.id}`);
-          removeItem(postLocalSaveKey);
+          //removeItem(postLocalSaveKey);
 
           this.setState({
             ...post,
@@ -52,7 +52,7 @@ export default function PostEditPage({ $target, initialState }) {
             method: "PUT",
             body: JSON.stringify(post),
           });
-          removeItem(postLocalSaveKey);
+          //removeItem(postLocalSaveKey);
         }
       }, 1000);
     },
@@ -60,14 +60,14 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
-      postLocalSaveKey = `temp-post-${nextState.postId}`;
+      //postLocalSaveKey = `temp-post-${nextState.postId}`;
       this.state = nextState;
 
       if (this.state.postId === "new") {
-        const post = getItem(postLocalSaveKey, {
+        const post = {//getItem(postLocalSaveKey, {
           title: "",
           content: "",
-        });
+        };//);
         this.render();
         editor.setState(post);
       } else {
@@ -97,10 +97,10 @@ export default function PostEditPage({ $target, initialState }) {
     if (postId !== "new") {
       const post = await request(`/${postId}`);
 
-      const tempPost = getItem(postLocalSaveKey, {
+      const tempPost = {//getItem(postLocalSaveKey, {
         title: "",
         content: "",
-      });
+      };
 
       if (tempPost.tempSaveDate && tempPost.tempSaveDate > post.updated_at) {
         if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {

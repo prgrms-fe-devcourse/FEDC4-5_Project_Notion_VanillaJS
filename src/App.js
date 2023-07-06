@@ -1,6 +1,5 @@
 import { request } from "./api.js";
 import PostEditPage from "./PostEditPage.js";
-import PostList from "./PostList.js";
 import PostPage from "./PostPage.js";
 import { initRouter } from "./router.js";
 
