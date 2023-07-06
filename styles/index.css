@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  color: white;
+}
+
+body {
+  background-color: #191919;
+}
+
+#app {
+  display: flex;
+  position: relative;
+}
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #202020;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 70px;
+  font-size: 20px;
+}
+
+.sidebar-list {
+  overflow: hidden auto;
+  position: fixed;
+  top: 75px;
+  width: 240px;
+  height: calc(100vh - 120px);
+}
+
+.sidebar-list__li {
+  margin-bottom: 5px;
+  padding: 7px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.sidebar-list__li:hover {
+  background-color: #383838;
+}
+
+.sidebar-list__button-group {
+  display: none;
+}
+
+.sidebar-list__li:hover .sidebar-list__button-group {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  z-index: 99;
+}
+
+.sidebar-list::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: transparent;
+}
+
+.sidebar-list::-webkit-scrollbar-thumb {
+  background-color: #474c50;
+}
+
+.sidebar-list__button {
+  border: none;
+  padding: 5px;
+  background-color: #383838;
+  cursor: pointer;
+}
+
+.sidebar-footer {
+  width: 240px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.sidebar-footer__button {
+  background-color: #202020;
+  padding: 20px;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  border-top: #2c2c2c solid 2px;
+}
+
+.document {
+  width: calc(100vw - 240px);
+  background-color: #191919;
+  padding: 10rem 4rem;
+  height: 100vh;
+}
+
+.document-editor__input {
+  width: 100%;
+  font-size: 36px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.document-editor__textarea {
+  width: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
