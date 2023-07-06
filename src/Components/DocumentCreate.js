@@ -21,13 +21,11 @@ export function DocumentCreate({$target, parentId, onSubmit}){
         if($createBtn){
             if($createBtn.classList.contains('rootCreate')){
                 e.stopImmediatePropagation();
-            }
-            const { id }  = $createBtn.nextElementSibling.dataset
-            if(id === undefined){
                 const modal = new DocumentModal(null , onSubmit)
                 modal.modalOpen();
                 return
             }
+            const { id }  = $createBtn.nextElementSibling.dataset
             const modal = new DocumentModal(id , onSubmit)
             modal.modalOpen();
         }

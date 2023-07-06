@@ -2,16 +2,15 @@ import { DocumentCreate } from "./DocumentCreate.js"
 import { push } from '../router.js';
 
 export function DocumentList({$target, data =[], initialState, onSubmit}) {
-    
     this.state = initialState
     this.setState = (nextState) => {
         this.state = nextState
     }
     this.render = ($renderDOM = $target) => {
         data.map((data) => {
-            var doc = document.createElement('li');
+            const doc = document.createElement('li');
             doc.setAttribute("data-id", `${data.id}`);
-            doc.setAttribute("class", `doc`);
+            doc.setAttribute("class", 'doc');
             doc.textContent =`${data.title}`
             $renderDOM.insertAdjacentElement("beforeend", doc);
         })
@@ -49,10 +48,10 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
         e.stopPropagation();
         if($target.classList.contains('documentPage') && !e.target.classList.contains('doc'))
             return
-        if(e.target.classList.contains('createDoc')){
+        else if (e.target.classList.contains('createDoc')){
             return
         }
-        if(e.target.classList.contains('nothing')){
+        else if (e.target.classList.contains('nothing')){
             return
         }
         if(this.state.isOpen){
@@ -64,7 +63,6 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
             this.setState({
                 ...this.state,
                 isOpen: !this.state.isOpen,
-                
             })
             return
         }
@@ -76,7 +74,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
                 $li.classList.add('open')
                 if(childrenData[0].length > 0){
                     this.setState({
-                        parent: this.state.depth === 0 ? id : parseInt(this.state.parent),
+                        parent: this.state.depth === 0 ? parseInt(id) : parseInt(this.state.parent),
                         selectedNode: parseInt(id),
                         isOpen: !this.state.isOpen,
                         depth: this.state.depth + 1

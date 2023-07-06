@@ -5,7 +5,7 @@ export const request = async(url='', options) => {
         const res = await fetch(`${DEFAULT_ENDPOINT}${url}`, {
             ...options,
             headers: {
-                'x-username': 'roto',
+                'x-username': 'eugene',
                 'Content-Type': 'application/json'
             }
         })

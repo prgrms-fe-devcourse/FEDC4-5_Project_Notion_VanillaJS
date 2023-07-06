@@ -2,6 +2,7 @@ import { EditorPage } from "./EditorPage.js";
 import { DocumentPage } from "./DocumentPage.js";
 import { initRouter } from "./router.js";
 
+
 export default function App ($target) {
     const $app = document.createElement('div');
     $app.className = 'mainApp'
@@ -25,6 +26,6 @@ export default function App ($target) {
             editorPage.setState({...editorPage.state, id: documentId})
         }
     }
-    this.render();
+    this.render()
     initRouter({onRoute : () => this.route()});
 }

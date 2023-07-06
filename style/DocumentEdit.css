@@ -1,12 +1,12 @@
 .EditorPage{
     font-family: 'Pretandard-Regular', sans-serif;
     position: relative;
-    order:1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-left: 30px;
+    gap: 20px;
 }
 
 .titleInput{
@@ -32,6 +32,7 @@
     font-size: 15px;
     font-weight: 500;
     padding-top: 20px;
+    resize: none;
 }
 .contentInput:focus{
     outline: none;
@@ -40,4 +41,26 @@
 .nothing{
     padding: 10px;
     padding-left: 15px;
+}
+
+.editor{
+    order: 0;
+}
+.childLink{
+    order:2;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.linkDoc{
+    font-family: 'Pretandard-Regular', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    list-style: none;
+}
+.linkDoc::before{
+    content:'🔗  '
 }

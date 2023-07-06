@@ -7,6 +7,18 @@ export function DocumentPage ($target) {
     const $documentPage = document.createElement('div');
     $documentPage.className = 'documentPage'
     $target.appendChild($documentPage);
+    const rootCreateBtn = new DocumentCreate({
+      $target: $documentPage, 
+      parentId: null,
+      onSubmit: async (content, parent) => {
+        const createdData = await createDocuments(content, parent)
+        const { id } = createdData;
+        this.setState({...this.state, createdData})
+        await fetchDocuments();
+        push(`/documents/${id}`);
+      }
+    })
+
     this.state = {
       documentData: []
     }
@@ -26,18 +38,8 @@ export function DocumentPage ($target) {
 
     this.render = () => {
       $documentPage.innerHTML =''
-          const createBtn = new DocumentCreate({
-            $target: $documentPage, 
-            parentId: null,
-            onSubmit: async (content, parent) => {
-              const createdData = await createDocuments(content, parent)
-              const { id } = createdData;
-              push(`/documents/${id}`);
-              await fetchDocuments();
-          }
-      })
-      createBtn.render();
-      if(this.state.documentData && this.state.documentData.length > 0){
+      rootCreateBtn.render();
+      if(Array.isArray(this.state.documentData) && this.state.documentData.length > 0){
         this.state.documentData.forEach((data) => {
           const $documentList = document.createElement('div');
           $documentList.className = `root-${data.id}`
@@ -47,8 +49,8 @@ export function DocumentPage ($target) {
               onSubmit: async (content, parent) => {
                 const createdData = await createDocuments(content, parent)
                 const { id } = createdData;
-                push(`/documents/${id}`);
                 await fetchDocuments();
+                push(`/documents/${id}`);
               }
           })
           createBtn.render();
@@ -63,8 +65,10 @@ export function DocumentPage ($target) {
               depth: 0
             },
             onSubmit: async (content, parent) => {
-                await createDocuments(content, parent)
+                const createdData = await createDocuments(content, parent);
+                const { id } = createdData;
                 await fetchDocuments();
+                push(`/documents/${id}`);
               }
             })
             documentList.render()

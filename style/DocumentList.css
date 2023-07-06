@@ -15,13 +15,13 @@
     height:100vh;
 }
 
-li::before{
+.doc::before{
     content: "＞ "
 }
-
 .open::before{
     content: "⌵ ";
 }
+
 .doc{
     list-style: none;
     cursor:pointer;
@@ -29,12 +29,13 @@ li::before{
     position:relative;
     width:100%;
 }
-.doc:hover{
-    color: black;
-}
+
 
 [class^="doc-"]{
     display:flex;
+    :hover{
+        color: black;
+    }
 }
 [class^="root-"]{
     display:flex;
@@ -51,10 +52,12 @@ li::before{
     background-color: transparent;
     border: none;
     color:#72716D;
+    cursor:pointer;
 }
 .rootCreate{
     background-color: transparent;
     border: none;
     color:#72716D;
     font-size: 20px;
+    cursor: pointer;
 }

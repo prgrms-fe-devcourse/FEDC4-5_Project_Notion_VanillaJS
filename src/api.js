@@ -21,3 +21,10 @@ export const deleteDocuments = async(id) => {
         method: 'DELETE'
     })
 }
+
+export const editDocuments = async(newDocument, id) => {
+    await request(`/documents/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(newDocument)
+    })
+}
