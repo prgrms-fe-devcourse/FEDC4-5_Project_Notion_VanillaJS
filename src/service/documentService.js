@@ -28,9 +28,5 @@ export const saveDocumentToServer = async ({ title, content }) => {
   await request(`/documents/${getDocumentIdByPathname()}`, {
     method: "PUT",
     body: JSON.stringify({ title, content }),
-  }).then((res) => {
-    console.log(res);
-    // response 유효성 검사
-    new Document(res);
   });
 };

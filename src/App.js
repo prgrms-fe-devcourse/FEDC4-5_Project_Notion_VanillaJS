@@ -113,10 +113,11 @@ export default class App extends Component {
             target: ".title",
             callback: async ({ target }) => {
               const { innerHTML } = target;
-              this.editor.state = this.editor.state.cloneNewDocument({
+              const newDocument = this.editor.state.cloneNewDocument({
                 title: innerHTML,
               });
-              await saveDocumentToServer({ title: innerHTML });
+              this.editor.state = newDocument;
+              await saveDocumentToServer({ title: newDocument.title });
               this.updateDocumentTree();
             },
           },
@@ -129,6 +130,9 @@ export default class App extends Component {
               this.editor.state = this.editor.state.cloneNewDocument({
                 content: innerHTML,
               });
+              if (this.editor.state.id !== -1) {
+                saveDocumentToServer({ content: innerHTML });
+              }
             },
           },
         ],

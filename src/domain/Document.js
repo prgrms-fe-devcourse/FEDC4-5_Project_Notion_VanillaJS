@@ -77,13 +77,13 @@ export default class Document {
       );
     }
 
-    const validateCreatedAt = new Date(this.#createdAt);
-    if (validateCreatedAt.toString() === "Invalid Date") {
+    const isValidateCreatedAt = isNaN(Date.parse(this.#createdAt));
+    if (isValidateCreatedAt) {
       throw new Error(`Document: createdAt이 올바르지 않은 Date형식 입니다`);
     }
 
-    const validateUpdatedAt = new Date(this.#updatedAt);
-    if (validateUpdatedAt.toString() === "Invalid Date") {
+    const isValidateUpdatedAt = isNaN(Date.parse(this.#updatedAt));
+    if (isValidateUpdatedAt) {
       throw new Error(`Document: updatedAt이 올바르지 않은 Date형식 입니다`);
     }
   }

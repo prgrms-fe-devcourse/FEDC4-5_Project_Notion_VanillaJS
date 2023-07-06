@@ -1,12 +1,7 @@
 import { removeItem, getItem } from "../storage/storage.js";
 import { getDocument, saveDocumentToServer } from "../service/index.js";
-import { Document } from "../domain/index.js";
 
 export const route = async ({ component, url }) => {
-  if (component.state.id !== -1) {
-    const { title, content } = component.state;
-    saveDocumentToServer({ title, content });
-  }
   history.pushState(null, null, url);
   const urlSplit = url.split("/");
   const [routeName, documentId] = urlSplit.slice(
