@@ -2,7 +2,7 @@ import { push } from '@router';
 import request from '@api';
 import { setDocuments } from '@storage';
 import LOCAL_STORAGE_KEY from '@constants/storage';
-import Document from '@components/ContentWrapper/DirectoryPage/SideBar/Document';
+import Document from '@components/ContentWrapper/DirectoryPage/SideBar/DocumentList/Document';
 import './style.css';
 
 export default function DocumentList({ $target, initialState }) {
