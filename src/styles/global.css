@@ -38,9 +38,22 @@
   font-size: 14px;
   font-weight: 500;
 }
+
 .listItem:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.addButton,
+.deleteButton {
+  opacity: 0;
+}
+
+.listItem:hover .addButton,
+.listItem:hover .deleteButton {
+  opacity: 1;
+  color: rgb(55, 53, 47);
+}
+
 .activeListItem {
   color: rgb(55, 53, 47);
   background-color: rgba(0, 0, 0, 0.04);
@@ -48,10 +61,6 @@
 
 .subDocumentList {
   padding-left: 20px;
-}
-
-.addButton {
-  float: right;
 }
 
 #contentSection {

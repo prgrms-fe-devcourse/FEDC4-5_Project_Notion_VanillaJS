@@ -1,4 +1,3 @@
-import { request } from "../../api.js";
 import { push } from "../../utils/router.js";
 import DocumentList from "./DocumentList.js";
 
@@ -26,8 +25,10 @@ export default function DocumentListItem({
           <span class="toggleButton">> </span>
           <span class="itemTitle">${this.state.title}</span>
         </div>
-        <div class="deleteButton">-</div>
-        <div class="addButton">+</div>
+        <div class="listItemTools">
+          <i class="addButton fa-solid fa-plus"></i>
+          <i class="deleteButton fa-regular fa-trash-can"></i>
+        </div>
       </div>
     `;
     this.state.documents &&
