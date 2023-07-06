@@ -1,11 +1,12 @@
-import { setItem, removeItem, getItem } from '../utils/storage';
-import * as SPINNER_ICON from '../assets/spinner.png';
+import { setItem, removeItem, getItem } from '../utils/storage.js';
+const SPINNER_ICON =
+  'https://velog.velcdn.com/images/1g2g/post/45618170-dcde-46a6-b725-5da7e7df8207/image.png';
 
 export default function PostEditor({ target, initialState, onEdit }) {
   const editorElement = document.createElement('form');
 
   const loadingElement = document.createElement('div');
-  loadingElement.innerHTML = `<img src=${SPINNER_ICON.default}/>`;
+  loadingElement.innerHTML = `<img src=${SPINNER_ICON} alt='spinner'/>`;
   loadingElement.setAttribute('class', 'loading');
 
   this.state = initialState;
