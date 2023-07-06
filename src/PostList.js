@@ -82,7 +82,7 @@ export default function PostList({ $target, initialState }) {
 
   const getDocuments = async () => {
     const documents = await request();
-    console.log(documents)
+    console.log(documents);
     this.setState(documents);
   };
 }

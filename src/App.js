@@ -33,7 +33,7 @@ export default function App({ $target }) {
 
   this.route();
 
-  initRouter(() => this.route())
+  initRouter(() => this.route());
 
-  console.log(request())
+  console.log(request());
 }
