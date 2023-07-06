@@ -21,36 +21,38 @@ function Navbar({
     console.log(selected);
     const paintList = (documents, depth = 0) =>
       `<ul>${documents
-        .map(
-          item =>
-            `<li data-id="${item.id}">
-              <div class="item ${
-                item.id == selected ? "selected" : ""
-              }" style="--depth: ${depth}">
-                <div class="btn-container item-toggle">
-                  <i class="fa-solid fa-chevron-right item-toggle"></i>
-                </div>
-                <div class="item-title" style="--depth: ${depth}">${
-              item.title
-            }</div>
-                <div class="item-btn-group">
-                  <div class="btn-container item-add">
-                    <i class="fa-solid fa-plus item-add"></i>
-                  </div>
-                  <div class="btn-container item-delete">
-                    <i class="fa-solid fa-minus item-delete"></i>
-                  </div>
-                </div>
+        .map(item => {
+          const isParent = item.documents.length > 0;
+          const isToggled = toggleData.find(
+            data => data.id == item.id
+          ).toggle;
+          return `<li data-id="${item.id}">
+          <div class="item ${
+            item.id == selected ? "selected" : ""
+          }" style="--depth: ${depth}">
+            <div class="btn-container item-toggle ${
+              isToggled ? "toggled" : ""
+            }">
+              <i class="fa-solid fa-chevron-right item-toggle"></i>
+            </div>
+            <div class="item-title" style="--depth: ${depth}">${
+            item.title
+          }</div>
+            <div class="item-btn-group">
+              <div class="btn-container item-add">
+                <i class="fa-solid fa-plus item-add"></i>
               </div>
-              
-            ${
-              item.documents.length > 0 &&
-              toggleData.find(data => data.id == item.id)
-                .toggle
-                ? paintList(item.documents, depth + 1)
-                : ""
-            }</li>`
-        )
+              <div class="btn-container item-delete">
+                <i class="fa-solid fa-minus item-delete"></i>
+              </div>
+            </div>
+          </div>
+        ${
+          isParent && isToggled
+            ? paintList(item.documents, depth + 1)
+            : ""
+        }</li>`;
+        })
         .join("")}</ul>`;
     $navbar.innerHTML = paintList(documentList);
     $navbar.classList.add("list-section");

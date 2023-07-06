@@ -77,15 +77,6 @@ function App({ $app }) {
     navPage.setState();
     if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
-      if (
-        !navPage.state.toggleData.find(
-          data => data.id == id
-        )
-      ) {
-        alert("존재하지 않는 문서입니다.");
-        push("/");
-        return;
-      }
       editPage.setState({ id });
     }
   };

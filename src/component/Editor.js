@@ -5,6 +5,7 @@ function Editor({
 }) {
   const $editor = document.createElement("div");
   $page.appendChild($editor);
+  $editor.classList.add("editor");
 
   let isInit = false;
   this.state = initialState;
@@ -20,8 +21,8 @@ function Editor({
   this.render = () => {
     if (isInit) return;
     $editor.innerHTML = `
-      <input type="text" name="title" value="${this.state.title}">
-      <textarea name="content">${this.state.content}</textarea>
+      <input type="text" name="title" value="${this.state.title}" placeholder="제목을 입력하세요.">
+      <textarea name="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
     isInit = true;
   };
