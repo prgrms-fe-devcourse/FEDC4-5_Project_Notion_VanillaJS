@@ -15,6 +15,7 @@ import {
   removeDocument,
 } from "./utils/document.js";
 import NotFound from "./components/common/Notfound.js";
+import { debounce } from "./utils/debounce.js";
 
 /**
  * @param {{appElement: Element | null}}
@@ -33,7 +34,9 @@ export default function App({ appElement }) {
 
   const trie = new TrieDocument();
 
-  let timer = null;
+  const processEdit = debounce(async (documentId, docunemt) => {
+    await putDocument({ documentId, data: docunemt });
+  }, 1000);
 
   this.state = [];
 
@@ -102,13 +105,7 @@ export default function App({ appElement }) {
         this.setState(newState);
       }
 
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-
-      timer = setTimeout(async () => {
-        await putDocument({ documentId, data: document });
-      }, 1000);
+      processEdit(documentId, document);
     },
     getChildDocuments: (documentId) =>
       findChildDocuments(this.state, documentId),

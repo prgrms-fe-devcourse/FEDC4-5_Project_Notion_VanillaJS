@@ -1,4 +1,5 @@
 import { PATH } from "../../constants/path.js";
+import { debounce } from "../../utils/debounce.js";
 import { push } from "../../utils/route.js";
 import { getItem, setItem } from "../../utils/storage.js";
 
@@ -8,7 +9,15 @@ export default function Home({ parentElement, search }) {
   const containerElement = document.createElement("div");
   containerElement.className = "home-container";
 
-  let timer = null;
+  const processSearch = debounce((value) => {
+    if (value === "") {
+      this.setState({ text: value, list: [] });
+      return;
+    }
+    const searchList = search(value);
+
+    this.setState({ text: value, list: searchList });
+  });
 
   this.state = { text: "", list: [] };
 
@@ -20,20 +29,7 @@ export default function Home({ parentElement, search }) {
 
   containerElement.addEventListener("input", (e) => {
     if (!e.target.closest(".search")) return;
-
-    if (timer !== null) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(() => {
-      if (e.target.value === "") {
-        this.setState({ text: e.target.value, list: [] });
-        return;
-      }
-      const searchList = search(e.target.value);
-
-      this.setState({ text: e.target.value, list: searchList });
-    }, 500);
+    processSearch(e.target.value);
   });
 
   containerElement.addEventListener("click", (e) => {
