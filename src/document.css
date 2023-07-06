@@ -21,6 +21,9 @@
 .dropdown:hover > .documentDeleteBtn {
   visibility: visible;
 }
+.documentItemWrapper:nth-child(1) > .dropdown {
+  visibility: hidden;
+}
 
 .documentAddBtn {
   z-index: 2;
@@ -41,12 +44,12 @@
   height: 100vh;
   flex-grow: 0;
   flex-shrink: 0;
-  flew-wrap:wrap;
+  flew-wrap: wrap;
   background: rgb(251, 251, 250);
   transition: box-shadow 300ms ease 0s;
   box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
-  width:10vw;
-  max-width:13vw;
+  width: 10vw;
+  max-width: 13vw;
 }
 
 .childList {

@@ -25,7 +25,7 @@ export default function DocumentList({
     $documentLists.innerHTML = `
           ${this.state
             .map(({ id, title, documents }) => {
-              let html = `<ul">`;
+              let html = `<ul class = "documentItemWrapper">`;
               html += DocumentItemTemplate({
                 documentId: id,
                 documentTitle: title,

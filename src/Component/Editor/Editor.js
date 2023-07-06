@@ -30,7 +30,7 @@ export default function Editor({
     this.state = nextState;
 
     const { title, content, documents } = this.state;
-    editorChildList.setState(documents || []);
+    editorChildList.setState(EditorChildListTemplate(documents) || []);
 
     if ($editorTitle) {
       $editorTitle.value = title || '';

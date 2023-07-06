@@ -3,7 +3,7 @@ export default function EditorChildListTemplate(documents) {
         <ul>
             ${documents
               .map((docs) => {
-                return `<li>${docs.title}</li>`;
+                return `<li><a href = "/documents/${docs.id}">${docs.title}</a></li>`;
               })
               .join('')}
         </ul>
