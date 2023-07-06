@@ -7,6 +7,7 @@ export const request = async (url, options = {}) => {
       {
         ...options,
         headers: {
+          "Content-type": "application/json",
           "x-username": API_HEADER_NAME,
         },
       }

@@ -24,6 +24,8 @@ export default function App({
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
+    postPage.setState(this.state);
+    editPage.setState({ selectedId: this.state.selectedId || null });
   };
 
   const addDocuments = (posts, id, newData) => {
@@ -51,7 +53,24 @@ export default function App({
     }
   };
 
+  const filterRemoveDocument = (posts, id) => {
+    const filterData = [];
+    for (const post of posts) {
+      const { id: postId, title, documents } = post;
+      if (postId !== id) {
+        const filterItem = {
+          id: postId,
+          title,
+          documents: filterRemoveDocument(documents, id),
+        };
+        filterData.push(filterItem);
+      }
+    }
+    return filterData;
+  };
+
   const onAdd = async (id) => {
+    console.log(id);
     push(`/documents/new`);
     const newData = {
       id: "new",
@@ -63,30 +82,40 @@ export default function App({
     const tempData = [...this.state.posts];
     addDocuments(tempData, id, newData);
     this.setState({ selectedId: "new", posts: tempData });
-    postPage.setState({ ...this.state });
-    editPage.setState({ selectedId: "new" });
     const createDocument = await request(`/documents`, {
       method: "POST",
-      body: JSON.stringify({ title: "Untitle", parent: id }),
+      body: JSON.stringify({
+        title: "Untitle",
+        parent: id === "new" ? null : id,
+      }),
     });
-    visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).map((visited) => {
-      if (visited === "new") return createDocument.id;
-      return visited;
-    });
-    const as = [...this.state.posts];
-    filterNewDocument(as, createDocument.id);
+    history.replaceState(null, null, `/documents/${createDocument.id}`);
+    visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).map((visited) =>
+      visited === "new" ? createDocument.id : visited
+    );
     setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
-    this.setState({ ...this.state, selectedId: createDocument.id });
-    postPage.setState({ ...this.state, selectedId: createDocument.id });
-    editPage.setState({ selectedId: createDocument.id });
+    const updateData = [...this.state.posts];
+    filterNewDocument(updateData, createDocument.id);
+    this.setState({ selected: createDocument.id, posts: updateData });
   };
 
-  const onEdit = (id) => {
+  const onEdit = (post) => {
     // 수정된 데이터 전체 전달
   };
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     // 삭제된 데이터 전체 전달
+    if (!confirm("페이지를 삭제하시겠습니까?")) return;
+    const tempData = [...this.state.posts];
+    const filterPost = filterRemoveDocument(tempData, id);
+    this.state.selectedId === id
+      ? this.setState({ selectedId: this.state.posts[0].id, posts: filterPost })
+      : this.setState({ posts: filterPost });
+    const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).filter(
+      (visited) => visited !== id
+    );
+    setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
+    await request(`/documents/${id}`, { method: "DELETE" });
   };
 
   const postPage = new PostPage({
@@ -106,12 +135,18 @@ export default function App({
     const { pathname } = location;
     if (pathname === "/") {
       const posts = await request("/documents", { method: "GET" });
+      console.log(posts);
       this.setState({ posts });
-      postPage.setState({ posts });
+      return;
     }
+    const [, , postId] = pathname.split("/");
+    this.setState({
+      selectedId: parseInt(postId) === NaN ? postid : parseInt(postId),
+    });
   };
 
   initRoute(() => this.route());
 
+  window.addEventListener("popstate", () => this.route());
   this.route();
 }

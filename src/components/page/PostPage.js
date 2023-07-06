@@ -17,13 +17,13 @@ export default function PostPage({
     });
 
   const $page = document.createElement("section");
-  $page.classList.add("post");
+  $page.classList.add("postContainer");
 
   this.state = initalState;
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
-    list.setState(this.state || [{ selectedId: null, posts: [] }]);
+    list.setState(this.state || { selectedId: null, posts: [] });
     this.render();
   };
 

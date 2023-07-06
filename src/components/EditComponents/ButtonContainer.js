@@ -34,14 +34,16 @@ export default function ButtonContainer({
 
   this.render = () => {
     const { documents } = this.state;
+    console.log(documents);
     if (!documents.length) {
       $buttonContainer.innerHTML = `<p>document들이 없습니다</p>`;
       return;
     }
     $buttonContainer.innerHTML = `
-      ${documents.map(({ id, title }) => {
-        `<button type="button" data-document-id="${id}">${title}</button>`;
-      })}
+      ${documents.map(
+        ({ id, title }) =>
+          `<button type="button" data-document-id="${id}">${title}</button>`
+      )}
     `;
   };
 

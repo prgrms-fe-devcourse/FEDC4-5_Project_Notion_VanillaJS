@@ -14,7 +14,7 @@ export default function Header({ $target, initalState }) {
   };
 
   this.render = () => {
-    if (this.state.title.length < 0) {
+    if (!this.state.title || this.state.title.length <= 0) {
       $header.textContent = "Untitle";
       return;
     }

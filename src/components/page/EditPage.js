@@ -12,9 +12,10 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   this.state = initalState;
 
   this.setState = async (nextState) => {
+    console.log(nextState);
     if (this.state.selectedId === nextState.selectedId && nextState.post) {
       this.state = { ...this.state, ...nextState };
-      header.setState(this.state.post.title || { title: "Untitle" });
+      header.setState(this.state.post || { title: "Untitle" });
       editor.setState(this.state.post || { title: "Untitle", content: "" });
       buttonContainer.setState(
         { documents: this.state.post.documents } || { documents: [] }
@@ -23,7 +24,7 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
       return;
     }
     this.state = { ...this.state, ...nextState };
-    if (this.state.selectedId === "new") {
+    if (this.state.selectedId === "new" || this.state.selectedId === null) {
       header.setState({ title: "Untitle" });
       editor.setState({ title: "Untitle", content: "" });
       buttonContainer.setState({ documents: [] });
@@ -64,6 +65,6 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
       push("/");
       return;
     }
-    this.setState({ post });
+    this.setState({ ...this.state, post });
   };
 }

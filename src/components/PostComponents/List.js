@@ -84,8 +84,6 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     const {
       dataset: { documentId },
     } = $li;
-    if (documentId === "new") {
-    }
     const id = parseInt(documentId);
     if (className === "add") {
       onAdd(id);
@@ -95,11 +93,11 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
       onDelete(id);
     } else if (className === "item" || className === "item block") {
       push(`/documents/${id}`);
+      this.render();
     }
   });
 
   const ToggleItem = (target, id) => {
-    console.log("as");
     const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
     target.classList.contains("active")
       ? setItem(
