@@ -1,5 +1,4 @@
 import Component from "../core/Component";
-import Post from "./Post";
 import { getItem, setItem } from "../core/Storage";
 import { request } from "../main";
 
@@ -7,19 +6,26 @@ export default class Editor extends Component {
   constructor(postId) {
     super({
       state: {
-        postId,
+        id: postId,
+        title: "불러오는 중...",
+        content: "불러오는 중...",
       },
     });
+
+    const localData = getItem(postId);
+    if (localData) {
+      this.setState(localData);
+    } else {
+      request(`${postId}`).then((value) => {
+        this.setState({ ...value });
+      });
+    }
   }
   render() {
-    const post = new Post(this.state.postId);
-    if (post.state.updatedAt === null) {
-      post.setState(getItem(this.state.postId));
-    }
     this.el.innerHTML = `
         <div class="editor-view">
-          <input class="title" placeholder="제목 없음" value="${post.state.title}"/>
-          <textarea class="content" placeholder="Input Something...">${post.state.content}</textarea>
+          <input class="title" placeholder="제목 없음" value="${this.state.title}"/>
+          <textarea class="content" placeholder="Input Something...">${this.state.content}</textarea>
         </div>
         `;
     this.el.setAttribute("id", "editor-app");
@@ -36,19 +42,18 @@ export default class Editor extends Component {
       }
       timer = setTimeout(() => {
         const currentWriting = {
-          ...post.state,
+          ...this.state,
           [inputCategory]: target.value,
           updatedAt: new Date(),
         };
-        post.setState(currentWriting);
-        setItem(post.state.id, currentWriting);
-        savePostOnServer(post.state.id, currentWriting);
+        setItem(this.state.id, currentWriting);
+        savePostOnServer(this.state.id, currentWriting);
       }, 1000);
     });
 
     titleEl.addEventListener("keyup", (event) => {
       const { target } = event;
-      document.getElementById(post.state.id).innerText = target.value;
+      document.getElementById(this.state.id).innerText = target.value;
     });
 
     const savePostOnServer = (id, post) => {
