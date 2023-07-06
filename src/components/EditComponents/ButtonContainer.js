@@ -2,7 +2,7 @@ import { push } from "../../util/router.js";
 
 export default function ButtonContainer({
   $target,
-  initalState = { documents: [{ id: null, title: null }] },
+  initalState = { documents: [] },
 }) {
   if (!new.target)
     return new ButtonContainer({
@@ -34,7 +34,6 @@ export default function ButtonContainer({
 
   this.render = () => {
     const { documents } = this.state;
-    console.log(documents);
     if (!documents.length) {
       $buttonContainer.innerHTML = `<p>document들이 없습니다</p>`;
       return;

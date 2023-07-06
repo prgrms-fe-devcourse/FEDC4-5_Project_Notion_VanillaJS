@@ -3,6 +3,7 @@ import ButtonContainer from "../EditComponents/ButtonContainer.js";
 import Editor from "../EditComponents/Editor.js";
 import Header from "../Header.js";
 import { request } from "../../util/api.js";
+import { getItem } from "../../util/storaged.js";
 
 export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   if (!new.target) new EditPage({ $target, initalState, onEdit, onDelete });
@@ -12,14 +13,11 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   this.state = initalState;
 
   this.setState = async (nextState) => {
-    console.log(nextState);
     if (this.state.selectedId === nextState.selectedId && nextState.post) {
       this.state = { ...this.state, ...nextState };
-      header.setState(this.state.post || { title: "Untitle" });
+      header.setState({ title: this.state.post.title || "Untitle" });
       editor.setState(this.state.post || { title: "Untitle", content: "" });
-      buttonContainer.setState(
-        { documents: this.state.post.documents } || { documents: [] }
-      );
+      buttonContainer.setState({ documents: this.state.post.documents || [] });
       this.render();
       return;
     }
@@ -41,13 +39,16 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
 
   const editor = new Editor({
     $target: $page,
-    initalState: { title: "Untitle", content: "" },
+    initalState: getItem(`temp-${this.state.selectedId}`, {
+      title: "Untitle",
+      content: "",
+    }),
     onEdit,
   });
 
   const buttonContainer = new ButtonContainer({
     $target: $page,
-    initalState: { documents: [] },
+    initalState: { documents: this.state.post.documents || [] },
   });
 
   this.render = () => {

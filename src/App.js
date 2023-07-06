@@ -3,12 +3,19 @@ import { request } from "./util/api.js";
 import { initRoute, push } from "./util/router.js";
 import { getItem, setItem } from "./util/storaged.js";
 import { VISITED_LOCAL_KEY } from "./constant.js";
+import {
+  addDocuments,
+  filterNewDocument,
+  filterRemoveDocument,
+  filterDocument,
+} from "./util/dataset.js";
 import EditPage from "./components/page/EditPage.js";
 export default function App({
   $target,
   initalState = {
     selectedId: null,
     posts: [],
+    post: {},
   },
 }) {
   if (!new.target)
@@ -17,97 +24,82 @@ export default function App({
       initalState: {
         selectedId: null,
         posts: [],
+        post: {},
       },
     });
 
   this.state = initalState;
 
+  let timer = null;
+
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
-    postPage.setState(this.state);
-    editPage.setState({ selectedId: this.state.selectedId || null });
-  };
-
-  const addDocuments = (posts, id, newData) => {
-    if (id === "new") {
-      posts.push(newData);
-      return;
-    }
-    for (const post of posts) {
-      if (post.id === id) {
-        post.documents.push(newData);
-        return;
-      }
-      addDocuments(post.documents, id, newData);
-    }
-    return;
-  };
-
-  const filterNewDocument = (posts, id) => {
-    for (const post of posts) {
-      if (post.id === "new") {
-        post.id = id;
-        return;
-      }
-      filterNewDocument(post.documents, id);
-    }
-  };
-
-  const filterRemoveDocument = (posts, id) => {
-    const filterData = [];
-    for (const post of posts) {
-      const { id: postId, title, documents } = post;
-      if (postId !== id) {
-        const filterItem = {
-          id: postId,
-          title,
-          documents: filterRemoveDocument(documents, id),
-        };
-        filterData.push(filterItem);
-      }
-    }
-    return filterData;
+    editPage.setState({
+      selectedId: this.state.selectedId || null,
+      post: this.state.post || {},
+    });
+    postPage.setState({
+      selectedId: this.state.selectedId || null,
+      posts: this.state.posts || [],
+    });
   };
 
   const onAdd = async (id) => {
-    console.log(id);
     push(`/documents/new`);
     const newData = {
       id: "new",
       title: "Untitle",
       documents: [],
     };
-    let visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
+    const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
     setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, id]);
     const tempData = [...this.state.posts];
     addDocuments(tempData, id, newData);
     this.setState({ selectedId: "new", posts: tempData });
-    const createDocument = await request(`/documents`, {
+    await fetchAdd(`/documents`, {
       method: "POST",
       body: JSON.stringify({
         title: "Untitle",
         parent: id === "new" ? null : id,
       }),
     });
-    history.replaceState(null, null, `/documents/${createDocument.id}`);
-    visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).map((visited) =>
-      visited === "new" ? createDocument.id : visited
-    );
-    setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
-    const updateData = [...this.state.posts];
-    filterNewDocument(updateData, createDocument.id);
-    this.setState({ selected: createDocument.id, posts: updateData });
   };
 
-  const onEdit = (post) => {
-    // 수정된 데이터 전체 전달
+  const onEdit = ({ id, title, content }) => {
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(async () => {
+      setItem(
+        `temp-${this.state.selectedId === id ? "new" : this.state.selectedId}`,
+        { title, content }
+      );
+      const tempData = [...this.state.posts];
+      filterDocument(tempData, { id, title, content });
+      this.setState({ selectedId: id, posts: tempData });
+      const fetchUpdateData = await request(`/documents/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title,
+          content,
+        }),
+      });
+      const updateData = [...this.state.posts];
+      filterDocument(updateData, { id, title, content });
+      this.setState({
+        selectedId: id,
+        posts: updateData,
+        post: fetchUpdateData,
+      });
+    }, 2000);
   };
 
   const onDelete = async (id) => {
-    // 삭제된 데이터 전체 전달
     if (!confirm("페이지를 삭제하시겠습니까?")) return;
     const tempData = [...this.state.posts];
     const filterPost = filterRemoveDocument(tempData, id);
+    // 루트말고 해당 docuemtd의 root를 가리쳐볼까?
     this.state.selectedId === id
       ? this.setState({ selectedId: this.state.posts[0].id, posts: filterPost })
       : this.setState({ posts: filterPost });
@@ -115,7 +107,30 @@ export default function App({
       (visited) => visited !== id
     );
     setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
-    await request(`/documents/${id}`, { method: "DELETE" });
+    await fetchDelete(`/documents/${id}`, { method: "DELETE" }, id, filterPost);
+  };
+
+  const fetchDelete = async (url, options, id, filterPost) => {
+    await request(url, options);
+    const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).filter(
+      (visited) => visited !== id
+    );
+    setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
+    this.state.selectedId === id
+      ? this.setState({ selectedId: this.state.posts[0].id, posts: filterPost })
+      : this.setState({ posts: filterPost });
+  };
+
+  const fetchAdd = async (url, options) => {
+    const createDocument = await request(url, options);
+    history.replaceState(null, null, `/documents/${createDocument.id}`);
+    const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []).map((visited) =>
+      visited === "new" ? createDocument.id : visited
+    );
+    setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
+    const updateData = [...this.state.posts];
+    filterNewDocument(updateData, createDocument.id);
+    this.setState({ selectedId: createDocument.id, posts: updateData });
   };
 
   const postPage = new PostPage({
@@ -127,7 +142,7 @@ export default function App({
 
   const editPage = new EditPage({
     $target,
-    initalState,
+    initalState: { selectedId: null, post: {} },
     onEdit,
   });
 
@@ -135,18 +150,19 @@ export default function App({
     const { pathname } = location;
     if (pathname === "/") {
       const posts = await request("/documents", { method: "GET" });
-      console.log(posts);
       this.setState({ posts });
       return;
     }
     const [, , postId] = pathname.split("/");
     this.setState({
-      selectedId: parseInt(postId) === NaN ? postid : parseInt(postId),
+      selectedId: parseInt(postId) === NaN ? postId : parseInt(postId),
     });
   };
 
   initRoute(() => this.route());
 
   window.addEventListener("popstate", () => this.route());
+  // 새로고침시 this.route() 실행
+
   this.route();
 }
