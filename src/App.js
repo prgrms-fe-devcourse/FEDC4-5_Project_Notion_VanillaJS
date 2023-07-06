@@ -147,6 +147,8 @@ export default function App({
       return;
     }
     const [, , postId] = pathname.split("/");
+    const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
+    setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, parseInt(postId)]);
     this.setState({
       selectedId: parseInt(postId) === NaN ? postId : parseInt(postId),
     });
