@@ -8,7 +8,7 @@ export default function Editor({
   this.state = initialState;
 
   $editor.innerHTML = `
-    <input type="text" name="title" style="width:95%; display:block" value="${this.state.title}" />
+    <input type="text" name="title" style="width:95%;height:50px; display:block" value="${this.state.title}" />
     <textarea name="content" style="width:95%; height:600px">${this.state.content}</textarea>
     `;
 
@@ -31,7 +31,11 @@ export default function Editor({
   };
 
   $editor.addEventListener("keyup", (e) => {
+    //console.log("에디터 편집 시 발생 이벤트: ", e);
     const name = e.target.getAttribute("name");
+
+    console.log("this.state[name]: ", this.state[name]);
+    console.log("this.state: ", this.state);
 
     if (this.state[name]) {
       const nextState = {

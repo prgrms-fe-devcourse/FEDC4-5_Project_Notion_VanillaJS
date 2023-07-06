@@ -9,7 +9,7 @@ export default function DocumentPage({ $target, initialState }) {
   $documentPage.className = "DocumentPage";
 
   $documentPage.style = `
-    width:20%;
+    width:30%;
     height:100vh;
     background-color:#fffafa	;
   `;
@@ -37,6 +37,30 @@ export default function DocumentPage({ $target, initialState }) {
         }),
       });
 
+      await request(`/documents/${createdDoc.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: "Untitled",
+          content: "",
+        }),
+      });
+
+      if (id === null) {
+        const rootDocId = createdDoc.id;
+
+        this.setState({
+          ...this.state,
+          docId: rootDocId,
+        });
+
+        setItem(rootDocId, {
+          id: rootDocId,
+          displayed: "",
+        });
+      }
+
+      //this.state: 새로 생긴 문서의 docId가 api의 문서 아이디와 일치하게 설정됨
+
       setItem(id, {
         id: id,
         displayed: "",
@@ -54,7 +78,7 @@ export default function DocumentPage({ $target, initialState }) {
 
       const { documents } = selectedDocument;
 
-      const deletedDoc = async (selectedDocId) => {
+      const deleteDoc = async (selectedDocId) => {
         await request(`/documents/${selectedDocId}`, {
           method: "DELETE",
         });
@@ -81,18 +105,18 @@ export default function DocumentPage({ $target, initialState }) {
 
         if (selectedChildIds.includes(Number(currentPageId))) {
           for (const childId of selectedChildIds) {
-            await deletedDoc(childId);
+            await deleteDoc(childId);
           }
           history.replaceState(null, null, "/");
           push("/");
         } else {
-          await deletedDoc(selectedDocId);
+          await deleteDoc(selectedDocId);
 
           push(`/documents/${currentPageId}`);
         }
         return;
       } else {
-        await deletedDoc(selectedDocId);
+        await deleteDoc(selectedDocId);
 
         push("/");
       }

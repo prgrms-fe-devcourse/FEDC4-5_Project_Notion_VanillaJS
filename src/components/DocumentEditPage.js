@@ -1,7 +1,6 @@
 import Editor from "./Editor.js";
 import { request } from "../api/api.js";
 import { push } from "../routes/router.js";
-//import { push, update } from "../routes/router.js";
 import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
@@ -10,9 +9,10 @@ export default function DocumentEditPage({ $target, initialState }) {
   $documentEditPage.className = "documentEditPage";
 
   $documentEditPage.style.width = "60%";
-  $documentEditPage.style.margin = "3%";
+  $documentEditPage.style.margin = "auto";
 
   this.state = initialState;
+  console.log("초기 this.state: ", this.state);
 
   let docLocalSaveKey = `temp-document-${this.state.docId}`;
   let timer = null;
@@ -34,30 +34,31 @@ export default function DocumentEditPage({ $target, initialState }) {
       }
 
       timer = setTimeout(async () => {
-        const isNewDocument = this.state.docId === "new";
-        if (isNewDocument) {
+        const isNew = this.state.docId === null;
+        if (isNew) {
           if (doc.title === "") {
+            alert("제목을 입력해 주세요!");
             doc.title = "Untitled";
           }
 
-          const createdDoc = await request("/documents", {
+          const createDocument = await request("/documents", {
             method: "POST",
             body: JSON.stringify(doc),
           });
 
-          await request(`/documents/${createdDoc.id}`, {
+          await request(`/documents/${createDocument.id}`, {
             method: "PUT",
             body: JSON.stringify(doc),
           });
 
-          history.replaceState(null, null, `/documents/${createdDoc.id}`);
+          history.replaceState(null, null, `/documents/${doc.id}`);
           removeItem(docLocalSaveKey);
 
           this.setState({
-            docId: createdDoc.id,
+            docId: doc.id,
           });
 
-          push(createdDoc.id);
+          push(doc.id);
         } else {
           if (doc.title === "") {
             doc.title = "Untitled";
@@ -69,25 +70,27 @@ export default function DocumentEditPage({ $target, initialState }) {
 
           removeItem(docLocalSaveKey);
         }
-
-        //update(doc.id);
       }, 1000);
     },
   });
 
   this.setState = async (nextState) => {
-    if (this.state.docId === "new" && nextState.docId === "new") {
+    //nextState: 리스트에서 선택되는 문서 {docId: '89105'}
+    console.log(this.state);
+    if (this.state.docID === nextState.docId) {
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
         content: "",
       });
 
-      if (tempDocument.title !== "" || tempDocument.content !== "") {
+      if (tempDocument.title !== "" || tempDocument.content != "") {
         this.state = {
           ...this.state,
           doc: tempDocument,
         };
       } else {
+        //새 페이지 생성하고 수정 안 한 담에 새페이지 누르면
+        //화면 안 바뀌는 거 아냐??
         this.state = nextState;
       }
 
@@ -101,22 +104,14 @@ export default function DocumentEditPage({ $target, initialState }) {
       docLocalSaveKey = `temp-document-${nextState.docId}`;
       this.state = nextState;
 
-      if (this.state.docId === "new") {
-        const doc = getItem(docLocalSaveKey, {
-          title: "Untitled",
-          content: "",
-        });
+      await fetchDocument();
 
-        editor.setState(doc);
-
-        this.render();
-      } else {
-        await fetchDocument();
-      }
       return;
     }
 
     this.state = nextState;
+    console.log(nextState);
+    console.log(this.state);
 
     this.render();
 
@@ -126,38 +121,39 @@ export default function DocumentEditPage({ $target, initialState }) {
   };
 
   const fetchDocument = async () => {
+    console.log("this.state: ", this.state);
     const { docId } = this.state;
 
-    if (this.state !== "new") {
-      const doc = await request(`/documents/${docId}`, {
-        method: "GET",
-      });
+    const doc = await request(`/documents/${docId}`, {
+      method: "GET",
+    });
 
-      if (doc.content === null) doc.content = "";
+    console.log(doc);
 
-      const tempDocument = await getItem(docLocalSaveKey, {
-        title: "Untitled",
-        content: "",
-      });
+    if (doc.content === null) doc.content = "";
 
-      if (
-        tempDocument.tempSaveDate &&
-        tempDocument.tempSaveDate > doc.updatedAt
-      ) {
-        if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
-          this.setState({
-            ...this.state,
-            doc: tempDocument,
-          });
-          return;
-        }
+    const tempDocument = await getItem(docLocalSaveKey, {
+      title: "Untitled",
+      content: "",
+    });
+
+    if (
+      tempDocument.tempSaveDate &&
+      tempDocument.tempSaveDate > doc.updatedAt
+    ) {
+      if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
+        this.setState({
+          ...this.state,
+          doc: tempDocument,
+        });
+        return;
       }
-
-      this.setState({
-        ...this.state,
-        doc,
-      });
     }
+
+    this.setState({
+      ...this.state,
+      doc,
+    });
   };
 
   this.render = () => {
