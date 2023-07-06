@@ -1,12 +1,12 @@
 export default function SidebarHeader({ $target, initialState }) {
-  const $header = document.createElement("h1");
+  const $header = document.createElement("div");
 
   this.state = initialState;
 
   $target.appendChild($header);
 
   this.render = () => {
-    $header.textContent = `${initialState}'s Notion`;
+    $header.innerHTML = `<span>📕 ${this.state}'s notion</span>`;
   };
 
   this.render();
