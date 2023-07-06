@@ -1,4 +1,7 @@
 export default function EditorChildListTemplate(documents) {
+  if (!(documents instanceof Array)) {
+    return '';
+  }
   return `
         <ul>
             ${documents

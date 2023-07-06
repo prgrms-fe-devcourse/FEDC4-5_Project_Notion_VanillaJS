@@ -3,6 +3,7 @@ import {
   deleteDocument,
   addNewDocument,
 } from '../api/Document/index.js';
+import DocumentAddButton from '../Component/Documents/DocumentAddBtn.js';
 import DocumentList from '../Component/Documents/DocumentList.js';
 import { push } from '../route.js';
 
@@ -15,6 +16,8 @@ export default function DocumentPage({ $target }) {
       .then((documents) => documentLists.setState(documents))
       .catch((e) => alert(e));
     $target.appendChild($page);
+
+    documentAddBtn.render();
   };
 
   this.render();
@@ -40,13 +43,20 @@ export default function DocumentPage({ $target }) {
         .then(({ parent }) => {
           if (parent.id) {
             push(`/documents/${parent.id}`);
-          } else {
-            push(`/`);
           }
         })
         .catch((e) => {
-          alert(e);
+          console.error(e);
+          push('/');
         });
+    },
+  });
+
+  const documentAddBtn = new DocumentAddButton({
+    $target: $page,
+    initalState: '문서 추가하기',
+    onDocumentAdd: () => {
+      addNewDocument(null).then(() => this.render());
     },
   });
 }
