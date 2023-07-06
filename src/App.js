@@ -1,6 +1,7 @@
 import SideBar from "./components/sideBar/SideBar.js";
 import DocumentContent from "./components/content/DocumentContent.js";
 import { initRouter } from "./utils/router.js";
+import Default from "./components/content/Default.js";
 
 export default function App({ $target }) {
   const sideBar = new SideBar({ $target });
@@ -22,6 +23,7 @@ export default function App({ $target }) {
 
     if (pathname === "/") {
       await sideBar.setState();
+      new Default({ $target });
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
       // TODO: 우측 편집기 초기화
