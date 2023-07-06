@@ -1,7 +1,12 @@
 import PostEditor from './PostEditor.js';
 import { request } from '../util/api.js';
 
-export default function PostEditPage({ $target, initialState, onChange }) {
+export default function PostEditPage({
+  $target,
+  initialState,
+  onChange,
+  onDelete,
+}) {
   const $page = document.createElement('div');
 
   this.state = initialState;
@@ -18,11 +23,17 @@ export default function PostEditPage({ $target, initialState, onChange }) {
 
       timer = setTimeout(async () => {
         const isNew = this.state.postId === 'new';
+        const { title, content } = post;
         if (isNew) {
+          if (!title && !content) {
+            onDelete();
+            return;
+          }
+
           const createdPost = await request('/', {
             method: 'POST',
             body: JSON.stringify({
-              ...post,
+              title: title === '' ? '제목없음' : title,
               parent: this.state.parentId,
             }),
           });
@@ -30,29 +41,35 @@ export default function PostEditPage({ $target, initialState, onChange }) {
           await request(`/${createdPost.id}`, {
             method: 'PUT',
             body: JSON.stringify({
-              title: post.title,
-              content: post.content,
+              title,
+              content,
             }),
           });
 
-          onChange(post.title, createdPost.id);
+          onChange(title, createdPost.id);
 
           history.replaceState(null, null, `/posts/${createdPost.id}`);
           this.setState({
             ...this.state,
-            postId: createdPost.id.toString(), // string
+            postId: createdPost.id.toString(),
           });
         } else {
-          await request(`/${this.state.postId}`, {
+          const editedPost = await request(`/${this.state.postId}`, {
             method: 'PUT',
             body: JSON.stringify({
-              title: post.title,
-              content: post.content,
+              title: title === '' ? '제목없음' : title,
+              content,
             }),
+          });
+          this.setState({
+            ...this.state,
+            post: editedPost,
+            postId: editedPost.id.toString(),
           });
         }
       }, 2000);
     },
+    onChange,
   });
 
   this.setState = async (nextState) => {

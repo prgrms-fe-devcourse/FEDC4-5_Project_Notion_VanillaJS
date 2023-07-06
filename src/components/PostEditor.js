@@ -1,7 +1,12 @@
 import { push } from '../router.js';
 import { request } from '../util/api.js';
 
-export default function PostEditor({ $target, initialState, onEditing }) {
+export default function PostEditor({
+  $target,
+  initialState,
+  onEditing,
+  onChange,
+}) {
   const $editor = document.createElement('div');
 
   this.state = initialState;
@@ -48,16 +53,14 @@ export default function PostEditor({ $target, initialState, onEditing }) {
       title: e.target.innerHTML,
     };
 
+    onChange(e.target.innerHTML);
     onEditing(nextState);
   });
 
   $editor.querySelector('[name=content]').addEventListener('keyup', (e) => {
     let nextState = {
       ...this.state,
-      title:
-        $editor.querySelector('[name=title]').innerHTML === ''
-          ? '제목없음'
-          : $editor.querySelector('[name=title]').innerHTML,
+      title: $editor.querySelector('[name=title]').innerHTML,
       content: e.target.innerText,
     };
 
@@ -76,10 +79,7 @@ export default function PostEditor({ $target, initialState, onEditing }) {
   $editor.querySelector('[name=content]').addEventListener('blur', (e) => {
     const nextState = {
       ...this.state,
-      title:
-        $editor.querySelector('[name=title]').innerHTML === ''
-          ? '제목없음'
-          : $editor.querySelector('[name=title]').innerHTML,
+      title: $editor.querySelector('[name=title]').innerHTML,
       content: e.target.innerText,
     };
 

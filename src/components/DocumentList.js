@@ -27,18 +27,34 @@ export default function DocumentList({ $target, initialState, onClick }) {
   this.template = (text, id) => {
     $docList.innerHTML = this.state.template;
     const currentTarget = $docList.querySelector('[id="-1"]');
-
     if (text) {
-      currentTarget.querySelector('span').innerHTML = text;
+      if (currentTarget) {
+        currentTarget.querySelector('span').innerHTML = text;
+        if (id) {
+          currentTarget.id = id;
+        }
+      } else {
+        const { pathname } = window.location;
+        [, , id] = pathname.split('/');
+        const target = $docList.querySelector(`[id='${id}']`);
+        if (target) {
+          target.querySelector('span').innerHTML = text;
+        }
+      }
     }
 
-    if (id) {
-      currentTarget.id = id;
+    if (id === -1) {
+      currentTarget?.remove();
     }
   };
 
   this.render = () => {
     $docList.addEventListener('click', async (e) => {
+      // const currentTarget = $docList.querySelector('[id="-1"]');
+      // if (currentTarget) {
+      //   currentTarget?.remove();
+      // }
+
       let $target = e.target;
       let [className] = $target.className.split(' ');
 
@@ -48,11 +64,17 @@ export default function DocumentList({ $target, initialState, onClick }) {
       // 경로 이동
       if ($target.nodeName === 'SPAN') {
         const { id } = listItem;
-        push(`/posts/${id}`);
+        if (id > -1) {
+          push(`/posts/${id}`);
+        }
       }
 
       // 화살표 눌렀을 때 하위 트리 보여주기
-      if (className === 'arrow' && isSelected === 'isNotSelected') {
+      if (
+        className === 'arrow' &&
+        isSelected === 'isNotSelected' &&
+        listItem.id > -1
+      ) {
         listItem.className = 'listItem isSelected';
 
         const targetId = listItem.id;
@@ -75,14 +97,18 @@ export default function DocumentList({ $target, initialState, onClick }) {
         listItem.appendChild(listWrapper);
 
         // 화살표 눌렀을 때 하위 트리 감추기
-      } else if (className === 'arrow' && isSelected === 'isSelected') {
+      } else if (
+        className === 'arrow' &&
+        isSelected === 'isSelected' &&
+        listItem.id > -1
+      ) {
         listItem.className = 'listItem isNotSelected';
         let listWrapper = listItem.querySelector('[class="listWrapper"]');
         listWrapper.remove();
       }
 
       // Document 추가 버튼 눌렀을 때
-      if (className === 'addDoc') {
+      if (className === 'addDoc' && listItem.id > -1) {
         let parentId = $target.closest('[class~="listItem"]').id;
         onClick(parentId); // 순서 중요함...
 
