@@ -1,11 +1,7 @@
 import { navigate } from '../utils/navigate.js';
 import { addDocument, removeDocument } from '../apis/api.js';
 import { findDocumentRoute, findDocument } from '../helpers/documentHelper.js';
-import Sidebar from '../components/Sidebar/Sidebar.js';
-import Navbar from '../components/Navbar/Navbar.js';
-import Editor from '../components/Editor/Editor.js';
-import StyleMenu from '../components/StyleMenu/StyleMenu.js';
-import ChildDocumentLinks from '../components/ChildDocumentLinks/ChildDocumentLinks.js';
+import { Sidebar, Navbar, Editor, StyleMenu, ChildDocumentLinks } from '../components/index.js';
 import html from './DocumentPage.html';
 import './DocumentPage.css';
 
