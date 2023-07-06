@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+}
+:root {
+  --list-hover-color: rgb(233, 233, 233);
+  --list-button-color: rgb(116, 116, 116);
+  --common-interval: 20px;
+  --side-bar-width: 400px;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+#app {
+  margin: var(--common-interval);
+  display: flex;
+  justify-content: flex-start;
+}
+.postListContainer {
+  flex-basis: var(--side-bar-width);
+  max-height: calc(100vh - var(--common-interval) * 2);
+  overflow-y: scroll;
+}
+.postListContainer .createNew {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid black;
+}
+.postListContainer > div > ul {
+  padding-left: 0;
+}
+.postListContainer ul li {
+  list-style: none;
+  padding: 5px;
+}
+.postListContainer ul li span {
+  display: inline-block;
+  width: 70%;
+}
+:is(.postListContainer ul li):hover {
+  background-color: var(--list-hover-color);
+}
+.postListContainer ul li:hover :is(button[name='add'], button[name='delete']) {
+  display: inline-block;
+}
+.postListContainer ul li :is(button[name='add'], button[name='delete']) {
+  display: none;
+  float: right;
+  padding: 0 8px;
+  color: var(--list-button-color);
+}
+.postListContainer ul li :is(button[name='add'], button[name='delete']):hover {
+  color: black;
+}
+
+.postEditorContainer {
+  flex-basis: calc(90% - var(--side-bar-width));
+  margin-left: var(--common-interval);
+}
+
+.postEditorContainer .post-title {
+  width: 100%;
+  height: 80px;
+  font-size: 24px;
+
+  padding: var(--common-interval);
+}
+.postEditorContainer textarea[name='content'] {
+  width: 100%;
+  height: calc(100vh - 200px);
+  border: 1px solid black;
+  outline: none;
+  padding: var(--common-interval);
+  margin-top: 30px;
+  overflow-y: scroll;
+}
+.postEditorContainer .loading {
+  position: absolute;
+  top: 45px;
+  right: 12%;
+  /* right: -60px; */
+}
+.postEditorContainer .loading img {
+  width: 30px;
+  height: 30px;
+  animation: loading 1.5s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

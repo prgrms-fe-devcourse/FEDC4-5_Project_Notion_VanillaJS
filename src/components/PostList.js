@@ -29,8 +29,8 @@ export default function PostList({
                 : ''
             }
               <span>${post.title}</span>
-              <button type='button' name='add'><i class="bi bi-plus-square"></i></button>
               <button type='button' name='delete'><i class="bi bi-trash-fill"></i></button>
+              <button type='button' name='add'><i class="bi bi-plus-square"></i></button>
             </li> 
             ${
               hasChild
@@ -48,10 +48,10 @@ export default function PostList({
     // 로딩 : this.state가 undefined인 경우
     //문서가 아예없을 때
     postListElement.innerHTML = `
-       <button type="button" name='add'><i class="bi bi-plus-square"></i></button>
        ${this.state.list
          .map(document => buildNestedList(document, true))
          .join('')}
+         <button type="button" name='add' class='createNew'><i class="bi bi-plus-square"></i> 새 문서 추가</button>
     `;
 
     if (this.state.currentId !== null) {

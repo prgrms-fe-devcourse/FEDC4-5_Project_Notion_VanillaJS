@@ -1,7 +1,12 @@
 import { setItem, removeItem, getItem } from '../utils/storage';
+import * as SPINNER_ICON from '../assets/spinner.png';
 
 export default function PostEditor({ target, initialState, onEdit }) {
   const editorElement = document.createElement('form');
+
+  const loadingElement = document.createElement('div');
+  loadingElement.innerHTML = `<img src=${SPINNER_ICON.default}/>`;
+  loadingElement.setAttribute('class', 'loading');
 
   this.state = initialState;
 
@@ -11,8 +16,11 @@ export default function PostEditor({ target, initialState, onEdit }) {
     const tempPost = getItem(`temp-post-${nextState.id}`);
     if (tempPost) {
       const callPrevData = window.confirm('지난 데이터를 불러오시겠습니까?');
-      if (callPrevData) this.state = tempPost;
-      else removeItem(`temp-post-${this.state.id}`);
+      if (callPrevData) {
+        this.state = tempPost;
+      } else {
+        removeItem(`temp-post-${this.state.id}`);
+      }
     }
 
     this.render();
@@ -26,6 +34,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
         <input type='text' name='title' class='post-title'/>
         <textarea name='content' class='post-content'></textarea>
     `;
+
     editorElement.addEventListener('keyup', e => {
       // 로딩 중 추가
       const { target } = e;
@@ -40,8 +49,11 @@ export default function PostEditor({ target, initialState, onEdit }) {
 
         setItem(`temp-post-${nextState.id}`, nextState);
 
+        editorElement.appendChild(loadingElement);
+
         if (timer !== null) {
           clearTimeout(timer);
+          // editorElement.removeChild(loadingElement);
         }
         timer = setTimeout(async () => {
           await onEdit(nextState.id, {
@@ -51,6 +63,9 @@ export default function PostEditor({ target, initialState, onEdit }) {
 
           removeItem(`temp-post-${nextState.id}`);
 
+          if (editorElement.hasChildNodes(loadingElement)) {
+            editorElement.removeChild(loadingElement);
+          }
           // this.setState(nextState);
         }, 2000);
       }
