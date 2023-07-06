@@ -17,6 +17,9 @@ export default class DocumentStore {
     this.state = nextState;
   }
 
+  /**
+   * 원격 서버에서 문서 목록을 가져와 상태에 보관합니다.
+   */
   async fetchDocuments() {
     const documents = await getDocuments();
     this.setState({

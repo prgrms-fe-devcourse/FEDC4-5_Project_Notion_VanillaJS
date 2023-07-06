@@ -24,14 +24,19 @@ export default class EditorStore {
     this.state = nextState;
   }
 
-  async fetchDocument(documentId) {
+  /**
+   * 원격 서버와 로컬 스토리지에서 문서 정보를 가져오고, 더 최근에 작성된 문서 정보를 상태에 보관하고 반환합니다.
+   */
+  async fetchDocument() {
+    const { documentId } = this.state;
+
     const remoteDocument = await getDocument(documentId);
     if (!remoteDocument) throw new Error('존재하지 않는 문서입니다.');
     const localDocument = storage.getItem(DOCUMENT(documentId), initialDocument);
     const recentDocument = remoteDocument.updatedAt < localDocument.updatedAt ? localDocument : remoteDocument;
 
     this.setState({ ...this.state, document: recentDocument });
-    return { document: recentDocument, documentId, isLocalData: recentDocument === localDocument };
+    return { document: recentDocument, documentId };
   }
 
   /**
@@ -59,7 +64,6 @@ export default class EditorStore {
   /**
    * 로컬 스토리지에 존재하는 모든 데이터를 읽고, 서버에서 가져온 문서보다 최신 정보인 경우에 서버에 업데이트 요청을 합니다.
    * @param {array} documents 서버에서 가져온 문서 목록
-   * @returns Promise
    */
   pushStorageDocuments(documents = []) {
     const promises = Object.keys(localStorage)
@@ -69,7 +73,9 @@ export default class EditorStore {
         const remoteDocument = findDocument(documentId, documents);
         const localDocument = JSON.parse(localStorage.getItem(key));
 
-        return remoteDocument && remoteDocument.updatedAt < localDocument.updatedAt ? { key, documentId, localDocument } : null;
+        return remoteDocument && remoteDocument.updatedAt < localDocument.updatedAt
+          ? { key, documentId, localDocument }
+          : null;
       })
       .filter((item) => item !== null)
       .map((item) => {

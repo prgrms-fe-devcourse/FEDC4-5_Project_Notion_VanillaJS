@@ -1,4 +1,4 @@
-import { navigate } from '../../utils/navigate.js';
+import { navigate } from '../../utils/router.js';
 import { addDocument, removeDocument } from '../../apis/api.js';
 import { Sidebar } from '../../components/index.js';
 
