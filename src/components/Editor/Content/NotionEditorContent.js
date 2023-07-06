@@ -108,7 +108,7 @@ export default class NotionEditorContent extends Component {
   render() {
     const { content } = this.state;
 
-    this.$contentEditor.innerHTML = Editor.parse(content, this.caret);
+    this.$contentEditor.innerHTML = Editor.parse(content);
 
     Editor.restoreCaretPosition();
   }

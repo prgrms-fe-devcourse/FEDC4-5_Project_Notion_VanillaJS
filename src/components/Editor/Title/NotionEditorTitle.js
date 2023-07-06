@@ -12,17 +12,23 @@ export default class NotionEditorTitle extends Component {
   }
 
   initComponent() {
-    this.$titleEditor = document.createElement('textarea');
+    this.$titleEditor = document.createElement('div');
 
+    this.$titleEditor.contentEditable = true;
     this.$titleEditor.className = 'notion-editor-title';
     this.$titleEditor.dataset.name = 'title';
-    this.$titleEditor.placeholder = 'Untitled';
 
     this.$target.appendChild(this.$titleEditor);
   }
 
   setEvent() {
     const { onEdit, onPressEnterKey } = this.props;
+
+    this.$titleEditor.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = e.clipboardData.getData('text/plain');
+      document.execCommand('insertHTML', false, text);
+    });
 
     this.$titleEditor.addEventListener('keypress', (e) => {
       const { key } = e;
@@ -33,13 +39,11 @@ export default class NotionEditorTitle extends Component {
     });
 
     this.$titleEditor.addEventListener('input', ({ target }) => {
-      this.$titleEditor.style.height = `${this.$titleEditor.scrollHeight}px`;
-
       if (this.timer !== null) {
         clearTimeout(this.timer);
       }
       this.timer = setTimeout(async () => {
-        onEdit('title', target.value);
+        onEdit('title', target.innerHTML);
       }, 1000);
     });
   }
@@ -52,7 +56,8 @@ export default class NotionEditorTitle extends Component {
   render() {
     const { title } = this.state;
 
-    this.$titleEditor.value = title ?? '';
-    this.$titleEditor.style.height = `${40 + this.$titleEditor.scrollHeight}px`;
+    if (title === this.$titleEditor.innerHTML) return;
+
+    this.$titleEditor.innerHTML = title;
   }
 }
