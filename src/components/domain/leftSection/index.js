@@ -66,7 +66,7 @@ class LeftSection {
           }
         } else {
           // 글 클릭하면
-          this.pageLoadToId(targetId);
+          this.loadPageById(targetId);
         }
       }
     });

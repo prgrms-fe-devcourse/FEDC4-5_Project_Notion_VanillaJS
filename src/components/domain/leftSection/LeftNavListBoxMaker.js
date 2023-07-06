@@ -7,6 +7,8 @@ export default function LeftNavListBoxMaker(paddingLeft, title, id) {
   const $navDom = document.createElement("div");
   $navDom.classList.add("navDom");
   $navDom.style.paddingLeft = `${paddingLeft}px`;
+  $navDom.style.paddingTop = `${paddingLeft * 100}px`;
+
   $navDom.setAttribute("data-id", id);
 
   // ( 여닫기 버튼  (>) )

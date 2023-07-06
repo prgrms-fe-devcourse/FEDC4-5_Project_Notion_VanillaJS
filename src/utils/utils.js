@@ -19,3 +19,15 @@ export function findArrayById(arr, targetId) {
 
   return find(arr, targetId);
 }
+
+export const debounce = (callback, delay) => {
+  let timerId;
+
+  return (...args) => {
+    clearTimeout(timerId);
+
+    timerId = setTimeout(() => {
+      callback.apply(this, args);
+    }, delay);
+  };
+};

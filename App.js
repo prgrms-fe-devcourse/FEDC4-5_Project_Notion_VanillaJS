@@ -5,6 +5,7 @@ import {
   postPost,
 } from "./src/api/posts.js";
 import LeftSection from "./src/components/domain/leftSection/index.js";
+import RightSection from "./src/components/domain/rightSection/index.js";
 
 class App {
   constructor({ $target, initialState }) {
@@ -14,7 +15,7 @@ class App {
     this.leftSection = new LeftSection({
       $target,
       initialState,
-      pageLoadToId: (id) => {
+      loadPageById: (id) => {
         history.pushState(null, null, id);
         this.router(id);
       },
@@ -30,21 +31,25 @@ class App {
       deleteNavDom: async (id) => {
         await deletePost(id);
         this.leftSection.setState(await getAllPosts());
-        const nowPageIsDelete = location.pathname.substr(1) === id;
+        const nowPageIsDelete = location.pathname.replace("/", "") === id;
 
-        // if (nowPageIsDelete) editer.setState(null);
+        if (nowPageIsDelete) this.rightSection.setState(null);
       },
     });
 
     this.timer = null;
     this.timerDelay = 1000;
-    // this.rightSection = new Editor({});
+    this.rightSection = new RightSection({
+      $target: this.$target,
+      initialState: null,
+    });
   }
 
   router = async (targetId) => {
     const { title, content, id } = await getPostById(targetId);
     this.leftSection.setNavFocusBox(this.leftSection.findDOMById(targetId));
-    // this.rightSection.setState({ title, content, id });
+    this.rightSection.setState({ title, content, id: targetId });
+    this.rightSection.init();
   };
 }
 
