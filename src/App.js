@@ -2,7 +2,6 @@ import { EditorPage } from "./EditorPage.js";
 import { DocumentPage } from "./DocumentPage.js";
 import { initRouter } from "./router.js";
 
-
 export default function App ($target) {
     const $app = document.createElement('div');
     $app.className = 'mainApp'

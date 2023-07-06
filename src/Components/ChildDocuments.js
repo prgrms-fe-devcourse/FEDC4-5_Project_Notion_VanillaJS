@@ -1,4 +1,5 @@
 import { push } from '../router.js';
+
 export default function ChildDocument ({$target, $document}){
     const $childDocument = document.createElement('div');
     $childDocument.className = 'childLink';

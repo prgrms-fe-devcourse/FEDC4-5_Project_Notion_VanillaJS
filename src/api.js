@@ -1,4 +1,5 @@
 import { request } from "./request.js"
+
 export const getDocuments = async() => {
     const documentData = await request('/documents', {
         method: "GET",
