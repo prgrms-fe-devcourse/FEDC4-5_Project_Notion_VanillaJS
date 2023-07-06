@@ -42,17 +42,10 @@ export const putDocument = async(document)=>{
 
 //특정 document를 불러옵니다.
 export const fetchEditor = async(documentId)=>{
-    const lists = await fetchDocumentLists()
-    const find = findDocument(lists, documentId)
-    if(find){ //뒤로가기 했을때 삭제한 페이지의 api요청 오류를 방지합니다.
-        const document = await request(`/documents/${documentId}`)
-        return document
-    }
+    const document = await request(`/documents/${documentId}`)
+    return document
 }
 
-const findDocument = (lists, documentId) =>{
-    return lists.find(({id,documents})=> id == documentId ? id : findDocument(documents,documentId))
-}
 
 //전체 document를 불러옵니다.
 export const fetchDocumentLists = async() =>{

@@ -14,12 +14,8 @@ export default function EditorPage({$target, initialState}){
     this.setState = async nextState =>{
         this.state = nextState
         const document = await fetchEditor(this.state.documentId)
-        if(document !== undefined){
-            editor.setState(document)
-            this.render()
-        }else{
-            push("/")
-        }
+        editor.setState(document)
+        this.render()
     }
 
     let timer = null;
