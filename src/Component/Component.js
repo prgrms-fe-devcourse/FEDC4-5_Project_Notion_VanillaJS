@@ -12,7 +12,6 @@ export default class Component {
   }
 
   setEvent(events) {
-    console.log(events);
     if (events) events.forEach((event) => this.setEventDelegation(event));
   }
 

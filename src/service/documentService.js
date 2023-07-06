@@ -20,7 +20,8 @@ export const getDocument = async () => {
 
 export const getDocumentIdByPathname = () => {
   const { pathname } = window.location;
-  const [, , documentId] = pathname.split("/");
+  const splitedPathname = pathname.split("/");
+  const documentId = splitedPathname[splitedPathname.length - 1];
   return documentId;
 };
 

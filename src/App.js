@@ -13,13 +13,13 @@ import {
   documentLinkClickEvent,
   deleteDocumentButtonClickEvent,
   documentInputChangeEvent,
+  textareaKeyupEvent,
+  titleKeyupEvent,
 } from "./events/index.js";
-import { saveDocumentToStorage } from "./storage/index.js";
 import { Document } from "./domain/index.js";
 
 export default class App extends Component {
   async render() {
-    let timeout;
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
       <section id='editor'></section>
@@ -90,11 +90,7 @@ export default class App extends Component {
           tag: ".textarea",
           target: ".textarea",
           callback: ({ target }) => {
-            const { innerHTML } = target;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-              saveDocumentToStorage({ content: innerHTML });
-            }, 200);
+            textareaKeyupEvent(target.innerHTML);
           },
         },
         {
@@ -102,11 +98,7 @@ export default class App extends Component {
           tag: ".title",
           target: ".title",
           callback: ({ target }) => {
-            const { innerHTML } = target;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-              saveDocumentToStorage({ title: innerHTML });
-            }, 200);
+            titleKeyupEvent({ title: target.innerHTML });
           },
         },
         {
