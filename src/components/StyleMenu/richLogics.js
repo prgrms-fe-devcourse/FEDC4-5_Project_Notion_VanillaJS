@@ -1,7 +1,7 @@
 export const applyTextStyle = ({ $textMenu, color, backgroundColor }) => {
   document.execCommand('foreColor', false, color || 'inherit');
   document.execCommand('backColor', false, backgroundColor || 'inherit');
-  $textMenu.classList.add('hidden');
+  $textMenu.removeAttribute('open');
 };
 
 export const toggleTextStyleMenu = ({ $textMenu }) => {
