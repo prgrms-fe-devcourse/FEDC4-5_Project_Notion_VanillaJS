@@ -4,15 +4,18 @@ import NotionEditPage from "./NotionEditPage.js";
 import NotionPage from "./NotionPage.js";
 
 export default function App({ $target }) {
+  // 컨테이너 생성
   const $notionPageContainer = document.createElement("div");
   const $notionEditPageContainer = document.createElement("div");
   $notionPageContainer.className = "notionPageContainer";
   $notionEditPageContainer.className = "notionEditPageContainer";
 
+  // 페이지 추가 버튼 생성
   const $addNewRootNotion = document.createElement("button");
   $addNewRootNotion.className = "addNewRootNotion";
   $addNewRootNotion.textContent = "+ 페이지 추가";
 
+  // 노션 페이지 컨테이너 토글 버튼 생성
   const $toggleBtn = document.createElement("button");
   $toggleBtn.className = "toggle-btn1";
   $toggleBtn.innerHTML = `<i class="fa fa-solid fa-arrow-right" style="color: #000000;"></i>`;
@@ -22,6 +25,7 @@ export default function App({ $target }) {
   $target.appendChild($notionEditPageContainer);
   $notionPageContainer.appendChild($addNewRootNotion);
 
+  // 노션 페이지 컨포넌트
   const notionPage = new NotionPage({
     $target: $notionPageContainer,
     initialState: [],
@@ -47,6 +51,7 @@ export default function App({ $target }) {
     $toggleBtn,
   });
 
+  // 노션 에디터 페이지 컴포넌트
   const editorPage = new NotionEditPage({
     $target: $notionEditPageContainer,
     initialState: "",
@@ -86,10 +91,12 @@ export default function App({ $target }) {
     notionPage.render();
   };
 
+  // 페이지 추가 이벤트 리스너
   $addNewRootNotion.addEventListener("click", () => {
     fetchAddNotion();
   });
 
+  // 노션 페이지 토글 이벤트 리스너
   $toggleBtn.addEventListener("click", () => {
     $notionPageContainer.style.transform = "translateX(0)";
     $notionEditPageContainer.style.marginLeft = "0";

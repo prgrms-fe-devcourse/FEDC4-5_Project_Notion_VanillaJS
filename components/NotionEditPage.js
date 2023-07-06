@@ -20,20 +20,17 @@ export default function NotionEditPage({ $target, initialState, onRender }) {
         return;
       }
       this.render();
-      editor.setState(
-        this.state.notion || {
-          title: "",
-          content: "",
-        }
-      );
+      editor.setState(this.state.notion);
     }
   };
 
   let timer = null;
 
+  // 에디터 컴포넌트
   const editor = new Editor({
     $target: $page,
     initialState: this.state,
+    // 편집 후 2초간 정지 시 서버로 저장
     onEditing: (notion) => {
       if (timer !== null) {
         clearTimeout(timer);
@@ -57,6 +54,7 @@ export default function NotionEditPage({ $target, initialState, onRender }) {
 
   this.render();
 
+  // id값별로 해당 노션을 서버에서 받아오기 (빈 문자열이면 실행 안됨)
   const fetchNotion = async () => {
     const { notionId } = this.state;
 

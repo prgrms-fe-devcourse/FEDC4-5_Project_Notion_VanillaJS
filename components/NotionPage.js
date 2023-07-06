@@ -12,7 +12,6 @@ export default function NotionPage({
   $toggleBtn,
 }) {
   const $page = document.createElement("div");
-
   $page.className = "notionPage";
 
   $target.appendChild($page);
@@ -24,7 +23,8 @@ export default function NotionPage({
     this.render();
   };
 
-  const toggleBtn = new ToggleButton({
+  // 토글 버튼 컴포넌트
+  new ToggleButton({
     $target: $page,
     onClick: () => {
       $target.style.transform = "translateX(-100%)";
@@ -33,6 +33,7 @@ export default function NotionPage({
     },
   });
 
+  // 노션 리스트 컴포넌트
   const notionList = new NotionList({
     $target: $page,
     initialState: this.state,
@@ -45,6 +46,7 @@ export default function NotionPage({
     fetchNotionList();
   };
 
+  // 서버에서 노션 리스트 받아오기
   const fetchNotionList = async () => {
     const storedNotions = await request("/documents");
     notionList.setState(storedNotions);
