@@ -1,0 +1,110 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #D3D1CB;
+}
+::-webkit-scrollbar-track {
+  background: #EDECE9;
+}
+
+#app {
+  display: flex;
+  height: 100%;
+}
+
+nav { 
+  z-index: 111; 
+  background: rgb(251, 251, 250); 
+  transition: box-shadow 300ms ease 0s; 
+  box-shadow: rgba(0, 0, 0, 0.1) -2px 0px 0px 0px inset; 
+  width: 250px;
+  height: 100vh;
+}
+
+nav > div {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 2px 20px;
+  height: 60vh;
+  overflow-y: scroll;
+}
+
+li {
+  list-style: none;
+  font-size: 14px;
+}
+
+.item{
+  position: relative;
+  align-items: center;
+  display: flex;
+  padding: 2px 10px 2px 5px;
+  padding-left: calc(5px + var(--depth) * 15px);
+  margin: 1px 2px;
+  border-radius: 3px;
+  font-weight: 300;
+  min-height: 27px;
+  color: rgba(55, 53, 47, 0.7);
+  transition: 20ms ease-in 0s;
+}
+
+.selected{
+  background: rgba(0,0,0,0.04);
+  color: rgb(55, 53, 47, 0.8);
+  font-weight: 400;
+}
+
+.item:hover{
+  background: rgba(55, 53, 47, 0.08);
+}
+.item:active{
+  background: rgba(55, 53, 47, 0.2);
+}
+.item-title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: calc(200px - var(--depth) * 15px);
+  margin-left: 2px;
+  line-height: 24px;
+}
+.item:hover .item-title{
+  max-width: calc(150px - var(--depth) * 15px);
+}
+.item:hover .item-btn-group{
+  display: flex;
+}
+.item-btn-group{
+  display: none; /* default */
+  position: absolute;
+  right: 15px;
+  margin-left: 2px;
+}
+
+.btn-container{
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.btn-container:hover{
+  background-color: rgba(55, 53, 47, 0.08);
+}
+
+.fa-solid{
+  font-size: 10px;
+  display: block;
+  color: rgba(55, 53, 47, 0.65);
+}

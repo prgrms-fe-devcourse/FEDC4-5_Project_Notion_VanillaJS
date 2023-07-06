@@ -18,23 +18,36 @@ function Navbar({
   this.render = () => {
     const { selected, documentList, toggleData } =
       this.state;
-    const paintList = documents =>
+    console.log(selected);
+    const paintList = (documents, depth = 0) =>
       `<ul>${documents
         .map(
           item =>
-            `<li data-id="${
-              item.id
-            }"><button type="button" name="more" ${
-              item.documents.length === 0 ? "disabled" : ""
-            }>more</button>
-            <span>${item.title}</span>
-            <button name="add" type="button"> + </button>
-            <button name="delete" type="button"> - </button>
+            `<li data-id="${item.id}">
+              <div class="item ${
+                item.id == selected ? "selected" : ""
+              }" style="--depth: ${depth}">
+                <div class="btn-container item-toggle">
+                  <i class="fa-solid fa-chevron-right item-toggle"></i>
+                </div>
+                <div class="item-title" style="--depth: ${depth}">${
+              item.title
+            }</div>
+                <div class="item-btn-group">
+                  <div class="btn-container item-add">
+                    <i class="fa-solid fa-plus item-add"></i>
+                  </div>
+                  <div class="btn-container item-delete">
+                    <i class="fa-solid fa-minus item-delete"></i>
+                  </div>
+                </div>
+              </div>
+              
             ${
               item.documents.length > 0 &&
               toggleData.find(data => data.id == item.id)
                 .toggle
-                ? paintList(item.documents)
+                ? paintList(item.documents, depth + 1)
                 : ""
             }</li>`
         )
@@ -47,11 +60,14 @@ function Navbar({
   $navbar.addEventListener("click", e => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
-
-    if (e.target.tagName === "SPAN") onSelect(id);
-    else if (e.target.name === "more") onToggle(id);
-    else if (e.target.name === "add") onCreate(id);
-    else if (e.target.name === "delete") onDelete(id);
+    console.log(e.target.className);
+    if (e.target.classList.contains("item-toggle"))
+      onToggle(id);
+    else if (e.target.classList.contains("item-add"))
+      onCreate(id);
+    else if (e.target.classList.contains("item-delete"))
+      onDelete(id);
+    else onSelect(id);
   });
 }
 
