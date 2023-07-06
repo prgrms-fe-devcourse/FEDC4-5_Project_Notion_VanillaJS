@@ -1,10 +1,12 @@
 export default function SidebarFooter({ $target, onAddRootDocument }) {
   const $sidebarFooter = document.createElement("div");
 
+  $sidebarFooter.classList.add("sidebar-footer");
+
   $target.appendChild($sidebarFooter);
 
   this.render = () => {
-    $sidebarFooter.innerHTML = `<button>add document</button>`;
+    $sidebarFooter.innerHTML = `<button class="sidebar-footer__button">add document</button>`;
   };
 
   this.render();

@@ -8,6 +8,8 @@ export default function SidebarList({
 }) {
   const $sidebarList = document.createElement("div");
 
+  $sidebarList.classList.add("sidebar-list");
+
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -50,11 +52,9 @@ export default function SidebarList({
     tem += `<ul>`;
     lists.forEach(({ id, title, documents }) => {
       tem += `<li data-id=${id}>`;
-      tem += `<div style="margin-bottom: 15px; padding-left: ${
+      tem += `<div class="sidebar-list__li" style="padding-left: ${
         padding * depth
-      }px; display: flex; align-items: center">${
-        title === null || title.trim() === "" ? "Untitled" : title
-      }`;
+      }px;>${title === null || title.trim() === "" ? "Untitled" : title}`;
       tem += `<div><button class="sidebar-list__button plus">+</button>`;
       tem += `<button class="sidebar-list__button delete">-</button></div></div>`;
       documents.length ? renderDocumentsList(documents, depth + 1) : "";

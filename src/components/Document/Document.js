@@ -6,6 +6,8 @@ import { createDocument, getDocument, modifyDocument } from "../../api/api.js";
 export default function Document({ $target, initialState, onFetchSidebar }) {
   const $document = document.createElement("div");
 
+  $document.classList.add("document");
+
   this.state = initialState;
 
   this.setState = async (nextState) => {
