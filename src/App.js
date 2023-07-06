@@ -1,6 +1,6 @@
-import PostEditPage from "./PostEditPage.js";
-import SidebarPage from "./SidebarPage.js";
-import { initRouter } from "./router.js";
+import PostEditPage from "./page/PostEditPage.js";
+import SidebarPage from "./page/SidebarPage.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target, username }) {
   const $sidebarContainer = document.createElement("div");
@@ -14,7 +14,7 @@ export default function App({ $target, username }) {
   const postPage = new SidebarPage({ $target: $sidebarContainer, username });
 
   const postEditPage = new PostEditPage({
-    $target,
+    $target: $postContainer,
     initialState: {
       id: "root",
     },
@@ -24,7 +24,6 @@ export default function App({ $target, username }) {
   this.route = () => {
     // $sidebarContainer.innerHTML = "";
     // $postContainer.innerHTML = "";
-    console.log("siv");
     const { pathname } = window.location;
     postPage.setState();
 

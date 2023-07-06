@@ -1,7 +1,7 @@
-import { pushRouter } from "../router.js";
+import { pushRouter } from "../../utils/router.js";
 import { listMaker } from "./DocumentListMaker.js";
-import { deleteApi } from "../api.js";
-import { pushNewPost } from "../btnCustomEvent.js";
+import { deleteApi } from "../../utils/api.js";
+import { pushNewPost } from "../../utils/btnCustomEvent.js";
 
 export default function DocumentList({ $target, initialState, username }) {
   const $header = document.createElement("header");
@@ -9,6 +9,7 @@ export default function DocumentList({ $target, initialState, username }) {
   const $addDocumentBtn = document.createElement("button");
   $header.innerHTML = `<h3><span style="font-size: 30px;">${username}</span>의 노션 페이지</h3>`;
   $addDocumentBtn.textContent = "+ 페이지 추가";
+  $header.className = "header";
   $addDocumentBtn.className = "addDocumentBtn";
 
   $target.appendChild($header);
@@ -35,8 +36,13 @@ export default function DocumentList({ $target, initialState, username }) {
     const $li = target.closest("li");
     if ($li) {
       const { id } = $li.dataset;
-      pushRouter(`/${id}`);
       $documentList.innerHTML = "";
+      pushRouter(`/${id}`);
+    }
+
+    if (target.tagName === "H3") {
+      $documentList.innerHTML = "";
+      pushRouter("/");
     }
 
     if (target.tagName === "BUTTON") {
@@ -67,31 +73,30 @@ export default function DocumentList({ $target, initialState, username }) {
                 if (childDocument.documents.length > 0) {
                   deleteAllChildDocument(childDocument.documents);
                 }
-                console.log(childDocument.id);
                 await deleteApi(username, childDocument.id);
               });
             };
             deleteAllChildDocument(findChildDocument);
             await deleteApi(username, id).then((res) => {
+              $documentList.innerHTML = "";
               res.parent === null || res.parent === {}
                 ? pushRouter("/")
                 : pushRouter(`/${res.parent.id}`);
-              $documentList.innerHTML = "";
             });
           }
         } else {
           await deleteApi(username, id).then((res) => {
+            $documentList.innerHTML = "";
             res.parent === null || res.parent === {}
               ? pushRouter("/")
               : pushRouter(`/${res.parent.id}`);
-            $documentList.innerHTML = "";
           });
         }
       }
       if (target.className === "addDocumentBtn") {
-        pushRouter(`/`);
         $documentList.innerHTML = "";
         pushNewPost();
+        pushRouter(`/`);
       }
     }
   });

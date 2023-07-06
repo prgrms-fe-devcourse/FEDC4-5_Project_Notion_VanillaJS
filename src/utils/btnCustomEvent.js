@@ -3,7 +3,6 @@ const BUTTON_EVENT_NAME = "button-click-event";
 export const makeNewPost = (newPost) => {
   window.addEventListener(BUTTON_EVENT_NAME, (e) => {
     const { id } = e.detail;
-    console.log(id);
     newPost(id);
   });
 };

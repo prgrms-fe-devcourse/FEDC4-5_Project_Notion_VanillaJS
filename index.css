@@ -2,13 +2,14 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  background-color: bisque;
-  margin: 0;
+  background-color: #f1f1ef;
 }
 
 header {
-  padding-left: 30px;
-  margin: 30px 20px;
+  text-align: center;
+  margin: 7%;
+  padding: 3%;
+  background-color: #eef3ed;
 }
 
 li {
@@ -17,16 +18,23 @@ li {
   /* list-style-type: none; */
 }
 
+.postContainer {
+  width: 700px;
+  height: 92%;
+  margin: 2% 2%;
+  background-color: aliceblue;
+  padding: 2%;
+}
 .Editor {
   display: flex;
   flex-direction: column;
-  width: 700px;
   height: 100%;
 }
 
 .title {
   height: 70px;
   font-size: x-large;
+  margin-bottom: 1%;
 }
 
 .content {
@@ -38,10 +46,17 @@ main {
   flex-direction: row;
   width: 100%;
   height: 100%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+div {
+  box-sizing: border-box;
 }
 
 .sidebarContainer {
   width: 400px;
-  height: 100%;
-  background-color: aquamarine;
+  height: 92%;
+  margin: 2% 2%;
+  background-color: #f6f3f8;
 }

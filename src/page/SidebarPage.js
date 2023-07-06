@@ -1,5 +1,5 @@
-import DocumentList from "./navigation/DocumentList.js";
-import { getApi } from "./api.js";
+import DocumentList from "./sidebar/DocumentList.js";
+import { getApi } from "../utils/api.js";
 
 export default function SidebarPage({ $target, username }) {
   const $page = document.createElement("div");
