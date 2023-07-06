@@ -23,7 +23,6 @@ export default function TextEditor({ $target, initialState, onEditing }) {
 
   this.render = () => {
     const { title, content, res, status } = this.state;
-    console.log(title, content, res, this.state);
     if (!status && res) {
       $titleEditor.value = res.title;
       $textEditor.value = res.content;
