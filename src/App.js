@@ -1,18 +1,11 @@
 import { request } from "./api.js";
 import PostEditPage from "./PostEditPage.js";
-import PostPage from "./PostPage.js";
+import PostNavBar from "./PostNavBar.js";
 import { initRouter } from "./router.js";
 
 export default function App({ $target }) {
-  const postPage = new PostPage({
-    $target,
-    initialState: {
-      postId: "new",
-      post: {
-        title: "",
-        content: "",
-      },
-    },
+  const postNavBar = new PostNavBar({
+    $target
   });
 
   const postEditPage = new PostEditPage({
@@ -34,7 +27,7 @@ export default function App({ $target }) {
       const [, postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
-    postPage.setState()
+    postNavBar.setState()
   };
 
   this.route();
