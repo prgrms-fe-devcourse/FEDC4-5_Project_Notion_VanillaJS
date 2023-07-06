@@ -21,6 +21,9 @@ export default function App({$target}){
             const [,,documentId] = pathname.split("/")
             documentPage.render()
             editorpage.setState({documentId})
+        }else{
+            $target.innerHTML = ""
+            documentPage.render()
         }
     } 
     documentPage.render()
