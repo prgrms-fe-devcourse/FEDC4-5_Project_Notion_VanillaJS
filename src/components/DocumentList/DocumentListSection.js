@@ -18,13 +18,11 @@ export default function DocumentListSection({
 
   this.state = initialState;
 
-  // 문서List Title관련 컴포넌트 불러오기
   new DocumentListTitle({
     $parent: $listSection,
     onClickTitle,
   });
 
-  // document 목록들을 불러오는 컴포넌트
   const documentList = new DocumentList({
     $parent: $listSection,
     initialState: this.state,

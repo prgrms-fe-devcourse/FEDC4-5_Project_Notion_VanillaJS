@@ -33,7 +33,6 @@ export default function App({
     });
   };
 
-  // 문서리스트(사이드바) 컴포넌트 불러오기
   const documentListSection = new DocumentListSection({
     $parent,
     initialState: { ...this.state },
@@ -41,13 +40,11 @@ export default function App({
       push('/');
     },
 
-    // 새로운 루트 페이지를 생성하는 기능
     onClickRootAdd: async e => {
       const newRootDocument = await createDocument('제목없음', null);
       push(`/documents/${newRootDocument.id}`);
     },
 
-    // 문서 클릭시 문저 정보를 불러오는 기능
     onClickDocument: async e => {
       if (e.target.classList.contains('delete-button')) return;
       if (e.target.classList.contains('newSubDoc-button')) return;
@@ -56,7 +53,6 @@ export default function App({
       push(`/documents/${id}`);
     },
 
-    // 하위 문서들을 생성하는 기능
     onClickAdd: async e => {
       if (e.target.classList.contains('newSubDoc-button')) {
         const $li = e.target.closest('li');
@@ -66,7 +62,6 @@ export default function App({
         push(`/documents/${newSubDocument.id}`);
       }
     },
-    // 문서를 제거하는 기능
     onClickDelete: async e => {
       if (e.target.classList.contains('delete-button')) {
         const $li = e.target.closest('li');
@@ -81,14 +76,13 @@ export default function App({
   $pageSection.classList.add('editor_page');
   $parent.appendChild($pageSection);
 
-  let timer = null; // debounce 작업을 위한 타이머
+  let timer = null;
 
   const rootPage = new RootPage({ $parent: $pageSection });
   const editPage = new EditPage({
     $parent: $pageSection,
     initialState: this.state,
 
-    // 문서 수정 관련 기능
     onEditing: e => {
       const name = e.target.getAttribute('name');
       if (name === 'title') {
@@ -107,7 +101,6 @@ export default function App({
         clearTimeout(timer);
       }
 
-      // 입력을 멈추고 1초가 지났을 때 수정 API 호출 - debounce
       timer = setTimeout(async () => {
         await updateDocument(
           this.state.id,
@@ -129,7 +122,6 @@ export default function App({
 
     const documents = await getAllDocuments();
 
-    // 루트 URL에 접속했을 때
     if (pathname === '/') {
       $pageSection.innerHTML = '';
       this.setState({
@@ -142,9 +134,8 @@ export default function App({
       rootPage.init();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
-      $pageSection.innerHTML = ''; // 사이드바에서 문서를 클릭했을 때, 루트페이지 초기화하고 에디터 관련 페이지를 불러온다.
+      $pageSection.innerHTML = '';
 
-      // url에 특정 문서의 아이디를 입력하여 접속했을 때 정보를 보여주기 위해 API 호출
       const document = await getDocument(documentId);
       this.setState({
         ...this.state,
