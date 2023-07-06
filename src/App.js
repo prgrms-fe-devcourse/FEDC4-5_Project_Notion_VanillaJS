@@ -5,16 +5,23 @@ import { initRouter } from "./utils/router.js";
 import { request } from "./api.js";
 
 export default function App({ $target }) {
+  let timer = null;
   const sideBar = new SideBar({ $target });
   const content = new DocumentContent({
     $target,
-    initialState: {
-      documentId: "new",
-      document: {
-        title: "제목 없음",
-        content: "내용을 입력해주세요.",
-        documents: [],
-      },
+    initialState: null,
+    onEditing: (document, id) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        if (id) {
+          await request(`/documents/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(document),
+          });
+        }
+      }, 2000);
     },
   });
 
@@ -29,7 +36,7 @@ export default function App({ $target }) {
       const [, , documentId] = pathname.split("/");
       // TODO: 우측 편집기 초기화
       await sideBar.setState(rootDocuments);
-      content.setState({ documentId });
+      content.setId(documentId);
     }
   };
 

@@ -1,49 +1,31 @@
 import { request } from "../../api.js";
 import Editor from "./Editor.js";
 
-export default function DocumentContent({ $target, initialState }) {
+export default function DocumentContent({ $target, initialId, onEditing }) {
   const $contentSection = document.createElement("section");
   $contentSection.setAttribute("id", "contentSection");
 
-  this.state = initialState;
+  this.id = initialId;
 
-  this.setState = async (nextState) => {
-    if (this.state.documentId !== nextState.documentId) {
-      this.state = nextState;
-      await fetchData();
-    }
+  this.setId = async (nextId) => {
+    this.id = nextId;
+    await fetchData();
     this.render();
   };
 
-  let timer = null;
-
   const editor = new Editor({
     $target: $contentSection,
-    initialState: {
-      title: this.state.title,
-      content: this.state.content,
-    },
-    onEditing: (document) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        await request(`/documents/${this.state.documentId}`, {
-          method: "PUT",
-          body: JSON.stringify(document),
-        });
-      }, 2000);
-    },
+    onEditing: onEditing,
   });
 
   const fetchData = async () => {
-    const currentId = this.state.documentId;
-    const document = await request(`/documents/${currentId}`);
+    const document = await request(`/documents/${this.id}`);
     console.log(document);
     editor.setState({
       title: document.title,
       content: document.content,
     });
+    editor.setId(document.id);
   };
 
   this.render = () => {

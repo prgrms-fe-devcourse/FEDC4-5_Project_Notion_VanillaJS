@@ -1,4 +1,12 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({
+  $target,
+  initialState = {
+    title: "제목 없음",
+    content: "",
+  },
+  id,
+  onEditing,
+}) {
   const $editor = document.createElement("div");
   $editor.setAttribute("id", "editor");
 
@@ -14,6 +22,9 @@ export default function Editor({ $target, initialState, onEditing }) {
     this.render();
   };
 
+  this.id = id;
+  this.setId = (nextId) => (this.id = nextId);
+
   this.render = () => {
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=content]").value = this.state.content;
@@ -26,7 +37,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       title: e.target.value,
     };
     this.setState(nextState);
-    onEditing(this.state);
+    onEditing(this.state, this.id);
   });
 
   $editor.querySelector("[name=content]").addEventListener("input", (e) => {
@@ -35,6 +46,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       content: e.target.value,
     };
     this.setState(nextState);
-    onEditing(this.state);
+    onEditing(this.state, this.id);
   });
 }
