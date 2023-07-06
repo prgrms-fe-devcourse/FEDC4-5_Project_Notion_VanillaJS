@@ -105,7 +105,6 @@ export default function MainPage({ $target }) {
           tempSaveDate: new Date(),
         });
 
-        // postId가 new면 새로운 post를 생성
         const isNew = this.state.postId === "new";
         if (isNew) {
           const createPost = await request("/", {
@@ -126,8 +125,6 @@ export default function MainPage({ $target }) {
             body: JSON.stringify(post),
           });
           removeItem(postLocalSaveKey);
-          console.log("DB 수정 완료");
-          // fetchDocumentList();
           this.setState({ ...this.state, post, selectedDocument: putPost });
           editor.render();
         }
@@ -135,7 +132,6 @@ export default function MainPage({ $target }) {
     },
   });
 
-  // 전체 폴더 목록을 가져오는 API 함수
   const fetchDocumentList = async () => {
     const newDocumentList = await request(`/`);
     const titleList = getTitleList(newDocumentList);
@@ -147,7 +143,6 @@ export default function MainPage({ $target }) {
     });
   };
 
-  // 특정 post를 가져오는 API 함수
   const fetchPost = async () => {
     const { postId } = this.state;
 

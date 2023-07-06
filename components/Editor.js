@@ -26,9 +26,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     let richContent = "";
     if (this.state.content) {
-      richContent = this.state.content
-        .replace(/<div>/g, "<br>") // `<div>` 태그 삭제
-        .replace(/<\/div>/g, ""); // `</div>` 태그를 `<br>`로 치환
+      richContent = this.state.content.replace(/<div>/g, "<br>").replace(/<\/div>/g, "");
     }
 
     let htmlText = richContent
@@ -118,7 +116,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       }
     });
 
-    // 커서를 맨 뒤로 이동시키는 함수
     const moveCursorToEnd = (element) => {
       const range = document.createRange();
       const selection = window.getSelection();

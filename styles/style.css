@@ -77,11 +77,11 @@ body {
 
 .editor-container::-webkit-scrollbar {
   width: 10px;
-  background-color: transparent; /* 스크롤 바의 배경색을 없애고 투명하게 설정 */
+  background-color: transparent;
 }
 
 .editor-container::-webkit-scrollbar-thumb {
-  background-color: rgb(72, 76, 80); /* 스크롤 바의 색상을 gray로 설정 */
+  background-color: rgb(72, 76, 80);
 }
 
 .title {
