@@ -28,12 +28,8 @@ export default class App extends Component {
             target: "a",
             callback: async ({ event }) => {
               event.preventDefault();
-              const url = event.target.href;
-              if (this.editor.state.content !== undefined) {
-                this.saveDocumentToServer();
-              }
-              history.pushState(null, null, url);
-              this.route();
+
+              this.route({ url: event.target.href });
             },
           },
           {
@@ -110,8 +106,23 @@ export default class App extends Component {
               clearTimeout(timeout);
               timeout = setTimeout(() => {
                 this.saveDocumentToStorage({ content: innerHTML });
-                this.editor.state = this.editor.state.cloneWithNewContent({
+                this.editor.state = this.editor.state.cloneNewDocument({
                   content: innerHTML,
+                });
+              }, 500);
+            },
+          },
+          {
+            action: "keyup",
+            tag: ".title",
+            target: ".title",
+            callback: ({ target }) => {
+              const { innerHTML } = target;
+              clearTimeout(timeout);
+              timeout = setTimeout(() => {
+                this.saveDocumentToStorage({ title: innerHTML });
+                this.editor.state = this.editor.state.cloneNewDocument({
+                  title: innerHTML,
                 });
               }, 500);
             },
@@ -165,24 +176,30 @@ export default class App extends Component {
     });
   }
 
-  saveDocumentToStorage({ content }) {
+  saveDocumentToStorage({ title, content }) {
     setItem("documents/" + this.getDocumentIdByPathname(), {
       content,
       tmpSaveDate: new Date(),
     });
   }
 
-  async saveDocumentToServer() {
+  async saveDocumentToServer({ title, content }) {
     await request(`/documents/${this.getDocumentIdByPathname()}`, {
       method: "PUT",
-      body: JSON.stringify({ content: this.editor.state.content }),
-    }).then((res) => {});
+      body: JSON.stringify({ title, content }),
+    });
   }
 
-  async route() {
-    const { pathname } = window.location;
-    const [, routeName, documentId] = pathname.split("/");
-
+  async route({ url }) {
+    if (this.editor.state.id !== -1) {
+      this.saveDocumentToServer({ content: this.editor.state.content });
+    }
+    history.pushState(null, null, url);
+    const urlSplit = url.split("/");
+    const [routeName, documentId] = urlSplit.slice(
+      urlSplit.length - 2,
+      urlSplit.length
+    );
     switch (routeName) {
       case "documents":
         const savedDocument = new Document(await this.getDocument(documentId));
@@ -190,7 +207,7 @@ export default class App extends Component {
           const { content, tmpSaveDate } = getItem("documents/" + documentId);
           if (tmpSaveDate > savedDocument.updatedAt) {
             if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-              this.editor.state = savedDocument.cloneWithNewContent({
+              this.editor.state = savedDocument.cloneNewDocument({
                 content,
               });
               return;
@@ -201,7 +218,6 @@ export default class App extends Component {
             "임시저장된 데이터가 없습니다. 서버에서 데이터를 불러옵니다."
           );
         }
-
         this.editor.state = savedDocument;
         removeItem("documents/" + documentId);
         break;
