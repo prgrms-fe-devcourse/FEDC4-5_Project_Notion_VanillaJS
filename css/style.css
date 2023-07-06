@@ -1,3 +1,13 @@
+@import "../css/reset.css";
+
+
+/* 공통 */
+
+#app{
+  display:flex;
+  flex-direction: row;
+}
+
 button{
   border:none;
   background-color: inherit;
@@ -14,4 +24,44 @@ button{
 
 .item__fiexed{
   background-color: bisque;
+}
+
+.header{
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding:10px;
+}
+
+/* postContainer */
+.postContainer{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #F7F6F3;
+  height:100vh;
+  width:100%;
+  max-width: 18%;
+}
+
+.listContainer{
+  width:100%;
+  height:100%;
+  margin-top:5px;
+}
+
+.listContainer .itemList{
+  padding-left:10px;
+}
+
+.listContainer .item{
+  width:100%;
+}
+
+/* editContainer */
+.editContainer{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height:100vh;
+  width:100%;
 }

@@ -12,7 +12,7 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     });
 
   const $list = document.createElement("div");
-
+  $list.classList.add("listContainer");
   this.state = initalState;
 
   $target.appendChild($list);
@@ -44,7 +44,7 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
       arr.push(
         `<ul style="display:${
           visitedDocumentsId.indexOf(id) > -1 ? "block" : "none"
-        }">`
+        }" class="itemList">`
       );
       for (const document of documents)
         createDocument(document, arr, visitedDocumentsId);
@@ -69,7 +69,7 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
 
     $list.innerHTML = `
-      <ul>
+      <ul class="itemList">
         ${this.state.posts
           .map((document) => createDocument(document, [], visitedDocumentsId))
           .join("")}

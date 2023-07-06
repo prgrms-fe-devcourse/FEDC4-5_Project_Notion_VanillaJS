@@ -9,7 +9,7 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   if (!new.target) new EditPage({ $target, initalState, onEdit, onDelete });
 
   const $page = document.createElement("section");
-  $page.classList.add("edit");
+  $page.classList.add("editContainer");
   this.state = initalState;
 
   this.setState = async (nextState) => {
@@ -39,10 +39,10 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
 
   const editor = new Editor({
     $target: $page,
-    initalState: getItem(`temp-${this.state.selectedId}`, {
+    initalState: {
       title: "Untitle",
       content: "",
-    }),
+    },
     onEdit,
   });
 

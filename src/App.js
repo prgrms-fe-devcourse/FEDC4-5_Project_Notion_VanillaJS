@@ -34,13 +34,13 @@ export default function App({
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
-    editPage.setState({
-      selectedId: this.state.selectedId || null,
-      post: this.state.post || {},
-    });
     postPage.setState({
       selectedId: this.state.selectedId || null,
       posts: this.state.posts || [],
+    });
+    editPage.setState({
+      selectedId: this.state.selectedId || null,
+      post: this.state.post || {},
     });
   };
 
@@ -69,29 +69,15 @@ export default function App({
     if (timer !== null) {
       clearTimeout(timer);
     }
-
     timer = setTimeout(async () => {
-      setItem(
-        `temp-${this.state.selectedId === id ? "new" : this.state.selectedId}`,
-        { title, content }
-      );
-      const tempData = [...this.state.posts];
-      filterDocument(tempData, { id, title, content });
-      this.setState({ selectedId: id, posts: tempData });
-      const fetchUpdateData = await request(`/documents/${id}`, {
+      const updatePost = await request(`/documents/${id}`, {
         method: "PUT",
-        body: JSON.stringify({
-          title,
-          content,
-        }),
+        body: JSON.stringify({ title, content }),
       });
-      const updateData = [...this.state.posts];
-      filterDocument(updateData, { id, title, content });
-      this.setState({
-        selectedId: id,
-        posts: updateData,
-        post: fetchUpdateData,
-      });
+      const tempDate = [...this.state.posts];
+      const updatePosts = filterDocument(tempDate, updatePost);
+      console.log(updatePosts);
+      this.setState({ posts: tempDate, post: updatePost });
     }, 2000);
   };
 
@@ -130,7 +116,11 @@ export default function App({
     setItem(VISITED_LOCAL_KEY, visitedDocumentsId);
     const updateData = [...this.state.posts];
     filterNewDocument(updateData, createDocument.id);
-    this.setState({ selectedId: createDocument.id, posts: updateData });
+    this.setState({
+      selectedId: createDocument.id,
+      posts: updateData,
+      post: createDocument,
+    });
   };
 
   const postPage = new PostPage({

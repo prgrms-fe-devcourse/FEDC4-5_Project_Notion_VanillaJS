@@ -39,12 +39,17 @@ export const filterRemoveDocument = (posts, id) => {
   return filterData;
 };
 
-export const filterDocument = (posts, { id, title, content }) => {
-  for (let post of posts) {
-    if (post.id === id) {
-      post = { ...post, title, content };
-      return;
+export const filterDocument = (posts, updatePost) => {
+  let filterArr = [];
+  for (const post of posts) {
+    if (post.id === updatePost.id) {
+      filterArr.push(updatePost);
     }
-    filterDocument(post.documents, { id, title, content });
+    if (post.documents.length > 0) {
+      const updatedDocuments = filterDocument(post.documents, updatePost);
+      post.documents = updatedDocuments;
+    }
+    filterArr.push(post);
   }
+  return filterArr;
 };

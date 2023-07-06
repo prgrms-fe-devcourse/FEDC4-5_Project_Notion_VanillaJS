@@ -35,7 +35,6 @@ export default function Editor({
   };
 
   $editor.addEventListener("keyup", (event) => {
-    const { pathname } = location;
     const { name, value } = event.target;
     if (this.state[name] !== undefined) {
       const nextState = {
