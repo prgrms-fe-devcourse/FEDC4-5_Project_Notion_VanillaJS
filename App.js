@@ -1,63 +1,28 @@
-import { requestDocuments } from "./src/api/api.js";
-import LeftSection from "./src/components/LeftSection.js";
-import RightSection from "./src/components/RightSection.js";
-
-export const DUMMY_DOCUMENTS = [
-  {
-    id: 1, // Document id
-    title: "노션을 만들자", // Document title
-    content: "lala",
-    documents: [
-      {
-        id: 2,
-        title: "블라블라",
-        content: "BlahBlah",
-        documents: [
-          {
-            id: 3,
-            title: "함냐함냐",
-            content: "Greeting",
-            documents: [],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "hello!",
-    content: "Hello, world!",
-    documents: [],
-  },
-];
+import { deletePost, getAllPosts, postPost } from "./src/api/posts.js";
+import LeftSection from "./src/components/domain/leftSection/index.js";
 
 class App {
-  constructor({ $target }) {
-    this.init();
-
+  constructor({ $target, initialState }) {
     this.$target = $target;
+    this.state = initialState;
 
-    this.$container = document.createElement("div");
-    this.$container.className = "container";
-    this.$leftSection = new LeftSection({
-      $target: this.$container,
-      initialState: DUMMY_DOCUMENTS,
-      onClick: () => {
-        const { pathname } = window.location;
-        this.$rightSection.setState(pathname.replace("/", ""));
-        this.$rightSection.render();
-      },
-    });
-    this.$rightSection = new RightSection({
-      $target: this.$container,
-      initialState: "",
+    this.leftSection = new LeftSection({
+      $target,
+      initialState,
+      loadPageById: (id) => {},
+      addSubDir: async ($target) => {},
+      deleteNavDOM: async (id) => {},
     });
 
-    this.$target.appendChild(this.$container);
+    this.timer = null;
+    this.timerDelay = 1000;
+    // this.rightSection = new Editor({});
   }
 
-  init = async () => {
-    const documents = await requestDocuments(`/`);
+  router = async (targetId) => {
+    const { title, content, id } = await getPostById(targetId);
+    this.leftSection.setNavFocusBox(this.leftSection.findDOMById(targetId));
+    this.rightSection.setState({ title, content, id });
   };
 }
 

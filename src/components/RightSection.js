@@ -1,4 +1,3 @@
-import { DUMMY_DOCUMENTS } from "../../App.js";
 import { findArrayById } from "../utils/utils.js";
 
 class RightSection {
