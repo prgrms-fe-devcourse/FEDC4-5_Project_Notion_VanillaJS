@@ -58,10 +58,43 @@ export default class NotionPage extends Component {
     this.$document.setState({ isVisible: true, documentData: updatedDocument });
   }
 
+  getCurrentPath(data, document) {
+    const result = [];
+
+    function traverseDocuments(documents, targetId) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const doc of documents) {
+        if (doc.id === targetId) {
+          result.push({ id: doc.id, title: doc.title });
+          return true;
+        }
+
+        if (doc.documents.length > 0) {
+          result.push({ id: doc.id, title: doc.title });
+          const found = traverseDocuments(doc.documents, targetId);
+          if (found) return true;
+          result.pop();
+        }
+      }
+
+      return false;
+    }
+
+    traverseDocuments(data, document.id);
+    return result;
+  }
+
   setState(newState) {
     super.setState(newState);
 
-    this.fetchDocumentList();
-    this.fetchDocumentData();
+    Promise.all([this.fetchDocumentList(), this.fetchDocumentData()]).then(
+      () => {
+        const { documentList } = this.$sidebar.state;
+        const { id, title } = this.$document.state.documentData;
+        const currentPath = this.getCurrentPath(documentList, { id, title });
+
+        this.$document.setState({ currentPath });
+      }
+    );
   }
 }

@@ -3,6 +3,7 @@ import { DOCUMENT } from '@consts/target';
 import Component from '@core/Component';
 
 import NotionEditor from '@components/Editor/NotionEditor';
+import Header from '@components/Header/Header';
 
 import './NotionDocument.css';
 
@@ -18,6 +19,7 @@ export default class NotionDocument extends Component {
         content: null,
         documents: [],
       },
+      currentPath: [],
     };
   }
 
@@ -25,27 +27,31 @@ export default class NotionDocument extends Component {
     this.$document = document.createElement('div');
     this.$document.className = DOCUMENT.ROOT;
 
-    this.$editorContainer = document.createElement('div');
-    this.$editorContainer.className = 'notion-editor-container';
-
-    this.$document.appendChild(this.$editorContainer);
     this.$target.appendChild(this.$document);
   }
 
   initChildComponents() {
     const { onEdit } = this.props;
 
+    this.$header = new Header(this.$document);
+
+    this.$editorContainer = document.createElement('div');
+    this.$editorContainer.className = 'notion-editor-container';
+
     this.$editor = new NotionEditor(this.$editorContainer, { onEdit });
+    this.$document.appendChild(this.$editorContainer);
   }
 
   setState(nextState) {
     super.setState(nextState);
 
-    const { documentData } = this.state;
+    const { documentData, currentPath } = this.state;
 
     if (documentData.id === null) return;
 
     const { id, title, content } = documentData;
+
+    this.$header.setState({ path: currentPath });
     this.$editor.setState({ id, title, content });
   }
 
