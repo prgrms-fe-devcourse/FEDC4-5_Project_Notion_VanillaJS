@@ -16,7 +16,6 @@ export default function ChildDocument ({$target, $document}){
         if(this.state.data){
             const { documents } = this.state.data
             if(documents){
-                console.log(documents)
                 $childDocument.innerHTML = `${
                 documents.map(({id, title}) => 
                     `<li class="linkDoc" data-id=${id}>${title}</li>`

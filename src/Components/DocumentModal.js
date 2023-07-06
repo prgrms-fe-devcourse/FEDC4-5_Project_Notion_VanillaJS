@@ -36,7 +36,7 @@ export function DocumentModal(id , onSubmit){
     this.modalOpen = () => {
         const modal = document.querySelector('.modal');
         modal.style.display = "block";
-        document.body.style.overflow = "hidden"; // 스크롤바 제
+        document.body.style.overflow = "hidden"; 
     }
     this.render()
 }
