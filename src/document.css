@@ -1,0 +1,61 @@
+.document {
+  cursor: pointer;
+  margin-top: 15px;
+  list-style-position: inside;
+  list-style-image: url('/src/assest/image/page.webp');
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropdown:hover > .documentAddBtn {
+  visibility: visible;
+}
+
+.dropdown:hover > .documentDeleteBtn {
+  visibility: visible;
+}
+
+.documentAddBtn {
+  z-index: 2;
+  visibility: hidden;
+}
+
+.documentDeleteBtn {
+  z-index: 2;
+  visibility: hidden;
+}
+
+.document:hover {
+  background: #d1d1d1;
+  font-weight: 550;
+}
+
+.documentPage {
+  height: 100vh;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flew-wrap:wrap;
+  background: rgb(251, 251, 250);
+  transition: box-shadow 300ms ease 0s;
+  box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
+  width:10vw;
+  max-width:13vw;
+}
+
+.childList {
+  list-style-image: url('/src/assest/image/page.webp');
+}
+.closeChildList {
+  list-style-image: url('/src/assest/image/right-arrow.webp');
+}
+
+.openChildList {
+  list-style-image: url('/src/assest/image/down.webp');
+}
