@@ -1,7 +1,7 @@
 import { request } from '../util/api.js';
 import { push } from '../router.js';
 
-export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({ $target, initialState, onClick }) {
   const $docList = document.createElement('div');
   $docList.className = 'listWrapper';
   $target.appendChild($docList);
@@ -18,14 +18,23 @@ export default function DocumentList({ $target, initialState }) {
     let template = `${documents
       .map(
         ({ id, title }) =>
-          `<div id="${id}" class="listItem isNotSelected" style="margin-bottom : 10px;"><button class="arrow">▶️</button>${title}<button class="addDoc">➕</button></div>`
+          `<div id="${id}" class="listItem isNotSelected" style="margin-bottom : 10px;"><button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button></div>`
       )
       .join('')}`;
     this.setState({ template, documents });
   };
 
-  this.template = () => {
+  this.template = (text, id) => {
     $docList.innerHTML = this.state.template;
+    const currentTarget = $docList.querySelector('[id="-1"]');
+
+    if (text) {
+      currentTarget.querySelector('span').innerHTML = text;
+    }
+
+    if (id) {
+      currentTarget.id = id;
+    }
   };
 
   this.render = () => {
@@ -37,8 +46,8 @@ export default function DocumentList({ $target, initialState }) {
       let [, isSelected] = listItem.className.split(' ');
 
       // 경로 이동
-      if (className === 'listItem') {
-        const { id } = e.target;
+      if ($target.nodeName === 'SPAN') {
+        const { id } = listItem;
         push(`/posts/${id}`);
       }
 
@@ -57,7 +66,7 @@ export default function DocumentList({ $target, initialState }) {
         .map(
           ({ id, title }) =>
             `<div id="${id}" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
-              <button class="arrow">▶️</button>${title}<button class="addDoc">➕</button>
+              <button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button>
             </div>`
         )
         .join('')}`;
@@ -74,16 +83,18 @@ export default function DocumentList({ $target, initialState }) {
 
       // Document 추가 버튼 눌렀을 때
       if (className === 'addDoc') {
+        let parentId = $target.closest('[class~="listItem"]').id;
+        onClick(parentId); // 순서 중요함...
+
         push(`/posts/new`);
         let listWrapper = listItem.querySelector('[class="listWrapper"]');
-
-        // let parentId = $target.closest('[class~="listItem"]').id;
 
         // UI적인 코드
         if (listWrapper) {
           // 하위 Document가 펼쳐져 있을 때
           const prevHTML = listWrapper.innerHTML;
-          listWrapper.innerHTML = `${prevHTML}<div class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button>undefined<button class="addDoc">➕</button></div>`;
+          const targetHTML = `<div id="-1" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDoc">➕</button></div>`;
+          listWrapper.innerHTML = `${prevHTML}${targetHTML}`;
         } else {
           // 하위 Document가 닫혀 있을 때
           listItem.className = 'listItem isSelected';
@@ -96,12 +107,12 @@ export default function DocumentList({ $target, initialState }) {
               .map(
                 ({ id, title }) =>
                   `<div id="${id}" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
-                    <button class="arrow">▶️</button>${title}<button class="addDoc">➕</button>
+                    <button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button>
                     
                   </div>`
               )
               .join('')}
-              <div class="isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button>undefined<button class="addDoc">➕</button></div>
+              <div id="-1" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDoc">➕</button></div>
             </div>`;
         }
       }

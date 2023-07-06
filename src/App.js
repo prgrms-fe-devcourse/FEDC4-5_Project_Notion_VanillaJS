@@ -12,19 +12,29 @@ export default function App({ $target }) {
   $right.className = 'right';
   $target.appendChild($right);
 
+  const category = new Category({
+    $target: $left,
+    initialState: {
+      template: '',
+      depth: {},
+    },
+    onClick: (id) => {
+      postEditPage.setState({
+        ...postEditPage.state,
+        parentId: id,
+      });
+    },
+  });
+
   const postEditPage = new PostEditPage({
     $target: $right,
     initialState: {
       postId: 'new',
       post: { title: '', content: '' },
+      parentId: null,
     },
-  });
-
-  new Category({
-    $target: $left,
-    initialState: {
-      template: '',
-      documents: [],
+    onChange: (text, id) => {
+      category.template(text, id);
     },
   });
 
@@ -36,7 +46,7 @@ export default function App({ $target }) {
       const [, , id] = pathname.split('/');
       postEditPage.setState({
         ...postEditPage.state,
-        postId: id,
+        postId: id, // string
       });
     } else if (pathname === '/') {
       $right.innerHTML = '';
