@@ -1,74 +1,135 @@
-import DocumentList from "./components/DocumentList.js";
-import Editor from "./components/Editor.js";
-import { initRouter, request } from "./service/index.js";
+import { DocumentsPage, EditPage } from "./pages/index.js";
+import {
+  request,
+  initRouter,
+  pushHistory,
+  replaceHistory,
+  getStorageItem,
+  setStorageItem,
+  removeStorageItem,
+} from "./service/index.js";
+import { IS_OPEN_STORAGE_KEY } from "./constants.js";
 
 export default class App {
+  $documentsPage = document.createElement("nav");
+  $editPage = document.createElement("main");
+  timer = null;
+
   constructor({ $target }) {
     this.$target = $target;
+    this.$target.append(this.$documentsPage);
+    this.$target.append(this.$editPage);
 
-    this.state = [
-      {
-        id: 1, // Document id
-        title: "노션을 만들자", // Document title
-        documents: [
-          {
-            id: 2,
-            title: "블라블라",
-            documents: [
-              {
-                id: 3,
-                title: "함냐함냐",
-                documents: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 4,
-        title: "hello!",
-        documents: [],
-      },
-    ];
-
-    this.documentList = new DocumentList({
-      $parent: this.$target,
-      initialState: this.state,
-    });
-    this.editor = new Editor({
-      $parent: this.$target,
-      initialState: {
-        id: 1,
-        title: "",
-        content: "",
-        createdAt: "",
-        updatedAt: "",
-      },
-    });
+    this.render();
 
     this.route();
 
-    initRouter(() => this.route());
+    window.addEventListener("popstate", () => this.route());
 
-    this.setState();
+    initRouter(() => this.route());
+  }
+
+  render() {
+    this.documentsPage = new DocumentsPage({
+      $parent: this.$documentsPage,
+      onClickDocumentTitle: (id) => {
+        pushHistory(`/documents/${id}`);
+      },
+      onCreateDocument: async (id) => {
+        const document = await request("/documents", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "무제",
+            parent: id,
+          }),
+        });
+
+        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+
+        setStorageItem(IS_OPEN_STORAGE_KEY, {
+          ...currentOpenStatus,
+          [id]: true,
+        });
+
+        this.documentsPage.setState();
+        this.editPage.setState({ id: document.id });
+        pushHistory(`/documents/${document.id}`);
+      },
+      onDeleteDocument: async (id) => {
+        await request(`/documents/${id}`, {
+          method: "DELETE",
+        });
+
+        this.documentsPage.setState();
+        this.editPage.setState({ id: "init" });
+        replaceHistory("/");
+      },
+      onToggleDocument: (id) => {
+        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+
+        setStorageItem(IS_OPEN_STORAGE_KEY, {
+          ...currentOpenStatus,
+          [id]:
+            currentOpenStatus[id] === undefined ? true : !currentOpenStatus[id],
+        });
+
+        this.documentsPage.setState();
+      },
+      onClickUserSection: () => {
+        pushHistory("/");
+      },
+    });
+
+    this.editPage = new EditPage({
+      $parent: this.$editPage,
+      onEditDocument: (id, document) => {
+        const documentTempStorageKey = `temp-document-${id}`;
+
+        if (this.timer !== null) {
+          clearTimeout(this.timer);
+        }
+
+        setStorageItem(documentTempStorageKey, {
+          ...document,
+          tempSaveDate: new Date(),
+        });
+
+        this.timer = setTimeout(async () => {
+          await request(`/documents/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(document),
+          });
+
+          removeStorageItem(documentTempStorageKey);
+          this.documentsPage.setState();
+        }, 1000);
+      },
+      onClickSubList: (id) => {
+        const [, , documentId] = location.pathname.split("/");
+        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+
+        setStorageItem(IS_OPEN_STORAGE_KEY, {
+          ...currentOpenStatus,
+          [documentId]: true,
+        });
+
+        this.documentsPage.setState();
+        this.editPage.setState({ id });
+        pushHistory(`/document/${id}`);
+      },
+    });
   }
 
   route() {
     const { pathname } = location;
 
+    this.documentsPage.setState();
+
     if (pathname === "/") {
-      // this.documentList.setState();
+      this.editPage.setState({ id: "init" });
     } else if (pathname.indexOf("/documents/") === 0) {
-      // const [, , documentId] = pathname.split("/");
-      // this.editor.setState({ documentId });
+      const [, , documentId] = pathname.split("/");
+      this.editPage.setState({ id: documentId });
     }
-  }
-
-  async setState() {
-    const res = await request("/documents");
-
-    this.state = res;
-
-    this.documentList.setState(res);
   }
 }
