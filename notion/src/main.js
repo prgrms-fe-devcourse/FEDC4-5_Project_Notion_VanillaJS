@@ -1,4 +1,4 @@
-import App from "./component/App.js";
+import App from "./components/App.js";
 import { getDocument } from "./api/api.js";
 
 const app = document.querySelector('#app');

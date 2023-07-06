@@ -24,7 +24,7 @@ export default function DocumentList({
 
   const getDocumentList = ( target, paddingLeft, currentDom ) => {
     currentDom?.forEach(({ title, documents, id }) => {
-      const { $li, $childDocument } = CreateDocumentList(paddingLeft, title, id);
+      const { $li, $childDocument } = CreateDocumentList(title, id);
       const isChildDocuments = documents.length > 0;
 
       target.appendChild($li);
