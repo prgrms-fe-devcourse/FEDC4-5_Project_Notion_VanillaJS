@@ -33,28 +33,30 @@ export default function SidebarList({
       const { id } = $li.dataset;
 
       if (id) {
-        if (className === "delete") {
+        if (className.includes("delete")) {
           onDeleteDocument(id);
-        }
-
-        if (className === "add") {
+        } else if (className.includes("plus")) {
           onAddDocument(id);
+        } else {
+          push(`/documents/${id}`);
         }
-
-        push(`/documents/${id}`);
       }
     }
   });
 
   const renderDocumentsList = (lists, depth = 0) => {
+    const padding = 15;
+
     tem += `<ul>`;
     lists.forEach(({ id, title, documents }) => {
       tem += `<li data-id=${id}>`;
-      tem += `<div style="padding-left: ${depth}px">${
+      tem += `<div style="margin-bottom: 15px; padding-left: ${
+        padding * depth
+      }px; display: flex; align-items: center">${
         title === null || title.trim() === "" ? "Untitled" : title
       }`;
-      tem += `<div><button class="add">+</button>`;
-      tem += `<button class="delete">-</button></div></div>`;
+      tem += `<div><button class="sidebar-list__button plus">+</button>`;
+      tem += `<button class="sidebar-list__button delete">-</button></div></div>`;
       documents.length ? renderDocumentsList(documents, depth + 1) : "";
       tem += `</li>`;
     });
