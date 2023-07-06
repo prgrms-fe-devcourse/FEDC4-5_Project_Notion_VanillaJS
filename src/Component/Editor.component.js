@@ -7,7 +7,7 @@ export default class EditorComponent extends Component {
       <div class="title" name="title">
         ${this.state.title || "제목을 입력하세요"}
       </div>
-      <div class="textarea" contentEditable="true" name="textarea">
+      <div class="textarea" contentEditable="true" name="textarea" autofocus>
         ${this.state.content || ""}
       </div>
     </div>

@@ -25,16 +25,6 @@ export default class Document {
   }
 
   cloneNewDocument(newDocument) {
-    console.log(
-      new Document({
-        id: newDocument.id || this.#id,
-        title: newDocument.title || this.#title,
-        content: newDocument.content || this.#content,
-        documents: newDocument.documents || this.#documents,
-        createdAt: newDocument.createdAt || this.#createdAt,
-        updatedAt: newDocument.updatedAt || this.#updatedAt,
-      })
-    );
     return new Document({
       id: newDocument.id || this.#id,
       title: newDocument.title || this.#title,

@@ -44,7 +44,6 @@ export default class App extends Component {
                 );
                 return;
               }
-              const [, $childUl] = target.children;
               target.appendChild(document.createElement("input"));
             },
           },
@@ -52,7 +51,7 @@ export default class App extends Component {
             action: "click",
             tag: ".deleteDocumentButton",
             target: "li",
-            callback: async ({ event, target }) => {
+            callback: async ({ target }) => {
               const { id } = target;
               await request(`/documents/${id}`, {
                 method: "DELETE",
@@ -106,9 +105,6 @@ export default class App extends Component {
               clearTimeout(timeout);
               timeout = setTimeout(() => {
                 this.saveDocumentToStorage({ content: innerHTML });
-                this.editor.state = this.editor.state.cloneNewDocument({
-                  content: innerHTML,
-                });
               }, 500);
             },
           },
@@ -128,18 +124,14 @@ export default class App extends Component {
             },
           },
           {
-            action: "blur",
+            action: "focusout",
             tag: ".textarea",
             target: ".textarea",
             callback: ({ event }) => {
               const { innerHTML } = event.target;
-
-              // console.log({ ...this.editor.state, content: innerHTML });
-              // this.editor.state = new Document({
-              //   ...this.editor.state,
-              //   content: innerHTML,
-              // });
-              console.log(this.editor.state);
+              this.editor.state = this.editor.state.cloneNewDocument({
+                content: innerHTML,
+              });
             },
           },
         ],
