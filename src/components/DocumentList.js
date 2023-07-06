@@ -12,7 +12,7 @@ export default function DocumentList({
 
   $documentList.className = "documentList";
   $documentList.style = `
-    overflow: auto;
+    overflow: hidden;
     white-space: nowrap;
     height: 98vh;
     backgroundColor: #EDECE9;
@@ -50,16 +50,16 @@ export default function DocumentList({
           `<li class="title" data-id="${doc.id}" title="${
             doc.title
           }" style="list-style:none;background-color:initial;">
-            <p class="title" style="margin:0;display:inline-block;"onmouseover="this.style.background='#dcdcdc';"
+            <p class="title" style="margin:0;display:inline-block;position:relative;"onmouseover="this.style.background='#dcdcdc';"
             onmouseout="this.style.background='';">
               <button class="displayChild">
               ${this.displayedChild(doc.id) === "none" ? ">" : "v"}
               </button>    
               ${doc.title}
-            </p>
-            <p class="buttons" style="display: inline-block;">
-              <button class="add" style="position:sticky;right:25px;">+</button>
-              <button class="delete" style="position:sticky;right:1px;">x</button>
+              <span class="buttons" style="display: inline-block;position:absolute;">
+                <button class="add" style="position:sticky;">+</button>
+                <button class="delete" style="position:sticky;">x</button>
+              </span>
             </p>
             ${
               doc.documents.length > 0
@@ -77,14 +77,14 @@ export default function DocumentList({
     $documentList.innerHTML = `
         <ul>
         ${this.displayDocumentList(this.state.docs)}
-        <div role="button">+ Add a document</div>
+        <div class="root">+ Add a document</div>
         </ul>
         `;
     $target.appendChild($documentList);
   };
 
   $documentList.addEventListener("click", (e) => {
-    if (e.target === e.target.closest("div")) {
+    if (e.target.className === "root") {
       onCreateDocument("new");
       fetchDocument();
       return;
@@ -95,6 +95,7 @@ export default function DocumentList({
 
     const { id } = $li.dataset;
     const name = e.target.className;
+    console.log("name: ", name);
 
     if (name === "displayChild") {
       const $ul = $li.childNodes[7];

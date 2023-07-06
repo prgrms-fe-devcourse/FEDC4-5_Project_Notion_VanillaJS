@@ -1,7 +1,7 @@
 import Editor from "./Editor.js";
 import { request } from "../api/api.js";
 import { push } from "../routes/router.js";
-//import { push, update } from "../utils/router.js";
+//import { push, update } from "../routes/router.js";
 import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
@@ -133,7 +133,7 @@ export default function DocumentEditPage({ $target, initialState }) {
         method: "GET",
       });
 
-      //if(doc.content===null) doc.content="";
+      if (doc.content === null) doc.content = "";
 
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
