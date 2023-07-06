@@ -1,38 +1,38 @@
-import DocumentPage from './DocumentPage.js';
-import DocumentEditPage from './DocumentEditPage.js';
+import SidebarPage from './pages/sidebar/SidebarPage.js';
+import EditorPage from './pages/editor/EditorPage.js';
 import { initRouter } from '../utils/router.js';
 
 export default function App({ $target }) {
-  const documentPage = new DocumentPage({
+  const sidebarPage = new SidebarPage({
     $target,
+    initialState: [],
   });
 
-  const documentEditPage = new DocumentEditPage({
+  const editorPage = new EditorPage({
     $target,
-    initialState: {
-      documentId: 'new',
-      documents: {
-        title: '',
-        content: '',
-      },
+    initialState: {},
+    onRerender: () => {
+      sidebarPage.setState();
     },
   });
 
   this.route = () => {
     $target.innerHTML = '';
+
     const { pathname } = window.location;
 
     if (pathname === '/') {
-      documentPage.setState();
+      sidebarPage.setState();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
-      documentEditPage.setState({ documentId });
+      sidebarPage.setState();
+      editorPage.setState({ documentId });
     }
   };
 
   this.route();
 
-  initRouter(() => {
-    this.route();
-  });
+  initRouter(() => this.route());
+
+  window.addEventListener('popstate', () => this.route());
 }

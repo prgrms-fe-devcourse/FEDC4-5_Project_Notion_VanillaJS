@@ -7,25 +7,29 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement('div');
+  $editor.className = 'editor';
+  $target.appendChild($editor);
 
   let isInitialize = false;
 
   this.state = initialState;
 
-  $target.appendChild($editor);
-
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
+
     $editor.querySelector('[name=title]').value = this.state.title;
     $editor.querySelector('[name=content]').value = this.state.content;
+
     this.render();
   };
 
   this.render = () => {
     if (!isInitialize) {
       $editor.innerHTML = `
-        <input type='text' name='title' style='width: 398px;' value='${this.state.title}' />
-        <textarea name='content' style='width: 400px; height: 400px;'>${this.state.content}</textarea>
+        <div class="editor-container">
+          <input class="input" type="text" name="title" placeholder="제목 없음" value="${this.state.title}">
+          <textarea class="content" name="content" placeholder="내용을 입력해주세요.">${this.state.content}</textarea>
+        </div>
       `;
 
       isInitialize = true;
