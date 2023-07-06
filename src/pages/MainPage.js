@@ -104,8 +104,7 @@ export default class MainPage extends Component{
     }
     document.querySelector(".selected-document-title").textContent = post.title;
     setLocalStorageItem(this.getPostLocalSaveKey(id), {
-      ...post,
-      tempSaveDate : new Date()
+      ...post
     })
     this.titleTimer = setTimeout(async () => {
       await request(`/documents/${id}`, {
@@ -122,8 +121,7 @@ export default class MainPage extends Component{
       clearTimeout(this.contentTimer);
     }
     setLocalStorageItem(this.getPostLocalSaveKey(id), {
-      ...post,
-      tempSaveDate : new Date()
+      ...post
     })
     this.contentTimer = setTimeout(async () => {
       await request(`/documents/${id}`, {
@@ -143,6 +141,11 @@ export default class MainPage extends Component{
     const tempContent = getLocalStorageItem(this.getPostLocalSaveKey(id), null);
     if(tempContent){
       if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
+        await request(`/documents/${id}`,{
+          method : "PUT",
+          body : JSON.stringify(tempContent)
+        })
+        removeLocalStorageItem(this.getPostLocalSaveKey(id));
         return tempContent;
       }else{
         return await request(`/documents/${id}`);
