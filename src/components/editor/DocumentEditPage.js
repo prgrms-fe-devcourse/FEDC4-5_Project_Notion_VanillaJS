@@ -1,5 +1,7 @@
 import Editor from "./Editor.js";
 import LinkButton from "../linkbutton/LinkButton.js";
+import { getDocument } from "../../api/api.js";
+import { push } from "../../route/router.js";
 
 export default function DocumentEditPage({ parent, initialState, onEditing }) {
   const page = document.createElement('div');
@@ -7,17 +9,50 @@ export default function DocumentEditPage({ parent, initialState, onEditing }) {
 
   this.state = initialState;
 
-  new Editor({
+  const editor = new Editor({
     parent: page,
     initialState,
     onEditing
   })
 
+  this.setState = async (nextState) => {
+    if (this.state.documentId !== nextState.documentId) {
+      this.state = nextState;
+      await fetchDocument();
+      return;
+    }
+    
+    const documents = await getDocument(`/documents/${nextState.documentId}`);
+    this.render();
+
+    editor.setState(documents || {
+      title: '',
+      content: ''
+    });
+  }
+
   this.render = () => {
     parent.appendChild(page);
   }
 
+  const fetchDocument = async () => {
+    const { documentId } = this.state;
+    const documents = await getDocument(`/documents/${documentId}`);
+
+    this.setState({
+      ...this.state,
+      documents
+    })
+  }
+  
   new LinkButton({
     $target: page,
+    initialState: {
+      text: '목록으로 이동',
+      id: 'home-button'
+    },
+    action: () => {
+      push('/');
+    }
   })
 }
