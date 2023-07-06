@@ -48,6 +48,7 @@ export default function PostList({
     // 로딩 : this.state가 undefined인 경우
     //문서가 아예없을 때
     postListElement.innerHTML = `
+      <h1 class='heading'>Notion</h1>
        ${this.state.list
          .map(document => buildNestedList(document, true))
          .join('')}

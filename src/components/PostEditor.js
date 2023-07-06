@@ -1,6 +1,5 @@
 import { setItem, removeItem, getItem } from '../utils/storage.js';
-const SPINNER_ICON =
-  'https://velog.velcdn.com/images/1g2g/post/45618170-dcde-46a6-b725-5da7e7df8207/image.png';
+import { SPINNER_ICON } from '../assets/url.js';
 
 export default function PostEditor({ target, initialState, onEdit }) {
   const editorElement = document.createElement('form');
@@ -68,7 +67,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
             editorElement.removeChild(loadingElement);
           }
           // this.setState(nextState);
-        }, 2000);
+        }, 1500);
       }
     });
 

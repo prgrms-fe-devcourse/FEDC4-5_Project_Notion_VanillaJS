@@ -30,7 +30,7 @@ export default function App({ target }) {
       pushRoute(`/documents/${id}`);
     },
     onClickDeleteButton: async clickedId => {
-      await moveSubTreesToRoot(clickedId);
+      // await moveSubTreesToRoot(clickedId);
 
       await deletePost(clickedId);
 

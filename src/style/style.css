@@ -24,6 +24,10 @@ button {
   max-height: calc(100vh - var(--common-interval) * 2);
   overflow-y: scroll;
 }
+.postListContainer .heading {
+  font-weight: 800;
+  padding-bottom: 20px;
+}
 .postListContainer .createNew {
   padding: 10px;
   width: 100%;
