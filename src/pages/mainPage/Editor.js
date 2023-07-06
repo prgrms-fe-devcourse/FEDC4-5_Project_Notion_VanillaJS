@@ -29,7 +29,6 @@ export default function Editor({
   window.handleTitleInputClick = handleTitleInputClick;
 
   this.setState = (nextState) => {
-    // validateString(nextState); 이 부분 검사 오류
     this.state = nextState;
     const { title, content } = this.state;
     $editor.querySelector('[name=title]').value = title;
