@@ -1,0 +1,104 @@
+.sidebar {
+  min-width: 20em;
+  max-width: 20em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  fill: rgba(25, 23, 17, 0.6);
+  color: rgba(25, 23, 17, 0.6);
+  background-color: rgb(251, 251, 250);
+  font-size: 0.9rem;
+  overflow: hidden auto;
+  user-select: none;
+}
+
+.sidebar__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 0;
+  color: rgb(55, 53, 47);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.sidebar__nav {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.sidebar__footer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 1em 0.5em;
+  cursor: pointer;
+}
+
+.sidebar__footer:hover {
+  background-color: rgb(235, 235, 234);
+}
+
+.sidebar__icon {
+  padding: 0.3em;
+  border-radius: 5px;
+}
+
+.sidebar__icon:hover {
+  background-color: rgb(212, 212, 211);
+}
+
+.sidebar__document-list {
+  overflow: hidden;
+}
+
+.sidebar__document-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__document {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  gap: 0.5em;
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+.sidebar__document.active {
+  color: rgb(55, 53, 47);
+  background-color: rgb(226, 226, 225);
+  font-weight: bold;
+}
+
+.sidebar__document.opened .sidebar__open-button svg {
+  transform: rotate(90deg);
+}
+
+.sidebar__document:hover {
+  background-color: rgb(235, 235, 234);
+}
+
+.sidebar__document:hover .sidebar__document--action-section {
+  display: flex;
+  position: absolute;
+  right: 0;
+  padding: 0.25em;
+  gap: 0.2em;
+  background-color: inherit;
+  z-index: 10;
+}
+
+.sidebar__document--title {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.sidebar__document--action-section {
+  display: none;
+}
