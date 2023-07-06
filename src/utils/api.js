@@ -20,22 +20,18 @@ export const request = async (url, options = {}) => {
   }
 };
 
-// 모든 document 조회
 export const getAllDocumentAPI = async () => {
   const documentList = await request("");
   return documentList;
 };
 
-// 특정 document 조회
 export const getDocumentAPI = async (documentId) => {
   const document = await request(`/${documentId}`);
   return document;
 };
 
-// 특정 document 생성
 export const createDocumentAPI = async (parentDocumentId = null) => {
-  const createdDocument = 
-  await request("", {
+  const createdDocument = await request("", {
     method: "POST",
     body: JSON.stringify({
       title: "new Document",
@@ -45,14 +41,12 @@ export const createDocumentAPI = async (parentDocumentId = null) => {
   return createdDocument;
 };
 
-// 특정 document 삭제
 export const deleteDocumentAPI = async (documentId) => {
   await request(`/${documentId}`, {
     method: "DELETE",
   });
 };
 
-// 특정 document 수정
 export const modifyDocumentAPI = async (documentId, newTitle, newContent) => {
   await request(`/${documentId}`, {
     method: "PUT",

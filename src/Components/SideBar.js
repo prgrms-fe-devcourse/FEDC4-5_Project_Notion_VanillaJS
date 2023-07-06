@@ -17,9 +17,7 @@ export default function SideBar({
 
   headerElement.addEventListener("click", (e) => {
     const { id } = e.target;
-    // headerElement 중, header icon이나 title이 클릭되었을 때,
     if (id === "sideBar_header_icon" || id === "sideBar_header_title") {
-      // 메인 페이지로 이동하기 위해 App에서 전달받은 콜백을 통해 app의 selectedId를 /로 바꿈
       onChangeSelectedDocumentId();
     }
   });
