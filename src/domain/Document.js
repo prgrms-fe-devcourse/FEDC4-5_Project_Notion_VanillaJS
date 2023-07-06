@@ -24,6 +24,17 @@ export default class Document {
     this.validate();
   }
 
+  cloneWithNewContent({ content }) {
+    return new Document({
+      id: this.#id,
+      title: this.#title,
+      content,
+      documents: this.#documents,
+      createdAt: this.#createdAt,
+      updatedAt: this.#updatedAt,
+    });
+  }
+
   validate() {
     for (const propertie of this.#allowedProperties) {
       if (this.hasOwnProperty(propertie)) {

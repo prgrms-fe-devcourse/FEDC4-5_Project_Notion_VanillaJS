@@ -9,6 +9,7 @@ import { getItem, setItem, removeItem } from "./storage/storage.js";
 
 export default class App extends Component {
   async render() {
+    let timeout;
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
       <section id='editor'></section>
@@ -28,6 +29,7 @@ export default class App extends Component {
             callback: async ({ event }) => {
               event.preventDefault();
               const url = event.target.href;
+              this.savedDocumentToServer();
               history.pushState(null, null, url);
               this.route();
             },
@@ -87,7 +89,14 @@ export default class App extends Component {
 
     this.editor = new EditorComponent({
       $target: $editor,
-      initialState: [],
+      initialState: new Document({
+        id: -1,
+        title: "환영합니다!",
+        content: "문서를 선택해주세요",
+        documents: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
       props: {
         events: [
           {
@@ -97,18 +106,27 @@ export default class App extends Component {
             callback: ({ target }) => {
               const { innerHTML } = target;
               clearTimeout(timeout);
-              var timeout = setTimeout(() => {
+              timeout = setTimeout(() => {
                 this.saveDocumentToStorage({ content: innerHTML });
-              }, 1000);
+                this.editor.state = this.editor.state.cloneWithNewContent({
+                  content: innerHTML,
+                });
+              }, 500);
             },
           },
           {
-            action: "dbclick",
+            action: "blur",
             tag: ".textarea",
             target: ".textarea",
             callback: ({ event }) => {
               const { innerHTML } = event.target;
-              console.log(innerHTML);
+
+              // console.log({ ...this.editor.state, content: innerHTML });
+              // this.editor.state = new Document({
+              //   ...this.editor.state,
+              //   content: innerHTML,
+              // });
+              console.log(this.editor.state);
             },
           },
         ],
@@ -152,30 +170,36 @@ export default class App extends Component {
     });
   }
 
-  async savedDocumentToServer({ content }) {
+  async savedDocumentToServer() {
     await request(`/documents/${this.getDocumentIdByPathname()}`, {
       method: "PUT",
-      body: JSON.stringify({ content }),
-    }).then((res) => {
-      // console.log(res);
-    });
+      body: JSON.stringify({ content: this.editor.state.content }),
+    }).then((res) => {});
   }
 
   async route() {
     const { pathname } = window.location;
     const [, routeName, documentId] = pathname.split("/");
-    this.savedDocumentToServer({ content: this.editor.state.content });
 
     switch (routeName) {
       case "documents":
         const savedDocument = new Document(await this.getDocument(documentId));
-        const tmpDocument = getItem("documents/" + documentId);
-        if (tmpDocument && tmpDocument.tmpSaveDate > savedDocument.updatedAt) {
-          if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-            this.editor.state = tmpDocument;
-            return;
+        try {
+          const { content, tmpSaveDate } = getItem("documents/" + documentId);
+          if (tmpSaveDate > savedDocument.updatedAt) {
+            if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
+              this.editor.state = savedDocument.cloneWithNewContent({
+                content,
+              });
+              return;
+            }
           }
+        } catch (error) {
+          console.log(
+            "임시저장된 데이터가 없습니다. 서버에서 데이터를 불러옵니다."
+          );
         }
+
         this.editor.state = savedDocument;
         removeItem("documents/" + documentId);
         break;
