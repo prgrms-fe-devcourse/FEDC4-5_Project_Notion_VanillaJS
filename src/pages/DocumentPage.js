@@ -1,11 +1,13 @@
-import { navigate } from '../utils/navigate.js';
-import { addDocument, removeDocument } from '../apis/api.js';
 import { findDocumentRoute, findDocument } from '../helpers/documentHelper.js';
-import { Sidebar, Navbar, Editor, StyleMenu, ChildDocumentLinks } from '../components/index.js';
+import {
+  createChildDocumentLinks,
+  createEditor,
+  createNavbar,
+  createSidebar,
+  createStyleMenu,
+} from './constructors/index.js';
 import html from './DocumentPage.html';
 import './DocumentPage.css';
-
-const selection = window.getSelection();
 
 export default class DocumentPage {
   constructor({ $target, editorStore, documentStore }) {
@@ -20,91 +22,11 @@ export default class DocumentPage {
   }
 
   initComponents() {
-    const { $target, documentStore, editorStore } = this;
-
-    this.sidebar = new Sidebar({
-      $target: $target.querySelector('.sidebar'),
-      initialState: {
-        documents: documentStore.state.documents,
-        openedDocuments: documentStore.state.openedDocuments,
-        currentDocumentId: editorStore.state.documentId,
-      },
-      onAppend: async (id) => {
-        this.documentStore.setOpened(id, true);
-
-        const newDocument = await addDocument('', id);
-        await documentStore.fetchDocuments();
-
-        navigate(`/documents/${newDocument.id}`);
-        this.render();
-      },
-      onRemove: async (id) => {
-        await removeDocument(id);
-        await documentStore.fetchDocuments();
-        editorStore.setState({ ...editorStore.state, documentId: 0 });
-        this.render();
-      },
-      onNavigate: (id) => navigate(`/documents/${id}`),
-      onToggleOpened: (id) => {
-        this.documentStore.setOpened(id, !this.documentStore.state.openedDocuments[id]);
-        this.render();
-      },
-    });
-
-    this.navbar = new Navbar({
-      $target: $target.querySelector('.main__navbar'),
-    });
-
-    this.editor = new Editor({
-      $target: $target.querySelector('.main__editor'),
-      initialState: editorStore.state.document,
-      onChange: ({ name, value }) => {
-        const newDocument = {
-          ...editorStore.state.document,
-          [name]: value,
-          updateAt: new Date(),
-        };
-
-        editorStore.setState({ ...editorStore.state, document: newDocument });
-        editorStore.saveDocument();
-        documentStore.updateDocument(editorStore.state.documentId, newDocument);
-
-        this.renderSidebar();
-        this.renderNavbar();
-      },
-      onOpenStyleMenu: (e) => {
-        setTimeout(() => {
-          if (selection.toString().trim().length > 0) {
-            this.styleMenu.setState({
-              ...this.styleMenu.state,
-              pageX: e.pageX,
-              pageY: e.pageY,
-              isShowMenu: true,
-              isShowTextMenu: false,
-            });
-          }
-        }, 0);
-      },
-      onCloseStyleMenu: (e) => {
-        this.styleMenu.setState({
-          ...this.styleMenu.state,
-          isShowMenu: false,
-          isShowTextMenu: false,
-        });
-      },
-    });
-
-    this.styleMenu = new StyleMenu({
-      $menu: document.querySelector('.style-menu'),
-      $textMenu: document.querySelector('.text-style-menu'),
-    });
-
-    this.childDocumentLinks = new ChildDocumentLinks({
-      $target: $target.querySelector('.main__child-document-links'),
-      initialState: {
-        documents: findDocument(editorStore.state.documentId, documentStore.state.documents)?.documents || [],
-      },
-    });
+    this.sidebar = createSidebar.call(this);
+    this.navbar = createNavbar.call(this);
+    this.editor = createEditor.call(this);
+    this.styleMenu = createStyleMenu.call(this);
+    this.childDocumentLinks = createChildDocumentLinks.call(this);
   }
 
   renderEditor() {
