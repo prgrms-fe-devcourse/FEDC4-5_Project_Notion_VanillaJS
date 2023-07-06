@@ -22,8 +22,10 @@ export default class DocumentTreeComponent extends Component {
       $li.innerHTML = `
         <span class="documentLicontainer">
           <a class="documentLink" href="/documents/${doc.id}">${doc.title}</a>
-          <button class="addDocumentButton" data-id="${doc.id}">+</button>
-          <button class="deleteDocumentButton" data-id="${doc.id}">x</button>
+          <span class="documentTreeButtonContainer">
+            <button class="addDocumentButton" data-id="${doc.id}">+</button>
+            <button class="deleteDocumentButton" data-id="${doc.id}">x</button>
+          </span>
         </span>
       `;
 
