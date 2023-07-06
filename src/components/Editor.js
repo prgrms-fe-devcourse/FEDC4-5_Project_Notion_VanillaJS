@@ -18,6 +18,9 @@ export default class Editor extends Component {
     } else {
       request(`${postId}`).then((value) => {
         this.setState({ ...value });
+        if (this.state.title === "제목 없음" && this.state.content === null) {
+          this.setState({ title: "", content: "" });
+        }
       });
     }
   }
