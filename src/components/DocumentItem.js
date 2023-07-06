@@ -26,7 +26,7 @@ export default class DocumentItem extends Component {
 
     const docuTitleEl = this.el.querySelector(".docuTitle");
     docuTitleEl.addEventListener("click", () => {
-      history.pushState(null, null, `/post/${this.state.id}`);
+      history.pushState(null, null, `/documents/${this.state.id}`);
       const routeEvent = new Event("route-event");
       dispatchEvent(routeEvent);
     });

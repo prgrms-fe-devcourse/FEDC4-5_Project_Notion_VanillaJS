@@ -15,7 +15,7 @@ export default class App extends Component {
       const { pathname } = window.location;
       if (pathname === "/") {
         this.el.append(introEl);
-      } else if (pathname.indexOf("/post/") === 0) {
+      } else if (pathname.indexOf("/documents/") === 0) {
         const [, , postId] = pathname.split("/");
         const editorEl = new Editor(postId).el;
         this.el.append(editorEl);
