@@ -25,13 +25,17 @@ export default class NotionDocument extends Component {
     this.$document = document.createElement('div');
     this.$document.className = DOCUMENT.ROOT;
 
+    this.$editorContainer = document.createElement('div');
+    this.$editorContainer.className = 'notion-editor-container';
+
+    this.$document.appendChild(this.$editorContainer);
     this.$target.appendChild(this.$document);
   }
 
   initChildComponents() {
     const { onEdit } = this.props;
 
-    this.$editor = new NotionEditor(this.$document, { onEdit });
+    this.$editor = new NotionEditor(this.$editorContainer, { onEdit });
   }
 
   setState(nextState) {
