@@ -7,6 +7,7 @@ import {
   getDocumentTree,
   getDocumentIdByPathname,
   saveDocumentToServer,
+  updateDocumentTree,
 } from "./service/index.js";
 import {
   addDocumentButtonClickEvnet,
@@ -14,10 +15,8 @@ import {
   deleteDocumentButtonClickEvent,
   documentInputChangeEvent,
 } from "./events/index.js";
-import { route } from "./router/route.js";
-import { DocumentTree, Document } from "./domain/index.js";
-import { request } from "./api.js";
-import { getItem, setItem, removeItem } from "./storage/storage.js";
+import { Document } from "./domain/index.js";
+import { setItem } from "./storage/storage.js";
 
 export default class App extends Component {
   async render() {
@@ -58,14 +57,21 @@ export default class App extends Component {
             tag: ".deleteDocumentButton",
             target: "li",
             callback: async ({ target }) =>
-              deleteDocumentButtonClickEvent({ app: this, target }),
+              deleteDocumentButtonClickEvent({
+                documentTree: this.documentTree,
+                target,
+              }),
           },
           {
             action: "change",
             tag: "input",
             target: "li",
             callback: async ({ event, target }) =>
-              documentInputChangeEvent({ event, app: this, target }),
+              documentInputChangeEvent({
+                event,
+                documentTree: this.documentTree,
+                target,
+              }),
           },
         ],
       },
@@ -118,7 +124,7 @@ export default class App extends Component {
               });
               this.editor.state = newDocument;
               await saveDocumentToServer({ title: newDocument.title });
-              this.updateDocumentTree();
+              updateDocumentTree({ documentTree: this.documentTree });
             },
           },
           {
@@ -138,10 +144,6 @@ export default class App extends Component {
         ],
       },
     });
-  }
-
-  async updateDocumentTree() {
-    this.documentTree.state = await getDocumentTree();
   }
 
   saveDocumentToStorage({ title, content }) {

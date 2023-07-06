@@ -1,6 +1,7 @@
 import { route } from "../router/route.js";
 import { removeItem } from "../storage/storage.js";
 import { request } from "../api.js";
+import { updateDocumentTree } from "../service/documentService.js";
 
 export const documentLinkClickEvent = async ({
   event,
@@ -23,7 +24,10 @@ export const addDocumentButtonClickEvnet = async ({ event, target }) => {
   target.appendChild($input);
 };
 
-export const deleteDocumentButtonClickEvent = async ({ app, target }) => {
+export const deleteDocumentButtonClickEvent = async ({
+  documentTree,
+  target,
+}) => {
   const { id } = target;
   await request(`/documents/${id}`, {
     method: "DELETE",
@@ -31,10 +35,14 @@ export const deleteDocumentButtonClickEvent = async ({ app, target }) => {
     removeItem("documents/" + res.id);
     history.pushState(null, null, "/");
   });
-  app.updateDocumentTree();
+  updateDocumentTree({ documentTree });
 };
 
-export const documentInputChangeEvent = async ({ event, app, target }) => {
+export const documentInputChangeEvent = async ({
+  event,
+  documentTree,
+  target,
+}) => {
   const { value } = event.target;
   await request("/documents", {
     method: "POST",
@@ -43,6 +51,5 @@ export const documentInputChangeEvent = async ({ event, app, target }) => {
       parent: target ? target.id : null,
     }),
   });
-
-  app.updateDocumentTree();
+  updateDocumentTree({ documentTree });
 };
