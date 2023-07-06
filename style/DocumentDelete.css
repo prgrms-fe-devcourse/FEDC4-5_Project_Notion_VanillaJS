@@ -1,0 +1,8 @@
+.delete-btn{
+    background-color: transparent;
+    border:none;
+    color: red;
+    font-family: 'Pretandard-Regular', sans-serif;
+    font-size: 15px;
+    order:1;
+}
