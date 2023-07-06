@@ -11,16 +11,16 @@ export default function MainPage({ $target }) {
   // 하나의 document를 수정하거나 확인하는 컴포넌트
   const documentDetailPage = new DocumentDetailPage({
     $target,
+    isDocument: documentList.isDocument,
     reRenderDocList: documentList.setState
   })
   
 
   this.route = () => {
-    // $target.replace();
     const { pathname } = window.location;
     if (pathname === '/') {
       // 별다른 편집기 선택이 안 된 상태
-      // documentDetailPage.setState(null);
+      documentDetailPage.setState(null);
     } else if (pathname.indexOf('/documents/') === 0) {
       // 하나의 문서를 선택한 상태
       const [, , documentId] = pathname.split('/');

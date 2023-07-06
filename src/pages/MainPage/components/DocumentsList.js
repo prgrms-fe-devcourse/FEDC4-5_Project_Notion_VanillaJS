@@ -12,6 +12,24 @@ export default function DocumentsList({ $target }) {
     this.render();
   };
 
+  this.matchDocument = (docList, findName) => {
+    for (const doc of docList) {
+      if (doc.title === findName) {
+        return doc;
+      }
+      if (doc.documents.length > 0) {
+        const match = this.matchDocument(doc.documents, findName);
+        if (match) {
+          return match;
+        }
+      }
+    }
+  };
+  
+  this.isDocument = (findName) => {
+    return this.matchDocument(this.state, findName);
+  };
+
   const $listWrapper = document.createElement('nav');
   $listWrapper.className = 'documentListWrapper';
   const $documentList = document.createElement('ul');

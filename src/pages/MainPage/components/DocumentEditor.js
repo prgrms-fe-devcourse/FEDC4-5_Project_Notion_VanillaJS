@@ -1,4 +1,6 @@
-export default function DocumentEditor({ $target, onEditing }) {
+import { push } from "../../../services/router.js";
+
+export default function DocumentEditor({ $target, onEditing, isDocument }) {
   const $editorWrapper = document.createElement("div");
   $editorWrapper.className = "docEditWrapper";
 
@@ -57,28 +59,25 @@ export default function DocumentEditor({ $target, onEditing }) {
     if (event.code === "Enter") {
       event.preventDefault();
 
-      var node = event.target;
-      var caretID = "_caret";
-      var cc = document.createElement("span");
-      cc.id = caretID;
-      // 커서 위치 저장
-      window.getSelection().getRangeAt(0).insertNode(cc);
-      node.blur();
+      const $node = event.target;
+      const caretID = "_caret";
+      const $cc = document.createElement("span");
+      $cc.id = caretID;
+      $node.blur();
 
       const divList = event.target.querySelectorAll("div");
       [...divList].forEach((div) => {
         if (div.textContent.indexOf("# ") === 0) {
-          div.innerHTML = `<h1>${div.textContent.substring(
-            2
-          )}<span id="_caret"></span></h1>`;
+          div.innerHTML = `<h1>${div.textContent.substring(2)}</h1>`;
         } else if (div.textContent.indexOf("## ") === 0) {
-          div.innerHTML = `<h2>${div.textContent.substring(
-            3
-          )}<span id="_caret"></span></h2>`;
+          div.innerHTML = `<h2>${div.textContent.substring(3)}</h2>`;
         } else if (div.textContent.indexOf("### ") === 0) {
-          div.innerHTML = `<h3>${div.textContent.substring(
-            4
-          )}<span id="_caret"></span></h3>`;
+          div.innerHTML = `<h3>${div.textContent.substring(4)}</h3>`;
+        } else if (div.textContent.indexOf("/ ") === 0) {
+          const doc = isDocument(div.textContent.substring(2));
+          if (doc) {
+            div.innerHTML = `<div data-id=${doc.id} class="linkToDoc">${doc.title}</div>`;
+          }
         }
       });
 
@@ -87,17 +86,23 @@ export default function DocumentEditor({ $target, onEditing }) {
         content: event.target.innerHTML,
       });
 
-      var range = document.createRange();
-      cc = document.getElementById(caretID);
-      range.selectNode(cc);
-      var selection = window.getSelection();
+      const range = document.createRange();
+      $node.appendChild($cc);
+      range.selectNode($cc);
+      const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
       range.deleteContents();
 
       // 커서 위치 불러옴
-      node.focus();
+      $node.focus();
       onEditing(this.state);
     }
   });
+
+  $content.addEventListener('click', (event) => {
+    if (event.target.className === 'linkToDoc'){
+      push(`/documents/${event.target.dataset.id}`);
+    }
+  })
 }

@@ -38,7 +38,7 @@ export default function DirItem({ $target, dirName = "", reRender, id = null }) 
   $docAddBtn.className = "fa-regular fa-file";
 
   $dirContentWrapper.append($dirIcon, $dirTitle);
-  $dirBtnWrapper.append($dirAddBtn, $dirDelBtn, $docAddBtn);
+  $dirBtnWrapper.append($dirAddBtn, id === null ? '' : $dirDelBtn, $docAddBtn);
   $dirItemWrapper.append($dirContentWrapper, $dirBtnWrapper);
   $target.appendChild($dirItemWrapper);
 
@@ -70,6 +70,7 @@ export default function DirItem({ $target, dirName = "", reRender, id = null }) 
     if (className.includes("fa-folder-plus")) {
       await requestAddDir(id);
     } else if (className.includes("fa-folder-minus")) {
+      event.target.className = "fa-solid fa-spinner";
       await requestDelItem(id);
     } else if (className.includes("fa-file")) {
       await requestAddDoc(id);

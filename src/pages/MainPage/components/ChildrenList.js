@@ -2,6 +2,7 @@ import { push } from "../../../services/router.js";
 import ChildrenListItems from "./ChildrenListItems.js";
 
 export default function ChildrenList({ $target }) {
+
   const $childrenListWrapper = document.createElement('div');
   
   const $ul = document.createElement('ul');

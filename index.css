@@ -52,6 +52,16 @@ body {
   border-radius: 10px;
 }
 
+.dirItemWrapper:hover {
+  background-color: #cbd0d9;
+  color: #212A3E;
+}
+
+.fa-file:hover,
+.fa-folder-plus:hover {
+  color: #C3EDC0;
+}
+
 .documentListWrapper li:hover{
   background-color: #9BA4B5;
   color: #212A3E;
@@ -61,6 +71,19 @@ body {
   cursor: pointer;
 }
 
+.dirTitle {
+  padding: 0 2px;
+  border-radius: 5px;
+  transition: color ease-in 120ms;
+}
+
+.dirTitle:hover {
+  background-color: white;
+}
+
+.fa-folder-plus,
+.fa-folder-minus,
+.fa-file,
 .docDelBtn {
   cursor: pointer;
   transition: color ease-in 120ms;
@@ -68,6 +91,7 @@ body {
   width: 16px;
 }
 
+.fa-folder-minus:hover,
 .docDelBtn:hover {
   color: #ff6666;
 }
@@ -91,8 +115,8 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  margin: 10px;
   border-radius: 15px;
+  height: 100vh;
 }
 
 .docEditTitle {
@@ -104,4 +128,6 @@ body {
 
 .docEditContent {
   padding: 20px 15px;
+  height: 100%;
+  overflow: auto;
 }

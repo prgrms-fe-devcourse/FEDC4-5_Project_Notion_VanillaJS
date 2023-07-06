@@ -3,7 +3,7 @@ import DocumentEditor from "./DocumentEditor.js";
 import { request } from "../../../services/api.js";
 import { replace } from "../../../services/router.js";
 
-export default function DocumentDetailPage({ $target, reRenderDocList }) {
+export default function DocumentDetailPage({ $target, isDocument, reRenderDocList }) {
   const $detailPageWrapper = document.createElement('div');
   $detailPageWrapper.className = "detailPageWrapper";
   $target.appendChild($detailPageWrapper);
@@ -12,7 +12,7 @@ export default function DocumentDetailPage({ $target, reRenderDocList }) {
 
   this.setState = async (documentId = null) => {
     if (documentId === null) {
-      this.state = {};
+      this.state = null;
     } else {
       const res = await request(`/documents/${documentId}`);
       if (res === undefined) {
@@ -43,13 +43,20 @@ export default function DocumentDetailPage({ $target, reRenderDocList }) {
         })
         reRenderDocList();
       }, 1000);
-    }
+    },
+    isDocument,
   })
 
   const childrenList = new ChildrenList({ $target: $detailPageWrapper })
 
   this.render = () => {
-    documentEditor.setState(this.state);
-    childrenList.setState(this.state.documents);
+    if (this.state === null) {
+      $detailPageWrapper.style.display = 'none'
+    } else {
+      $detailPageWrapper.style.display = '';
+      documentEditor.setState(this.state);
+      childrenList.setState(this.state.documents);
+    }
+    
   }
 }
