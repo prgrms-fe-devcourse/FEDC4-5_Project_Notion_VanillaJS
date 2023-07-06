@@ -48,4 +48,6 @@ export default function App({ $target, initalState }) {
 
   //라우터 초기화
   initRouter(() => this.route());
+
+  window.addEventListener('popstate', () => this.route());
 }
