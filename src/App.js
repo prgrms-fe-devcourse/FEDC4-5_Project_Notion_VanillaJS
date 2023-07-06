@@ -3,7 +3,10 @@ import {
   DocumentTreeComponent,
   EditorComponent,
 } from "./Component/index.js";
-import { documentLinkClickEvent } from "./events/index.js";
+import {
+  addDocumentButtonClickEvnet,
+  documentLinkClickEvent,
+} from "./events/index.js";
 import { route } from "./router/route.js";
 import { DocumentTree, Document } from "./domain/index.js";
 import { request } from "./api.js";
@@ -28,25 +31,20 @@ export default class App extends Component {
             action: "click",
             tag: "a",
             target: "a",
-            callback: ({ target, event }) => {
-              event.preventDefault();
-              route({ app: this, component: this.editor, url: target.href });
-            },
+            callback: ({ target, event }) =>
+              documentLinkClickEvent({
+                event,
+                app: this,
+                component: this.editor,
+                url: target.href,
+              }),
           },
           {
             action: "click",
             tag: ".addDocumentButton",
             target: "li",
-            callback: ({ event, target }) => {
-              const $input = document.createElement("input");
-              $input.placeholder = "제목";
-              $input.className = "documentInput";
-              if (target === null) {
-                event.target.parentNode.insertBefore($input, event.target);
-                return;
-              }
-              target.appendChild($input);
-            },
+            callback: ({ event, target }) =>
+              addDocumentButtonClickEvnet({ event, target }),
           },
           {
             action: "click",
