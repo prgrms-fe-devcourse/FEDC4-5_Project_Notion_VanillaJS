@@ -1,0 +1,14 @@
+{
+  "name": "FEDC4-5_Project_Notion_VanillaJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS.git",
+  "author": "jgjgill <dbdltm22@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn serve -s"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
