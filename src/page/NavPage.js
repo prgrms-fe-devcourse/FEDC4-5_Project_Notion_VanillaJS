@@ -1,7 +1,9 @@
 import { getDocumentList } from "/src/service/documentListService.js";
 import Navbar from "/src/component/Navbar.js";
+import NavHeader from "/src/component/NavHeader.js";
 import { toggleDataStorage } from "/src/storage.js";
 import { recursiveInitToggleData } from "/src/helper/toggleHelper.js";
+import { push } from "/src/router.js";
 
 function NavPage({
   $app,
@@ -29,6 +31,15 @@ function NavPage({
     };
     navbar.setState(this.state);
   };
+
+  const navHeader = new NavHeader({
+    $page: $navPage,
+    initialState: {
+      user: "cszzi",
+    },
+    onCreate: () => handleCreate(null),
+    onGoHome: () => push("/"),
+  });
 
   const navbar = new Navbar({
     $page: $navPage,

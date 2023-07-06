@@ -53,6 +53,7 @@ function Navbar({
         )
         .join("")}</ul>`;
     $navbar.innerHTML = paintList(documentList);
+    $navbar.classList.add("list-section");
   };
 
   this.render();
@@ -68,6 +69,14 @@ function Navbar({
     else if (e.target.classList.contains("item-delete"))
       onDelete(id);
     else onSelect(id);
+  });
+
+  $navbar.addEventListener("scroll", () => {
+    if ($navbar.scrollTop > 0) {
+      $navbar.classList.add("scroll-shadow");
+    } else {
+      $navbar.classList.remove("scroll-shadow");
+    }
   });
 }
 
