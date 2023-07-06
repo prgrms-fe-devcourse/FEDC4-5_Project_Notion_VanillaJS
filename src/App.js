@@ -44,7 +44,7 @@ export default class App {
     initRouteEvents(() => this.route());
   }
 
-  async route() {
+  route() {
     const { documentPage, documentStore, editorStore } = this;
     renderPage({ documentPage, documentStore, editorStore });
   }

@@ -5,12 +5,15 @@
 }
 
 .child-document-links__link {
-  display: flex;
-  gap: 0.5em;
   padding: 0.25em 0.5em;
   fill: rgba(55, 53, 47, 0.5);
   color: rgb(55, 53, 47);
   transition: background-color 0.1s;
+}
+
+.child-document-links__link a {
+  display: flex;
+  gap: 0.5em;
 }
 
 .child-document-links__link:hover {

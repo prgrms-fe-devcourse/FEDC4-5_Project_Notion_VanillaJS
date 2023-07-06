@@ -23,10 +23,12 @@ export default class ChildDocumentLinks {
     const { documents } = this.state;
 
     const linkItem = ({ id, title }) => `
-      <a class="child-document-links__link" href="/documents/${id}">
-        <span>${documentSvg()}</span>
-        <span class="child-document-links__link--text">${title || '제목 없음'}</span>
-      </a>
+      <li class="child-document-links__link">
+        <a href="/documents/${id}">
+          <span>${documentSvg()}</span>
+          <span class="child-document-links__link--text">${title || '제목 없음'}</span>
+        </a>
+      </li>
     `;
 
     this.$target.innerHTML = `${documents.map(linkItem).join('')}`;
