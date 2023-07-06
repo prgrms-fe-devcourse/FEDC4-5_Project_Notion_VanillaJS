@@ -1,9 +1,7 @@
-import { DocumentListEditor } from "./index";
-import arrowImg from "../../../public/arrowImg.svg";
-import documentImg from "../../../public/documentImg.svg";
+import DocumentListEditor from "./DocumentListEditor.js";
 import store from "../../util/Store.js";
-import { setItem, getItem } from "../../util/storage.js"; // 분리
-
+import { setItem, getItem } from "../../util/index.js";
+import { documentImg, arrowImg } from "../../../public/index.js";
 export default class DocumentList {
   constructor({ $target }) {
     this.$list = document.createElement("div");

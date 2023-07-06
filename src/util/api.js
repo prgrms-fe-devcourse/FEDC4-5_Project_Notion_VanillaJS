@@ -20,5 +20,3 @@ export const request = async (url, options = {}) => {
     history.replaceState(null, null, "/");
   }
 };
-
-export const documentsGet = async () => {};

@@ -1,5 +1,5 @@
-import { request } from "./api.js";
-import { getItem } from "./storage.js";
+import { request, getItem } from "./index.js";
+
 class Store {
   constructor() {
     this.state = {

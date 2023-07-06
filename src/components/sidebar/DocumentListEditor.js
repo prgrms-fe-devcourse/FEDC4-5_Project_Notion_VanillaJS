@@ -1,6 +1,6 @@
 import store from "../../util/Store.js";
 import DocumentInput from "./DocumentInput.js";
-import { getItem, setItem } from "../../util/storage.js";
+import { getItem, setItem } from "../../util/index.js";
 export default class DocumentListEditor {
   constructor({ $target }) {
     this.$editor = document.createElement("span");
@@ -17,6 +17,7 @@ export default class DocumentListEditor {
       const action = event.target.dataset.action;
       if (action === "produce") {
         const foldedList = getItem("folded", []);
+
         if (foldedList.includes(this.$target.id)) {
           foldedList.splice(foldedList.indexOf(this.$target.id), 1);
           setItem("folded", [...foldedList]);
@@ -27,13 +28,14 @@ export default class DocumentListEditor {
           $subfolder.dataset.toggle = "true";
           targetDocument.style.transform = "rotate(0deg)";
         }
+
+        new DocumentInput({
+          $target: this.$target.nextElementSibling,
+          targetId: this.$target.id,
+        });
       } else if (action === "delete") {
         store.documentDelete(this.$target.id);
       }
-      new DocumentInput({
-        $target: this.$target.nextElementSibling,
-        targetId: this.$target.id,
-      });
     });
   }
 

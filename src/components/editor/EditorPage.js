@@ -44,6 +44,9 @@ export default class EditorPage {
       new SubfolderView({
         $target: $editorPage,
       });
+    } else {
+      alert("올바르지 않은 접근 입니다.");
+      history.pushState(null, null, `/`);
     }
   }
 

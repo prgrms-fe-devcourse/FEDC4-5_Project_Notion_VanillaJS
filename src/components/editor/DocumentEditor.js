@@ -1,5 +1,5 @@
-import store from "../../util/Store";
-import { setItem } from "../../util/storage";
+import store from "../../util/Store.js";
+import { setItem } from "../../util/index.js";
 export default class DocumentEditor {
   constructor({ $target }) {
     this.$editor = document.createElement("div");
@@ -24,13 +24,28 @@ export default class DocumentEditor {
     let timer = null;
     let delay = 1000;
     this.$editor.addEventListener("input", (event) => {
-      const content = event.target.innerHTML;
+      let content = event.target.innerHTML;
       const currentTime = new Date().toISOString();
 
       clearTimeout(timer);
       setItem(this.documentId, { content, saveTime: currentTime });
       timer = setTimeout(async () => {
         await store.documentContentPut({ id: this.documentId, content });
+        // 자동으로 link 설정 코드(a 태그 클릭 안되는 이슈 발생)
+
+        // const { documentsTree } = store.state;
+        // documentsTree.forEach(({ id, title }) => {
+        //   const regex = new RegExp(title);
+        //   const copyContent = content;
+        //   content = content.replace(
+        //     regex,
+        //     `<link herf="/documents/${id}">링크</link>`
+        //   );
+        //   if (copyContent !== content) {
+        //     document.execCommand("createLink", false, "/url");
+        //     // this.$editor.innerHTML = content;
+        //   }
+        // });
       }, delay);
     });
 
@@ -46,49 +61,3 @@ export default class DocumentEditor {
     this.$editor.innerHTML = content;
   }
 }
-
-// store.state.documentContent.content;
-
-// const content = this.$editor.innerHTML;
-// this.$editor.innerHTML = this.parseMarkdown(content);
-
-// this.$editor.addEventListener("keydown", (event) => {
-//   if (event.key === "Enter") {
-//     event.preventDefault(); // 기본 동작 방지
-
-//     const selection = document.getSelection();
-//     const range = selection.getRangeAt(0);
-//     const br = document.createElement("br");
-
-//     range.deleteContents();
-//     range.insertNode(br);
-//     range.setStartAfter(br);
-//     range.collapse(true);
-//     selection.removeAllRanges();
-//     selection.addRange(range);
-//   }
-// });
-
-//   parseMarkdown = (text) => {
-//     const rules = [
-//       [
-//         /(\#{1,6})\s?(.+)/,
-//         ([h = [], text]) => `<h${h.length}>${text}</h${h.length}>`,
-//       ],
-//       [/\*\*(.+?)\*\*/, "<strong>$1</strong>"],
-//       [/\*(.+?)\*/, "<em>$1</em>"],
-//       [/\[(.+)\]\((.+)\)/, '<a href="$2">$1</a>'],
-//       [/^1\.\s(.+)/, "<ol><li>$1</li></ol>"],
-//       [/^-\s(.+)/, "<ul><li>$1</li></ul>"],
-//     ];
-//     let html = text;
-//     rules.forEach(([rule, replacement]) => {
-//       html = html.replace(
-//         rule,
-//         typeof replacement === "function"
-//           ? replacement((rule.exec(html) ?? []).slice(1))
-//           : replacement
-//       );
-//     });
-//     return html;
-//   };

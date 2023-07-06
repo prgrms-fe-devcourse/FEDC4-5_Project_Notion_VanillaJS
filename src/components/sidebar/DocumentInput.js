@@ -1,5 +1,4 @@
 import store from "../../util/Store.js";
-import plusImg from "../../../public/plusImg.svg";
 export default class DocumentInput {
   constructor({ $target, targetId }) {
     this.targetId = targetId;
