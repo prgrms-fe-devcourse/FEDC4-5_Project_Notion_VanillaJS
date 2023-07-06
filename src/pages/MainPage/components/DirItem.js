@@ -3,10 +3,15 @@ import {
   requestAddDoc,
   requestDelItem,
   requestEditDir,
-} from "../services/api.js";
-import { getItem, setItem } from "../services/storage.js";
+} from "../../../services/api.js";
+import { getItem, setItem } from "../../../services/storage.js";
 
-export default function DirItem({ $target, dirName = "", reRender, id = null }) {
+export default function DirItem({
+  $target,
+  dirName = "",
+  reRender,
+  id = null,
+}) {
   this.isDirOpen = getItem(id, true);
   this.state = dirName;
 
@@ -25,7 +30,9 @@ export default function DirItem({ $target, dirName = "", reRender, id = null }) 
   $dirTitle.contentEditable = id === null ? false : true;
   $dirTitle.className = "dirTitle";
   $dirContentWrapper.className = "dirContentWrapper";
-  $dirIcon.className = `dirIcon fa-regular ${this.isDirOpen ? 'fa-folder-open' : 'fa-folder'}`;
+  $dirIcon.className = `dirIcon fa-regular ${
+    this.isDirOpen ? "fa-folder-open" : "fa-folder"
+  }`;
 
   const $dirBtnWrapper = document.createElement("div");
   const $dirAddBtn = document.createElement("i");
@@ -38,7 +45,7 @@ export default function DirItem({ $target, dirName = "", reRender, id = null }) 
   $docAddBtn.className = "fa-regular fa-file";
 
   $dirContentWrapper.append($dirIcon, $dirTitle);
-  $dirBtnWrapper.append($dirAddBtn, id === null ? '' : $dirDelBtn, $docAddBtn);
+  $dirBtnWrapper.append($dirAddBtn, id === null ? "" : $dirDelBtn, $docAddBtn);
   $dirItemWrapper.append($dirContentWrapper, $dirBtnWrapper);
   $target.appendChild($dirItemWrapper);
 

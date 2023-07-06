@@ -57,12 +57,16 @@ export default function DocumentEditor({ $target, onEditing, isDocument }) {
     }
 
     if (event.code === "Enter") {
+      // if (event.target.textContent.charCodeAt(event.target.textContent.length - 1) >= 12593) {
+      //   $content.dispatchEvent(new KeyboardEvent('keydown', {key: 'KeyA'}));
+      //   console.log('kkk');
+      // }
       event.preventDefault();
-
-      const $node = event.target;
+      const $node = $content;
       const caretID = "_caret";
       const $cc = document.createElement("span");
       $cc.id = caretID;
+      window.getSelection().getRangeAt(0).insertNode($cc);
       $node.blur();
 
       const divList = event.target.querySelectorAll("div");
@@ -74,10 +78,11 @@ export default function DocumentEditor({ $target, onEditing, isDocument }) {
         } else if (div.textContent.indexOf("### ") === 0) {
           div.innerHTML = `<h3>${div.textContent.substring(4)}</h3>`;
         } else if (div.textContent.indexOf("/ ") === 0) {
-          const doc = isDocument(div.textContent.substring(2));
+          let doc = isDocument(div.textContent.substring(2));
           if (doc) {
-            div.innerHTML = `<div data-id=${doc.id} class="linkToDoc">${doc.title}</div>`;
+            div.innerHTML = `<span data-id=${doc.id} class="linkToDoc">${doc.title}</span>`;
           }
+          doc = null;
         }
       });
 
@@ -86,23 +91,27 @@ export default function DocumentEditor({ $target, onEditing, isDocument }) {
         content: event.target.innerHTML,
       });
 
+      // 커서 위치 불러옴
+      $node.focus();
+
       const range = document.createRange();
-      $node.appendChild($cc);
-      range.selectNode($cc);
+      const cc = document.getElementById(caretID);
+      range.selectNode(cc);
       const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
       range.deleteContents();
 
-      // 커서 위치 불러옴
-      $node.focus();
+      cc.remove();
+
       onEditing(this.state);
     }
+    event.preventDefault();
   });
 
-  $content.addEventListener('click', (event) => {
-    if (event.target.className === 'linkToDoc'){
+  $content.addEventListener("click", (event) => {
+    if (event.target.className === "linkToDoc") {
       push(`/documents/${event.target.dataset.id}`);
     }
-  })
+  });
 }
