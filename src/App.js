@@ -24,13 +24,16 @@ export default function App({ target }) {
       mainPage.render();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , id] = pathname.split('/');
-      console.log('id 확인', id);
-      docsPage.sendId({ id });
-      //여기서 랜더하면 안되나??
-      //docsPage.render();
+      mainPage.render();
+      docsPage.sendId(id);
     }
   };
 
   this.route();
   initRouter(() => this.route());
+
+  const fetchDocsList = async () => {
+    const docs = await request('/');
+    // docList.setState(docs);
+  };
 }

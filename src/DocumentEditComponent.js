@@ -30,12 +30,11 @@ export default function DocumentEditComponent({ target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    console.log(this.state.id, nextState.id);
+    console.log('아무문장', nextState);
     // 무한 루프 방지용
     if (this.state.id !== nextState.id) {
       // docLocalSaveKey = `temp-post-${nextState.id}`;
       this.state = nextState;
-      await fetchDoc();
       return;
     }
 
@@ -52,7 +51,6 @@ export default function DocumentEditComponent({ target, initialState }) {
   };
 
   this.render = async () => {
-    await fetchDoc();
     target.appendChild(EditComponent);
   };
 }

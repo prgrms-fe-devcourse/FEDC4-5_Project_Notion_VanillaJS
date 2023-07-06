@@ -9,13 +9,13 @@ export default function MainPage({ target }) {
     initialState: [],
   });
 
-  const fetchDocs = async () => {
+  const fetchDocsList = async () => {
     const docs = await request('/');
     docList.setState(docs);
   };
 
   this.render = async () => {
-    await fetchDocs();
+    await fetchDocsList();
     target.appendChild(page);
   };
 }

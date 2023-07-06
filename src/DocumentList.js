@@ -1,5 +1,5 @@
 import { push } from './router.js';
-import { createNewDocument, getAllDocuments } from './api.js';
+import { createNewDocument, getAllDocuments, deleteDocument } from './api.js';
 
 export default function DocumentList({
   target,
@@ -11,7 +11,6 @@ export default function DocumentList({
   createNewDocBtn.className = 'createNewRootDocBtn';
 
   const documentList = document.createElement('div');
-  target.appendChild(documentList);
 
   this.state = initialState;
 
@@ -42,7 +41,7 @@ export default function DocumentList({
   };
 
   this.render = () => {
-    console.log(this.state);
+    target.appendChild(documentList);
     documentList.innerHTML = `
       ${createNewDocBtn.outerHTML}
       <div>
@@ -62,11 +61,14 @@ export default function DocumentList({
       this.setState(undatedAllDocuments);
       // push(`${id}`);
     } else if (clickedElement.className === 'deleteBtn') {
-      // console.log(clickedElement.className);
+      // 삭제
+      const { id } = clickedElement.dataset;
+      await deleteDocument(id);
+      const updatedAllDocuments = await getAllDocuments();
+      this.setState(updatedAllDocuments);
     } else if (clickedElement.className === 'createNewRootDocBtn') {
       await createNewDocument();
       const updatedAllDocuments = await getAllDocuments();
-      // console.log('update', updatedAllDocuments);
       this.setState(updatedAllDocuments);
     } else {
       // list 항목 클릭시 history 이용 페이지 이동
