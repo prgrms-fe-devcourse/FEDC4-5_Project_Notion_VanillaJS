@@ -9,6 +9,12 @@ export default function SideNavbar({ parent, initialState }) {
   
   new SidebarHeader({ 
     parent: page,
+    closeSideNavbar: () => {
+      page.style = 'transform: translateX(-281px)';
+    },
+    openSideNavbar: () => {
+      page.style = 'transform: translateX(0px)';
+    }
   })
 
   new DocumentList({
