@@ -1,3 +1,4 @@
+import { request } from "./api.js";
 import PostEditPage from "./PostEditPage.js";
 import PostList from "./PostList.js";
 import PostPage from "./PostPage.js";
@@ -34,4 +35,6 @@ export default function App({ $target }) {
   this.route();
 
   initRouter(() => this.route())
+
+  console.log(request())
 }

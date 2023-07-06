@@ -31,18 +31,20 @@ export default function PostEditPage({ $target, initialState }) {
         });
 
         const isNew = this.state.postId === "new";
+        //const pathname = window.location.href.split('/')
         if (isNew) {
           const createdPost = await request('', {
             method: "POST",
-            body: {
+            body: JSON.stringify({
               title: post.title,
               parent: null,
-            },
+            }),
           });
           history.replaceState(null, null, `/${createdPost.id}`);
           removeItem(postLocalSaveKey);
 
           this.setState({
+            ...post,
             postId: createdPost.id,
           });
         } else {
@@ -52,7 +54,7 @@ export default function PostEditPage({ $target, initialState }) {
           });
           removeItem(postLocalSaveKey);
         }
-      }, 2000);
+      }, 1000);
     },
   });
 

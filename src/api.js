@@ -1,11 +1,12 @@
 export const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents";
 
-export const request = async (documentsId = '', options = {}) => {
+export const request = async (documentsId = "", options = {}) => {
+  console.log('options = ', options)
   try {
     const res = await fetch(`${API_END_POINT}${documentsId}`, {
       ...options,
       headers: {
-        //"Content-Type": "application/json",
+        "Content-Type": "application/json",
         "x-username": "hyun",
       },
     });
