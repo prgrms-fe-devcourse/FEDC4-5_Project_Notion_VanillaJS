@@ -29,7 +29,9 @@ export default class App extends Component {
             callback: async ({ event }) => {
               event.preventDefault();
               const url = event.target.href;
-              this.savedDocumentToServer();
+              if (this.editor.state.content !== undefined) {
+                this.saveDocumentToServer();
+              }
               history.pushState(null, null, url);
               this.route();
             },
@@ -170,7 +172,7 @@ export default class App extends Component {
     });
   }
 
-  async savedDocumentToServer() {
+  async saveDocumentToServer() {
     await request(`/documents/${this.getDocumentIdByPathname()}`, {
       method: "PUT",
       body: JSON.stringify({ content: this.editor.state.content }),
