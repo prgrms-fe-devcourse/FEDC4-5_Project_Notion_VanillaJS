@@ -6,14 +6,18 @@ import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
 import { routeToDocument } from "@Utils/router";
 
-export default function DrawerItem({ $target, $sibling, level }) {
+export default function DrawerItem({ $target, $sibling, parent, level }) {
   if (!isConstructor(new.target)) {
     return;
   }
 
   const $item = document.createElement("div");
   const $titleContainer = document.createElement("div");
-  const $childrenDrawer = new Drawer({ $target: $item, level: level + 1 });
+  const $childrenDrawer = new Drawer({
+    $target: $item,
+    parent: this,
+    level: level + 1,
+  });
 
   this.state = { id: 0, title: "", documents: [] };
 
@@ -26,6 +30,8 @@ export default function DrawerItem({ $target, $sibling, level }) {
 
     this.render();
   };
+
+  this.parent = parent;
 
   this.opened = false;
 
@@ -43,11 +49,44 @@ export default function DrawerItem({ $target, $sibling, level }) {
     $childrenDrawer.root.style.display = this.opened ? "block" : "none";
   };
 
+  // 강조를 위해 부모 DrawerItem을 순회하면서 다 open시킴
+  // 동시에 Header에서 쓸 정보 수집 후 전달
+  this.openParentsAndSendToHeader = () => {
+    const docsInfo = [
+      {
+        id: this.state.id,
+        title: this.state.title,
+      },
+    ];
+
+    let curParent = parent;
+    while (curParent) {
+      curParent.setOpened(true);
+      docsInfo.push({
+        id: curParent.state.id,
+        title: curParent.state.title,
+      });
+
+      curParent = curParent.parent;
+    }
+  };
+
+  // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
+  this.activate = () => {
+    if (isActivated(this.state.id)) {
+      $titleContainer.className = "drawer-item-container activated";
+      this.openParentsAndSendToHeader();
+    } else {
+      $titleContainer.className = "drawer-item-container";
+    }
+  };
+
   this.init = once(() => {
     $target.insertBefore($item, $sibling);
     $item.insertAdjacentElement("afterbegin", $titleContainer);
 
     $titleContainer.className = "drawer-item-container";
+    $titleContainer.style.paddingLeft = `${10 * level}px`;
     $titleContainer.innerHTML = `
       <button class="drawer-item-open-button" data-action="open">></button>
       <p class="drawer-item-title" data-action="route">${this.state.title}</p>
@@ -84,6 +123,11 @@ export default function DrawerItem({ $target, $sibling, level }) {
       }
     });
 
+    window.addEventListener("checkDrawers", (e) => {
+      this.activate();
+    });
+
+    this.activate();
     this.toggleOpen();
   });
 
@@ -95,4 +139,16 @@ export default function DrawerItem({ $target, $sibling, level }) {
 
     $childrenDrawer.setState(this.state.documents);
   };
+}
+
+function isActivated(id) {
+  const { pathname } = window.location;
+  if (pathname.indexOf("/documents/") !== 0) {
+    return false;
+  }
+
+  const [, , documentIdStr] = pathname.split("/");
+  const documentId = parseInt(documentIdStr);
+
+  return documentId === id;
 }

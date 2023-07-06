@@ -5,8 +5,16 @@
   align-items: center;
 }
 
+.drawer-item-container.activated {
+  background-color: #eaeaea;
+}
+
 .drawer-item-container:hover {
   background-color: #e1e1e1;
+}
+
+.drawer-item-container.activated:hover {
+  background-color: #cfcfcf;
 }
 
 .drawer-item-open-button.opened {

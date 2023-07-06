@@ -21,6 +21,8 @@ export default async function router({ $target }) {
       routeToHome();
     }
   }
+
+  window.dispatchEvent(new CustomEvent("checkDrawers"));
 }
 
 export function routeToDocument(documentId) {

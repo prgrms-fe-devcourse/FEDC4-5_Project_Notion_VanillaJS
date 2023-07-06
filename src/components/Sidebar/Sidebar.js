@@ -12,7 +12,7 @@ export default function Sidebar({ $target }) {
 
   const $sidebar = document.createElement("aside");
   const $addBtn = document.createElement("button");
-  const $rootDrawer = new Drawer({ $target: $sidebar, level: 0 });
+  const $rootDrawer = new Drawer({ $target: $sidebar, parent: null, level: 0 });
 
   this.state = [];
 

@@ -3,7 +3,7 @@ import DrawerItem from "./DrawerItem";
 import { once } from "@Utils/once";
 import "./Drawer.css";
 
-export default function Drawer({ $target, level }) {
+export default function Drawer({ $target, parent, level }) {
   if (!isConstructor(new.target)) {
     return;
   }
@@ -31,7 +31,6 @@ export default function Drawer({ $target, level }) {
   this.init = once(() => {
     $target.appendChild($drawer);
     $drawer.className = "drawer-nav";
-    $drawer.style.paddingLeft = `${10 * level}px`;
   });
 
   this.render = () => {
@@ -50,7 +49,8 @@ export default function Drawer({ $target, level }) {
         const $drawerItem = new DrawerItem({
           $target: $drawer,
           $sibling: $currentNode,
-          level: 0,
+          parent,
+          level,
         });
         $drawerItem.setState(this.state[stateIdx]);
         this.children.splice(stateIdx, 0, $drawerItem);
