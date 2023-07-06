@@ -16,7 +16,7 @@ async function reducer({ state, actionType, payload }) {
     case 'CREATE_POST':
       const newPost = await createPost(payload?.parent);
       showModal('CREATE');
-      push(`/posts/${newPost.id}`);
+      push(`/documents/${newPost.id}`);
       return { ...state, post: { ...newPost, content: '' } };
     case 'UPDATE_POST':
       await updatePost(state.post);

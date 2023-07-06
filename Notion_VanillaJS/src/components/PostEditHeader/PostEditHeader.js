@@ -79,7 +79,7 @@ export default class PostEditHeader extends Component {
       selector: '[data-id]',
       callback: ({ target }) => {
         const { id } = target.closest('[data-id]').dataset;
-        push(`/posts/${id}`);
+        push(`/documents/${id}`);
       },
     });
   }

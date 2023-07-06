@@ -156,7 +156,7 @@ export default class SideBar extends Component {
     const title = target.closest(`.title`);
     const { id } = title.closest('[data-id]').dataset;
 
-    push(`/posts/${id}`);
+    push(`/documents/${id}`);
   }
 
   openDropDown() {
