@@ -15,35 +15,54 @@ export default function PostList({
     this.render();
   };
 
-  const DFS = post => {
+  const buildNestedList = (post, show) => {
+    const hasChild = Boolean(post.documents.length);
+
     return `
-          <ul>  
-            <li data-id="${post.id}">
+          <ul id=${post.id} style='display:${show ? 'block' : 'none'}'>  
+            <li data-id="${post.id}" >
+            ${
+              hasChild
+                ? `<button type="button" name="toggle">
+                  <i class="bi bi-caret-right"></i>
+                </button>`
+                : ''
+            }
               <span>${post.title}</span>
-              <button type='button' name='add'>+</button>
-              <button type='button' name='delete'>-</button>
+              <button type='button' name='add'><i class="bi bi-plus-square"></i></button>
+              <button type='button' name='delete'><i class="bi bi-trash-fill"></i></button>
             </li> 
             ${
-              post.documents.length
-                ? post.documents.map(list => DFS(list)).join('')
+              hasChild
+                ? post.documents
+                    .map(list => buildNestedList(list, false))
+                    .join('')
                 : ''
             } 
           </ul>
         `;
   };
+  target.appendChild(postListElement);
+
   this.render = () => {
-    target.appendChild(postListElement);
     // 로딩 : this.state가 undefined인 경우
     //문서가 아예없을 때
     postListElement.innerHTML = `
-       <button type="button" name='add'>+</button>
-       ${this.state.map(document => DFS(document)).join('')}
+       <button type="button" name='add'><i class="bi bi-plus-square"></i></button>
+       ${this.state.list
+         .map(document => buildNestedList(document, true))
+         .join('')}
     `;
+
+    if (this.state.currentId !== null) {
+      const currentUlElement = document.getElementById(this.state.currentId);
+      documentListStyling(currentUlElement);
+    }
 
     const spanElements = [...postListElement.querySelectorAll('li>span')];
 
     spanElements.forEach(spanElement => {
-      spanElement.addEventListener('click', e => {
+      spanElement.addEventListener('click', async e => {
         const closestLi = e.target.closest('li');
         const { id } = closestLi.dataset;
 
@@ -72,9 +91,64 @@ export default function PostList({
 
           onClickDeleteButton(id);
         });
+      } else if (buttonType === 'toggle') {
+        buttonElement.addEventListener('click', e => {
+          const closestUl = e.target.closest('ul');
+          const id = closestUl.id * 1;
+
+          const clickedElement = document.getElementById(id);
+
+          for (const child of clickedElement.childNodes) {
+            if (child.id) {
+              const toggled = child.style.display === 'block';
+
+              child.style.display = toggled ? 'none' : 'block';
+
+              if (e.target.closest('button') !== null) {
+                e.target.closest('button').innerHTML = toggled
+                  ? '<i class="bi bi-caret-right"></i>'
+                  : '<i class="bi bi-caret-down"></i>';
+              }
+            }
+          }
+        });
       }
     });
   };
 
-  // this.render();
+  const isTagUL = element => element.tagName === 'UL';
+
+  const documentListStyling = element => {
+    if (element === null) {
+      return;
+    }
+
+    const parent = element.parentNode;
+
+    if (!parent) {
+      return;
+    }
+
+    if (parent.hasChildNodes()) {
+      for (const sibling of parent.childNodes) {
+        if (isTagUL(sibling)) {
+          sibling.style.display = 'block';
+        }
+      }
+    }
+
+    if (isTagUL(parent)) {
+      parent.style.display = 'block';
+    }
+
+    if (isTagUL(parent)) {
+      const upperToggleButton = parent.querySelector('button[name=toggle]');
+
+      if (upperToggleButton) {
+        upperToggleButton.innerHTML = '<i class="bi bi-caret-down"></i>';
+      }
+    }
+
+    documentListStyling(parent);
+  };
 }

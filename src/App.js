@@ -11,12 +11,15 @@ import {
 } from './api/api.js';
 
 export default function App({ target }) {
-  const postEditorContainer = document.createElement('div');
   const postListContainer = document.createElement('div');
+  const postEditorContainer = document.createElement('div');
+
+  postListContainer.setAttribute('class', 'postListContainer');
+  postEditorContainer.setAttribute('class', 'postEditorContainer');
 
   const postList = new PostList({
     target: postListContainer,
-    initialState: [],
+    initialState: { currentId: null, list: [] },
     onClickAddButton: async clickedId => {
       const { id } = await fetchNewPost(clickedId);
 
@@ -49,7 +52,8 @@ export default function App({ target }) {
 
   const renderPostList = () => {
     target.appendChild(postListContainer);
-    postList.render();
+    postList.setState({ ...postList.state, currentId: null });
+    // postList.render();
   };
 
   const renderPostPage = async postId => {
@@ -58,13 +62,15 @@ export default function App({ target }) {
     target.appendChild(postEditorContainer);
 
     if (postId) {
+      postList.setState({ ...postList.state, currentId: postId * 1 });
+
       const response = await fetchPostDocument(postId);
       postEditor.setState(response);
     }
   };
 
   this.route = () => {
-    // target.innerHTML = '';
+    target.innerHTML = ''; // 초기화하지 않으면 home에 왔을 때 기존 컴포넌트들이 유지됨
 
     const { pathname } = window.location;
 
@@ -78,7 +84,7 @@ export default function App({ target }) {
 
   const updatePostList = async () => {
     const newPostList = await fetchPostList();
-    postList.setState(newPostList);
+    postList.setState({ ...postList.state, list: newPostList });
   };
 
   const moveSubTreesToRoot = async clickedId => {
