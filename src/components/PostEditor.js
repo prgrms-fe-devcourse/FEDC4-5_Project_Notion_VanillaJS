@@ -36,7 +36,6 @@ export default function PostEditor({ target, initialState, onEdit }) {
     `;
 
     editorElement.addEventListener('keyup', e => {
-      // 로딩 중 추가
       const { target } = e;
 
       const name = target.getAttribute('name');
@@ -44,7 +43,7 @@ export default function PostEditor({ target, initialState, onEdit }) {
       if (this.state[name] !== undefined) {
         const nextState = {
           ...this.state,
-          [name]: target.value, // key - value
+          [name]: target.value,
         };
 
         setItem(`temp-post-${nextState.id}`, nextState);
@@ -53,7 +52,6 @@ export default function PostEditor({ target, initialState, onEdit }) {
 
         if (timer !== null) {
           clearTimeout(timer);
-          // editorElement.removeChild(loadingElement);
         }
         timer = setTimeout(async () => {
           await onEdit(nextState.id, {
@@ -66,13 +64,11 @@ export default function PostEditor({ target, initialState, onEdit }) {
           if (editorElement.hasChildNodes(loadingElement)) {
             editorElement.removeChild(loadingElement);
           }
-          // this.setState(nextState);
         }, 1500);
       }
     });
 
     if (this.state) {
-      // undefined가 아닐 때 : post 삭제 후 뒤로가기
       const { title, content } = this.state;
 
       editorElement.querySelector('.post-title').value = title;
@@ -80,6 +76,4 @@ export default function PostEditor({ target, initialState, onEdit }) {
       console.log(editorElement.querySelector('.post-title').value);
     }
   };
-
-  // this.render();
 }

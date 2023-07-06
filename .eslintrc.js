@@ -11,6 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    // window와 prettier 출바꿈 충돌 해결
     'prettier/prettier': [
       'error',
       {

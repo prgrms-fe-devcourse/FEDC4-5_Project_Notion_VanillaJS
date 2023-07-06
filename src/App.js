@@ -7,7 +7,6 @@ import {
   fetchNewPost,
   modifyPost,
   deletePost,
-  changeParentId,
 } from './api/api.js';
 
 export default function App({ target }) {
@@ -30,8 +29,6 @@ export default function App({ target }) {
       pushRoute(`/documents/${id}`);
     },
     onClickDeleteButton: async clickedId => {
-      // await moveSubTreesToRoot(clickedId);
-
       await deletePost(clickedId);
 
       updatePostList();
@@ -53,7 +50,6 @@ export default function App({ target }) {
   const renderPostList = () => {
     target.appendChild(postListContainer);
     postList.setState({ ...postList.state, currentId: null });
-    // postList.render();
   };
 
   const renderPostPage = async postId => {
@@ -70,7 +66,7 @@ export default function App({ target }) {
   };
 
   this.route = () => {
-    target.innerHTML = ''; // 초기화하지 않으면 home에 왔을 때 기존 컴포넌트들이 유지됨
+    target.innerHTML = '';
 
     const { pathname } = window.location;
 
@@ -85,31 +81,6 @@ export default function App({ target }) {
   const updatePostList = async () => {
     const newPostList = await fetchPostList();
     postList.setState({ ...postList.state, list: newPostList });
-  };
-
-  const moveSubTreesToRoot = async clickedId => {
-    const response = await fetchPostDocument(clickedId);
-
-    const subDocuments = response.documents;
-
-    const queue = [];
-
-    subDocuments.forEach(document => {
-      queue.push([null, document]);
-    });
-
-    while (queue.length) {
-      const [parentId, data] = queue.shift();
-      const subData = data.documents;
-
-      if (!data || !subData) continue;
-
-      const currentId = await changeParentId(parentId, data);
-
-      subData.forEach(document => {
-        queue.push([currentId, document]);
-      });
-    }
   };
 
   const init = () => {
