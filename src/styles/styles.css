@@ -294,3 +294,28 @@ button {
     background-color: #ebebea;
   }
 }
+
+/* tooltip */
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip-text {
+  position: absolute;
+  display: none;
+
+  transform: translate(-50%);
+  bottom: -30px;
+}
+
+.tooltip-text.toggle {
+  display: block;
+  width: max-content;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  font-size: small;
+  z-index: 9999;
+}

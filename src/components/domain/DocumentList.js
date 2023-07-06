@@ -25,6 +25,7 @@ export default function DocumentList({
       push(`${PATH.DOCUMENTS}/${newDocument.id}`);
     },
     text: "+",
+    tooltipText: "페이지 추가",
   });
 
   this.getServer = async () => {
