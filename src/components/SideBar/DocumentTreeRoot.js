@@ -119,6 +119,7 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
       invisibleTreeSet: this.state.invisibleTreeSet,
       foldedTreeSet: this.state.foldedTreeSet,
     });
+    targetElement.scrollTo({ top: this.state.scrollPos });
     requestAnimationFrame(() => targetElement.scrollTo({ top: this.state.scrollPos }));
   };
 
