@@ -1,7 +1,7 @@
 import { route } from "../router/route.js";
-import { removeItem } from "../storage/storage.js";
+import { removeDocumentFromStorage } from "../storage/index.js";
 import { request } from "../api.js";
-import { updateDocumentTree } from "../service/documentService.js";
+import { updateDocumentTree } from "../service/index.js";
 
 export const documentLinkClickEvent = async ({
   event,
@@ -32,7 +32,7 @@ export const deleteDocumentButtonClickEvent = async ({
   await request(`/documents/${id}`, {
     method: "DELETE",
   }).then((res) => {
-    removeItem("documents/" + res.id);
+    removeDocumentFromStorage(res.id);
     history.pushState(null, null, "/");
   });
   updateDocumentTree({ documentTree });

@@ -1,5 +1,8 @@
-import { removeItem, getItem } from "../storage/storage.js";
-import { getDocument, saveDocumentToServer } from "../service/index.js";
+import { getDocument } from "../service/index.js";
+import {
+  getDocumentFromStorage,
+  removeDocumentFromStorage,
+} from "../storage/index.js";
 
 export const route = async ({ component, url }) => {
   history.pushState(null, null, url);
@@ -12,9 +15,7 @@ export const route = async ({ component, url }) => {
     case "documents":
       const savedDocument = await getDocument(documentId);
       try {
-        const { title, content, tmpSaveDate } = getItem(
-          "documents/" + documentId
-        );
+        const { title, content, tmpSaveDate } = getDocumentFromStorage;
         if (tmpSaveDate > savedDocument.updatedAt) {
           if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
             component.state = savedDocument.cloneNewDocument({
@@ -31,7 +32,7 @@ export const route = async ({ component, url }) => {
         );
       }
       component.state = savedDocument;
-      removeItem("documents/" + documentId);
+      removeDocumentFromStorage(documentId);
       break;
   }
 };

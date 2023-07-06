@@ -5,7 +5,6 @@ import {
 } from "./Component/index.js";
 import {
   getDocumentTree,
-  getDocumentIdByPathname,
   saveDocumentToServer,
   updateDocumentTree,
 } from "./service/index.js";
@@ -15,8 +14,8 @@ import {
   deleteDocumentButtonClickEvent,
   documentInputChangeEvent,
 } from "./events/index.js";
+import { saveDocumentToStorage } from "./storage/index.js";
 import { Document } from "./domain/index.js";
-import { setItem } from "./storage/storage.js";
 
 export default class App extends Component {
   async render() {
@@ -97,7 +96,7 @@ export default class App extends Component {
               const { innerHTML } = target;
               clearTimeout(timeout);
               timeout = setTimeout(() => {
-                this.saveDocumentToStorage({ content: innerHTML });
+                saveDocumentToStorage({ content: innerHTML });
               }, 200);
             },
           },
@@ -109,7 +108,7 @@ export default class App extends Component {
               const { innerHTML } = target;
               clearTimeout(timeout);
               timeout = setTimeout(() => {
-                this.saveDocumentToStorage({ title: innerHTML });
+                saveDocumentToStorage({ title: innerHTML });
               }, 200);
             },
           },
@@ -143,14 +142,6 @@ export default class App extends Component {
           },
         ],
       },
-    });
-  }
-
-  saveDocumentToStorage({ title, content }) {
-    setItem("documents/" + getDocumentIdByPathname(), {
-      title,
-      content,
-      tmpSaveDate: new Date(),
     });
   }
 }
