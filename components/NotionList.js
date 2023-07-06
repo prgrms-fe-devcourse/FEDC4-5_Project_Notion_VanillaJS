@@ -19,6 +19,7 @@ export default function NotionList({
 
   this.render = () => {
     // 하위 항목 표시를 위한 콜백 함수 (재귀 구현)
+    // 제목 길이를 제한하기 위한 유효성 검사 추가!
     const renderNotion = (id, title, documents) => {
       if (documents.length > 0) {
         return `
