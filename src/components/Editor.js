@@ -1,5 +1,6 @@
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');
+  $editor.classList.add('editor');
   $target.appendChild($editor);
 
   let isInitialize = false;
@@ -19,7 +20,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (!isInitialize) {
       $editor.innerHTML = `
         <input type="text" name="title" value="${this.state.title}" placeholder="제목 없음"/>
-        <textarea name="content">${this.state.content}</textarea>
+        <textarea name="content" placeholder="내용을 입력해 주세요.">${this.state.content}</textarea>
       `;
       isInitialize = true;
     }

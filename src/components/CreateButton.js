@@ -1,5 +1,6 @@
 export default function CreateButton({ $target, initialState, onClick }) {
   const $button = document.createElement('button');
+  $button.classList.add('create-button');
   $target.appendChild($button);
 
   this.state = initialState;
