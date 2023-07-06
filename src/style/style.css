@@ -97,3 +97,25 @@ button {
     transform: rotate(360deg);
   }
 }
+
+:is(
+    .postEditorContainer textarea[name='content'],
+    .postListContainer
+  )::-webkit-scrollbar {
+  width: 10px;
+}
+
+:is(
+    .postEditorContainer textarea[name='content'],
+    .postListContainer
+  )::-webkit-scrollbar-thumb {
+  background: var(--list-button-color);
+  border-radius: 10px;
+}
+
+:is(
+    .postEditorContainer textarea[name='content'],
+    .postListContainer
+  )::-webkit-scrollbar-track {
+  background: none;
+}
