@@ -7,7 +7,6 @@ import {
 } from "./utils/api.js";
 
 export default function App({ target }) {
-  console.log("App 생성");
   this.state = // 컴포넌트 생성 시, initialState를 null로 가지고 있는게 아니라, 처음부터 url에 해당하는 documentId로 설정
     location.pathname === "/"
       ? { selectedDocumentId: null }
@@ -45,15 +44,10 @@ export default function App({ target }) {
       if (this.state.selectedDocumentId === documentId) {
         // 만약 현재 selectedDocument가 삭제된다면 main page로 이동해야 하므로
         history.pushState(null, null, `/`);
-      } 
+      }
 
       await deleteDocumentAPI(documentId);
       this.route();
-
-      console.log(`deleted Document Id: ${documentId}`);
-      console.log(
-        `현재 selected Document Id : ${this.state.selectedDocumentId}`
-      );
     },
   });
 

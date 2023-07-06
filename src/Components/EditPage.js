@@ -30,48 +30,52 @@ export default function EditPage({ target, initialState, updateSideBar }) {
 
   titleElement.addEventListener("keyup", (e) => {
     // title이 바뀔때마다 바로바로 local Storage에 저장
-    setItemToStorage(this.state.selectedDocumentId, {
-      title: e.target.value,
-      content: contentElement.value,
-      tempSaveDate: new Date(),
-    });
+    if (this.state.selectedDocumentId) { // null일 때는 메인 페이지 이므로 저장되면 안됨 
+      setItemToStorage(this.state.selectedDocumentId, {
+        title: e.target.value,
+        content: contentElement.value,
+        tempSaveDate: new Date(),
+      });
 
-    // 2초가 지나면, 서버에 저장, local에서는 삭제, sideBar document List업데이트
-    if (timerForTitle != null) {
-      clearTimeout(timerForTitle);
+      // 2초가 지나면, 서버에 저장, local에서는 삭제, sideBar document List업데이트
+      if (timerForTitle != null) {
+        clearTimeout(timerForTitle);
+      }
+      timerForTitle = setTimeout(async () => {
+        await modifyDocumentAPI(
+          this.state.selectedDocumentId,
+          e.target.value,
+          contentElement.value
+        );
+        removeItemFromStorage(this.state.selectedDocumentId);
+        updateSideBar();
+      }, 2000);
     }
-    timerForTitle = setTimeout(async () => {
-      await modifyDocumentAPI(
-        this.state.selectedDocumentId,
-        e.target.value,
-        contentElement.value
-      );
-      removeItemFromStorage(this.state.selectedDocumentId);
-      updateSideBar();
-    }, 2000);
   });
 
   contentElement.addEventListener("keyup", (e) => {
     // content가 바뀔때마다 바로바로 local Storage에 저장
-    setItemToStorage(this.state.selectedDocumentId, {
-      title: titleElement.value,
-      content: e.target.value,
-      tempSaveDate: new Date(),
-    });
+    if (this.state.selectedDocumentId) {
+      setItemToStorage(this.state.selectedDocumentId, {
+        title: titleElement.value,
+        content: e.target.value,
+        tempSaveDate: new Date(),
+      });
 
-    // 2초가 지나면, 서버에 저장, local에서는 삭제, sideBar document List업데이트
-    if (timerForContent != null) {
-      clearTimeout(timerForContent);
+      // 2초가 지나면, 서버에 저장, local에서는 삭제, sideBar document List업데이트
+      if (timerForContent != null) {
+        clearTimeout(timerForContent);
+      }
+      timerForContent = setTimeout(async () => {
+        await modifyDocumentAPI(
+          this.state.selectedDocumentId,
+          titleElement.value,
+          e.target.value
+        );
+        removeItemFromStorage(this.state.selectedDocumentId);
+        updateSideBar();
+      }, 2000);
     }
-    timerForContent = setTimeout(async () => {
-      await modifyDocumentAPI(
-        this.state.selectedDocumentId,
-        titleElement.value,
-        e.target.value
-      );
-      removeItemFromStorage(this.state.selectedDocumentId);
-      updateSideBar();
-    }, 2000);
   });
 
   this.render = async () => {
@@ -119,8 +123,8 @@ export default function EditPage({ target, initialState, updateSideBar }) {
       console.log(`documents: ${documents}`);
     } else {
       // null일 때는 mainPage 렌더링
-      titleElement.value = "노션 메인 페이지입니다 ! "
-      contentElement.value = "노션 페이지 입니다 ! ";
+      titleElement.value = "노션 메인 페이지입니다 🥳 ";
+      contentElement.value = "document를 추가해 새로운 글을 작성해보세요 ✏️";
       console.log(`not selected`);
     }
   };

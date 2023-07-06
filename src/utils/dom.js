@@ -40,10 +40,10 @@ export const createDocumentElement = (document, spreadDocumentList) => {
   const documentContent = createDomElementWithClass("div", "documentContent");
   documentItem.appendChild(documentContent);
   documentContent.innerHTML = `
-      <button class="spreadButton">▶</button>
-      <span class="documentTitle">${document.title}</span>
+      <button class="spreadButton">❯</button>
+      <div class="documentTitle">${document.title}</div>
       <button class="addChildDocumentButton">+</button>
-      <button class="deleteDocumentButton">-</button>
+      <button class="deleteDocumentButton">x</button>
   `;
 
   const childDocumentList = createDomElementWithClass(
@@ -58,10 +58,10 @@ export const createDocumentElement = (document, spreadDocumentList) => {
     spreadDocumentList.includes(document.id.toString())
   ) {
     childDocumentList.style.display = "flex";
-    documentItem.querySelector(".spreadButton").innerHTML = "▼";
+    documentItem.querySelector(".spreadButton").innerHTML = "v";
   } else {
     childDocumentList.style.display = "none";
-    documentItem.querySelector(".spreadButton").innerHTML = "▶";
+    documentItem.querySelector(".spreadButton").innerHTML = "❯";
   }
 
   if (document.documents) {
@@ -86,9 +86,9 @@ export const toggleDisplay = (element) => {
 
 export const toggleSpreadIcon = (element) => {
   if (element) {
-    element.innerHTML === "▼"
-      ? (element.innerHTML = "▶")
-      : (element.innerHTML = "▼");
+    element.innerHTML === "v"
+      ? (element.innerHTML = "❯")
+      : (element.innerHTML = "v");
   }
 };
 
