@@ -31,7 +31,6 @@ export const toggleDataStorage = new Storage({
 });
 
 export const getDocumentStorageById = id => {
-  console.log(id);
   return new Storage({
     key: `EDITING_DOCUMENT_${id}`,
     defaultValue: {

@@ -6,8 +6,11 @@ function EditPage({ $app, handleEdit }) {
   $app.appendChild($page);
 
   this.state = { id: null };
+
   this.setState = async nextState => {
     this.state = nextState;
+    if (this.state.id === null) return;
+
     const selectDocument = this.state.id
       ? await fetchDocument(this.state.id)
       : { title: "", content: "" };

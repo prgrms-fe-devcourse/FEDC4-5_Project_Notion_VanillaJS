@@ -18,7 +18,6 @@ function Navbar({
   this.render = () => {
     const { selected, documentList, toggleData } =
       this.state;
-    console.log(selected);
     const paintList = (documents, depth = 0) =>
       `<ul>${documents
         .map(item => {
@@ -36,7 +35,7 @@ function Navbar({
               <i class="fa-solid fa-chevron-right item-toggle"></i>
             </div>
             <div class="item-title" style="--depth: ${depth}">${
-            item.title
+            item.title.length ? item.title : "제목 없음"
           }</div>
             <div class="item-btn-group">
               <div class="btn-container item-add">

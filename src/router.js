@@ -15,3 +15,9 @@ export const push = nextUrl => {
     })
   );
 };
+
+export const replace = nextUrl => {
+  if (nextUrl) {
+    history.replaceState(null, null, nextUrl);
+  }
+};

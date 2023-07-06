@@ -25,6 +25,8 @@ function Editor({
       <textarea name="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
     isInit = true;
+    const $input = $editor.querySelector("input");
+    $input.focus();
   };
 
   this.render();

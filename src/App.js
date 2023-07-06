@@ -13,7 +13,7 @@ import {
   removeDocument,
   editDocument,
 } from "/src/service/documentEditService.js";
-import { initRouter, push } from "/src/router.js";
+import { initRouter, push, replace } from "/src/router.js";
 import NavPage from "/src/page/NavPage.js";
 import EditPage from "/src/page/EditPage.js";
 
@@ -34,8 +34,10 @@ function App({ $app }) {
         id: newDocument.id,
         parent,
       });
+      console.log(newDocument);
+      navPage.state.selected = newDocument.id;
       navPage.setState(nextToggleData);
-      // handleSelect(newDocument.id);
+      push(`/documents/${newDocument.id}`);
     },
 
     handleDelete: async id => {
@@ -45,6 +47,10 @@ function App({ $app }) {
         id,
       });
       navPage.setState(nextToggleData);
+      if (editPage.state.id == id) {
+        editPage.setState({ id: "null" });
+        replace("/");
+      }
     },
 
     handleToggle: id => {
@@ -75,6 +81,9 @@ function App({ $app }) {
   this.route = () => {
     const { pathname } = window.location;
     navPage.setState();
+    if (pathname === "/") {
+      editPage.setState({ id: null });
+    }
     if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");
       editPage.setState({ id });

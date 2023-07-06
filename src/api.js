@@ -3,7 +3,6 @@ const API_END_POINT =
 const USER_NAME = "cszzi1006";
 
 export const request = async (url, options = {}) => {
-  console.log(url, options);
   try {
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,

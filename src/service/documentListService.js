@@ -5,7 +5,7 @@ export const createDocument = async parent => {
     method: "POST",
     body: JSON.stringify({
       parent,
-      title: "제목을 입력하세요",
+      title: "",
     }),
   });
   return newDocument;
