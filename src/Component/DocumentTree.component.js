@@ -3,9 +3,9 @@ import Component from "./Component.js";
 export default class DocumentTreeComponent extends Component {
   render() {
     this.$target.innerHTML = ``;
-    this.getTemplate(this.state).forEach((child) =>
-      this.$target.appendChild(child)
-    );
+    const $rootUl = document.createElement("ul");
+    this.$target.appendChild($rootUl);
+    this.getTemplate(this.state).forEach((child) => $rootUl.appendChild(child));
     const rootButton = document.createElement("button");
     rootButton.className = "addRootDocumentButton addDocumentButton";
     rootButton.textContent = "+";
