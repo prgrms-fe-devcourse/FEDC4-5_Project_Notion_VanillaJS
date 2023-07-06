@@ -21,6 +21,6 @@ export default function DocsListHeader({ $target, initialState }) {
   this.render()
 
   $header.addEventListener("click", (e) => {
-    push(`/documents/72596`)
+    push(`/`)
   })
 }

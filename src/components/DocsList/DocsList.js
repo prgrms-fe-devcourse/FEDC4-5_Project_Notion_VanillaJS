@@ -27,13 +27,18 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
 
         return `
         <li data-id="${doc.id}" class="document-item">
-          <span class="document-title">${doc.title}</span>
-          <button class="create" type="button">
-            <i class="create fa-solid fa-plus"></i>
-          </button>
-          <button class="remove" type="button">
-            <i class="remove fa-regular fa-trash-can"></i>
-          </button>
+          <div class="document-item-container">
+            <div class="document-title-container">
+              <i class="fa-regular fa-file-lines"></i>
+              <p class="document-title">${doc.title}</p>
+            </div>
+            <button class="create" type="button">
+              <i class="create fa-solid fa-plus"></i>
+            </button>
+            <button class="remove" type="button">
+              <i class="remove fa-regular fa-trash-can"></i>
+            </button>
+          </div>
           ${hasChildDocuments ? `<ul class="documents-list">${childDocuments}</ul>` : ""}
         </li>
       `
@@ -64,9 +69,9 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
       } else if (classList.contains("remove")) {
         if (confirm("페이지를 삭제하시겠습니까?")) {
           await onRemove(id)
-          push(`/documents/72596`)
+          push(`/`)
         }
-      } else if (tagName === "SPAN") {
+      } else if (tagName === 'P') {
         const [, , urlDocumentId] = window.location.pathname.split("/")
         if (urlDocumentId !== id) push(`/documents/${id}`)
       }
