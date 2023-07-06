@@ -6,6 +6,9 @@ import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
 import { routeToDocument } from "@Utils/router";
 import { NAME } from "@Utils/constants";
+import openIcon from "@Static/openIcon.svg";
+import plusIcon from "@Static/plusIcon.svg";
+import trashIcon from "@Static/trashIcon.svg";
 
 export default function DrawerItem({ $target, $sibling, parent, level }) {
   if (!isConstructor(new.target)) {
@@ -106,11 +109,11 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     $titleContainer.className = "drawer-item-container";
     $titleContainer.style.paddingLeft = `${10 * level}px`;
     $titleContainer.innerHTML = `
-      <button class="drawer-item-open-button" data-action="open">></button>
+      <button class="drawer-item-open-button" data-action="open">${openIcon}</button>
       <p class="drawer-item-title" data-action="route">${this.state.title}</p>
-      <div>
-        <button data-action="remove">x</button>
-        <button data-action="append">+</button>
+      <div class="drawer-item-btn-container">
+        <button data-action="remove">${trashIcon}</button>
+        <button data-action="append">${plusIcon}</button>
       </div>
     `;
 

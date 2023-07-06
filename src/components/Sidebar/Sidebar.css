@@ -2,5 +2,30 @@
   width: 200px;
   background-color: #f5f5f5;
   padding: 15px;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  font-size: 1.2em;
+}
+
+.sidebar-add-btn {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 2em;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: medium;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-add-btn:hover {
+  background-color: #e1e1e1;
+}
+
+.sidebar-add-btn > svg {
+  margin-right: 5px;
 }

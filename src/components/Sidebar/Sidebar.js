@@ -4,6 +4,7 @@ import { once } from "@Utils/once";
 import Drawer from "./Drawer";
 import { postDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
+import addIcon from "@Static/addIcon.svg";
 
 export default function Sidebar({ $target }) {
   if (!isConstructor(new.target)) {
@@ -31,8 +32,14 @@ export default function Sidebar({ $target }) {
     $target.appendChild($sidebar);
 
     $addBtn.innerText = "새 페이지";
+    $addBtn.insertAdjacentHTML("afterbegin", addIcon);
+    $addBtn.className = "sidebar-add-btn";
+
     $sidebar.insertAdjacentElement("afterbegin", $addBtn);
-    $sidebar.insertAdjacentHTML("afterbegin", `<p>여기는 사이드바!</p>`);
+    $sidebar.insertAdjacentHTML(
+      "afterbegin",
+      `<p class="sidebar-logo">신호원의 Hotion</p>`
+    );
 
     $addBtn.addEventListener("click", async (e) => {
       const newDocument = await postDocument({

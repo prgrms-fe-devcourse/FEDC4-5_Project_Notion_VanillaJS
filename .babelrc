@@ -6,7 +6,8 @@
       {
         "alias": {
           "@Components": "./src/components",
-          "@Utils": "./src/utils"
+          "@Utils": "./src/utils",
+          "@Static": "./src/static"
         }
       }
     ]

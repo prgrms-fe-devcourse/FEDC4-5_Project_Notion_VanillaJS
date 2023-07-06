@@ -11,6 +11,7 @@ module.exports = (_, argv) => {
       alias: {
         "@Components": path.resolve(__dirname, "./src/components"),
         "@Utils": path.resolve(__dirname, "./src/utils"),
+        "@Static": path.resolve(__dirname, "./src/static"),
       },
     },
     output: {
@@ -40,6 +41,10 @@ module.exports = (_, argv) => {
         {
           test: /\.css$/i,
           use: ["style-loader", "css-loader"],
+        },
+        {
+          test: /\.svg$/i,
+          use: "svg-inline-loader",
         },
       ],
     },
