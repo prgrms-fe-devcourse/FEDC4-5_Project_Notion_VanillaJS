@@ -85,7 +85,7 @@ export default function DocumentList({
 
   $documentList.addEventListener("click", (e) => {
     if (e.target.className === "root") {
-      onCreateDocument("new");
+      onCreateDocument(null);
       fetchDocument();
       return;
     }
@@ -95,7 +95,6 @@ export default function DocumentList({
 
     const { id } = $li.dataset;
     const name = e.target.className;
-    console.log("name: ", name);
 
     if (name === "displayChild") {
       const $ul = $li.childNodes[7];
