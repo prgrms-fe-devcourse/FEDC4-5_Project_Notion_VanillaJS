@@ -8,6 +8,9 @@ import { showModal } from '@/utils';
  */
 async function reducer({ state, actionType, payload }) {
   switch (actionType) {
+    case 'INIT_POST':
+      push('/');
+      return { ...state, post: null };
     case 'SAVE_POST':
       return { ...state, post: { ...state.post, ...payload } };
     case 'GET_POST':

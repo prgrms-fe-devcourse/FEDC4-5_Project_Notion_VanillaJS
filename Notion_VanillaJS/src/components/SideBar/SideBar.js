@@ -112,7 +112,7 @@ export default class SideBar extends Component {
       eventType: 'click',
       selector: `.sidebar-header`,
       callback: () => {
-        push('/');
+        PostStore.dispatch({ actionType: 'INIT_POST' });
       },
     });
   }
