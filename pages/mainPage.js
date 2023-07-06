@@ -1,6 +1,6 @@
 import DocumentList from "../components/DocumentList.js";
 import Editor from "../components/Editor.js";
-import { setItem, getItem, removeItem } from "../storage.js";
+import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../utils/api.js";
 import getChildTitleList from "../utils/getChildTitleList.js";
 import getTitleList from "../utils/getTitleList.js";
