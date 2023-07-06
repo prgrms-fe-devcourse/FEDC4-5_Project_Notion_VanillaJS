@@ -14,7 +14,7 @@ export default function PostPage({ $target }) {
     $target: $page,
     initialState: {
       text: "New Post",
-      link: "/post/new",
+      link: "/new",
     },
   });
 

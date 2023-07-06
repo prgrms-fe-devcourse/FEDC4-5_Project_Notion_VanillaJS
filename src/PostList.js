@@ -24,7 +24,6 @@ export default function PostList({ $target, initialState }) {
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
 
-    console.log($li)
     if ($li) {
       const { id } = $li.dataset;
       pushRouter(`/${id}`);

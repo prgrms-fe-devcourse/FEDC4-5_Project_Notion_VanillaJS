@@ -1,4 +1,5 @@
 import PostEditPage from "./PostEditPage.js";
+import PostList from "./PostList.js";
 import PostPage from "./PostPage.js";
 import { initRouter } from "./router.js";
 
@@ -6,6 +7,7 @@ export default function App({ $target }) {
   const postPage = new PostPage({
     $target,
   });
+
   const postEditPage = new PostEditPage({
     $target,
     initialState: {
@@ -23,8 +25,8 @@ export default function App({ $target }) {
 
     if (pathname === "/") {
       postPage.setState();
-    } else if (pathname.indexOf("/post/") === 0) {
-      const [, , postId] = pathname.split("/");
+    } else if (pathname.indexOf("/") === 0) {
+      const [, postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
   };

@@ -46,7 +46,7 @@ export default function PostEditPage({ $target, initialState }) {
             postId: createdPost.id,
           });
         } else {
-          await request(`/${post.id}`, {
+          await request(`/${this.state.postId}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
