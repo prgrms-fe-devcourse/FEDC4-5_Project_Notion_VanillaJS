@@ -61,19 +61,19 @@ export default class DocumentList {
               `
                 <li id=li-${id} class="document-list">
                   <div class="document-list__box">
-                    <button id=${id} class="document-list__toggle-button">
-                      <i class="fa-solid fa-chevron-down"></i>
-                    </button>
                     <div class="document-list__text">
+                      <button id=${id} class="document-list__toggle-button">
+                        <i class="fa-solid fa-chevron-down"></i>
+                      </button>
                       <span class="link-item" id=${id}>${title}</span>
-                      <div class="document-list_buttons">
-                        <button id=${id} class="remove-button">
-                          <i class="fa-solid fa-minus"></i>
-                        </button>
-                        <button class="add-button">
-                          <i class="fa-solid fa-plus"></i>
-                        </button>
-                      </div>
+                    </div>
+                    <div class="document-list__buttons">
+                      <button id=${id} class="remove-button">
+                        <i class="fa-solid fa-minus"></i>
+                      </button>
+                      <button class="add-button">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
                     </div>
                   </div>
                   <div>

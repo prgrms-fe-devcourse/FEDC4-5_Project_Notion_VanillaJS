@@ -1,4 +1,4 @@
-const NOTION_API = `https://kdt-frontend.programmers.co.kr`;
+const NOTION_API = `https://kdt-frontend.programmers.co.kr/documents`;
 const config = (method, body) => ({
   method,
   headers: {
@@ -11,7 +11,7 @@ const config = (method, body) => ({
 export const request = {
   getDocumentList: async () => {
     try {
-      const response = await fetch(`${NOTION_API}/documents`, config("GET"));
+      const response = await fetch(`${NOTION_API}`, config("GET"));
 
       const result = await response.json();
       return result;
@@ -22,10 +22,7 @@ export const request = {
   },
   getDocumentItem: async (id) => {
     try {
-      const response = await fetch(
-        `${NOTION_API}/documents/${id}`,
-        config("GET")
-      );
+      const response = await fetch(`${NOTION_API}/${id}`, config("GET"));
 
       const result = await response.json();
       return result;
@@ -36,7 +33,7 @@ export const request = {
   addDocumentItem: async (parentId) => {
     try {
       const response = await fetch(
-        `${NOTION_API}/documents`,
+        `${NOTION_API}`,
         config("POST", {
           title: "새 문서",
           parent: parentId,
@@ -52,7 +49,7 @@ export const request = {
   updateDocumentItem: async (id, updateBody) => {
     try {
       const response = await fetch(
-        `${NOTION_API}/documents/${id}`,
+        `${NOTION_API}/${id}`,
         config("PUT", updateBody)
       );
 
@@ -64,10 +61,7 @@ export const request = {
   },
   deleteDocumentItem: async (id) => {
     try {
-      const response = await fetch(
-        `${NOTION_API}/documents/${id}`,
-        config("DELETE")
-      );
+      const response = await fetch(`${NOTION_API}/${id}`, config("DELETE"));
 
       const result = await response.json();
       return result;

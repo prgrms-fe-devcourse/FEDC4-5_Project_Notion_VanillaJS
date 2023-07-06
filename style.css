@@ -236,15 +236,16 @@ body {
   align-items: center;
 }
 .document-list-wrapper {
-  padding: 2px 10px 2px 10px;
+  /* padding: 2px 10px 2px 10px; */
+  position: relative;
 }
 .document-list-container {
-  border-bottom: 1px solid lightgray;
 }
 .document-list {
   box-sizing: border-box;
   display: block;
   width: 232px;
+  padding: 2px 10px 2px 10px;
   margin: 1px 0px;
   font-size: 14px;
 }
@@ -255,7 +256,7 @@ body {
   cursor: pointer;
 }
 .document-list__toggle-button {
-  display: flex;
+  display: inline-block;
   width: 22px;
   margin-right: 8px;
   justify-content: center;
@@ -264,10 +265,22 @@ body {
 .document-list__box {
   display: flex;
 }
+.link-item {
+  width: 100%;
+}
 .document-list__text {
-  display: flex;
-  width: 182px;
+  z-index: 1;
+  position: relative;
+  width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   justify-content: space-between;
   align-items: center;
   margin-right: 0;
+}
+.document-list__buttons {
+  z-index: 2;
+  position: absolute;
+  right: 0;
 }

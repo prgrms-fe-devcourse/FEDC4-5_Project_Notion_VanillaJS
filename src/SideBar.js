@@ -48,9 +48,7 @@ export default class SideBar {
         const {
           currentTarget: {
             parentNode: {
-              parentNode: {
-                parentNode: { parentNode },
-              },
+              parentNode: { parentNode },
             },
           },
         } = e;
