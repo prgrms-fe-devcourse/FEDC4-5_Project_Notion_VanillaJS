@@ -1,5 +1,4 @@
-import { request } from './request.js';
-import { editDocuments } from './api.js';
+import { editDocuments, getEditableDocuments } from './api.js';
 import ChildDocument from './Components/ChildDocuments.js';
 import Editor from './Components/Editor.js';
 import DocumentDelete from './Components/DocumentDelete.js';
@@ -61,7 +60,7 @@ export function EditorPage($target) {
 
     const fetchPost = async() => {
         const { id } = this.state;
-        const post = await request(`/documents/${id}`)
+        const post = await getEditableDocuments(id)
         this.setState({
             ...this.state,
             post

@@ -6,6 +6,12 @@ export const getDocuments = async() => {
       });
     return documentData
 }
+
+export const getEditableDocuments = async(id) => {
+    const documentData = await request(`/documents/${id}`)
+    return documentData
+}
+
 export const createDocuments = async(content, parent) => {
     const createdData = await request(`/documents`, {
         method: "POST",
