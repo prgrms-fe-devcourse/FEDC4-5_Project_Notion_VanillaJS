@@ -8,7 +8,7 @@ export default function DocumentList({ $target, initialState, username }) {
   const $documentList = document.createElement("div");
   const $addDocumentBtn = document.createElement("button");
   $header.innerHTML = `<h3><span style="font-size: 30px;">${username}</span>의 노션 페이지</h3>`;
-  $addDocumentBtn.textContent = "+ 페이지 추가";
+  $addDocumentBtn.textContent = "+ Add a Page";
   $header.className = "header";
   $addDocumentBtn.className = "addDocumentBtn";
 
@@ -100,4 +100,17 @@ export default function DocumentList({ $target, initialState, username }) {
       }
     }
   });
+
+  // const $btn = document.querySelectorAll(".toggleMenu");
+  // const $toggleBar = document.querySelector(".toggleMenu>.subUl");
+  // let isToggled = true;
+  // $btn.addEventListener("click", () => {
+  //   if (isToggled) {
+  //     $toggleBar.style.height = "100%";
+  //     isToggled = !isToggled;
+  //   } else {
+  //     $toggleBar.style.height = "0px";
+  //     isToggled = !isToggled;
+  //   }
+  // });
 }

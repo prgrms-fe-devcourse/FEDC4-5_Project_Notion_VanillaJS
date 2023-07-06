@@ -2,7 +2,7 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  background-color: #f1f1ef;
+  /* background-color: #f3eeee; */
 }
 
 header {
@@ -12,18 +12,24 @@ header {
   background-color: #eef3ed;
 }
 
+ul {
+  padding-left: 20px;
+}
 li {
   font-weight: 600;
   margin: 15px;
-  /* list-style-type: none; */
+  list-style-type: none;
+  margin-bottom: 7%;
 }
 
 .postContainer {
   width: 700px;
   height: 92%;
-  margin: 2% 2%;
-  background-color: aliceblue;
+  margin: 2% 0;
+  background-color: #eef3ed;
   padding: 2%;
+  border: 3px dashed #a48bbe;
+  border-radius: 10px;
 }
 .Editor {
   display: flex;
@@ -57,6 +63,42 @@ div {
 .sidebarContainer {
   width: 400px;
   height: 92%;
-  margin: 2% 2%;
-  background-color: #f6f3f8;
+  margin: 2% 0;
+  background-color: #faf3dd;
+  border: 3px dashed #a48bbe;
+  border-radius: 10px;
+}
+
+.addDocumentBtn {
+  background-color: #faf3dd;
+  border: none;
+  width: 100%;
+  height: 3%;
+  margin-top: 2%;
+  font-size: medium;
+}
+.addDocumentBtn:hover {
+  background-color: #c29243;
+}
+
+.documentTitle {
+  margin: 0 5%;
+  padding: 2% 5%;
+  border-radius: 10px;
+}
+.documentTitle:hover {
+  background-color: #c29243;
+}
+
+.toggleBtn {
+  font-size: medium;
+  background-color: #faf3dd;
+  border: none;
+}
+.add,
+.delete {
+  /* background-color: #faf3dd; */
+  margin-left: 10px;
+  font-size: medium;
+  border: none;
 }
