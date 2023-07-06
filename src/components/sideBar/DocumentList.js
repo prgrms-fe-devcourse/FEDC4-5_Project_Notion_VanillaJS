@@ -47,7 +47,7 @@ export default function DocumentList({ $target, initialState }) {
           });
           if (window.location.pathname === `/documents/${id}`)
             alert("이 페이지는 삭제되었습니다.");
-          history.replaceState(null, null, "/");
+          push(`/`);
         },
       });
     });
