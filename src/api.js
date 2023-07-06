@@ -1,4 +1,4 @@
-export const API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
+import { API_END_POINT, USER_NAME } from './constants.js';
 
 export const request = async (url, options = {}) => {
   try {
@@ -6,7 +6,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'x-username': 'eeseung',
+        'x-username': USER_NAME,
       },
     });
 

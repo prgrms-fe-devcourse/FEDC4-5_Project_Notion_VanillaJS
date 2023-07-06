@@ -1,6 +1,7 @@
 import { request } from '../api.js';
 import { getItem, setItem, removeItem } from '../utils/storage.js';
 import { push } from '../utils/router.js';
+import { TEMP_DOCUMENT_KEY, OPENED_DOCUMENTS_KEY, INIT_DOCUMENT } from '../constants.js';
 import DocumentList from '../components/DocumentList.js';
 import CreateButton from '../components/CreateButton.js';
 import Editor from '../components/Editor.js';
@@ -14,12 +15,9 @@ export default function NotionPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let documentLocalSaveKey = `temp-document-${this.state.documentId}`;
+  let documentLocalSaveKey = `${TEMP_DOCUMENT_KEY(this.state.documentId)}`;
   let timer = null;
-  const doc = getItem(documentLocalSaveKey, {
-    title: '',
-    content: '',
-  });
+  const doc = getItem(documentLocalSaveKey, INIT_DOCUMENT);
 
   const documentList = new DocumentList({
     $target: $sidebarContainer,
@@ -42,14 +40,14 @@ export default function NotionPage({ $target, initialState }) {
           ...this.state,
           openedDocuments: copyOpenedDocuments,
         });
-        setItem('opened-documents', copyOpenedDocuments);
+        setItem(OPENED_DOCUMENTS_KEY, copyOpenedDocuments);
       } else {
         // 토글 열기
         this.setState({
           ...this.state,
           openedDocuments: [...this.state.openedDocuments, parseInt(id)],
         });
-        setItem('opened-documents', this.state.openedDocuments);
+        setItem(OPENED_DOCUMENTS_KEY, this.state.openedDocuments);
       }
     },
     onCreate: async (id) => {
@@ -65,7 +63,7 @@ export default function NotionPage({ $target, initialState }) {
         ...this.state,
         openedDocuments: [...this.state.openedDocuments, id],
       });
-      setItem('opened-documents', this.state.openedDocuments);
+      setItem(OPENED_DOCUMENTS_KEY, this.state.openedDocuments);
     },
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
@@ -97,7 +95,7 @@ export default function NotionPage({ $target, initialState }) {
           ...this.state,
           openedDocuments: copyOpenedDocuments,
         });
-        setItem('opened-documents', copyOpenedDocuments);
+        setItem(OPENED_DOCUMENTS_KEY, copyOpenedDocuments);
       }
     },
   });
@@ -145,7 +143,7 @@ export default function NotionPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
-      documentLocalSaveKey = `temp-document-${nextState.documentId}`;
+      documentLocalSaveKey = `${TEMP_DOCUMENT_KEY(nextState.documentId)}`;
       this.state = nextState;
 
       await fetchDocument();
@@ -162,12 +160,7 @@ export default function NotionPage({ $target, initialState }) {
       openedDocuments: this.state.openedDocuments,
     });
 
-    editor.setState(
-      this.state.document || {
-        title: '',
-        content: '',
-      }
-    );
+    editor.setState(this.state.document || INIT_DOCUMENT);
   };
 
   // 하위 목록 토글 닫기
@@ -199,10 +192,7 @@ export default function NotionPage({ $target, initialState }) {
     if (documentId) {
       const document = await request(`/documents/${documentId}`);
 
-      const tempDocument = getItem(documentLocalSaveKey, {
-        title: '',
-        content: '',
-      });
+      const tempDocument = getItem(documentLocalSaveKey, INIT_DOCUMENT);
 
       if (tempDocument.tempSaveDate && tempDocument.tempSaveDate > document.updatedAt) {
         if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
