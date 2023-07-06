@@ -1,5 +1,7 @@
-import { getDocument, modifyDocument } from "../../api/api.js";
 import DocumentEditor from "./DocumentEditor.js";
+
+import { push } from "../../router.js";
+import { createDocument, getDocument, modifyDocument } from "../../api/api.js";
 
 export default function Document({ $target, initialState, onFetchSidebar }) {
   const $document = document.createElement("div");
@@ -8,15 +10,26 @@ export default function Document({ $target, initialState, onFetchSidebar }) {
 
   this.setState = async (nextState) => {
     if (nextState.id === null) {
+      this.state = nextState;
+
       documentEditor.setState({
-        title: "제목 없음",
-        content: "내용 없음",
+        title: "",
+        content: "",
       });
 
       return;
     }
 
-    this.state = await getDocument(nextState.id);
+    const document = await getDocument(nextState.id);
+
+    if (document === undefined) {
+      this.setState({ id: null });
+      push("/");
+
+      return;
+    }
+
+    this.state = document;
 
     documentEditor.setState({
       title: this.state.title,
@@ -35,9 +48,27 @@ export default function Document({ $target, initialState, onFetchSidebar }) {
       }
 
       timer = setTimeout(async () => {
+        if (this.state.id === null) {
+          const newState = {
+            title: nextState.title,
+            parent: null,
+          };
+          const modifiedNewState = {
+            title: nextState.title,
+            content: nextState.content,
+          };
+          const createdDocument = await createDocument(newState);
+
+          await modifyDocument(createdDocument.id, modifiedNewState);
+          onFetchSidebar();
+          push(`/documents/${createdDocument.id}`);
+
+          return;
+        }
+
         await modifyDocument(this.state.id, nextState);
         onFetchSidebar();
-      }, 2000);
+      }, 1000);
     },
   });
 

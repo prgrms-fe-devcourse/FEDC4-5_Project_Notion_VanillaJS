@@ -3,6 +3,8 @@ import Document from "./Document/Document.js";
 import { initRoute } from "../router.js";
 
 export default function App({ $target }) {
+  let isFirstRoute = true;
+
   const sidebar = new Sidebar({ $target });
 
   const document = new Document({
@@ -29,7 +31,14 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
 
+      if (isFirstRoute) {
+        document.setState({ id: null });
+        isFirstRoute = false;
+      }
+
       document.setState({ id: documentId });
+    } else {
+      document.setState("/");
     }
   };
 
