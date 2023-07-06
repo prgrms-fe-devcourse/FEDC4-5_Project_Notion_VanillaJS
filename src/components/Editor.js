@@ -31,7 +31,6 @@ export default function Editor({
   };
 
   $editor.addEventListener("keyup", (e) => {
-    //console.log("에디터 편집 시 발생 이벤트: ", e);
     const name = e.target.getAttribute("name");
 
     if (this.state[name]) {
@@ -41,6 +40,13 @@ export default function Editor({
       };
 
       this.setState(nextState);
+
+      console.log("넘겨준 doc: ", this.state);
+
+      //doc this.state:
+      //{id: 89730, title: 'ㅇ', createdAt: '2023-07-06T13:11:47.726Z', updatedAt: '2023-07-06T13:11:47.782Z', content: '', …}
+      //근데 content에서 변화 생길 땐 변화가 안 일어남...
+
       onEditing(this.state);
     }
   });

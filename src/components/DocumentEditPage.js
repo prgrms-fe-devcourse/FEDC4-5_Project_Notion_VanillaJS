@@ -23,6 +23,7 @@ export default function DocumentEditPage({ $target, initialState }) {
       content: "",
     },
     onEditing: (doc) => {
+      console.log("이게 doc이라고? :", doc);
       setItem(docLocalSaveKey, {
         ...doc,
         tempSaveDate: new Date(),
@@ -39,12 +40,9 @@ export default function DocumentEditPage({ $target, initialState }) {
             doc.title = "Untitled";
           }
 
-          const createDocument = await request("/documents", {
-            method: "POST",
-            body: JSON.stringify(doc),
-          });
+          console.log("doc.id: ", doc.id);
 
-          await request(`/documents/${createDocument.id}`, {
+          await request(`/documents/${doc.id}`, {
             method: "PUT",
             body: JSON.stringify(doc),
           });
@@ -74,7 +72,9 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     //nextState: 리스트에서 선택되는 문서 {docId: '89105'}
-    if (this.state.docID === nextState.docId) {
+
+    console.log("this.state.doc: ", this.state.docId);
+    if (this.state.docId === nextState.docId) {
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
         content: "",
@@ -86,8 +86,6 @@ export default function DocumentEditPage({ $target, initialState }) {
           doc: tempDocument,
         };
       } else {
-        //새 페이지 생성하고 수정 안 한 담에 새페이지 누르면
-        //화면 안 바뀌는 거 아냐??
         this.state = nextState;
       }
 
