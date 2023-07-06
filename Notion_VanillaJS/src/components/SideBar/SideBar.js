@@ -117,6 +117,10 @@ export default class SideBar extends Component {
     });
   }
 
+  mounted() {
+    this.openDropDown();
+  }
+
   async onClickDelete({ target }) {
     const deletedId = target.closest('[data-id]').dataset.id;
     await PostListStore.dispatch({
@@ -153,5 +157,23 @@ export default class SideBar extends Component {
     const { id } = title.closest('[data-id]').dataset;
 
     push(`/posts/${id}`);
+  }
+
+  openDropDown() {
+    const postId = PostStore.getState()?.post?.id;
+    if (!postId) return;
+    let listItem = this.$target.querySelector(`li[data-id='${postId}']`);
+    while (listItem) {
+      const dropDownButton = listItem.querySelector(`.dropDown`);
+      const childList = listItem.querySelector(`.${styles.childList}`);
+
+      if (dropDownButton && childList) {
+        dropDownButton.classList.add(`${styles.down}`);
+        childList.classList.add(`${styles.open}`);
+      }
+
+      const { parentNode } = listItem;
+      listItem = parentNode?.closest('li[data-id]');
+    }
   }
 }
