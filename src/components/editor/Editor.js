@@ -25,8 +25,24 @@ export default function Editor({
   }
 
   this.render = () => {
+    const richContent = (this.state.content || '')
+      .split('\n')
+      .map((line) => {
+        if (line === "") return "";
+        if (line.indexOf('# ') === 0) {
+          return `<div><h1>${line.substring(2)}</h1></div>`;
+        } else if (line.indexOf('## ') === 0) {
+          return `<div><h2>${line.substring(3)}</h2></div>`;
+        } else if (line.indexOf('### ') === 0) {
+          return `<div><h3>${line.substring(4)}</h3></div>`;
+        } else {
+          line = `<div>${line}</div>`;
+        }
+        return line;
+      }).join('');
     editorElement.querySelector('[name=title]').value = this.state.title;
-    editorElement.querySelector('[name=content]').innerHTML = this.state.content;
+    editorElement.querySelector('[name=content]').innerHTML = richContent;
+    (this.state.conent || '').replace(/\n/g, '<br>');
   }
   this.render();
 
@@ -44,6 +60,15 @@ export default function Editor({
     const nextState = {
       ...this.state,
       content: e.target.innerHTML
+    }
+
+    onEditing(nextState);
+  })
+
+  editorElement.querySelector('[name=content]').addEventListener('blur', (e) => {
+    const nextState = {
+      ...this.state,
+      content: e.target.innerText
     }
 
     this.setState(nextState);
