@@ -1,7 +1,7 @@
-import { PATH } from "../../constants/path.js";
-import { debounce } from "../../utils/debounce.js";
-import { push } from "../../utils/route.js";
-import { getItem, setItem } from "../../utils/storage.js";
+import { PATH } from "../../../constants/path.js";
+import { debounce } from "../../../utils/debounce.js";
+import { push } from "../../../utils/route.js";
+import { getItem, setItem } from "../../../utils/storage.js";
 
 export default function Home({ parentElement, search }) {
   if (!new.target) return new Home(...arguments);
@@ -50,7 +50,7 @@ export default function Home({ parentElement, search }) {
     parentElement.append(containerElement);
     containerElement.innerHTML = `
       <div class="search-container">
-      <input placeholder="Jongtion 전체 문서 검색" autofocus class="search" value="${
+      <input placeholder="Jongtion 전체 문서 검색" class="search" value="${
         this.state.text
       }" />
       ${

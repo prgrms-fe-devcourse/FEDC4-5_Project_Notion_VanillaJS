@@ -1,7 +1,7 @@
-import { getDocument } from "../../api/document.js";
-import { PATH } from "../../constants/path.js";
-import { push } from "../../utils/route.js";
-import RecurChildDocument from "../template/RecurChildDocument.js";
+import { getDocument } from "../../../api/document.js";
+import { PATH } from "../../../constants/path.js";
+import { push } from "../../../utils/route.js";
+import RecurChildDocument from "./template/RecurChildDocument.js";
 
 export default function DocumentEditor({
   parentElement,
@@ -53,14 +53,15 @@ export default function DocumentEditor({
 
     const childDocuments = getChildDocuments(documentId);
     const data = await getDocument(documentId);
+    const { title, content } = data;
 
-    this.setState({ title: data.title, content: data.content, documentId });
+    this.setState({ title, content, documentId });
 
     containerElement.innerHTML = `
       <input type="text" class="editor-title" value="${
-        data.title ?? ""
+        title ?? ""
       }" placeholder="제목 없음" />
-      <div contentEditable class="editor-content">${data.content ?? ""}</div>
+      <div contentEditable class="editor-content">${content ?? ""}</div>
       ${RecurChildDocument(childDocuments)}
     `;
   };

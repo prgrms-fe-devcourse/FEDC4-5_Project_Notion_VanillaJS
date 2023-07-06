@@ -1,12 +1,11 @@
-import { getDocuments, postDocument } from "../../api/document.js";
-import { PATH } from "../../constants/path.js";
-import { push } from "../../utils/route.js";
-import AddButton from "../common/AddButton.js";
+import { getDocuments, postDocument } from "../../../api/document.js";
+import { PATH } from "../../../constants/path.js";
+import { push } from "../../../utils/route.js";
+import AddButton from "../../common/AddButton.js";
 
 export default function DocumentList({
   parentElement,
   renderItemComponent,
-  serverRender,
   onAddButtonClick,
 }) {
   if (!new.target) return new DocumentList(...arguments);
@@ -27,13 +26,6 @@ export default function DocumentList({
     text: "+",
     tooltipText: "페이지 추가",
   });
-
-  this.getServer = async () => {
-    const newState = await getDocuments();
-
-    serverRender(newState);
-    this.render();
-  };
 
   this.render = () => {
     containerElement.innerHTML = ``;

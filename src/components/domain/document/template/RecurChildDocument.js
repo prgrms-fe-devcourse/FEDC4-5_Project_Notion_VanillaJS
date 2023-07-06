@@ -1,5 +1,4 @@
 /**
- * @param {rootDocument} currentDocument
  * @description 현재 문서의 자식 문서
  */
 
