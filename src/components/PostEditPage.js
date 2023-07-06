@@ -1,7 +1,7 @@
 import PostEditor from './PostEditor.js';
 import { request } from '../util/api.js';
 
-export default function PostPage({ $target, initialState }) {
+export default function PostEditPage({ $target, initialState, onChange }) {
   const $page = document.createElement('div');
 
   this.state = initialState;
@@ -23,12 +23,24 @@ export default function PostPage({ $target, initialState }) {
             method: 'POST',
             body: JSON.stringify({
               ...post,
-              parentId: null,
+              parent: this.state.parentId,
             }),
           });
+
+          await request(`/${createdPost.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              title: post.title,
+              content: post.content,
+            }),
+          });
+
+          onChange(post.title, createdPost.id);
+
           history.replaceState(null, null, `/posts/${createdPost.id}`);
           this.setState({
-            postId: createdPost.id,
+            ...this.state,
+            postId: createdPost.id.toString(), // string
           });
         } else {
           await request(`/${this.state.postId}`, {
@@ -39,7 +51,7 @@ export default function PostPage({ $target, initialState }) {
             }),
           });
         }
-      }, 500);
+      }, 2000);
     },
   });
 
@@ -59,13 +71,15 @@ export default function PostPage({ $target, initialState }) {
       } else {
         await fetchPost();
       }
+
       return;
     }
+
     this.state = nextState;
 
-    postEditor.setState(this.state.post);
-
     this.render();
+
+    postEditor.setState(this.state.post);
   };
 
   this.render = () => {
@@ -73,7 +87,7 @@ export default function PostPage({ $target, initialState }) {
   };
 
   const fetchPost = async () => {
-    const { postId } = this.state;
+    const { postId } = this.state; // string
 
     if (postId !== 'new') {
       const post = await request(`/${postId}`);

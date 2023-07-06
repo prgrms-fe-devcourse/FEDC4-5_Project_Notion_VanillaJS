@@ -52,8 +52,12 @@ export default function PostEditor({ $target, initialState, onEditing }) {
   });
 
   $editor.querySelector('[name=content]').addEventListener('keyup', (e) => {
-    const nextState = {
+    let nextState = {
       ...this.state,
+      title:
+        $editor.querySelector('[name=title]').innerHTML === ''
+          ? '제목없음'
+          : $editor.querySelector('[name=title]').innerHTML,
       content: e.target.innerText,
     };
 
@@ -72,6 +76,10 @@ export default function PostEditor({ $target, initialState, onEditing }) {
   $editor.querySelector('[name=content]').addEventListener('blur', (e) => {
     const nextState = {
       ...this.state,
+      title:
+        $editor.querySelector('[name=title]').innerHTML === ''
+          ? '제목없음'
+          : $editor.querySelector('[name=title]').innerHTML,
       content: e.target.innerText,
     };
 
