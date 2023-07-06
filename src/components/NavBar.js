@@ -12,10 +12,10 @@ export default function NavBar({ targetElement, documentPath }) {
   this.render = () => {
     targetElement.innerHTML = '';
     documentPath.slice(0, documentPath.length - 1)?.forEach(({ id, title }) => {
-      const 구분자 = document.createElement('span');
-      구분자.textContent = '/';
+      const seperatorElement = document.createElement('span');
+      seperatorElement.textContent = '/';
       const linkElement = document.createElement('button');
-      targetElement.appendChild(구분자);
+      targetElement.appendChild(seperatorElement);
       targetElement.appendChild(linkElement);
       new Button({
         targetElement: linkElement,
