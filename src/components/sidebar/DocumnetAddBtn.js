@@ -12,9 +12,11 @@ export default class DocumentAddBtn {
   initEvent() {
     this.$button.addEventListener("click", (event) => {
       event.preventDefault();
-      new DocumentInput({
-        $target: this.$target.querySelector(".document-list"),
-      });
+      if (event.target.tagName === "BUTTON") {
+        new DocumentInput({
+          $target: this.$target.querySelector(".document-list"),
+        });
+      }
     });
   }
 

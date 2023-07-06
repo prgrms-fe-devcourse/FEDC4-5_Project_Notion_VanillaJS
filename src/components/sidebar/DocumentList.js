@@ -10,13 +10,13 @@ export default class DocumentList {
     this.$list.classList.add("document-list");
     this.state = store.state.documentsTree;
     this.foldedList = getItem("folded", []);
+    $target.appendChild(this.$list);
 
     store.subscribeSidebar(() => {
       this.setState(store.state.documentsTree);
     });
 
     this.initEvent();
-    $target.appendChild(this.$list);
     this.render();
   }
 
@@ -30,6 +30,7 @@ export default class DocumentList {
       ) {
         history.pushState(null, null, `/documents/${targetDocument.id}`);
         store.documentGet(targetDocument.id);
+        store.notifySidebar();
       }
 
       if (targetDocument.classList.contains("toggle-folder")) {
@@ -83,22 +84,27 @@ export default class DocumentList {
   createCustomListString(document, string) {
     let ulStyle = "";
     let imgStyle = "";
-    if (this.foldedList.includes(String(document.id))) {
+    let selectStyle = "";
+    const currentDocumentId = String(document.id);
+    if (this.foldedList.includes(currentDocumentId)) {
       ulStyle = "style='display:none'";
       imgStyle = "style='transform: rotate(-90deg)'";
     }
+    if (this.documentId === currentDocumentId) {
+      selectStyle = "style='background-color:lightblue'";
+    }
 
     const nextDocument = document.documents;
-    string += `<span id=${document.id} class="select-document">
+    string += `<span id=${currentDocumentId} class="select-document" ${selectStyle}>
       ${
         nextDocument.length
           ? `<img class="toggle-folder" ${imgStyle} src=${arrowImg} alt="arrow.svg"/>`
           : ""
       }
       <img src=${documentImg} alt="document.svg"/>
-      <span  id=${document.id} class="document-list-title">${
-      document.title
-    }</span>
+      <span  id=${currentDocumentId} class="document-list-title">
+      ${document.title}
+      </span>
       </span>`;
     string += `<ul data-toggle='true' ${ulStyle} class='document-group'>`;
     for (const documents of nextDocument) {
@@ -109,6 +115,9 @@ export default class DocumentList {
   }
 
   render() {
+    const { pathname } = window.location;
+    this.documentId = pathname.split("/")[2];
+
     const htmlString = this.state.reduce((acc, doc) => {
       return this.createCustomListString(doc, acc);
     }, "");

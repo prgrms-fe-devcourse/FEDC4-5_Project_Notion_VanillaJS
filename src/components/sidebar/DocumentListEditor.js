@@ -17,10 +17,6 @@ export default class DocumentListEditor {
       const action = event.target.dataset.action;
       if (action === "produce") {
         const foldedList = getItem("folded", []);
-        new DocumentInput({
-          $target: this.$target.nextElementSibling,
-          targetId: this.$target.id,
-        });
         if (foldedList.includes(this.$target.id)) {
           foldedList.splice(foldedList.indexOf(this.$target.id), 1);
           setItem("folded", [...foldedList]);
@@ -34,6 +30,10 @@ export default class DocumentListEditor {
       } else if (action === "delete") {
         store.documentDelete(this.$target.id);
       }
+      new DocumentInput({
+        $target: this.$target.nextElementSibling,
+        targetId: this.$target.id,
+      });
     });
   }
 

@@ -56,7 +56,8 @@ class Store {
   async documentGet(id) {
     const saveLocalData = getItem(id, false);
     const response = await request(`/documents/${id}`);
-    const { updatedAt } = response;
+    const { updatedAt, title } = response;
+    this.setState({ ...this.state, documentContent: response });
 
     if (saveLocalData) {
       const { content, saveTime } = saveLocalData;
@@ -64,18 +65,18 @@ class Store {
       const localTime = new Date(saveTime);
       const serverTime = new Date(updatedAt);
 
-      if (localTime.getTime() < serverTime.getTime()) {
-        this.setState({ ...this.state, documentContent: response });
-      } else {
+      if (localTime.getTime() > serverTime.getTime()) {
         this.setState({
           ...this.state,
           documentContent: {
             ...this.state.documentContent,
-            content: content,
+            content,
+            title,
           },
         });
       }
     }
+
     this.notifyEditor();
   }
 

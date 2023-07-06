@@ -2,12 +2,14 @@ import store from "../../util/Store";
 import { setItem } from "../../util/storage";
 export default class DocumentEditor {
   constructor({ $target }) {
-    const { pathname } = window.location;
     this.$editor = document.createElement("div");
     this.$editor.setAttribute("id", "documentContent");
     this.$editor.setAttribute("contenteditable", "true");
-    this.documentId = pathname.split("/")[2];
     $target.appendChild(this.$editor);
+
+    const { pathname } = window.location;
+    this.documentId = pathname.split("/")[2];
+
     this.initEvent();
     this.render();
   }
@@ -33,7 +35,7 @@ export default class DocumentEditor {
     });
 
     this.$editor.addEventListener("keydown", (event) => {
-      this.applyStyles(); // 다음 입력에 선택된 스타일 적용
+      this.applyStyles();
     });
   }
 

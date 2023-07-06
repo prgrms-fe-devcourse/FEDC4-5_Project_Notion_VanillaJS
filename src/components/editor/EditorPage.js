@@ -3,7 +3,7 @@ import DefaultPage from "./DefaultPage.js";
 import store from "../../util/Store.js";
 import DocumentEditor from "./DocumentEditor.js";
 import DocumentToolbar from "./DocumentToolbar.js";
-
+import SubfolderView from "./SubfolderView.js";
 export default class EditorPage {
   constructor({ $target }) {
     this.$editorPage = document.createElement("section");
@@ -38,6 +38,10 @@ export default class EditorPage {
       });
 
       new DocumentEditor({
+        $target: $editorPage,
+      });
+
+      new SubfolderView({
         $target: $editorPage,
       });
     }

@@ -1,0 +1,13 @@
+export { default as arrowImg } from "./arrowImg.svg";
+export { default as documentImg } from "./documentImg.svg";
+export { default as plusImg } from "./plusImg.svg";
+export { default as boldImg } from "./boldImg.svg";
+export { default as italicImg } from "./italicImg.svg";
+export { default as justifyLeftImg } from "./justifyLeftImg.svg";
+export { default as justifyCenterImg } from "./justifyCenterImg.svg";
+export { default as justifyRightImg } from "./justifyRightImg.svg";
+export { default as insertOrderedListImg } from "./insertOrderedListImg.svg";
+export { default as insertUnorderedListImg } from "./insertUnorderedListImg.svg";
+export { default as underlineImg } from "./underlineImg.svg";
+export { default as strikeThroughImg } from "./strikeThroughImg.svg";
+export { default as broomImg } from "./broomImg.svg";

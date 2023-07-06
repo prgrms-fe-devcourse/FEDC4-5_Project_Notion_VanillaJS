@@ -39,7 +39,7 @@ main {
 }
 
 .select-document:hover {
-  background-color: lightblue;
+  background-color: rgba(173, 216, 230, 0.356);
 }
 
 .editor-default-section {
@@ -48,17 +48,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.editor-section #documentContent {
-  width: 100%;
-  height: 70%;
-  background-color: rgb(194, 191, 191);
-}
-
-.document-toolbar {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 input:focus {
@@ -70,7 +59,6 @@ input:focus {
   width: 30vw;
   height: 100vh;
 
-  background: rgb(255, 255, 255);
   min-width: 343px;
   display: flex;
   flex-direction: column;
@@ -93,15 +81,18 @@ input:focus {
   font-weight: 700;
   color: aliceblue;
 
-  margin: 15% 5%;
+  margin: 30% 5%;
 
   cursor: pointer;
 }
 
 .document-list {
-  padding-left: 5px;
+  padding: 0 0 7px 5px;
   max-height: 70%;
   overflow: auto;
+
+  border: 1px solid rgb(175, 174, 174);
+  border-right: none;
 }
 
 .document-group {
@@ -151,4 +142,65 @@ input:focus {
   box-shadow: 5px 5px 5px rgba(30, 175, 201, 0.278);
   cursor: pointer;
   color: white;
+}
+
+/* ============================== */
+
+.editor-section {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(245, 246, 249);
+}
+.editor-section input {
+  width: 100%;
+  height: 10%;
+  margin: 20px;
+
+  font-size: 30px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(1, 196, 212);
+}
+
+.editor-section #documentContent {
+  width: 100%;
+  height: 60%;
+
+  margin: 0 20px;
+  background-color: white;
+  border: 30px solid rgb(227, 227, 227);
+
+  overflow: auto;
+}
+:focus {
+  outline: none;
+}
+
+.document-toolbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  width: 70%;
+  height: 40px;
+  margin: auto;
+}
+
+.document-toolbar button {
+  width: 40px;
+  height: 40px;
+}
+
+.subfolder-view {
+  height: 10%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.subfolder-view div {
+  padding-bottom: 3px;
 }

@@ -1,43 +1,76 @@
 import store from "../../util/Store";
+import {
+  boldImg,
+  underlineImg,
+  italicImg,
+  justifyLeftImg,
+  justifyCenterImg,
+  justifyRightImg,
+  insertOrderedListImg,
+  insertUnorderedListImg,
+  strikeThroughImg,
+  broomImg,
+} from "../../../public/index.js";
 
 export default class DocumentToolbar {
   constructor({ $target }) {
     this.$toolbar = document.createElement("div");
     this.$toolbar.classList.add("document-toolbar");
-    this.$toolbar.innerHTML = `
-    <button class="action-style-btn" data-action="bold">bold</button>
-    <button class="action-style-btn" data-action="underline">underline</button>
-    <button class="action-style-btn" data-action="italic">italic</button>
 
-    <button class="action-sort-btn" data-action="justifyLeft">justifyLeft</button>
-    <button class="action-sort-btn" data-action="justifyCenter">justifyCenter</button>
-    <button class="action-sort-btn" data-action="justifyFull">justifyFull</button>
-    <button class="action-sort-btn" data-action="justifyRight">justifyRight</button>
+    this.$toolbar.innerHTML = `
+    <button class="action-style-btn" data-action="bold">
+      <img src=${boldImg} class="icon"></img>
+    </button>
+    <button class="action-style-btn" data-action="italic">
+      <img src=${italicImg} class="icon"></img>
+    </button>
+    <button class="action-style-btn" data-action="strikeThrough">
+      <img src=${strikeThroughImg} class="icon"></img>
+    </button>
+    <button class="action-style-btn" data-action="underline">
+      <img src=${underlineImg} class="icon"></img>
+    </button>
+    <button class="action-sort-btn" data-action="justifyLeft">
+      <img src=${justifyLeftImg} class="icon"></img>
+    </button>
+    <button class="action-sort-btn" data-action="justifyCenter">
+      <img src=${justifyCenterImg} class="icon"></img>
+    </button>
+    <button class="action-sort-btn" data-action="justifyRight">
+      <img src=${justifyRightImg} class="icon"></img>
+    </button>
     
+    <button class="action-style-btn" data-action="insertOrderedList">
+      <img src=${insertOrderedListImg} class="icon"></img>
+    </button>
+    <button class="action-style-btn" data-action="insertUnorderedList">
+      <img src=${insertUnorderedListImg} class="icon"></img>
+    </button>
     
-    <button class="action-style-btn" data-action="insertOrderedList">insertOrderedList</button>
-    <button class="action-style-btn" data-action="insertUnorderedList">insertUnorderedList</button>
-    
-    <button class="action-style-btn" data-action="insertImage">insertImage</button>
-    <button class="action-style-btn" data-action="createLink">createLink</button>
-    <button class="action-style-btn" data-action="removeFormat">Remove font style</button>
+    <button class="action-style-btn" data-action="insertImage">iI</button>
+    <button class="action-style-btn" data-action="createLink">cL</button>
+    <button class="action-style-btn" data-action="removeFormat">
+      <img src=${broomImg} class="icon"></img>
+    </button>
   `;
+
     // <button class="action-style-btn" data-action="h1">h1</button>
     // <button class="action-style-btn" data-action="h2">h2</button>
     // <button class="action-style-btn" data-action="h3">h3</button>
     // <button class="action-style-btn" data-action="h4">h4</button>
     // <button class="action-style-btn" data-action="h5">h5</button>
     // <button class="action-style-btn" data-action="h6">h6</button>
+
     this.initEvent();
     $target.appendChild(this.$toolbar);
   }
 
   applyStyle(action) {
-    const [textStyle, parentNode] = this.getSelectedTextStyle();
+    const textStyle = this.getSelectedTextStyle();
     const formattedElement = document.createElement("span");
     const selectedTextContent = this.getSelectedTextContent();
     store.state.selectedStyles = action;
-    console.log(parentNode);
+
     if (action === "bold") {
       const isBold = textStyle && textStyle.fontWeight === "700";
       formattedElement.style.fontWeight = isBold ? "normal" : "bold";
@@ -49,12 +82,19 @@ export default class DocumentToolbar {
         textStyle && textStyle.textDecoration.includes("underline");
       formattedElement.style.textDecoration = isUnderline
         ? "none"
-        : "underline"; // 부모태그로 인해 안사라짐
+        : "underline";
     } else if (action === "removeFormat") {
       formattedElement.style.fontWeight = "normal";
       formattedElement.style.fontStyle = "normal";
       formattedElement.style.textDecoration = "none";
+    } else if (action === "strikeThrough") {
+      const isStrikeThrough =
+        textStyle && textStyle.textDecoration.includes("line-through");
+      formattedElement.style.textDecoration = isStrikeThrough
+        ? "none"
+        : "line-through";
     }
+
     this.wrapSelectedText(formattedElement, selectedTextContent);
   }
 
@@ -75,7 +115,7 @@ export default class DocumentToolbar {
     const selection = document.getSelection();
     const node = selection.anchorNode;
     if (node) {
-      return [getComputedStyle(node.parentElement), node.parentElement];
+      return getComputedStyle(node.parentElement);
     }
     return null;
   }
@@ -110,39 +150,3 @@ export default class DocumentToolbar {
     });
   }
 }
-
-// case "h1":
-//     case "h2":
-//     case "h3":
-//     case "h4":
-//     case "h5":
-//     case "h6":
-//       this.applyHeading(action);
-//       break;
-// switch (action) {
-//   case "bold":
-//     this.applyBold();
-//     break;
-//   case "underline":
-//     this.applyUnderline();
-//     break;
-//   case "removeFormat":
-//     // ...생략...
-//     break;
-
-// ...생략...
-// }
-
-//   applyUnderline() {
-//     const selectedTextContent = this.getSelectedTextContent();
-//     const formattedElement = document.createElement("span");
-//     formattedElement.style.textDecoration = "underline";
-//     this.wrapSelectedText(formattedElement, selectedTextContent);
-//   }
-
-//   applyHeading(level) {
-//     const selectedTextContent = this.getSelectedTextContent();
-//     const headingElement = document.createElement(level);
-//     store.state.selectedStyles = level;
-//     this.wrapSelectedText(headingElement, selectedTextContent);
-//   }
