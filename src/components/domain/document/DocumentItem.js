@@ -11,7 +11,7 @@ export default function DocumentItem({
 }) {
   const containerElement = document.createElement("div");
   containerElement.className = "document-container";
-  containerElement.style.setProperty("--depth", depthCount > 10 ? 0 : "20px");
+  containerElement.style.setProperty("--depth", depthCount > 8 ? 0 : "20px");
 
   const tooltipChildAddElement = new Tooltip({ text: "하위 페이지 추가" });
   const tooltipRemoveElement = new Tooltip({ text: "삭제" });

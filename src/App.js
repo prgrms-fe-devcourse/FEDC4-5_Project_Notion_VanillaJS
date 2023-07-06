@@ -27,10 +27,12 @@ export default function App({ appElement }) {
   const wrapperContainer = document.createElement("div");
   const leftContainerElement = document.createElement("div");
   const rightContainerEleement = document.createElement("div");
+  const leftListElement = document.createElement("div");
 
   wrapperContainer.className = "wrapper-container";
   leftContainerElement.className = "left-container";
   rightContainerEleement.className = "right-container";
+  leftListElement.className = "left-list-container";
 
   const trie = new TrieDocument();
 
@@ -53,7 +55,7 @@ export default function App({ appElement }) {
   const layoutComponent = new Layout({ parentElement: leftContainerElement });
 
   const documentListComponent = new DocumentList({
-    parentElement: leftContainerElement,
+    parentElement: leftListElement,
     renderItemComponent: (parentElement) => {
       RecurDocumentList({
         rootDocuments: this.state,
@@ -117,6 +119,7 @@ export default function App({ appElement }) {
     wrapperContainer.append(leftContainerElement, rightContainerEleement);
 
     layoutComponent.render();
+    leftContainerElement.append(leftListElement);
 
     const newState = await getDocuments();
     this.setState(newState);

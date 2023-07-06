@@ -1,4 +1,4 @@
-import { getDocuments, postDocument } from "../../../api/document.js";
+import { postDocument } from "../../../api/document.js";
 import { PATH } from "../../../constants/path.js";
 import { push } from "../../../utils/route.js";
 import AddButton from "../../common/AddButton.js";
