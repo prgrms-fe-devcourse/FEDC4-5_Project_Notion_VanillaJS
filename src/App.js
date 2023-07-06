@@ -36,6 +36,9 @@ export default function App({ $target }) {
     onChange: (text, id) => {
       category.template(text, id);
     },
+    onDelete: () => {
+      category.template(undefined, -1);
+    },
   });
 
   this.route = () => {
@@ -46,7 +49,7 @@ export default function App({ $target }) {
       const [, , id] = pathname.split('/');
       postEditPage.setState({
         ...postEditPage.state,
-        postId: id, // string
+        postId: id,
       });
     } else if (pathname === '/') {
       $right.innerHTML = '';
@@ -54,4 +57,6 @@ export default function App({ $target }) {
   };
   this.route();
   initRouter(() => this.route());
+
+  window.addEventListener('popstate', () => this.route());
 }
