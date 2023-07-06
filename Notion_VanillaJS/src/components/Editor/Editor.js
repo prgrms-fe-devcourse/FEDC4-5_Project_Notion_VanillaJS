@@ -9,9 +9,11 @@ import {
   applyStyle,
   deleteStyle,
   focusLastChar,
-  isDefaultAlign,
+  isLeftAlign,
   isSpan,
   changeStyle,
+  isAppliedOtherStyles,
+  deleteAlign,
 } from './helper';
 
 export default class Editor extends Component {
@@ -136,35 +138,29 @@ export default class Editor extends Component {
 
     if (!$content || !isSafeRange(range)) return;
 
-    function isAppliedOtherStyles($parent) {
-      const styles = ['fontWeight', 'fontStyle', 'textDecoration', 'display'];
-      return styles.some((style) => $parent.style[style]);
-    }
-
-    function normalizefor($parent) {
-      $parent.normalize();
-    }
-
     if (isApplied($parent, style)) {
-      if (isAppliedOtherStyles($parent)) {
-        changeStyle($parent, style);
-        if (!isAppliedOtherStyles($parent))
-          deleteStyle(selection, range, $parent);
-        normalizefor(range.startContainer);
-        return;
-      }
-      deleteStyle(selection, range, $parent);
-      normalizefor(range.startContainer);
+      if (isAppliedOtherStyles($parent)) changeStyle($parent, style);
+
+      if (!isAppliedOtherStyles($parent))
+        deleteStyle(selection, range, $parent);
+
       return;
     }
 
-    const $newParent = document.createElement('span');
+    if (isLeftAlign(style)) {
+      if (!isSpan($parent)) return;
+      deleteAlign($parent);
+      if (!isAppliedOtherStyles($parent))
+        deleteStyle(selection, range, $parent);
+      return;
+    }
 
-    if (isDefaultAlign($parent, style)) return;
     if (isSpan($parent)) {
       applyStyle($parent, style);
       return;
     }
+
+    const $newParent = document.createElement('span');
 
     applyStyle($newParent, style);
     range.surroundContents($newParent);
