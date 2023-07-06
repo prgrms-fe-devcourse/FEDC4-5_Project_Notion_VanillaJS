@@ -1,6 +1,7 @@
-import { getDocument } from "../../api/api.js";
-import LinkButton from "../linkbutton/LinkButton.js";
+import { deleteDocument, getDocument, postDocument } from "../../api/api.js";
+import { push } from "../../route/router.js";
 import DocumentList from "./DocumentList.js";
+import LinkButton from "../linkbutton/LinkButton.js";
 import SidebarHeader from "./SidebarHeader.js";
 
 export default function SideNavbar({ parent, initialState }) {
@@ -17,7 +18,7 @@ export default function SideNavbar({ parent, initialState }) {
     }
   })
 
-  new DocumentList({
+  const documentList = new DocumentList({
     parent: page,
     initialState,
     onDeleteDocument: async (id) => {
@@ -28,7 +29,22 @@ export default function SideNavbar({ parent, initialState }) {
 
   new LinkButton({
     $target: page,
+    initialState: {
+      text: '+ 페이지 추가',
+      id: 'add-document-button'
+    },
+    action: async () => {
+      const { id } = await postDocument('/documents');
+      push(`/documents/${id}`);
+      this.setState();
+    }
   })
+  
+  this.setState = async () => {
+    const documents = await getDocument('/documents');
+
+    documentList.setState(documents);
+  }
 
   this.render = () => {
     parent.appendChild(page);
