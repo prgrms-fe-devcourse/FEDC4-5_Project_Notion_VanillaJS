@@ -17,7 +17,6 @@ const storage = (function (storage) {
       }
       return defaultValue
     } catch (error) {
-      console.error(error)
       return storage.getItem(key)
     }
   }
