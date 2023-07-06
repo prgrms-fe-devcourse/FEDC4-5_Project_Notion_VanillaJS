@@ -1,0 +1,158 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+button {
+    cursor: pointer;
+    background-color: none;
+    border: transparent;
+}
+
+i {
+    padding: 0;
+}
+
+textarea,
+input {
+    appearance: none;
+    caret-color: black;
+}
+
+/* 사이드 바 부분 스타일 */
+.notion-Listpage {
+    max-width: 280px;
+    height: 100%;
+    flex: 4;
+    background-color: #eee;
+}
+
+.notionList-header {
+    margin-left: 10px;
+}
+
+.document-item {
+    max-width: inherit;
+    display: flex;
+    overflow: hidden;
+}
+
+.buttons {
+    margin-left: auto;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.document-list {
+    max-width: inherit;
+    margin-left: 5px;
+    height: 80%;
+}
+
+.document-list ul {
+    padding-left: 12px;
+    list-style: none;
+    line-height: 27px;
+    color: rgba(25, 23, 17, 0.6);
+}
+
+.document-list .buttons :hover {
+    color: #dededd;
+}
+
+.document-list li.document-item {
+    display: block;
+    overflow: hidden;
+    display: flex;
+    white-space: nowrap;
+}
+
+.document-item .list-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.new-rootDocument .btn-add {
+    border: none;
+    color: inherit;
+}
+
+.new-rootDocument i {
+    margin-top: 2px;
+    margin-right: 9px;
+    font-size: 15px;
+}
+
+/* 에디터 부분 스타일 */
+
+.edit-page {
+    flex: 8;
+}
+
+.editor {
+    margin: 50px 80px;
+    height: 80%;
+}
+
+.editor .editor-title,
+.editor .editor-content {
+    width: 100%;
+    padding: 10px;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+}
+
+.editor .editor-title {
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.editor-title::placeholder {
+    color: #e1e1e2;
+}
+
+.editor-content {
+    margin-top: 15px;
+    font-size: 20px;
+    height: 70%;
+}
+
+.editor-content::placeholder {
+    color: #e1e1e2;
+}
+
+.subDocument {
+    margin: 50px 0px 0px 30px;
+    position: fixed;
+    bottom: 30px;
+}
+
+.subDocument ul {
+    margin-left: 20px;
+    padding-left: 1px;
+    cursor: pointer;
+}
+
+.subDocument .document-item {
+    display: block;
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
