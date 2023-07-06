@@ -1,0 +1,28 @@
+{
+  "name": "W05",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS.git",
+  "author": "wukddang <43228743+funkyblues@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "start": "webpack serve --mode=development"
+  },
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-webpack": "^0.13.2",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "prettier": "^2.8.8",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
