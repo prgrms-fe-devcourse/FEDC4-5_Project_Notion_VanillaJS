@@ -1,4 +1,4 @@
-import { request } from '../utils/request.js';
+import { request } from './request.js';
 
 export const getDocuments = () => request('/documents');
 export const getDocument = (id) => request(`/documents/${id}`);

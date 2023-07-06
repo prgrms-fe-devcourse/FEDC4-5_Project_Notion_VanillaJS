@@ -8,9 +8,9 @@ import renderDocumentPage from './pages/documents.js';
 const renderPage = (...props) => {
   const { pathname } = window.location;
 
-  if (pathname === '/') navigate('/documents/');
-  else if (pathname.indexOf('/documents/') === 0) renderDocumentPage(...props);
-  else navigate('/documents/');
+  if (pathname === '/') navigate('/documents/0');
+  else if (/^\/documents\/\d/.test(pathname)) renderDocumentPage(...props);
+  else navigate('/documents/0');
 };
 
 export default renderPage;

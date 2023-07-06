@@ -5,9 +5,7 @@ import { findDocumentRoute } from '../../helpers/documentHelper.js';
  */
 const renderDocumentPage = async ({ documentPage, documentStore, editorStore }) => {
   const { pathname } = window.location;
-  
-  let [, , id] = pathname.split('/');
-  const documentId = Number(id);
+  const documentId = Number(pathname.split('/').at(2)) || 0;
 
   await loadDocuments({ documentStore });
   await pushAllStorageDocuments({ documentStore, editorStore });
