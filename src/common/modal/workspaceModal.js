@@ -9,35 +9,40 @@ export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
     documentAdapter.updateCurrentUser()
   }
 
-  this.state = storage.getItem("userName")
-    ? storage.getItem("userName")
-    : JSON.parse(storage.setItem("userName", JSON.stringify([{ label: "기본", name: userName }])))
+  this.state =
+    storage.getItem("userName") ??
+    JSON.parse(storage.setItem("userName", JSON.stringify([{ label: "기본", name: userName }])))
 
   this.setState = (nextState) => {
     this.state = nextState
     this.render()
   }
 
-  const $list = document.createElement("ul")
-  $list.className = "workspace-list"
-  const $alert = document.createElement("div")
-  $alert.className = "workspace-alert"
-
-  const $form = document.createElement("form")
-  $form.addEventListener("submit", (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const userName = $input.value.trim()
+
     if (validateUserName(userName)) {
-      this.setState([...this.state, { label: userName, name: userName }])
-      storage.setItem("userName", JSON.stringify(this.state))
+      const nextState = [...this.state, { label: userName, name: userName }]
+      storage.setItem("userName", JSON.stringify(nextState))
+      this.setState(nextState)
       $input.value = ""
     } else {
-      $alert.innerText = "유저 이름은 1~10자의 영문자와 \n 숫자로 이루어져야 합니다."
+      $alert.innerText = "유저 이름은 1~10자의 영문자와 숫자로 이루어져야 합니다."
       setTimeout(() => {
         $alert.innerText = ""
       }, 3000)
     }
-  })
+  }
+
+  const $list = document.createElement("ul")
+  $list.className = "workspace-list"
+
+  const $alert = document.createElement("div")
+  $alert.className = "workspace-alert"
+
+  const $form = document.createElement("form")
+  $form.addEventListener("submit", handleSubmit)
 
   const $input = document.createElement("input")
   $input.className = "workspace-input"
@@ -47,18 +52,16 @@ export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
   $button.className = "workspace-button"
 
   this.render = () => {
-    $target.innerHTML = ""
-    console.log(this.state)
     $list.innerHTML = `${this.state
-      .map((user) => {
-        return `<li class="workspace-item" data-name="${user?.name}
-      ">${user?.label}</li>`
-      })
+      .map((user) => `<li class="workspace-item" data-name="${user?.name}">${user?.label}</li>`)
       .join("")}`
 
-    $target.appendChild($list)
+    $form.innerHTML = ""
     $form.appendChild($input)
     $form.appendChild($button)
+
+    $target.innerHTML = ""
+    $target.appendChild($list)
     $target.appendChild($form)
     $target.appendChild($alert)
 
