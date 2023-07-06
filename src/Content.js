@@ -32,7 +32,6 @@ export default class Content {
         }
         this.documentEditor.timer = setTimeout(async () => {
           await request.updateDocumentItem(id, this.documentEditor.state);
-          console.log(this.documentListState);
           const nextState = getRightNextState(
             this.getDocumentListState(),
             await request.getDocumentList()

@@ -65,7 +65,10 @@ export default class DocumentList {
                       <button id=${id} class="document-list__toggle-button">
                         <i class="fa-solid fa-chevron-down"></i>
                       </button>
-                      <span class="link-item" id=${id}>${title}</span>
+                      <span class="link-item" id=${id}>
+                        <i class="fa-regular fa-file"></i>
+                        ${title}
+                      </span>
                     </div>
                     <div class="document-list__buttons">
                       <button id=${id} class="remove-button">
