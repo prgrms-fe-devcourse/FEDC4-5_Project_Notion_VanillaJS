@@ -40,7 +40,7 @@ export default function Editor({
     const { title, content } = this.state;
     const titleValue = title === `${editDocumentMessages.INITIAL_DOCUMENT_TITLE}` ? '' : title;
     $editor.innerHTML = `
-      <input class="editor-title" type="text" name="title" placeholder='${editDocumentMessages.DOCUMENT_TITLE_PLACEHOLDER}' value="${titleValue}" onclick="handleInputClick(e)">
+      <input class="editor-title" type="text" name="title" placeholder='${editDocumentMessages.DOCUMENT_TITLE_PLACEHOLDER}' value="${titleValue}" onclick="handleTitleInputClick(event)">
       <textarea class="editor-content" name="content" placeholder='${editDocumentMessages.DOCUMENT_CONTENT_PLACEHOLDER}'>${content}</textarea>
     `;
   };
