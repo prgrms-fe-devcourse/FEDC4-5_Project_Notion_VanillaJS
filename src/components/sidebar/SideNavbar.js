@@ -13,6 +13,11 @@ export default function SideNavbar({ parent, initialState }) {
 
   new DocumentList({
     parent: page,
+    initialState,
+    onDeleteDocument: async (id) => {
+      await deleteDocument(`/documents/${id}`);
+      this.setState();
+    },
   })
 
   new LinkButton({
