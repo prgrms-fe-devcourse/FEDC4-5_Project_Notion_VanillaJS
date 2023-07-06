@@ -50,8 +50,8 @@ export default class Sideber extends Component{
     documents.forEach(document => {
       const {title, id} = document;
       resultHTML += `
-        <div class="directory ${selectedId === id ? "selected-document" : ""}">
-          <div class="directory-entry" data-id="${id}">
+        <div class="directory">
+          <div class="directory-entry ${selectedId === id ? "selected-document" : ""}"" data-id="${id}" >
             <i class="fa-solid fa-caret-down toggle-content"></i>
             <div data-id="${id}" class="entry-title ${selectedId === id ? "selected-document-title" : ""}">${title}</div>
             <i class="fa-solid fa-circle-plus add-document document-button"></i>
