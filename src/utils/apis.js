@@ -44,6 +44,16 @@ export async function postDocument({ title, parent }) {
   });
 }
 
+export async function putDocument({ documentId, title, content }) {
+  return await request(`/documents/${documentId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      title,
+      content,
+    }),
+  });
+}
+
 export async function deleteDocument({ documentId }) {
   return await request(`/documents/${documentId}`, {
     method: "DELETE",

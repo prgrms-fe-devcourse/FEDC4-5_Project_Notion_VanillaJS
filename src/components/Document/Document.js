@@ -1,11 +1,15 @@
 import { once } from "@Utils/once";
 import { isConstructor, isDocumentState } from "@Utils/validation";
+import "./Document.css";
+import { putDocument } from "@Utils/apis";
+import { patchSidebarState } from "@Utils/stateSetters";
 
 export default function Document({ $target }) {
   if (!isConstructor(new.target)) {
     return;
   }
 
+  let timer;
   const $document = document.createElement("section");
 
   this.state = {
@@ -29,6 +33,7 @@ export default function Document({ $target }) {
   };
 
   this.init = once(() => {
+    $document.className = "document-container";
     $document.innerHTML = `
       <section class="document-title-section">
         <textarea name="title" value="${this.state.title}"></textarea>
@@ -43,6 +48,21 @@ export default function Document({ $target }) {
         this.setState({
           [e.target.name]: e.target.value,
         });
+
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(
+          (function (state) {
+            return async () => {
+              const { id: documentId, title, content } = state;
+              console.log(await putDocument({ documentId, title, content }));
+
+              patchSidebarState();
+            };
+          })(this.state),
+          3000
+        );
       });
     });
   });
