@@ -1,7 +1,7 @@
 import { onPreventNewLine, onEnterInTitle, onInputRichContent, onKeyDown, onInput } from './events.js';
-import './DocumentEditor.css';
+import './Editor.css';
 
-export default class DocumentEditor {
+export default class Editor {
   constructor({
     $target,
     initialState = {

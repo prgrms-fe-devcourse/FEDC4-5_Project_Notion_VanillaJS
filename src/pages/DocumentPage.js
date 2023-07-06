@@ -3,7 +3,7 @@ import { addDocument, removeDocument } from '../apis/api.js';
 import { findDocumentRoute, findDocument } from '../helpers/documentHelper.js';
 import Sidebar from '../components/Sidebar/Sidebar.js';
 import Navbar from '../components/Navbar/Navbar.js';
-import DocumentEditor from '../components/Editor/DocumentEditor.js';
+import Editor from '../components/Editor/Editor.js';
 import StyleMenu from '../components/StyleMenu/StyleMenu.js';
 import ChildDocumentLinks from '../components/ChildDocumentLinks/ChildDocumentLinks.js';
 import html from './DocumentPage.html';
@@ -59,7 +59,7 @@ export default class DocumentPage {
       $target: $target.querySelector('.main__navbar'),
     });
 
-    this.documentEditor = new DocumentEditor({
+    this.editor = new Editor({
       $target: $target.querySelector('.main__editor'),
       initialState: editorStore.state.document,
       onChange: ({ name, value }) => {
@@ -112,9 +112,9 @@ export default class DocumentPage {
   }
 
   renderEditor() {
-    const { documentEditor, editorStore } = this;
+    const { editor, editorStore } = this;
 
-    documentEditor.setState({
+    editor.setState({
       documentId: editorStore.state.documentId,
       document: editorStore.state.document,
     });
