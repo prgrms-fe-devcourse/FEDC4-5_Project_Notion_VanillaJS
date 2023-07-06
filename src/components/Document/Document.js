@@ -56,7 +56,11 @@ export default function Document({ $target }) {
           (function (state) {
             return async () => {
               const { id: documentId, title, content } = state;
-              console.log(await putDocument({ documentId, title, content }));
+              await putDocument({
+                documentId,
+                title: title.length ? title : "제목없음",
+                content,
+              });
 
               patchSidebarState();
             };

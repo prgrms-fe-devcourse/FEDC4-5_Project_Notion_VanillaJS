@@ -3,8 +3,9 @@ import { isConstructor, isDrawerItemState } from "@Utils/validation";
 import Drawer from "./Drawer";
 import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
-import { patchSidebarState } from "@Utils/stateSetters";
+import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
 import { routeToDocument } from "@Utils/router";
+import { NAME } from "@Utils/constants";
 
 export default function DrawerItem({ $target, $sibling, parent, level }) {
   if (!isConstructor(new.target)) {
@@ -50,8 +51,16 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   };
 
   // 강조를 위해 부모 DrawerItem을 순회하면서 다 open시킴
-  // 동시에 Header에서 쓸 정보 수집 후 전달
-  this.openParentsAndSendToHeader = () => {
+  this.openParents = () => {
+    let curParent = parent;
+    while (curParent) {
+      curParent.setOpened(true);
+      curParent = curParent.parent;
+    }
+  };
+
+  // 부모 순회하며 Header에서 쓸 정보 수집 후 전달
+  this.sendHeaderDocsInfo = () => {
     const docsInfo = [
       {
         id: this.state.id,
@@ -61,21 +70,23 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
 
     let curParent = parent;
     while (curParent) {
-      curParent.setOpened(true);
-      docsInfo.push({
+      docsInfo.unshift({
         id: curParent.state.id,
         title: curParent.state.title,
       });
 
       curParent = curParent.parent;
     }
+
+    stateSetters[NAME.HEADER](docsInfo);
   };
 
   // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
   this.activate = () => {
     if (isActivated(this.state.id)) {
       $titleContainer.className = "drawer-item-container activated";
-      this.openParentsAndSendToHeader();
+      this.openParents();
+      this.sendHeaderDocsInfo();
     } else {
       $titleContainer.className = "drawer-item-container";
     }
@@ -123,7 +134,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       }
     });
 
-    window.addEventListener("checkDrawers", (e) => {
+    window.addEventListener("route-drawer", (e) => {
       this.activate();
     });
 
@@ -138,6 +149,10 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     $title.innerText = this.state.title;
 
     $childrenDrawer.setState(this.state.documents);
+
+    if (isActivated(this.state.id)) {
+      this.sendHeaderDocsInfo();
+    }
   };
 }
 

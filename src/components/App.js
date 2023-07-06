@@ -14,6 +14,8 @@ export default function App({ $target }) {
 
   const $main = document.createElement("div");
   const $header = new Header({ $target: $main });
+  registerStateSetter($header);
+
   const $content = document.createElement("article");
 
   $main.className = "main-container";

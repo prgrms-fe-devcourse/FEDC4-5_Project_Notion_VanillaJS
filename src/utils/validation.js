@@ -93,3 +93,22 @@ export function isDrawerState(state) {
     )
   );
 }
+
+export function isHeaderState(state) {
+  return (
+    isArrayState(state) &&
+    checkError(
+      (() => {
+        for (const item of state) {
+          if (!isObjectState(item)) return true;
+          if (!item.hasOwnProperty("id") || typeof item.id !== "number")
+            return true;
+          if (!item.hasOwnProperty("title") || typeof item.title !== "string")
+            return true;
+        }
+        return false;
+      })(),
+      new ValidationError(ERROR.INVALID_HEADER_STATE)
+    )
+  );
+}

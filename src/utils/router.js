@@ -22,7 +22,7 @@ export default async function router({ $target }) {
     }
   }
 
-  window.dispatchEvent(new CustomEvent("checkDrawers"));
+  window.dispatchEvent(new CustomEvent("route-drawer"));
 }
 
 export function routeToDocument(documentId) {
