@@ -1,24 +1,25 @@
 export default class Component {
-  _$target;
-  _state;
-  _props;
+  #$target;
+  #state;
+  #events;
 
-  constructor({ $target, initialState = {}, props = {} }) {
-    this._$target = $target;
-    this._state = initialState;
-    this._props = props;
-    this.setEvent(this._props.events);
+  constructor({ $target, initialState = {}, events = [] }) {
+    this.#$target = $target;
+    this.#state = initialState;
+    this.#events = events;
+    this.setEvent(this.#events);
     this.render();
   }
 
   setEvent(events) {
+    console.log(events);
     if (events) events.forEach((event) => this.setEventDelegation(event));
   }
 
   render() {}
 
   setEventDelegation({ action, tag, target, callback }) {
-    this._$target.addEventListener(action, (event) => {
+    this.#$target.addEventListener(action, (event) => {
       if (event.target.closest(`${tag}`)) {
         callback({ event, target: event.target.closest(`${target}`) });
       }
@@ -26,19 +27,15 @@ export default class Component {
   }
 
   get state() {
-    return this._state;
+    return this.#state;
   }
 
   set state(newState) {
-    this._state = newState;
+    this.#state = newState;
     this.render();
   }
 
   get $target() {
-    return this._$target;
-  }
-
-  get props() {
-    return this._props;
+    return this.#$target;
   }
 }

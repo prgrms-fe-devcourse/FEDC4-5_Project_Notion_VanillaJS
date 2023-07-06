@@ -30,50 +30,48 @@ export default class App extends Component {
     this.documentTree = new DocumentTreeComponent({
       $target: $documentTree,
       initialState: await getDocumentTree(),
-      props: {
-        events: [
-          {
-            action: "click",
-            tag: "a",
-            target: "a",
-            callback: ({ target, event }) =>
-              documentLinkClickEvent({
-                event,
-                app: this,
-                component: this.editor,
-                url: target.href,
-              }),
-          },
-          {
-            action: "click",
-            tag: ".addDocumentButton",
-            target: "li",
-            callback: ({ event, target }) =>
-              addDocumentButtonClickEvnet({ event, target }),
-          },
-          {
-            action: "click",
-            tag: ".deleteDocumentButton",
-            target: "li",
-            callback: async ({ target }) =>
-              deleteDocumentButtonClickEvent({
-                documentTree: this.documentTree,
-                target,
-              }),
-          },
-          {
-            action: "change",
-            tag: "input",
-            target: "li",
-            callback: async ({ event, target }) =>
-              documentInputChangeEvent({
-                event,
-                documentTree: this.documentTree,
-                target,
-              }),
-          },
-        ],
-      },
+      events: [
+        {
+          action: "click",
+          tag: "a",
+          target: "a",
+          callback: ({ target, event }) =>
+            documentLinkClickEvent({
+              event,
+              app: this,
+              component: this.editor,
+              url: target.href,
+            }),
+        },
+        {
+          action: "click",
+          tag: ".addDocumentButton",
+          target: "li",
+          callback: ({ event, target }) =>
+            addDocumentButtonClickEvnet({ event, target }),
+        },
+        {
+          action: "click",
+          tag: ".deleteDocumentButton",
+          target: "li",
+          callback: async ({ target }) =>
+            deleteDocumentButtonClickEvent({
+              documentTree: this.documentTree,
+              target,
+            }),
+        },
+        {
+          action: "change",
+          tag: "input",
+          target: "li",
+          callback: async ({ event, target }) =>
+            documentInputChangeEvent({
+              event,
+              documentTree: this.documentTree,
+              target,
+            }),
+        },
+      ],
     });
 
     this.editor = new EditorComponent({
@@ -86,62 +84,60 @@ export default class App extends Component {
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
-      props: {
-        events: [
-          {
-            action: "keyup",
-            tag: ".textarea",
-            target: ".textarea",
-            callback: ({ target }) => {
-              const { innerHTML } = target;
-              clearTimeout(timeout);
-              timeout = setTimeout(() => {
-                saveDocumentToStorage({ content: innerHTML });
-              }, 200);
-            },
+      events: [
+        {
+          action: "keyup",
+          tag: ".textarea",
+          target: ".textarea",
+          callback: ({ target }) => {
+            const { innerHTML } = target;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              saveDocumentToStorage({ content: innerHTML });
+            }, 200);
           },
-          {
-            action: "keyup",
-            tag: ".title",
-            target: ".title",
-            callback: ({ target }) => {
-              const { innerHTML } = target;
-              clearTimeout(timeout);
-              timeout = setTimeout(() => {
-                saveDocumentToStorage({ title: innerHTML });
-              }, 200);
-            },
+        },
+        {
+          action: "keyup",
+          tag: ".title",
+          target: ".title",
+          callback: ({ target }) => {
+            const { innerHTML } = target;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              saveDocumentToStorage({ title: innerHTML });
+            }, 200);
           },
-          {
-            action: "focusout",
-            tag: ".title",
-            target: ".title",
-            callback: async ({ target }) => {
-              const { innerHTML } = target;
-              const newDocument = this.editor.state.cloneNewDocument({
-                title: innerHTML,
-              });
-              this.editor.state = newDocument;
-              await saveDocumentToServer({ title: newDocument.title });
-              updateDocumentTree({ documentTree: this.documentTree });
-            },
+        },
+        {
+          action: "focusout",
+          tag: ".title",
+          target: ".title",
+          callback: async ({ target }) => {
+            const { innerHTML } = target;
+            const newDocument = this.editor.state.cloneNewDocument({
+              title: innerHTML,
+            });
+            this.editor.state = newDocument;
+            await saveDocumentToServer({ title: newDocument.title });
+            updateDocumentTree({ documentTree: this.documentTree });
           },
-          {
-            action: "focusout",
-            tag: ".textarea",
-            target: ".textarea",
-            callback: ({ target }) => {
-              const { innerHTML } = target;
-              this.editor.state = this.editor.state.cloneNewDocument({
-                content: innerHTML,
-              });
-              if (this.editor.state.id !== -1) {
-                saveDocumentToServer({ content: innerHTML });
-              }
-            },
+        },
+        {
+          action: "focusout",
+          tag: ".textarea",
+          target: ".textarea",
+          callback: ({ target }) => {
+            const { innerHTML } = target;
+            this.editor.state = this.editor.state.cloneNewDocument({
+              content: innerHTML,
+            });
+            if (this.editor.state.id !== -1) {
+              saveDocumentToServer({ content: innerHTML });
+            }
           },
-        ],
-      },
+        },
+      ],
     });
   }
 }
