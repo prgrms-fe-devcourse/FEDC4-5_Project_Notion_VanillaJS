@@ -18,6 +18,8 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-    'no-unused-expressions': 'off', // 바닐라 자바스크립트에서 삼항연산자나 ||, &&를 사용하려면 이 옵션을 꺼야함
+    'no-unused-expressions': 'off', // 바닐라JS에서 삼항연산자나 ||, &&를 사용하려면 이 옵션을 꺼야함
+    'no-new': 0,
+    'no-console': 'off',
   },
 };

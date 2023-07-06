@@ -16,34 +16,47 @@ export const request = async (url = '', options = {}) => {
 
     throw new Error('API 처리중 오류 발생');
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
 export const getAllDocuments = async () => {
-  return request('');
+  const documents = await request('');
+  return documents;
 };
 
 export const getDocument = async id => {
-  return request(`/${id}`);
+  const document = await request(`/${id}`);
+  return document;
 };
 
-export const createDocument = async document => {
-  return request('', {
+export const createDocument = async (title, parentId) => {
+  const res = request('', {
     method: 'POST',
-    body: JSON.stringify(document),
+    body: JSON.stringify({
+      title,
+      parent: parentId,
+    }),
   });
+
+  return res;
 };
 
-export const updateDocument = async (id, document) => {
-  return request(`${id}`, {
+export const updateDocument = async (id, title, content) => {
+  const res = await request(`/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(document),
+    body: JSON.stringify({
+      title,
+      content,
+    }),
   });
+
+  return res;
 };
 
 export const deleteDocument = async id => {
-  return request(`/${id}`, {
+  const res = await request(`/${id}`, {
     method: 'DELETE',
   });
+  return res;
 };

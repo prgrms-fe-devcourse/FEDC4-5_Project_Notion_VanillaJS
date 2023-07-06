@@ -1,29 +1,49 @@
 import DocumentList from './DocumentList.js';
 import DocumentListTitle from './DocumentListTitle.js';
-import { getAllDocuments } from '../../api/api.js';
+import Button from '../Button/Button.js';
 
-export default function DocumentListSection({ $parent }) {
+export default function DocumentListSection({
+  $parent,
+  initialState,
+  onClickTitle,
+  onClickRootAdd,
+  onClickDocument,
+  onClickAdd,
+  onClickDelete,
+}) {
   const $listSection = document.createElement('div');
-  $listSection.classList.add('sidebar');
+  $listSection.classList.add('documentList-section');
 
+  $parent.appendChild($listSection);
+
+  this.state = initialState;
+
+  // 문서List Title관련 컴포넌트 불러오기
   new DocumentListTitle({
     $parent: $listSection,
+    onClickTitle,
   });
-  // document 목록들을 그리는 컴포넌트
+
+  // document 목록들을 불러오는 컴포넌트
   const documentList = new DocumentList({
     $parent: $listSection,
-    initialState: [],
+    initialState: this.state,
+    onClickDocument,
+    onClickAdd,
+    onClickDelete,
   });
 
-  this.setState = async () => {
-    // 전체 데이터 받아오기
-    const documents = await getAllDocuments();
-    console.log(documents);
-    documentList.setState(documents);
-    this.render();
-  };
+  new Button({
+    $parent: $listSection,
+    className: 'documentList-newRoot-button',
+    text: '+ 페이지 추가',
+    onClick: onClickRootAdd,
+  });
 
-  this.render = async () => {
-    $parent.appendChild($listSection);
+  this.setState = nextState => {
+    this.state = nextState;
+    documentList.setState({
+      ...this.state,
+    });
   };
 }
