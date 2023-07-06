@@ -35,13 +35,16 @@ export function onPressInCodeBlock(e){
   if($currentParent.classList.contains("code-block") && 
   selection.anchorOffset === $current.length){
     e.preventDefault();
-    const $dummy = document.createTextNode(DUMMY_CHARACTER);
     const range = selection.getRangeAt(0);
+    const $dummy = document.createTextNode(DUMMY_CHARACTER);
     range.setStartAfter($currentParent);
     range.setEndAfter($currentParent);
     range.insertNode($dummy);
+    range.setStart($dummy, 0);
+    range.setEnd($dummy, 1);
     selection.removeAllRanges();
     selection.addRange(range);
+    range.detach();
   }
 }
 
@@ -68,7 +71,8 @@ export function parseMarkdown(key){
       range.setEndAfter($div);
       selection.removeAllRanges();
       selection.addRange(range);
-    }else if(range.commonAncestorContainer.classList.contains("editor-line")){
+    }else if(range.commonAncestorContainer &&
+      range.commonAncestorContainer.classList.contains("editor-line")){
       const $deleteDiv = (range.commonAncestorContainer);
       const $parentDiv = (range.commonAncestorContainer.parentElement);
       const $newDiv = document.createElement("div");
@@ -92,9 +96,10 @@ export function parseMarkdown(key){
       const startOffset = offset;
       const endOffset = selection.anchorOffset;
       const $span = document.createElement("span");
+      const $dummy = document.createTextNode(DUMMY_CHARACTER);
 
-      range.setStart($divParent.lastChild, startOffset);
-      range.setEnd($divParent.lastChild, endOffset);
+      range.setStart(selection.anchorNode, startOffset);
+      range.setEnd(selection.anchorNode, endOffset);
 
       const extractedText = range.extractContents().textContent.substring(1);
       $span.classList.add("code-block");
@@ -103,6 +108,9 @@ export function parseMarkdown(key){
       range.insertNode($span);
       range.setStartAfter($span);
       range.setEndAfter($span);
+      range.insertNode($dummy);
+      range.setStartBefore($dummy);
+      range.setEndAfter($dummy);
       selection.removeAllRanges();
       selection.addRange(range);
       offset = null;

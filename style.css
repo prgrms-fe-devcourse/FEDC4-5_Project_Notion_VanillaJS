@@ -1,18 +1,113 @@
 #app{
   display : flex;
   width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-.sidebar{
-  width : 30%;
+.toggle-content{
+  cursor:pointer;
 }
 
 .contentSide{
-  width : 70%;
+  margin-left: 50px;
+  margin-top: 40px;
 }
 
-.selected-document-span{
-  color: red;
+.toolbar{
+  margin-bottom: 5px;
+}
+
+.children-documents-link{
+  margin-bottom: 5px;
+}
+
+input{
+  border: 0;
+  height : 40px;
+  font-size: 20px;
+  font-weight: 600;
+  outline: 0px;
+}
+
+[contentEditable=true]{
+  padding: 20px;
+  outline: 0px solid transparent;
+}
+
+.directory{
+  padding-left: 10px;
+}
+
+.children-directory{
+  display : block;
+}
+
+.add-root{
+  width: 100%;
+  background-color: inherit;
+  color : rgba(0,0,0,0.7);
+  border: 0px;
+  cursor: pointer;
+}
+
+.add-root:hover{
+  background-color: #747d8c;
+}
+
+.directory-entry{
+  display:flex;
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+
+.directory-entry:hover{
+  background-color: #747d8c;
+}
+
+.sidebar{
+  height: 100vh;
+  width : 300px;
+  max-width: 300px;
+  min-width: 300px;
+  background-color: #a5b1c2;
+}
+
+.contentSide{
+  width : 100%;
+}
+
+.selected-document{
+  background-color: #747d8c;
+}
+
+.directory{
+  margin: 0
+}
+
+.entry-title{
+  max-width: 200px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.selected-document-title{
+  color : #f1f2f6;
+  margin : 0 5px;
+}
+
+i{
+  margin-left: 5px;
+}
+
+.document-button:hover{
+  color: white;
+  cursor: pointer;
 }
 
 .editor-line{}
@@ -68,4 +163,5 @@
 }
 .children-documents-link:hover{
   background-color: #596275;
+  color : #f1f2f6;
 }

@@ -4,8 +4,8 @@ export default class Sideber extends Component{
   template(){
     const {documents, id} = this.props;
     return `
-      <button class="add-root">+</button>
       ${this.getDirectoryTree(documents, +id)}
+      <button class="add-root">신규 문서 추가</button>
     `
   }
 
@@ -15,20 +15,28 @@ export default class Sideber extends Component{
       onClickAdd(null);
     })
 
-    this.addEvent("click", "li", ({target}) => {
-      const $li = target.closest("li");
-      const {id} = $li.dataset;
-      const {className} = target;
+    this.addEvent("click", ".directory-entry", ({target}) => {
+      const $entry = target.closest(".directory-entry");
+      const {id} = $entry.dataset;
+      const {classList} = target;
+    
+      if(classList.contains("add-document")){
+        onClickAdd(id);
+      }else if(classList.contains("delete-document")){
+        onClickDelete(id);
+      }else if(classList.contains("entry-title")){
+        onClickDocument(id);
+      }
+    })
 
-      switch(className){
-        case "add-document" : onClickAdd(id);
-        break;
-
-        case "delete-document" : onClickDelete(id);
-        break;
-
-        default : onClickDocument(id);
-        break;
+    this.addEvent("click", ".toggle-content", ({target}) => {
+      const $directoryEntry = target.closest(".directory-entry");
+      const {id} = $directoryEntry.dataset;
+      const $targetContent = document.querySelector(`#children-${id}`);
+      if($targetContent.style.display === "block" || $targetContent.style.display === ""){
+        $targetContent.style.display = "none";
+      }else{
+        $targetContent.style.display = "block";
       }
     })
   }
@@ -41,16 +49,20 @@ export default class Sideber extends Component{
     documents.forEach(document => {
       const {title, id} = document;
       resultHTML += `
-      <ul>
-        <li data-id="${id}" ${id === selectedId ? 'class="selected-document"' : ''}>
-          <span data-id="${id}" ${id === selectedId ? 'class="selected-document-span"' : ''}>${title}</span>
-          <button class="add-document">+</button>
-          <button class="delete-document">X</button>
-        </li>
+        <div class="directory ${selectedId === id ? "selected-document" : ""}">
+          <div class="directory-entry" data-id="${id}">
+            <i class="fa-solid fa-caret-down toggle-content"></i>
+            <div data-id="${id}" class="entry-title ${selectedId === id ? "selected-document-title" : ""}">${title}</div>
+            <i class="fa-solid fa-circle-plus add-document document-button"></i>
+            <i class="fa-solid fa-circle-minus delete-document document-button"></i>
+          </div>
+          <div id="children-${id}" class="children-directory">
+            ${this.getDirectoryTree(document.documents, selectedId)}
+          </div>
+        </div>
       `
-      resultHTML += this.getDirectoryTree(document.documents, selectedId);
-      resultHTML += `</ul>`
     })
     return resultHTML;
   }
 }
+//resultHTML += this.getDirectoryTree(document.documents, selectedId);

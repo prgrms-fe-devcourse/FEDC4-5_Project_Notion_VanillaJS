@@ -11,16 +11,21 @@ export default class MainPage extends Component{
   titleTimer = null;
   contentTimer = null;
   init = false;
+  documents = null;
 
   async setup(id){
     if(!this.init) {
       this.state = this.props;
-      this.init = true; 
     }
-    await this.fetchDocuments();
-    if(id){
-        await this.fetchContent(id);  
-    }
+    await this.setState({id});
+  }
+
+  async setState(nextState){
+    const {id} = nextState;
+    const documents = await this.fetchDocuments();
+    const documentContent = await this.fetchContent(id);
+    this.state = {...this.state, ...nextState, documents, documentContent, id};
+    this.render();
   }
 
   template(){
@@ -46,7 +51,8 @@ export default class MainPage extends Component{
       onClickDelete : onClickDelete.bind(this),
       onClickDocument : onClickDocument.bind(this)  
     });
-    if(this.state.documentContent){
+
+    if(this.state.id){
       new Toolbar($toolbar, {
         onEditContent : onEditContent.bind(this)
       });
@@ -84,7 +90,7 @@ export default class MainPage extends Component{
       replaceHistory("/");
       return;
     }
-    await this.fetchDocuments();
+    this.setState(this.state);
   }
 
   async onClickDocument (id){
@@ -94,9 +100,9 @@ export default class MainPage extends Component{
   onEditTitle(post){
     const {id} = this.state;
     if(this.titleTimer !== null){
-      clearTimeout(this.timer);
+      clearTimeout(this.titleTimer);
     }
-    document.querySelector(".selected-document-span").textContent = post.title;
+    document.querySelector(".selected-document-title").textContent = post.title;
     setLocalStorageItem(this.getPostLocalSaveKey(id), {
       ...post,
       tempSaveDate : new Date()
@@ -113,7 +119,7 @@ export default class MainPage extends Component{
   onEditContent(post){
     const {id} = this.state;
     if(this.contentTimer !== null){
-      clearTimeout(this.timer);
+      clearTimeout(this.contentTimer);
     }
     setLocalStorageItem(this.getPostLocalSaveKey(id), {
       ...post,
@@ -129,28 +135,19 @@ export default class MainPage extends Component{
   }
 
   async fetchDocuments(){
-    const documents = await request("/documents");
-    this.setState({
-      documents
-    });
+    return await request("/documents");
   }
 
   async fetchContent(id){
-    if(!id) return;
+    if(!id) return null;
     const tempContent = getLocalStorageItem(this.getPostLocalSaveKey(id), null);
     if(tempContent){
       if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
-        this.setState({
-          id,
-          documentContent : tempContent
-        });
+        return tempContent;
       }else{
-        const documentContent = await request(`/documents/${id}`);
-        this.setState({id, documentContent});
+        return await request(`/documents/${id}`);
       }
-      return;
     }
-    const documentContent = await request(`/documents/${id}`);
-    this.setState({id, documentContent});
+    return await request(`/documents/${id}`);
   }
 }

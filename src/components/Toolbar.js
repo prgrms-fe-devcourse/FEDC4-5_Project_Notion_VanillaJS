@@ -3,11 +3,11 @@ import Component from "../core/Component.js";
 export default class Toolbar extends Component{
   template(){
     return `
-      <button class="bold">Bold</button>
-      <button class="italic">Italic</button>
-      <button class="underline">Underline</button>
-      <button class="line-through">Line Through</button>
-      <button class="code-block">Code Block</button>
+      <button class="bold">B</button>
+      <button class="italic">i</button>
+      <button class="underline">U</button>
+      <button class="line-through">L</button>
+      <button class="code-block">&lt;\/&gt;</button>
     `;
   }
 

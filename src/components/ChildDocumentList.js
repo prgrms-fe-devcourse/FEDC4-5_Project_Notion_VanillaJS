@@ -7,6 +7,7 @@ export default class ChildDocumentList extends Component{
       <div name="child-list" contentEditable="true" style="width:600px;">
         ${documents.map(child => `
           <div class="children-documents-link" data-id="${child.id}">
+            <i class="fa-solid fa-file"></i>
             <span>${child.title}</span>
           </div>
         `).join("")}
