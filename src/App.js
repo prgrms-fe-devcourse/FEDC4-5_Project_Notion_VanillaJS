@@ -4,7 +4,7 @@ import {
   EditorComponent,
 } from "./Component/index.js";
 import { documentLinkClickEvent } from "./events/index.js";
-import { route } from "./router/route.js";
+import { createRouter } from "./router/route.js";
 import { DocumentTree, Document } from "./domain/index.js";
 import { request } from "./api.js";
 import { getItem, setItem, removeItem } from "./storage/storage.js";
@@ -28,7 +28,7 @@ export default class App extends Component {
             action: "click",
             tag: "a",
             target: "a",
-            callback: route,
+            callback: createRouter(this),
             // callback: async ({ event, target }) => {
             // documentLinkClickEvent(eventProps);
             //   event.preventDefault();

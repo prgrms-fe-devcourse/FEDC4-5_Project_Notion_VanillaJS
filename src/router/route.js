@@ -1,8 +1,7 @@
-export const route = async ({ url }) => {
-  console.log(this);
-  if (this.editor.state.id !== -1) {
-    const { title, content } = this.editor.state;
-    this.saveDocumentToServer({ title, content });
+export const createRouter = (component) => async ({ url }) => {
+  if (component.editor.state.id !== -1) {
+    const { title, content } = component.editor.state;
+    component.saveDocumentToServer({ title, content });
   }
   history.pushState(null, null, url);
   const urlSplit = url.split("/");
@@ -12,14 +11,14 @@ export const route = async ({ url }) => {
   );
   switch (routeName) {
     case "documents":
-      const savedDocument = new Document(await this.getDocument(documentId));
+      const savedDocument = new Document(await component.getDocument(documentId));
       try {
         const { title, content, tmpSaveDate } = getItem(
           "documents/" + documentId
         );
         if (tmpSaveDate > savedDocument.updatedAt) {
           if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-            this.editor.state = savedDocument.cloneNewDocument({
+            component.editor.state = savedDocument.cloneNewDocument({
               title,
               content,
               updatedAt: tmpSaveDate,
@@ -32,7 +31,7 @@ export const route = async ({ url }) => {
           "임시저장된 데이터가 없습니다. 서버에서 데이터를 불러옵니다."
         );
       }
-      this.editor.state = savedDocument;
+      component.editor.state = savedDocument;
       removeItem("documents/" + documentId);
       break;
   }
