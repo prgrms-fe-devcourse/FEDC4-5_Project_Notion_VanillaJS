@@ -62,7 +62,6 @@ function Navbar({
   $navbar.addEventListener("click", e => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
-    console.log(e.target.className);
     if (e.target.classList.contains("item-toggle"))
       onToggle(id);
     else if (e.target.classList.contains("item-add"))

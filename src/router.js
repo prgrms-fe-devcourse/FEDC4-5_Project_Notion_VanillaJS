@@ -1,9 +1,15 @@
 export const initRouter = onRoute => {
   window.addEventListener("route-change", e => {
-    const { nextUrl } = e.detail;
+    const { nextUrl, option } = e.detail;
     if (nextUrl) {
-      history.pushState(null, null, nextUrl);
-      onRoute();
+      if (option === "push") {
+        history.pushState(null, null, nextUrl);
+        onRoute();
+      }
+      if (option === "replace") {
+        history.replaceState(null, null, nextUrl);
+        onRoute();
+      }
     }
   });
 };
@@ -11,13 +17,15 @@ export const initRouter = onRoute => {
 export const push = nextUrl => {
   window.dispatchEvent(
     new CustomEvent("route-change", {
-      detail: { nextUrl },
+      detail: { nextUrl, option: "push" },
     })
   );
 };
 
 export const replace = nextUrl => {
-  if (nextUrl) {
-    history.replaceState(null, null, nextUrl);
-  }
+  window.dispatchEvent(
+    new CustomEvent("route-change", {
+      detail: { nextUrl, option: "replace" },
+    })
+  );
 };

@@ -48,7 +48,6 @@ function App({ $app }) {
       });
       navPage.setState(nextToggleData);
       if (editPage.state.id == id) {
-        editPage.setState({ id: "null" });
         replace("/");
       }
     },
@@ -81,8 +80,10 @@ function App({ $app }) {
   this.route = () => {
     const { pathname } = window.location;
     navPage.setState();
+
     if (pathname === "/") {
       editPage.setState({ id: null });
+      navPage.state.selected = null;
     }
     if (pathname.indexOf("/documents/") === 0) {
       const [, , id] = pathname.split("/");

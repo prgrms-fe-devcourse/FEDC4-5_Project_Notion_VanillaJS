@@ -1,6 +1,6 @@
 function Editor({
   $page,
-  initialState = { title: "", content: "" },
+  initialState = { id: null, title: "", content: "" },
   onEdit,
 }) {
   const $editor = document.createElement("div");
@@ -11,6 +11,7 @@ function Editor({
   this.state = initialState;
   this.setState = nextState => {
     this.state = nextState;
+    console.log(this.state);
     for (const target of ["title", "content"]) {
       $editor.querySelector(`[name=${target}]`).value =
         this.state[target];
@@ -19,12 +20,18 @@ function Editor({
   };
 
   this.render = () => {
+    if (this.state.id === null) {
+      $editor.style.visibility = "hidden";
+    } else {
+      $editor.style.visibility = "visible";
+    }
     if (isInit) return;
     $editor.innerHTML = `
       <input type="text" name="title" value="${this.state.title}" placeholder="제목을 입력하세요.">
       <textarea name="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
     isInit = true;
+
     const $input = $editor.querySelector("input");
     $input.focus();
   };
