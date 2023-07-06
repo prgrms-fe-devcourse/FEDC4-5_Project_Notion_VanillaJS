@@ -1,8 +1,11 @@
-import { getDocuments } from '../apis/api.js';
-import { findModifiedDocuments } from '../helpers/documentHelper.js';
 import storage from '../utils/storage.js';
 import { OPENED_DOCUMENTS } from '../constants/storageKeys.js';
+import { findModifiedDocuments } from '../helpers/documentHelper.js';
+import { getDocuments } from '../apis/api.js';
 
+/**
+ * 문서 목록을 보관하고 관리하는 클래스입니다.
+ */
 export default class DocumentStore {
   constructor({
     initialState = {

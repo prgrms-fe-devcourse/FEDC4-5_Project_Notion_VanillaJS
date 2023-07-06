@@ -1,6 +1,6 @@
-import template from './templates.js';
 import { plusSvg } from '../../utils/svgTemplates.js';
 import html from './Sidebar.html';
+import template from './templates.js';
 import './Sidebar.css';
 
 export default class Sidebar {

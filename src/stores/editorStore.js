@@ -1,6 +1,6 @@
 import storage from '../utils/storage.js';
-import { DOCUMENT } from '../constants/storageKeys.js';
 import { debounce } from '../utils/debounce.js';
+import { DOCUMENT } from '../constants/storageKeys.js';
 import { findDocument } from '../helpers/documentHelper.js';
 import { getDocument, modifyDocument } from '../apis/api.js';
 
@@ -10,6 +10,9 @@ export const initialDocument = {
   updatedAt: '1970-01-01T09:00:00.000Z',
 };
 
+/**
+ * 에디터의 상태를 보관하고 관리하는 클래스입니다.
+ */
 export default class EditorStore {
   constructor({
     initialState = {

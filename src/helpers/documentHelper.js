@@ -21,7 +21,7 @@ export const findDocumentRoute = (documentId, documents = []) => {
  * @param {number} documentId 수정할 문서의 ID
  * @param {object} newDocument 새로운 문서의 내용
  * @param {array} documents 문서 목록
- * @returns 
+ * @returns
  */
 export const findModifiedDocuments = (documentId, newDocument, documents) => {
   return documents.map((currentDocument) => {
@@ -51,4 +51,4 @@ export const findDocument = (documentId, documents = []) => {
   }
 
   return null;
-}
+};

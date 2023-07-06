@@ -106,13 +106,13 @@ export const applyBackspace = (event) => {
   const isAtFirstTextInHeading = $heading && selection.anchorOffset === 0;
   const isPreviousLineIsHeading = $previousLine && isHeading($previousLine) && selection.anchorOffset === 0;
 
-  // headings 태그의 시작 위치에서 백스페이스를 누른 경우
+  // headings 태그의 시작 위치에서 백스페이스를 누른 경우 헤딩 속성 삭제
   if (isAtFirstTextInHeading) {
     event.preventDefault();
     removeHeading($heading);
   }
 
-  // 지우려는 라인의 이전 라인이 headings 태그인 경우
+  // 지우려는 라인의 이전 라인이 headings 태그인 경우 현재 라인에 들어가게 되는 fontSize 속성 삭제
   if (isPreviousLineIsHeading) {
     setTimeout(() => {
       [...$previousLine.childNodes]

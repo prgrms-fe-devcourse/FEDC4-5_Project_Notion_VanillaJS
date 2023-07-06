@@ -1,11 +1,10 @@
 import DocumentPage from './pages/DocumentPage.js';
 import DocumentStore from './stores/documentStore.js';
-import EditorStore from './stores/editorStore.js';
+import EditorStore, { initialDocument } from './stores/editorStore.js';
 import storage from './utils/storage.js';
-import renderPage from './router/render.js';
+import renderPage from './routers/render.js';
+import { initRouteEvents } from './routers/utils.js';
 import { OPENED_DOCUMENTS } from './constants/storageKeys.js';
-import { initRouteEvents } from './router/utils.js';
-import { initialDocument } from './stores/editorStore.js';
 
 export default class App {
   constructor({ $target }) {
