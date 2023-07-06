@@ -19,13 +19,13 @@ export const proxiedDocuments = new Proxy(
     async get(target, prop) {
       switch (prop) {
         case 'staleTime':
-          return Promise.resolve(target.staleTime);
+          return target.staleTime;
         case 'documents':
           if (target.staleTime < Date.now()) {
             target.documents = await getDocuments();
             target.staleTime = Date.now() + 5000;
           }
-          return Promise.resolve(target.documents);
+          return target.documents;
       }
     },
   },
