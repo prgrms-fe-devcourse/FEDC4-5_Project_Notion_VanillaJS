@@ -1,0 +1,15 @@
+{
+  "name": "notion_clone",
+  "version": "1.0.0",
+  "description": "데브코스 FE Notion Clone 프로젝트",
+  "scripts": {
+    "dev": "parcel ./index.html",
+    "build": "parcel build ./index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "parcel": "^2.9.3"
+  }
+}
