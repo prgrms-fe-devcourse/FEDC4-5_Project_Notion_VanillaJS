@@ -1,0 +1,147 @@
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  margin: 0;
+}
+
+body {
+  color: #333333;
+  overflow: hidden;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 4.5fr;
+  overflow: hidden;
+}
+h3 {
+  margin: 10px;
+  text-align: center;
+}
+
+.document-page {
+  background-color: #f7f6f3;
+  padding: 8% 0;
+  height: 100vh;
+  width: 30vh;
+}
+/* #e8e7e4 */
+.edit-page {
+  background-color: #ffffff;
+  text-align: center;
+}
+.root-page-add {
+  width: 90%;
+  text-align: center;
+}
+
+.editor {
+  display: grid;
+  width: 55%;
+  padding: 8% 20%;
+}
+.editor-title {
+  width: 100%;
+  font-size: 2em;
+  font-style: bold;
+  font-weight: 600;
+}
+.editor-content {
+  width: 100%;
+  height: 470px;
+  font-size: 1.1em;
+  overflow: scroll;
+  /* scroll-bar :none; */
+}
+
+.editor-content::-webkit-scrollbar {
+  display: none;
+}
+button {
+  background-color: transparent;
+  border: none;
+  color: gray;
+}
+
+ul {
+  /*   background-color:skyblue; */
+  width: 100%;
+  list-style: none;
+  padding: 0 3%;
+}
+
+.document-list {
+  font-size: 0.98em;
+  margin-top: 2%;
+
+  /* scroll-bar :none; */
+}
+.list-box {
+  /* width: 100%; */
+  overflow: scroll;
+  margin: 5px;
+}
+
+.list-box::-webkit-scrollbar {
+  display: none;
+}
+.root-page-add {
+  font-size: 1.1em;
+  margin: 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+textarea {
+  border: none;
+  text-align: justify;
+  line-height: 1.8;
+}
+
+input {
+  border: none;
+  margin-bottom: 1%;
+}
+
+.main-page {
+  text-align: center;
+  padding: 20%;
+}
+.main-title {
+  font-size: 1.5em;
+  font-weight: 900;
+}
+
+.main-content {
+  font-size: 1.2em;
+  padding-top: 1.2%;
+}
+li {
+  /*   background-color:#e8e7e4; */
+  cursor: pointer;
+  margin: 10px;
+}
+/* li :hover{
+} */
+
+button {
+  cursor: pointer;
+  text-align: center;
+}
+.list-btn-box {
+  float: right;
+  margin-right: 5px;
+}
+
+.no-page {
+  color: #c6c6c6;
+}
+
+.toggle-btn:visited {
+  transform: rotate(45deg);
+}
