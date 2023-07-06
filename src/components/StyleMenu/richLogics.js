@@ -5,6 +5,6 @@ export const applyTextStyle = ({ $textMenu, color, backgroundColor }) => {
 };
 
 export const toggleTextStyleMenu = ({ $textMenu }) => {
-  if ($textMenu.classList.contains('hidden')) $textMenu.classList.remove('hidden');
-  else $textMenu.classList.add('hidden');
+  if ($textMenu.hasAttribute('open')) $textMenu.removeAttribute('open');
+  else $textMenu.setAttribute('open', 'true');
 };

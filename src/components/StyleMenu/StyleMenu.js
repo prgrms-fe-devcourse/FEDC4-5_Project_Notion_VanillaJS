@@ -40,15 +40,15 @@ export default class StyleMenu {
     const { $menu, $textMenu, state } = this;
     const { isShowMenu, isShowTextMenu, pageX, pageY } = state;
 
-    $menu.style.left = `${pageX}px`;
+    $menu.style.left = `${pageX - 900}px`;
     $menu.style.top = `${pageY}px`;
-    $textMenu.style.left = `${pageX + 130}px`;
+    $textMenu.style.left = `${pageX - 900 + 130}px`;
     $textMenu.style.top = `${pageY + 40}px`;
 
-    if (isShowMenu) $menu.classList.remove('hidden');
-    else $menu.classList.add('hidden');
+    if (isShowMenu) $menu.setAttribute('open', 'true');
+    else $menu.removeAttribute('open');
 
-    if (isShowTextMenu) $textMenu.classList.remove('hidden');
-    else $textMenu.classList.add('hidden');
+    if (isShowTextMenu) $textMenu.setAttribute('open', 'true');
+    else $textMenu.removeAttribute('open');
   }
 }

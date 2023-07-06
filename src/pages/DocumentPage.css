@@ -4,6 +4,10 @@
   margin-bottom: 5em;
 }
 
+.modal-section {
+  z-index: 10;
+}
+
 .main__editor [contenteditable='true'] {
   padding-left: 30rem;
   padding-right: 30rem;

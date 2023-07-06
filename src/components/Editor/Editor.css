@@ -1,24 +1,3 @@
-.editor__h1 {
-  padding: 0.5em 0;
-  font-size: 2rem;
-  line-height: 2.75rem;
-  font-weight: bold;
-}
-
-.editor__h2 {
-  padding: 0.5em 0;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: bold;
-}
-
-.editor__h3 {
-  padding: 0.5em 0;
-  font-size: 1.25rem;
-  line-height: 1.7rem;
-  font-weight: bold;
-}
-
 .main__editor {
   position: relative;
 }
@@ -45,4 +24,25 @@
   padding-top: 1rem;
   padding-bottom: 5rem;
   font-size: 1rem;
+}
+
+.editor__h1 {
+  padding: 0.5em 0;
+  font-size: 2rem;
+  line-height: 2.75rem;
+  font-weight: bold;
+}
+
+.editor__h2 {
+  padding: 0.5em 0;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: bold;
+}
+
+.editor__h3 {
+  padding: 0.5em 0;
+  font-size: 1.25rem;
+  line-height: 1.7rem;
+  font-weight: bold;
 }

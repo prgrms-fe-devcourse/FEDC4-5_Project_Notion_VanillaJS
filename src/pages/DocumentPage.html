@@ -7,28 +7,30 @@
     <div class="main__child-document-links"></div>
   </article>
 </main>
-<article class="style-menu hidden">
-  <ul class="style-menu__list">
-    <li class="style-menu__item" data-command="bold" title="굵게">
-      <span class="bold">B</span>
-    </li>
-    <li class="style-menu__item" data-command="italic" title="기울임">
-      <span class="italic">i</span>
-    </li>
-    <li class="style-menu__item" data-command="underline" title="밑줄">
-      <span class="underline">U</span>
-    </li>
-    <li class="style-menu__item" data-command="strikeThrough" title="취소선">
-      <span class="line-through">S</span>
-    </li>
-    <li class="style-menu__item" data-role="toggleTextMenu" title="텍스트 색상">
-      <span>A</span>
-      <svg class="chevron-down-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path
-          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-        />
-      </svg>
-    </li>
-  </ul>
-</article>
-<article class="text-style-menu hidden"></article>
+<section class="modal-section">
+  <dialog class="style-menu">
+    <ul class="style-menu__list">
+      <li class="style-menu__item" data-command="bold" title="굵게">
+        <span class="bold">B</span>
+      </li>
+      <li class="style-menu__item" data-command="italic" title="기울임">
+        <span class="italic">i</span>
+      </li>
+      <li class="style-menu__item" data-command="underline" title="밑줄">
+        <span class="underline">U</span>
+      </li>
+      <li class="style-menu__item" data-command="strikeThrough" title="취소선">
+        <span class="line-through">S</span>
+      </li>
+      <li class="style-menu__item" data-role="toggleTextMenu" title="텍스트 색상">
+        <span>A</span>
+        <svg class="chevron-down-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path
+            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+          />
+        </svg>
+      </li>
+    </ul>
+  </dialog>
+  <dialog class="text-style-menu"></dialog>
+</section>
