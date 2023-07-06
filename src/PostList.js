@@ -62,7 +62,7 @@ export default function PostList({ $target, initialState }) {
       const [commend, id] = $button.id.split("_");
 
       if (commend === "createButton") {
-        pushRouter(`/${id}/new`);
+        pushRouter(`/`);
         const createdPost = await request("", {
           method: "POST",
           body: JSON.stringify({
@@ -70,7 +70,6 @@ export default function PostList({ $target, initialState }) {
             parent: id,
           }),
         });
-        history.replaceState(null, null, `/${createdPost.id}`);
       } else {
         pushRouter(`/`);
         request(`/${id}`, {
