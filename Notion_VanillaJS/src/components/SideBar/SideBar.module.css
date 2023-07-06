@@ -1,0 +1,142 @@
+@import '@/index.css';
+
+.header {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  color: black;
+  cursor: pointer;
+}
+
+.logo {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.5rem;
+}
+
+.postList {
+  overflow: auto;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 1rem;
+  transition: all 300ms ease-in-out;
+  border-radius: 4px;
+}
+
+.container:hover {
+  background-color: var(--more-light-grey);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.dropDown {
+  padding-right: 0.3rem;
+  transition: all 300ms ease-in-out;
+  color: var(--dark-grey);
+  margin-right: 0.1rem;
+  line-height: 100%;
+}
+
+.dropDown:hover {
+  color: var(--purple);
+  transform: scale(1.3);
+  transform: rotate(90deg);
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  cursor: pointer;
+}
+
+.noneTitle {
+  color: var(--light-grey);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 300ms ease-in-out;
+}
+
+.container:hover .buttons {
+  visibility: visible;
+  opacity: 1;
+}
+
+.add {
+  margin-left: 0.2rem;
+}
+
+.add,
+.delete {
+  border-radius: 4px;
+  padding: 0.2rem;
+  color: var(--light-grey);
+  transition: all 300ms ease-in-out;
+}
+
+.add:hover {
+  transform: scale(1.1);
+  background-color: var(--purple);
+  color: var(--pure-white);
+}
+
+.delete:hover {
+  transform: scale(1.1);
+  background-color: var(--pink);
+  color: var(--pure-white);
+}
+
+.childList {
+  padding-left: 1rem;
+  display: none;
+}
+
+.down {
+  transform: rotate(90deg);
+}
+
+.open {
+  display: block;
+}
+
+.footer {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  transition: all 300ms ease-in-out;
+  border-top: 2px solid var(--border-sideBar-footer);
+}
+
+.footer:hover {
+  background-color: var(--more-light-grey);
+}
+
+.footerButton {
+  color: var(--light-grey);
+}
+
+.active {
+  background-color: var(--purple);
+}
+
+.active h2,
+.active span {
+  color: var(--pure-white);
+}

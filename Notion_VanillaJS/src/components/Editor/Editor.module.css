@@ -1,0 +1,41 @@
+@import '@/index.css';
+
+.title {
+  font-size: 2rem;
+  padding: 0 5rem;
+}
+
+.title,
+.content {
+  outline: none;
+  border: none;
+}
+
+.title::placeholder {
+  color: var(--more-light-grey);
+}
+
+.content {
+  padding: 1rem 5.5rem;
+  line-height: 2rem;
+  font-family: 'Pretendard-Regular';
+  overflow: auto;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 5rem;
+  border-top: 0.5px solid var(--light-grey);
+  border-bottom: 0.5px solid var(--light-grey);
+  align-items: center;
+}
+
+.buttons button {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.content:empty:before {
+  content: attr(placeholder);
+  color: var(--light-grey);
+}
