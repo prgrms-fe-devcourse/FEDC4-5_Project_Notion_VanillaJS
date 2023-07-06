@@ -1,6 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0;
 }
 
@@ -13,12 +18,13 @@ body {
 #documentTree {
   box-sizing: border-box;
   display: flex;
-  width: 250px;
+  flex: 1;
+  max-width: 400px;
   height: 100%;
   flex-direction: column;
   border: 1px solid black;
   overflow-x: scroll;
-  padding: 10px;
+  padding: 20px;
 }
 
 li {
@@ -27,6 +33,11 @@ li {
 
 ul {
   list-style-type: none;
+  padding-left: 30px;
+}
+
+.rootUl {
+  padding: 0;
 }
 
 .documentLicontainer {
@@ -34,7 +45,7 @@ ul {
   align-items: center;
   width: fit-content;
   height: 15px;
-  margin: 15px;
+  margin: 20px 0 20px 0;
 }
 
 .documentLink {
@@ -62,11 +73,35 @@ ul {
 }
 
 #editor {
-  width: calc(100% - 250px);
+  flex: 2;
   border: 1px solid black;
 }
 
-.textarea {
+.editorContainer {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+  padding: 25px;
+}
+
+.title {
+  display: flex;
+  border-bottom: 1px solid black;
+  height: 10%;
+  min-height: 80px;
+  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.textarea {
+  font-size: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.textarea:focus {
+  outline: none;
 }

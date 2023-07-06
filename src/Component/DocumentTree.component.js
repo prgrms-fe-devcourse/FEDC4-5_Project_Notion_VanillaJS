@@ -4,6 +4,7 @@ export default class DocumentTreeComponent extends Component {
   render() {
     this.$target.innerHTML = ``;
     const $rootUl = document.createElement("ul");
+    $rootUl.className = "rootUl";
     this.$target.appendChild($rootUl);
     this.getTemplate(this.state).forEach((child) => $rootUl.appendChild(child));
     const rootButton = document.createElement("button");
