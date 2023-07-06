@@ -1,6 +1,5 @@
 import { request } from "./api.js";
 import Editor from "./Editor.js";
-import LinkButton from "./LinkButton.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -89,12 +88,4 @@ export default function PostEditPage({ $target, initialState }) {
       });
     }
   };
-
-  new LinkButton({
-    $target: $page,
-    initialState: {
-      text: "목록으로 이동",
-      link: "/",
-    },
-  });
 }
