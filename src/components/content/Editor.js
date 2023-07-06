@@ -1,7 +1,7 @@
 export default function Editor({
   $target,
   initialState = {
-    title: "제목 없음",
+    title: "",
     content: "",
   },
   id,
@@ -11,7 +11,7 @@ export default function Editor({
   $editor.setAttribute("id", "editor");
 
   $editor.innerHTML = `
-    <input type="text" name="title" id="title"/>
+    <input type="text" name="title" placeholder="제목 없음" id="title"/>
     <textarea name="content" placeholder="내용을 입력하세요" id="content" />
   `;
   $target.appendChild($editor);

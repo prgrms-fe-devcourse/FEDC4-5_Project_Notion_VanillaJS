@@ -23,7 +23,9 @@ export default function DocumentListItem({
       <div class="listItem${isActive ? " activeListItem" : ""}">
         <div class="listItemInfo">
           <span class="toggleButton">> </span>
-          <span class="itemTitle">${this.state.title}</span>
+          <span class="itemTitle">${
+            this.state.title ? this.state.title : "제목 없음"
+          }</span>
         </div>
         <div class="listItemTools">
           <i class="addButton fa-solid fa-plus"></i>

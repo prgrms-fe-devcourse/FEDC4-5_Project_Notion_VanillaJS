@@ -29,7 +29,7 @@ export default function DocumentList({ $target, initialState }) {
           const createdSubDocument = await request("/documents", {
             method: "POST",
             body: JSON.stringify({
-              title: "제목 없음",
+              title: "",
               parent: document.id,
             }),
           });
@@ -45,9 +45,10 @@ export default function DocumentList({ $target, initialState }) {
           await request(`/documents/${document.id}`, {
             method: "DELETE",
           });
-          if (window.location.pathname === `/documents/${id}`)
+          if (window.location.pathname === `/documents/${id}`) {
             alert("이 페이지는 삭제되었습니다.");
-          push(`/`);
+            push(`/`);
+          }
         },
       });
     });
