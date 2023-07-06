@@ -1,20 +1,20 @@
-export default function SideBarFooter({ $target, onAddRootDocumnet }) {
-  const $addDocumentButton = document.createElement("button");
+export default function SidebarFooter({ $target, onAddRootDocument }) {
+  const $sidebarFooter = document.createElement("div");
 
-  $target.appendChild($addDocumentButton);
+  $target.appendChild($sidebarFooter);
 
   this.render = () => {
-    $addDocumentButton.textContent = "add document";
+    $sidebarFooter.innerHTML = `<button>add document</button>`;
   };
 
   this.render();
 
-  $addDocumentButton.addEventListener("click", async () => {
+  $sidebarFooter.addEventListener("click", () => {
     const newDocument = {
-      title: "제목 없음",
+      title: "",
       parent: null,
     };
 
-    onAddRootDocumnet(newDocument);
+    onAddRootDocument(newDocument);
   });
 }
