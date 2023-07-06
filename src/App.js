@@ -10,7 +10,7 @@ import {
   findChildDocuments,
   removeDocument,
 } from "./utils/document.js";
-import NotFound from "./components/common/Notfound.js";
+import NotFound from "./components/common/NotFound.js";
 import { debounce } from "./utils/debounce.js";
 import DocumentList from "./components/domain/document/DocumentList.js";
 import DocumentEditor from "./components/domain/document/DocumentEditor.js";
