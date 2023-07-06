@@ -30,6 +30,22 @@ export function applyStyle($parent, style) {
   $parent.style[property] = styleType;
 }
 
+function deleteAlign($parent) {
+  $parent.style.display = null;
+  $parent.style.justifyContent = null;
+}
+
+export function changeStyle($parent, style) {
+  if (isAlign(style)) {
+    deleteAlign($parent);
+    return;
+  }
+
+  const [property] = style.split('/');
+
+  $parent.style[property] = null;
+}
+
 export function deleteStyle(selection, range, $parent) {
   range.selectNode($parent);
   const innerText = document.createTextNode($parent.innerText);
@@ -38,7 +54,7 @@ export function deleteStyle(selection, range, $parent) {
   selection.removeAllRanges();
 }
 
-const isSpan = ($parent) => $parent.tagName === 'SPAN';
+export const isSpan = ($parent) => $parent.tagName === 'SPAN';
 
 export const isApplied = ($parent, style) =>
   isSpan && isAppliedStyle($parent, style);
@@ -49,9 +65,7 @@ export const isSafeRange = (range) =>
 export const isDefaultAlign = ($parent, style) =>
   $parent.style.display !== 'flex' && style === 'align/start';
 
-export const isFlex = ($parent) => $parent.style.display === 'flex';
-
-export const isAlign = (style) => style.includes('align');
+const isAlign = (style) => style.includes('align');
 
 export function focusLastChar($content) {
   const range = document.createRange();

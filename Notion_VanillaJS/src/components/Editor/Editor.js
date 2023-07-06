@@ -10,8 +10,8 @@ import {
   deleteStyle,
   focusLastChar,
   isDefaultAlign,
-  isFlex,
-  isAlign,
+  isSpan,
+  changeStyle,
 } from './helper';
 
 export default class Editor extends Component {
@@ -136,7 +136,16 @@ export default class Editor extends Component {
 
     if (!$content || !isSafeRange(range)) return;
 
+    function isAppliedOtherStyles($parent) {
+      const styles = ['fontWeight', 'fontStyle', 'textDecoration', 'display'];
+      return styles.some((style) => $parent.style[style]);
+    }
+
     if (isApplied($parent, style)) {
+      if (isAppliedOtherStyles($parent)) {
+        changeStyle($parent, style);
+        return;
+      }
       deleteStyle(selection, range, $parent);
       return;
     }
@@ -144,9 +153,8 @@ export default class Editor extends Component {
     const $newParent = document.createElement('span');
 
     if (isDefaultAlign($parent, style)) return;
-    if (isFlex($parent) && isAlign(style)) {
-      const [, align] = style.split('/');
-      $parent.style.justifyContent = align;
+    if (isSpan($parent)) {
+      applyStyle($parent, style);
       return;
     }
 
