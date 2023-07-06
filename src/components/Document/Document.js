@@ -49,6 +49,17 @@ export default function Document({ $target }) {
           [e.target.name]: e.target.value,
         });
 
+        if (e.target.name === "title") {
+          window.dispatchEvent(
+            new CustomEvent("title-updated", {
+              detail: {
+                id: this.state.id,
+                title: e.target.value,
+              },
+            })
+          );
+        }
+
         if (timer) {
           clearTimeout(timer);
         }

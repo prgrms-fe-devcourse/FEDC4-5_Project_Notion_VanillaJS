@@ -92,6 +92,13 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     }
   };
 
+  this.updateTitle = (title) => {
+    if (title.length === 0) {
+      title = "제목없음";
+    }
+    this.setState({ ...this.state, title });
+  };
+
   this.init = once(() => {
     $target.insertBefore($item, $sibling);
     $item.insertAdjacentElement("afterbegin", $titleContainer);
@@ -128,14 +135,18 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
         const result = await deleteDocument({ documentId: this.state.id });
         if (result) {
           patchSidebarState();
+          window.removeEventListener("route-drawer", this.activate);
+          window.removeEventListener("title-updated", this.updateTitle);
         }
       } else if (action === "route") {
         routeToDocument(this.state.id);
       }
     });
 
-    window.addEventListener("route-drawer", (e) => {
-      this.activate();
+    window.addEventListener("route-drawer", this.activate);
+    window.addEventListener("title-updated", (e) => {
+      const { id, title } = e.detail;
+      if (id === this.state.id) this.updateTitle(title);
     });
 
     this.activate();
