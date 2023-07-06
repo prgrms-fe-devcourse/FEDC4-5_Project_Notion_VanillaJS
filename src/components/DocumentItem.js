@@ -64,21 +64,14 @@ export default class DocumentItem extends Component {
       if (!childDocu) {
         return;
       }
-      if (this.state.isFolded === true) {
-        for (const child of childDocu) {
-          if (child.parentElement === parentTargetEl) {
-            child.setAttribute("style", "display: block");
-          }
+      const displayStyle = this.state.isFolded ? "block" : "none";
+      [...childDocu].forEach((child) => {
+        if (child.parentElement === parentTargetEl) {
+          child.style.display = displayStyle;
         }
-        this.state.isFolded = false;
-      } else {
-        for (const child of childDocu) {
-          if (child.parentElement === parentTargetEl) {
-            child.setAttribute("style", "display: none");
-          }
-        }
-        this.state.isFolded = true;
-      }
+      });
+      this.state.isFolded = !this.state.isFolded;
+      console.log(this.state.isFolded);
     });
   }
 }
