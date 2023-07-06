@@ -161,8 +161,11 @@ export default class SideBar extends Component {
 
   openDropDown() {
     const postId = PostStore.getState()?.post?.id;
+
     if (!postId) return;
-    let listItem = this.$target.querySelector(`li[data-id='${postId}']`);
+
+    let listItem = this.$target.querySelector(`[data-id='${postId}']`);
+    listItem = listItem?.parentNode?.closest('[data-id]');
     while (listItem) {
       const dropDownButton = listItem.querySelector(`.dropDown`);
       const childList = listItem.querySelector(`.${styles.childList}`);
@@ -173,7 +176,7 @@ export default class SideBar extends Component {
       }
 
       const { parentNode } = listItem;
-      listItem = parentNode?.closest('li[data-id]');
+      listItem = parentNode?.closest('[data-id]');
     }
   }
 }
