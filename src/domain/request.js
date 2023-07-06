@@ -12,10 +12,8 @@ export function request(url, option) {
       },
     },
     () => {
-      if (confirm(`존재하지 않는 페이지 입니다.`)) {
-        const router = new RouteService();
-        router.replace('/');
-      }
+      const router = new RouteService();
+      router.replace('/');
     },
   );
 }
