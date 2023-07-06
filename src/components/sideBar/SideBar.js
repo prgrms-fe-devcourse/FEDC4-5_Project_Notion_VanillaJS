@@ -28,8 +28,7 @@ export default function SideBar({ $target }) {
     },
   });
 
-  this.setState = async () => {
-    const rootDocuments = await request("/documents");
+  this.setState = (rootDocuments) => {
     documentList.setState(rootDocuments);
     this.render();
   };
