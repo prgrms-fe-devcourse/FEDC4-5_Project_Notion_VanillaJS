@@ -1,7 +1,4 @@
-import { request } from './api.js';
 import Editor from './Editor.js';
-import { setItem, getItem, removeItem } from './storage.js';
-import { getDocumentId } from './api.js';
 
 export default function DocumentEditComponent({ target, initialState }) {
   const EditComponent = document.createElement('div');
@@ -14,6 +11,7 @@ export default function DocumentEditComponent({ target, initialState }) {
     target: EditComponent,
     initialState: this.state.doc,
     onEditing: (doc) => {
+      // onEditing 기능은 아직 구현하지 못했습니다.
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -30,10 +28,8 @@ export default function DocumentEditComponent({ target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    console.log('아무문장', nextState);
     // 무한 루프 방지용
     if (this.state.id !== nextState.id) {
-      // docLocalSaveKey = `temp-post-${nextState.id}`;
       this.state = nextState;
       return;
     }
@@ -43,7 +39,6 @@ export default function DocumentEditComponent({ target, initialState }) {
 
     editor.setState(
       this.state.doc || {
-        //default 값을 넣어준다.
         title: '',
         content: '',
       }

@@ -57,11 +57,8 @@ export default function DocumentList({
       const { id } = clickedElement.dataset;
       await createNewDocument(id);
       const undatedAllDocuments = await getAllDocuments();
-      // console.log(undatedAllDocuments);
       this.setState(undatedAllDocuments);
-      // push(`${id}`);
     } else if (clickedElement.className === 'deleteBtn') {
-      // 삭제
       const { id } = clickedElement.dataset;
       await deleteDocument(id);
       const updatedAllDocuments = await getAllDocuments();
@@ -71,12 +68,9 @@ export default function DocumentList({
       const updatedAllDocuments = await getAllDocuments();
       this.setState(updatedAllDocuments);
     } else {
-      // list 항목 클릭시 history 이용 페이지 이동
       const { id } = clickedElement.dataset;
       console.log(id);
       push(`/documents/${id}`);
     }
   });
-
-  //this.render();
 }

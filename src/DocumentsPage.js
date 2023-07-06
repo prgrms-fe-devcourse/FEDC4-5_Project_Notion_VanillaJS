@@ -8,12 +8,6 @@ export default function DocumentsPage({ target }) {
   const page = document.createElement('div');
   page.setAttribute('class', 'page');
 
-  // const docList = new DocumentList({
-  //   target: page,
-  //   initialState: [],
-  // });
-
-  // document edit page
   const docEditComponent = new DocumentEditComponent({
     target: page,
     initialState: {
@@ -23,21 +17,19 @@ export default function DocumentsPage({ target }) {
 
   const fetchDoc = async (id) => {
     const doc = await getDocumentId(id);
-    console.log('page doc', doc);
+
     docEditComponent.setState({
       doc,
     });
   };
 
   this.sendId = (id) => {
-    console.log('page에서 확인', id);
     fetchDoc(id);
     this.render();
   };
 
   const fetchDocsList = async () => {
     const docs = await request('/');
-    // docList.setState(docs);
   };
 
   this.render = async () => {

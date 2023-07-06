@@ -1,9 +1,9 @@
 import DocumentList from './DocumentList.js';
 import { request } from './api.js';
 
-export default function MainPage({ target }) {
+export default function ListComponent({ target }) {
   const page = document.createElement('div');
-  // docList
+
   const docList = new DocumentList({
     target,
     initialState: [],

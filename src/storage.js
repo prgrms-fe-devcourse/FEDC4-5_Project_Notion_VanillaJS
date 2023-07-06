@@ -1,3 +1,4 @@
+//localStorage는 아직 구현을 못했습니다.
 const storage = window.localStorage;
 
 // 가져올때는 JSON.parse() 역직렬화 해서 가져오기

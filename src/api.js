@@ -39,12 +39,10 @@ export const getAllDocuments = async () => {
 
 export const getDocumentId = async (id) => {
   const res = await request(`/${id}`);
-  console.log('api page res', res);
   return res;
 };
 
 export const deleteDocument = async (id) => {
-  console.log('api 삭제 id 확인', id);
   await request(`/${id}`, {
     method: 'DELETE',
   });
