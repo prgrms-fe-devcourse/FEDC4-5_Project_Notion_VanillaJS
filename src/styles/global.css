@@ -51,7 +51,12 @@
 .listItem:hover .addButton,
 .listItem:hover .deleteButton {
   opacity: 1;
+}
+
+.addButton:hover,
+.deleteButton:hover {
   color: rgb(55, 53, 47);
+  font-weight: 900;
 }
 
 .activeListItem {

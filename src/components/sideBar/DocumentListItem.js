@@ -41,12 +41,14 @@ export default function DocumentListItem({
   this.render();
 
   $documentListItem.addEventListener("click", async (e) => {
-    const { className } = e.target;
-    if (className === "toggleButton") {
-    } else if (className === "addButton") {
+    const { classList } = e.target;
+    const classArray = Array.from(classList);
+    if (classArray.includes("toggleButton")) {
+    } else if (classArray.includes("addButton")) {
+      console.log("added");
       onAdd();
       return;
-    } else if (className === "deleteButton") {
+    } else if (classArray.includes("deleteButton")) {
       onDelete(this.state.id);
       return;
     }
