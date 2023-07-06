@@ -93,7 +93,7 @@ export default class MainPage extends Component{
     this.setState(this.state);
   }
 
-  async onClickDocument (id){
+  onClickDocument (id){
     pushHistory(`/documents/${id}`);
   }
 

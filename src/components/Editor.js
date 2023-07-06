@@ -35,7 +35,7 @@ export default class Editor extends Component{
   }
 
   setEvent(){
-    const {documentContent, onEditTitle, onEditContent} = this.props;
+    const {onEditTitle, onEditContent} = this.props;
     this.addEvent("input", "[name=title]", ({target}) => {
       onEditTitle({
         title : target.value,
@@ -45,7 +45,7 @@ export default class Editor extends Component{
 
     this.addEvent("input", "[name=content]", ({target}) => {
       onEditContent({
-        title :  documentContent.title,
+        title :  document.querySelector("[name=title]").value,
         content : target.innerHTML
       });
     })
