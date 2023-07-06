@@ -1,4 +1,8 @@
 .notion-editor-title {
+  resize: none;
+  overflow: hidden;
+
+  font-family: 'Pretendard';
   font-size: 40px;
   font-weight: bold;
   padding: 5px 10px;

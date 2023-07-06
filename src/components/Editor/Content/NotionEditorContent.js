@@ -100,6 +100,11 @@ export default class NotionEditorContent extends Component {
     );
   }
 
+  setState(newState) {
+    if (newState?.content === this.state?.content) return;
+    super.setState(newState);
+  }
+
   render() {
     const { content } = this.state;
 

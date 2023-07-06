@@ -15,6 +15,7 @@ export default class NotionEditor extends Component {
   initChildComponents() {
     this.$title = new NotionEditorTitle(this.$editor, {
       onEdit: this.handleEditorInputChange.bind(this),
+      onPressEnterKey: this.handlePressEnterKey.bind(this),
     });
     this.$content = new NotionEditorContent(this.$editor, {
       onEdit: this.handleEditorInputChange.bind(this),
@@ -28,6 +29,15 @@ export default class NotionEditor extends Component {
       ...this.state,
       [name]: value,
     });
+  }
+
+  handlePressEnterKey(name) {
+    if (name === 'title') {
+      const $contentEditor = this.$target.querySelector(
+        '.notion-editor-content'
+      );
+      $contentEditor.focus();
+    }
   }
 
   setState(newstate) {
