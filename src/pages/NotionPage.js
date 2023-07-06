@@ -7,9 +7,9 @@ import Editor from '../components/Editor.js';
 
 export default function NotionPage({ $target, initialState }) {
   const $sidebarContainer = document.createElement('div');
-  const $notionContainer = document.createElement('div');
-
-  $sidebarContainer.classList.add('sidebar');
+  const $documentContainer = document.createElement('div');
+  $sidebarContainer.classList.add('sidebar-container');
+  $documentContainer.classList.add('document-container');
   $target.appendChild($sidebarContainer);
 
   this.state = initialState;
@@ -73,7 +73,19 @@ export default function NotionPage({ $target, initialState }) {
       });
       await fetchDocuments();
 
-      push(`/documents/${id === this.state.documentId ? this.state.documents[0]?.id ?? null : this.state.documentId}`);
+      if (id === this.state.documentId) {
+        if (this.state.documents.length > 0) {
+          push(`/documents/${this.state.documents[0].id}`);
+        } else {
+          push('/');
+        }
+      } else {
+        if (this.state.documentId) {
+          push(`/documents/${this.state.documentId}`);
+        } else {
+          push('/');
+        }
+      }
 
       const index = this.state.openedDocuments.indexOf(id);
 
@@ -107,7 +119,7 @@ export default function NotionPage({ $target, initialState }) {
   });
 
   const editor = new Editor({
-    $target: $notionContainer,
+    $target: $documentContainer,
     initialState: doc,
     onEditing: (document) => {
       if (timer !== null) {
@@ -210,11 +222,11 @@ export default function NotionPage({ $target, initialState }) {
   };
 
   this.render = () => {
-    $target.appendChild($notionContainer);
+    $target.appendChild($documentContainer);
 
     // 루트 url인 경우 노션 컨테이너 렌더링 X
     if (this.state.documentId === null) {
-      $target.removeChild($notionContainer);
+      $target.removeChild($documentContainer);
     }
   };
 
