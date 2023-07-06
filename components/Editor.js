@@ -6,7 +6,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.innerHTML = `
   <div class="editor-container">
     <input class="title" type="text" placeholder="제목 없음" name="title"/>
-    <div class="editor" name="content" contentEditable="true" placeholder="내용을 입력하세요."></div>
+    <div class="editor" name="content" contentEditable="true"></div>
     <div class="navigator"></div>
   </div>
   `;
