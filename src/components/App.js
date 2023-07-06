@@ -19,6 +19,7 @@ export default function App({ $target }) {
   const $content = document.createElement("article");
 
   $main.className = "main-container";
+  $content.className = "page-container";
 
   $main.appendChild($content);
   $target.appendChild($main);
