@@ -2,6 +2,7 @@ import { request } from "../api/api.js";
 import DocumentList from "./DocumentList.js";
 import { push } from "../routes/router.js";
 import { setItem, removeItem } from "../utils/storage.js";
+import LinkButton from "./LinkButton.js";
 
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
@@ -25,6 +26,14 @@ export default function DocumentPage({ $target, initialState }) {
     });
   };
 
+  new LinkButton({
+    $target: $documentPage,
+    initialState: {
+      text: "add a document",
+      link: "/documents/new",
+    },
+  });
+
   const documentList = new DocumentList({
     $target: $documentPage,
     initialState,
@@ -36,30 +45,6 @@ export default function DocumentPage({ $target, initialState }) {
           parent: id,
         }),
       });
-
-      await request(`/documents/${createdDoc.id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: "Untitled",
-          content: "",
-        }),
-      });
-
-      if (id === null) {
-        const rootDocId = createdDoc.id;
-
-        this.setState({
-          ...this.state,
-          docId: rootDocId,
-        });
-
-        setItem(rootDocId, {
-          id: rootDocId,
-          displayed: "",
-        });
-      }
-
-      //this.state: 새로 생긴 문서의 docId가 api의 문서 아이디와 일치하게 설정됨
 
       setItem(id, {
         id: id,

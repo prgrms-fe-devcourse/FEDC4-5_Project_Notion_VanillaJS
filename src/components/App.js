@@ -25,7 +25,7 @@ export default function App({ $target }) {
   const documentEditPage = new DocumentEditPage({
     $target,
     initialState: {
-      docId: null,
+      docId: "new",
       doc: {
         title: "",
         content: "",

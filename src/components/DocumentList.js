@@ -14,7 +14,7 @@ export default function DocumentList({
   $documentList.style = `
     overflow: hidden;
     white-space: nowrap;
-    height: 98vh;
+    height: 100vh;
     backgroundColor: #EDECE9;
   `;
 
@@ -78,7 +78,6 @@ export default function DocumentList({
     $documentList.innerHTML = `
         <ul>
           ${this.displayDocumentList(this.state.docs)}
-          <div class="rootAdd">+ Add a document</div>
         </ul>
         `;
     $target.appendChild($documentList);
@@ -86,10 +85,8 @@ export default function DocumentList({
 
   $documentList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
-    if (e.target.className === "rootAdd") {
-      onCreateDocument(null);
-      fetchDocument();
-    }
+
+    if (!$li) return;
 
     const { id } = $li.dataset;
     const name = e.target.className;

@@ -9,7 +9,7 @@ export default function Editor({
 
   $editor.innerHTML = `
     <input type="text" name="title" style="width:95%;height:50px; display:block" value="${this.state.title}" />
-    <textarea name="content" style="width:95%; height:600px">${this.state.content}</textarea>
+    <textarea name="content" style="width:95%; height:600px;">${this.state.content}</textarea>
     `;
 
   this.setState = (nextState) => {
@@ -31,21 +31,16 @@ export default function Editor({
   };
 
   $editor.addEventListener("keyup", (e) => {
-    const name = e.target.getAttribute("name");
+    const { target } = e;
+    const name = target.getAttribute("name");
 
-    if (this.state[name]) {
+    if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
-        [name]: e.target.value,
+        [name]: target.value,
       };
 
       this.setState(nextState);
-
-      console.log("넘겨준 doc: ", this.state);
-
-      //doc this.state:
-      //{id: 89730, title: 'ㅇ', createdAt: '2023-07-06T13:11:47.726Z', updatedAt: '2023-07-06T13:11:47.782Z', content: '', …}
-      //근데 content에서 변화 생길 땐 변화가 안 일어남...
 
       onEditing(this.state);
     }

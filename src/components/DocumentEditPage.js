@@ -23,7 +23,6 @@ export default function DocumentEditPage({ $target, initialState }) {
       content: "",
     },
     onEditing: (doc) => {
-      console.log("이게 doc이라고? :", doc);
       setItem(docLocalSaveKey, {
         ...doc,
         tempSaveDate: new Date(),
@@ -34,27 +33,30 @@ export default function DocumentEditPage({ $target, initialState }) {
       }
 
       timer = setTimeout(async () => {
-        const isNew = this.state.docId === null;
+        const isNew = this.state.docId === "new";
         if (isNew) {
           if (doc.title === "") {
             doc.title = "Untitled";
           }
 
-          console.log("doc.id: ", doc.id);
+          const createDocument = await request("/documents", {
+            method: "POST",
+            body: JSON.stringify(doc),
+          });
 
-          await request(`/documents/${doc.id}`, {
+          await request(`/documents/${createDocument.id}`, {
             method: "PUT",
             body: JSON.stringify(doc),
           });
 
-          history.replaceState(null, null, `/documents/${doc.id}`);
+          history.replaceState(null, null, `/documents/${createDocument.id}`);
           removeItem(docLocalSaveKey);
 
           this.setState({
-            docId: doc.id,
+            docId: createDocument.id,
           });
 
-          push(doc.id);
+          push(createDocument.id);
         } else {
           if (doc.title === "") {
             doc.title = "Untitled";
@@ -71,16 +73,13 @@ export default function DocumentEditPage({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    //nextState: 리스트에서 선택되는 문서 {docId: '89105'}
-
-    console.log("this.state.doc: ", this.state.docId);
-    if (this.state.docId === nextState.docId) {
+    if (this.state.docId === "new" && nextState.docId === "new") {
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
         content: "",
       });
 
-      if (tempDocument.title !== "" || tempDocument.content != "") {
+      if (tempDocument.title !== "" || tempDocument.content !== "") {
         this.state = {
           ...this.state,
           doc: tempDocument,
@@ -99,8 +98,18 @@ export default function DocumentEditPage({ $target, initialState }) {
       docLocalSaveKey = `temp-document-${nextState.docId}`;
       this.state = nextState;
 
-      await fetchDocument();
+      if (this.state.docId === "new") {
+        const doc = getItem(docLocalSaveKey, {
+          title: "Untitled",
+          content: "",
+        });
 
+        editor.setState(doc);
+
+        this.render();
+      } else {
+        await fetchDocument();
+      }
       return;
     }
 
@@ -109,41 +118,48 @@ export default function DocumentEditPage({ $target, initialState }) {
     this.render();
 
     if (this.state.doc) {
-      editor.setState(this.state.doc || { title: "Untitled", content: "" });
+      editor.setState(
+        this.state.doc || {
+          title: "Untitled",
+          content: "",
+        }
+      );
     }
   };
 
   const fetchDocument = async () => {
     const { docId } = this.state;
 
-    const doc = await request(`/documents/${docId}`, {
-      method: "GET",
-    });
+    if (this.state !== "new") {
+      const doc = await request(`/documents/${docId}`, {
+        metohd: "GET",
+      });
 
-    if (doc.content === null) doc.content = "";
+      if (doc.content === null) doc.content = "";
 
-    const tempDocument = await getItem(docLocalSaveKey, {
-      title: "Untitled",
-      content: "",
-    });
+      const tempDocument = await getItem(docLocalSaveKey, {
+        title: "Untitled",
+        content: "",
+      });
 
-    if (
-      tempDocument.tempSaveDate &&
-      tempDocument.tempSaveDate > doc.updatedAt
-    ) {
-      if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
-        this.setState({
-          ...this.state,
-          doc: tempDocument,
-        });
-        return;
+      if (
+        tempDocument.tempSaveDate &&
+        tempDocument.tempSaveDate > doc.updatedAt
+      ) {
+        if (confirm("임시저장된 값을 불러올까요?")) {
+          this.setState({
+            ...this.state,
+            doc: tempDocument,
+          });
+          return;
+        }
       }
-    }
 
-    this.setState({
-      ...this.state,
-      doc,
-    });
+      this.setState({
+        ...this.state,
+        doc,
+      });
+    }
   };
 
   this.render = () => {
