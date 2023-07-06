@@ -31,7 +31,7 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
     // 토글버튼 클릭 이벤트리스너
     targetElement.addEventListener('click', (e) => {
       if (!e.target.closest('.document-toggle')) return;
-
+      this.state.scrollPos = targetElement.scrollTop;
       const treeElement = e.target.closest('.document-tree');
       const foldedTreeId = Number(treeElement.dataset.id);
       const foldedTreeSet = new Set(this.state.foldedTreeSet.values());
