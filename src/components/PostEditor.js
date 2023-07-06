@@ -28,14 +28,25 @@ export default function PostEditor({ target, initialState, onEdit }) {
 
   let timer = null;
 
-  this.render = () => {
-    target.appendChild(editorElement);
-    editorElement.innerHTML = `
-        <input type='text' name='title' class='post-title'/>
-        <textarea name='content' class='post-content'></textarea>
-    `;
+  target.appendChild(editorElement);
+  editorElement.innerHTML = `
+      <input type='text' name='title' class='post-title'/>
+      <textarea name='content' class='post-content'></textarea>
+  `;
 
-    editorElement.addEventListener('keyup', e => {
+  this.render = () => {
+    editorElement.addEventListener('keyup', keyUpEventHandler);
+
+    if (this.state) {
+      const { title, content } = this.state;
+
+      editorElement.querySelector('.post-title').value = title;
+      editorElement.querySelector('.post-content').value = content;
+    }
+  };
+
+  const keyUpEventHandler = e => {
+    {
       const { target } = e;
 
       const name = target.getAttribute('name');
@@ -66,14 +77,6 @@ export default function PostEditor({ target, initialState, onEdit }) {
           }
         }, 1500);
       }
-    });
-
-    if (this.state) {
-      const { title, content } = this.state;
-
-      editorElement.querySelector('.post-title').value = title;
-      editorElement.querySelector('.post-content').value = content;
-      console.log(editorElement.querySelector('.post-title').value);
     }
   };
 }

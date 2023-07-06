@@ -7,6 +7,7 @@ export default function PostList({
   onClickDeleteButton,
 }) {
   const postListElement = document.createElement('div');
+  target.appendChild(postListElement);
 
   this.state = initialState;
 
@@ -42,11 +43,8 @@ export default function PostList({
           </ul>
         `;
   };
-  target.appendChild(postListElement);
 
   this.render = () => {
-    // 로딩 : this.state가 undefined인 경우
-    //문서가 아예없을 때
     postListElement.innerHTML = `
       <h1 class='heading'>Notion</h1>
        ${this.state.list
@@ -63,12 +61,7 @@ export default function PostList({
     const spanElements = [...postListElement.querySelectorAll('li>span')];
 
     spanElements.forEach(spanElement => {
-      spanElement.addEventListener('click', async e => {
-        const closestLi = e.target.closest('li');
-        const { id } = closestLi.dataset;
-
-        pushRoute(`/documents/${id}`);
-      });
+      spanElement.addEventListener('click', listClickEventHandler);
     });
 
     const buttons = [...postListElement.querySelectorAll('button')];
@@ -76,43 +69,11 @@ export default function PostList({
     buttons.forEach(buttonElement => {
       const buttonType = buttonElement.getAttribute('name');
       if (buttonType === 'add') {
-        buttonElement.addEventListener('click', e => {
-          const closestLi = e.target.closest('li');
-          if (closestLi) {
-            const { id } = closestLi.dataset;
-            onClickAddButton(id);
-          } else {
-            onClickAddButton(null); // root에 추가
-          }
-        });
+        buttonElement.addEventListener('click', addButtonEventHandler);
       } else if (buttonType === 'delete') {
-        buttonElement.addEventListener('click', e => {
-          const closestLi = e.target.closest('li');
-          const { id } = closestLi.dataset;
-
-          onClickDeleteButton(id);
-        });
+        buttonElement.addEventListener('click', deleteButtonEventHandler);
       } else if (buttonType === 'toggle') {
-        buttonElement.addEventListener('click', e => {
-          const closestUl = e.target.closest('ul');
-          const id = closestUl.id * 1;
-
-          const clickedElement = document.getElementById(id);
-
-          for (const child of clickedElement.childNodes) {
-            if (child.id) {
-              const toggled = child.style.display === 'block';
-
-              child.style.display = toggled ? 'none' : 'block';
-
-              if (e.target.closest('button') !== null) {
-                e.target.closest('button').innerHTML = toggled
-                  ? '<i class="bi bi-caret-right"></i>'
-                  : '<i class="bi bi-caret-down"></i>';
-              }
-            }
-          }
-        });
+        buttonElement.addEventListener('click', toggleButtonEventHandler);
       }
     });
   };
@@ -151,5 +112,50 @@ export default function PostList({
     }
 
     documentListStyling(parent);
+  };
+
+  const listClickEventHandler = e => {
+    const closestLi = e.target.closest('li');
+    const { id } = closestLi.dataset;
+
+    pushRoute(`/documents/${id}`);
+  };
+
+  const addButtonEventHandler = e => {
+    const closestLi = e.target.closest('li');
+    if (closestLi) {
+      const { id } = closestLi.dataset;
+      onClickAddButton(id);
+    } else {
+      onClickAddButton(null);
+    }
+  };
+
+  const deleteButtonEventHandler = e => {
+    const closestLi = e.target.closest('li');
+    const { id } = closestLi.dataset;
+
+    onClickDeleteButton(id);
+  };
+
+  const toggleButtonEventHandler = e => {
+    const closestUl = e.target.closest('ul');
+    const id = closestUl.id * 1;
+
+    const clickedElement = document.getElementById(id);
+
+    for (const child of clickedElement.childNodes) {
+      if (child.id) {
+        const toggled = child.style.display === 'block';
+
+        child.style.display = toggled ? 'none' : 'block';
+
+        if (e.target.closest('button') !== null) {
+          e.target.closest('button').innerHTML = toggled
+            ? '<i class="bi bi-caret-right"></i>'
+            : '<i class="bi bi-caret-down"></i>';
+        }
+      }
+    }
   };
 }
