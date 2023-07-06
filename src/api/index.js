@@ -4,7 +4,7 @@ import storage from "../utils/storage"
 const documentAdapter = () => {
   let user = storage.getItem("currentUser")
   const updateCurrentUser = () => {
-    user = localStorage.getItem("currentUser")
+    user = storage.getItem("currentUser")
   }
 
   return {
