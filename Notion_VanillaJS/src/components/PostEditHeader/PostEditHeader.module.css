@@ -1,0 +1,26 @@
+@import '@/index.css';
+
+.breadCrumb {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Pretendard-Regular';
+  align-items: center;
+}
+
+.item {
+  margin: 0 0.3rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all ease-in-out 300ms;
+}
+
+.item:hover,
+.item:hover * {
+  background-color: var(--more-light-grey);
+}
+
+.noneTitle {
+  color: var(--light-grey);
+  transition: all ease-in-out 300ms;
+}

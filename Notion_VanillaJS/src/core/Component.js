@@ -45,4 +45,8 @@ export default class Component {
       callback(event);
     });
   }
+
+  static attach({ constructor, $target, props }) {
+    new constructor({ $target, props });
+  }
 }
