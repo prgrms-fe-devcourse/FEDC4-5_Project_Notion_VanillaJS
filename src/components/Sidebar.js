@@ -1,3 +1,4 @@
+import { DUMMY_CHARACTER } from "../constants/constants.js";
 import Component from "../core/Component.js";
 
 export default class Sideber extends Component{
@@ -24,7 +25,7 @@ export default class Sideber extends Component{
         onClickAdd(id);
       }else if(classList.contains("delete-document")){
         onClickDelete(id);
-      }else if(classList.contains("entry-title")){
+      }else{
         onClickDocument(id);
       }
     })
