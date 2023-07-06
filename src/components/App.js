@@ -5,7 +5,12 @@ import { initRoute } from "../router.js";
 export default function App({ $target }) {
   let isFirstRoute = true;
 
-  const sidebar = new Sidebar({ $target });
+  const sidebar = new Sidebar({
+    $target,
+    onResetDocumentState: () => {
+      document.setState({ id: null });
+    },
+  });
 
   const document = new Document({
     $target,

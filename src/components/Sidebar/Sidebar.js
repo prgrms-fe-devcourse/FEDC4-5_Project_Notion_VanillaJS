@@ -1,6 +1,6 @@
-import SideBarFooter from "./SideBarFooter.js";
-import SidebarHeader from "./SideBarHeader.js";
-import SidebarList from "./SideBarList.js";
+import SidebarFooter from "./SidebarFooter.js";
+import SidebarHeader from "./SidebarHeader.js";
+import SidebarList from "./SidebarList.js";
 
 import {
   getRootDocuments,
@@ -10,8 +10,10 @@ import {
 } from "../../api/api.js";
 import { push } from "../../router.js";
 
-export default function Sidebar({ $target }) {
+export default function Sidebar({ $target, onResetDocumentState }) {
   const $sidebar = document.createElement("div");
+
+  $sidebar.classList.add("sidebar");
 
   this.setState = async () => {
     const documents = await getRootDocuments();
@@ -29,12 +31,13 @@ export default function Sidebar({ $target }) {
     initialState: [],
     onAddDocument: async (id) => {
       const newDocument = {
-        title: "제목 없음",
+        title: "",
         parent: id,
       };
+      const createdDocument = await createDocument(newDocument);
 
-      await createDocument(newDocument);
       this.setState();
+      push(`/documents/${createdDocument.id}`);
     },
     onDeleteDocument: async (id) => {
       const selectedIds = [];
@@ -63,15 +66,18 @@ export default function Sidebar({ $target }) {
       }
 
       this.setState();
+      onResetDocumentState();
       push("/");
     },
   });
 
-  new SideBarFooter({
+  new SidebarFooter({
     $target: $sidebar,
-    onAddRootDocumnet: async (newDocument) => {
-      await createDocument(newDocument);
+    onAddRootDocument: async (newDocument) => {
+      const createdDocument = await createDocument(newDocument);
+
       this.setState();
+      push(`/documents/${createdDocument.id}`);
     },
   });
 
