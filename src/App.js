@@ -45,5 +45,4 @@ export default class App {
         }
     }
 }
-// 배포 연습
 
