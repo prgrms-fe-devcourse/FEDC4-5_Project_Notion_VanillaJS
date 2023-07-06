@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { pushRouter } from "./router.js";
 
 export default function PostList({ $target, initialState }) {
   const $postList = document.createElement("div");
@@ -26,7 +26,7 @@ export default function PostList({ $target, initialState }) {
 
     if ($li) {
       const { id } = $li.dataset;
-      push(`/post/${id}`);
+      pushRouter(`/post/${id}`);
     }
   });
 }
