@@ -3,11 +3,7 @@ import {
   DocumentTreeComponent,
   EditorComponent,
 } from "./Component/index.js";
-import {
-  getDocumentTree,
-  saveDocumentToServer,
-  updateDocumentTree,
-} from "./service/index.js";
+import { getDocumentTree } from "./service/index.js";
 import {
   addDocumentButtonClickEvnet,
   documentLinkClickEvent,
@@ -15,6 +11,8 @@ import {
   documentInputChangeEvent,
   textareaKeyupEvent,
   titleKeyupEvent,
+  titleFocusoutEvent,
+  textareaFocusoutEvent,
 } from "./events/index.js";
 import { Document } from "./domain/index.js";
 
@@ -106,13 +104,11 @@ export default class App extends Component {
           tag: ".title",
           target: ".title",
           callback: async ({ target }) => {
-            const { innerHTML } = target;
-            const newDocument = this.editor.state.cloneNewDocument({
-              title: innerHTML,
+            titleFocusoutEvent({
+              documentTree: this.documentTree,
+              editor: this.editor,
+              title: target.innerHTML,
             });
-            this.editor.state = newDocument;
-            await saveDocumentToServer({ title: newDocument.title });
-            updateDocumentTree({ documentTree: this.documentTree });
           },
         },
         {
@@ -120,13 +116,10 @@ export default class App extends Component {
           tag: ".textarea",
           target: ".textarea",
           callback: ({ target }) => {
-            const { innerHTML } = target;
-            this.editor.state = this.editor.state.cloneNewDocument({
-              content: innerHTML,
+            textareaFocusoutEvent({
+              editor: this.editor,
+              content: target.innerHTML,
             });
-            if (this.editor.state.id !== -1) {
-              saveDocumentToServer({ content: innerHTML });
-            }
           },
         },
       ],
