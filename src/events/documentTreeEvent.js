@@ -1,4 +1,6 @@
 import { route } from "../router/route.js";
+import { removeItem } from "../storage/storage.js";
+import { request } from "../api.js";
 
 export const documentLinkClickEvent = async ({
   event,
@@ -19,4 +21,28 @@ export const addDocumentButtonClickEvnet = async ({ event, target }) => {
     return;
   }
   target.appendChild($input);
+};
+
+export const deleteDocumentButtonClickEvent = async ({ app, target }) => {
+  const { id } = target;
+  await request(`/documents/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    removeItem("documents/" + res.id);
+    history.pushState(null, null, "/");
+  });
+  app.updateDocumentTree();
+};
+
+export const documentInputChangeEvent = async ({ event, app, target }) => {
+  const { value } = event.target;
+  await request("/documents", {
+    method: "POST",
+    body: JSON.stringify({
+      title: value,
+      parent: target ? target.id : null,
+    }),
+  });
+
+  app.updateDocumentTree();
 };

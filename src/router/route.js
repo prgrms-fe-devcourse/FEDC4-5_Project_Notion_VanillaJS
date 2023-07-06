@@ -1,10 +1,11 @@
 import { removeItem, getItem } from "../storage/storage.js";
+import { getDocument, saveDocumentToServer } from "../service/index.js";
 import { Document } from "../domain/index.js";
 
-export const route = async ({ app, component, url }) => {
+export const route = async ({ component, url }) => {
   if (component.state.id !== -1) {
     const { title, content } = component.state;
-    app.saveDocumentToServer({ title, content });
+    saveDocumentToServer({ title, content });
   }
   history.pushState(null, null, url);
   const urlSplit = url.split("/");
@@ -14,7 +15,7 @@ export const route = async ({ app, component, url }) => {
   );
   switch (routeName) {
     case "documents":
-      const savedDocument = new Document(await app.getDocument(documentId));
+      const savedDocument = await getDocument(documentId);
       try {
         const { title, content, tmpSaveDate } = getItem(
           "documents/" + documentId
