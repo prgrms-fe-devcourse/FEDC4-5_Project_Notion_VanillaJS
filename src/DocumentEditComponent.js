@@ -1,0 +1,58 @@
+import { request } from './api.js';
+import Editor from './Editor.js';
+import { setItem, getItem, removeItem } from './storage.js';
+import { getDocumentId } from './api.js';
+
+export default function DocumentEditComponent({ target, initialState }) {
+  const EditComponent = document.createElement('div');
+
+  this.state = initialState;
+
+  let timer = null;
+
+  const editor = new Editor({
+    target: EditComponent,
+    initialState: this.state.doc,
+    onEditing: (doc) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        // doc : editor 에서의 title과 content
+        // 편집을 하게 되면 setItem()을 이용해 local storage에
+        // 'temp-doc'라는 키에 title과 content가 담긴 doc 과 tempSavekey가 들어가게 된다.
+        setItem(docLocalSaveKey, {
+          ...doc,
+          tempSaveDate: new Date(),
+        });
+      }, 2000);
+    },
+  });
+
+  this.setState = async (nextState) => {
+    console.log(this.state.id, nextState.id);
+    // 무한 루프 방지용
+    if (this.state.id !== nextState.id) {
+      // docLocalSaveKey = `temp-post-${nextState.id}`;
+      this.state = nextState;
+      await fetchDoc();
+      return;
+    }
+
+    this.state = nextState;
+    this.render();
+
+    editor.setState(
+      this.state.doc || {
+        //default 값을 넣어준다.
+        title: '',
+        content: '',
+      }
+    );
+  };
+
+  this.render = async () => {
+    await fetchDoc();
+    target.appendChild(EditComponent);
+  };
+}
