@@ -12,7 +12,6 @@ export default function DocumentEditPage({ $target, initialState }) {
   $documentEditPage.style.margin = "auto";
 
   this.state = initialState;
-  console.log("초기 this.state: ", this.state);
 
   let docLocalSaveKey = `temp-document-${this.state.docId}`;
   let timer = null;
@@ -37,7 +36,6 @@ export default function DocumentEditPage({ $target, initialState }) {
         const isNew = this.state.docId === null;
         if (isNew) {
           if (doc.title === "") {
-            alert("제목을 입력해 주세요!");
             doc.title = "Untitled";
           }
 
@@ -76,7 +74,6 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     //nextState: 리스트에서 선택되는 문서 {docId: '89105'}
-    console.log(this.state);
     if (this.state.docID === nextState.docId) {
       const tempDocument = await getItem(docLocalSaveKey, {
         title: "Untitled",
@@ -110,8 +107,6 @@ export default function DocumentEditPage({ $target, initialState }) {
     }
 
     this.state = nextState;
-    console.log(nextState);
-    console.log(this.state);
 
     this.render();
 
@@ -121,14 +116,11 @@ export default function DocumentEditPage({ $target, initialState }) {
   };
 
   const fetchDocument = async () => {
-    console.log("this.state: ", this.state);
     const { docId } = this.state;
 
     const doc = await request(`/documents/${docId}`, {
       method: "GET",
     });
-
-    console.log(doc);
 
     if (doc.content === null) doc.content = "";
 
