@@ -1,18 +1,14 @@
 import Editor from "./Editor.js";
-import { setItem, getItem } from "./storage.js";
-import { getApi } from "./api.js";
+import { setItem, getItem, removeItem } from "./storage.js";
+import { getApi, postApi, putApi } from "./api.js";
+import { makeNewPost } from "./btnCustomEvent.js";
 
 export default function PostEditPage({ $target, initialState, username }) {
   const $page = document.createElement("div");
 
   this.state = initialState;
 
-  const TEMP_DOCUMENT_SAVE_KEY = `temp-document-${this.state.id}`;
-
-  const post = getItem(TEMP_DOCUMENT_SAVE_KEY, {
-    title: "",
-    content: "",
-  });
+  let postLocalSaveKey = `temp-document-${this.state.id}`;
 
   let timer = null;
 
@@ -23,25 +19,67 @@ export default function PostEditPage({ $target, initialState, username }) {
       if (timer !== null) {
         clearTimeout(timer);
       }
-      timer = setTimeout(() => {
-        setItem(TEMP_DOCUMENT_SAVE_KEY, {
+      timer = setTimeout(async () => {
+        setItem(postLocalSaveKey, {
           ...post,
           saveDate: new Date(),
         });
-      }, 1000);
+
+        // const isNew = this.state.id === "new";
+        // if (isNew) {
+        //   const createdPost = await postApi(username);
+        //   history.replaceState(null, null, `/${createdPost.id}`); // url을 new에서 생성된 id로 바꾸기
+        //   removeItem(postLocalSaveKey); // local storage에서 temp-document-new 지우기
+
+        //   this.setState({
+        //     id: createdPost.id,
+        //   });
+        // } else {
+        const { id, title, content } = post;
+        await putApi(username, id, title, content);
+        removeItem(postLocalSaveKey);
+        // }
+      }, 200);
     },
   });
 
   this.setState = async (nextState) => {
-    if (this.state.id !== nextState.id) {
+    if (this.state.id !== nextState.id && nextState.id !== "root") {
+      postLocalSaveKey = `temp-post-${nextState.id}`;
       this.state = nextState;
-      await fetchPost();
+      if (this.state.id === "new") {
+        const post = getItem(postLocalSaveKey, {
+          title: "",
+          content: "",
+        });
+        this.render();
+        editor.setState(post);
+      } else {
+        await fetchPost();
+      }
       return;
     }
-    this.state = nextState;
+    this.state = {
+      ...this.state,
+      ...nextState,
+    };
     this.render();
-
-    editor.setState(this.state.post);
+    console.log(this.state.post);
+    if (this.state.post) {
+      editor.setState(this.state.post);
+    } else {
+      editor.setState(
+        this.state.id === "root"
+          ? {
+              title: `${username}의 노션 클로닝 페이지`,
+              content: `${username}의 노션에 오신 것을 환영합니다!\n\n당연히 노션 작성법은 알고 계시겠죠??\n\nmarkdown 규정에 맞춰 작성해주세요!`,
+            }
+          : {
+              title: "",
+              content: "",
+            }
+      );
+    }
   };
 
   this.render = () => {
@@ -50,13 +88,41 @@ export default function PostEditPage({ $target, initialState, username }) {
 
   const fetchPost = async () => {
     const { id } = this.state;
-    if (id !== 0) {
+    if (id !== "root" && id !== "new") {
       const post = await getApi(username, id);
-      console.log(post);
+
+      // const tempPost = getItem(postLocalSaveKey, {
+      //   title: "",
+      //   content: "",
+      // });
+
+      // // 아직 저장이 되지 않았는데, 새로고침 할 때
+      // if (tempPost.saveDate && tempPost.saveDate > post.updatedAt) {
+      //   if (confirm("저장되지 않은 임시 데이터가 있네용, 불러올까여?")) {
+      //     this.setState({
+      //       ...this.state,
+      //       post: tempPost,
+      //     });
+      //     return;
+      //   }
+      // }
+
       this.setState({
         ...this.state,
         post,
       });
+      console.log(this.state);
     }
   };
+
+  const newPost = async (id) => {
+    const createdPost = await postApi(username, id);
+    history.replaceState(null, null, `/${createdPost.id}`); // url을 new에서 생성된 id로 바꾸기
+    removeItem(postLocalSaveKey); // local storage에서 temp-document-new 지우기
+    console.log(this.state.id, createdPost.id);
+    this.setState({
+      id: createdPost.id,
+    });
+  };
+  makeNewPost((id) => newPost(id));
 }

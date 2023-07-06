@@ -1,23 +1,22 @@
 import DocumentList from "./navigation/DocumentList.js";
 import { getApi } from "./api.js";
 
-export default function PostPage({ $target, username }) {
+export default function SidebarPage({ $target, username }) {
   const $page = document.createElement("div");
 
   const documentList = new DocumentList({
-    $target: $target,
+    $target: $page,
     initialState: [],
     username,
   });
 
-  const fetchPosts = async () => {
+  this.setState = async () => {
     const document = await getApi(username);
     documentList.setState(document);
-    console.log(document);
+    this.render();
   };
 
   this.render = () => {
-    fetchPosts();
     $target.appendChild($page);
   };
 }

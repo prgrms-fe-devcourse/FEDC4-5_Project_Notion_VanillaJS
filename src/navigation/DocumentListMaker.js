@@ -13,5 +13,11 @@ export const listMaker = (item, depth = 1) => {
 };
 
 const eachItemMaker = (item, depth) => {
-  return `<li style="padding-left: ${depth * 10}px;">${item.title}</li>`;
+  return `
+    <li data-id="${item.id}" style="padding-left: ${depth * 10}px;">
+        ${item.title}
+        <button data-id="${item.id}" class="add">+</button>
+        <button data-id="${item.id}" class="delete">-</button>
+    </li>
+  `;
 };
