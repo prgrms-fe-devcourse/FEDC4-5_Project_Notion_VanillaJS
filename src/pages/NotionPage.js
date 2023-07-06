@@ -86,10 +86,12 @@ export default class NotionPage extends Component {
 
   getChildDocuments(documentData) {
     const childDocuments = documentData.documents;
-    return childDocuments.map(({ id, title }) => ({
-      id,
-      title,
-    }));
+    return (
+      childDocuments?.map(({ id, title }) => ({
+        id,
+        title,
+      })) ?? []
+    );
   }
 
   setState(newState) {
