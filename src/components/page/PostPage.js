@@ -27,6 +27,7 @@ export default function PostPage({
     this.render();
   };
 
+  let isInit = false;
   new Header({ $target: $page, initalState: { title: "📚 정호의 Notion" } });
 
   const list = new List({
@@ -43,6 +44,9 @@ export default function PostPage({
   });
 
   this.render = () => {
-    $target.appendChild($page);
+    if (!isInit) {
+      $target.appendChild($page);
+      isInit = true;
+    }
   };
 }

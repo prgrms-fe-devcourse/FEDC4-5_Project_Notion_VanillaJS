@@ -69,15 +69,12 @@ export default function App({
     if (timer !== null) {
       clearTimeout(timer);
     }
+
     timer = setTimeout(async () => {
-      const updatePost = await request(`/documents/${id}`, {
+      await fetchUpdate(`/documents/${id}`, {
         method: "PUT",
         body: JSON.stringify({ title, content }),
       });
-      const tempDate = [...this.state.posts];
-      const updatePosts = filterDocument(tempDate, updatePost);
-      console.log(updatePosts);
-      this.setState({ posts: tempDate, post: updatePost });
     }, 2000);
   };
 
@@ -85,7 +82,6 @@ export default function App({
     if (!confirm("페이지를 삭제하시겠습니까?")) return;
     const tempData = [...this.state.posts];
     const filterPost = filterRemoveDocument(tempData, id);
-    // 루트말고 해당 docuemtd의 root를 가리쳐볼까?
     this.state.selectedId === id
       ? this.setState({ selectedId: this.state.posts[0].id, posts: filterPost })
       : this.setState({ posts: filterPost });
@@ -123,6 +119,13 @@ export default function App({
     });
   };
 
+  const fetchUpdate = async (url, options) => {
+    const updatePost = await request(url, options);
+    const tempData = [...this.state.posts];
+    filterDocument(tempData, updatePost);
+    this.setState({ post: updatePost });
+  };
+
   const postPage = new PostPage({
     $target,
     initalState,
@@ -152,7 +155,6 @@ export default function App({
   initRoute(() => this.route());
 
   window.addEventListener("popstate", () => this.route());
-  // 새로고침시 this.route() 실행
-
+  if (location.pathname.includes(`/documents/`)) push(`/`);
   this.route();
 }
