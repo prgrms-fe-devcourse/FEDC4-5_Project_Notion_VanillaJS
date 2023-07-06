@@ -16,7 +16,7 @@ export const request = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error("Error:", error);
+      alert("문서데이터를 불러오지 못했습니다!");
       return error;
     }
   },
@@ -27,7 +27,7 @@ export const request = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error("Error:", error);
+      alert("해당 문서를 불러오지 못했습니다!");
     }
   },
   addDocumentItem: async (parentId) => {
@@ -43,7 +43,7 @@ export const request = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error("Error:", error);
+      alert("새 문서 생성에 실패했습니다!");
     }
   },
   updateDocumentItem: async (id, updateBody) => {
@@ -56,7 +56,7 @@ export const request = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error("Error:", error);
+      alert("해당 문서 수정에 실패했습니다!");
     }
   },
   deleteDocumentItem: async (id) => {
@@ -66,7 +66,7 @@ export const request = {
       const result = await response.json();
       return result;
     } catch (error) {
-      console.error("Error:", error);
+      alert("해당 문서 삭제에 실패했습니다!");
     }
   },
 };
