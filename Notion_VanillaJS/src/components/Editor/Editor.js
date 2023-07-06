@@ -141,12 +141,20 @@ export default class Editor extends Component {
       return styles.some((style) => $parent.style[style]);
     }
 
+    function normalizefor($parent) {
+      $parent.normalize();
+    }
+
     if (isApplied($parent, style)) {
       if (isAppliedOtherStyles($parent)) {
         changeStyle($parent, style);
+        if (!isAppliedOtherStyles($parent))
+          deleteStyle(selection, range, $parent);
+        normalizefor(range.startContainer);
         return;
       }
       deleteStyle(selection, range, $parent);
+      normalizefor(range.startContainer);
       return;
     }
 
