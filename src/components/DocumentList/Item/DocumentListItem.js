@@ -7,6 +7,7 @@ import { SIDEBAR } from '@consts/target';
 
 import Component from '@core/Component';
 
+import DocumentListEmptyItem from '../EmptyItem/DocumentListEmptyItem';
 import './DocumentListItem.css';
 
 export default class DocumentListItem extends Component {
@@ -66,16 +67,24 @@ export default class DocumentListItem extends Component {
 
     const newParents = [...parents, id];
 
-    if (expanded[id] && childItems.length > 0) {
-      childItems.forEach((document) => {
-        const $documentItem = this.createDocumentItem(
-          document,
-          newParents,
-          selectedId,
-          expanded
-        );
-        this.$target.appendChild($documentItem);
-      });
+    if (!expanded[id]) return;
+
+    if (childItems.length === 0) {
+      const $documentEmptyItem = document.createElement('div');
+
+      new DocumentListEmptyItem($documentEmptyItem, { parents: newParents });
+      this.$target.appendChild($documentEmptyItem);
+      return;
     }
+
+    childItems.forEach((document) => {
+      const $documentItem = this.createDocumentItem(
+        document,
+        newParents,
+        selectedId,
+        expanded
+      );
+      this.$target.appendChild($documentItem);
+    });
   }
 }

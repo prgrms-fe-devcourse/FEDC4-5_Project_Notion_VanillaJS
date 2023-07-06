@@ -49,6 +49,8 @@ export default class DocumentList extends Component {
       const $li = target.closest('li');
 
       if (!$li) return;
+      if ($li.className === SIDEBAR.DOCUMENT_LIST_ITEM.EMPTY) return;
+
       const { id } = $li.dataset;
 
       const $button = target.closest('button');
