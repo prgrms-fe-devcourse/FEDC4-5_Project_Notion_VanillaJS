@@ -5,6 +5,10 @@ import {
   createDocumentAPI,
   deleteDocumentAPI,
 } from "./utils/api.js";
+import {
+  AddToSpreadDoucmentList,
+  removeFromSpreadDoucmentList,
+} from "./utils/dom.js";
 
 export default function App({ target }) {
   this.state = // 컴포넌트 생성 시, initialState를 null로 가지고 있는게 아니라, 처음부터 url에 해당하는 documentId로 설정
@@ -15,7 +19,7 @@ export default function App({ target }) {
   this.setState = (nextState) => {
     this.state = nextState;
     editPage.setState(nextState);
-    // => selectedId가 바뀌어도 sidebar가 바뀌는 건 없으므로 editPage의 setState 호출
+    // => selectedId가 바뀌어도 sidebar가 바뀌는 건 없으므로 render()는 호출하지 X, editPage의 setStatea만 호출
   };
 
   const sideBar = new SideBar({
@@ -28,14 +32,19 @@ export default function App({ target }) {
       this.route();
     },
 
-    onChangeSelectedDocumentId: (newDocumentId) => {
+    onChangeSelectedDocumentId: (newDocumentId = null) => {
       // 현재 selectedDocumentId를 변경
-      history.pushState(null, null, `/${newDocumentId}`);
+      if (newDocumentId) {
+        history.pushState(null, null, `/${newDocumentId}`);
+      } else {
+        history.pushState(null, null, `/`);
+      }
       this.route();
     },
 
     onAddChildDocument: async (documentId) => {
       const createdDocument = await createDocumentAPI(documentId); // documentId에 해당하는 docuent를 parent로 하는 새로운 document 생성
+      AddToSpreadDoucmentList(documentId);
       history.pushState(null, null, `/${createdDocument.id}`);
       this.route();
     },
@@ -45,6 +54,9 @@ export default function App({ target }) {
         // 만약 현재 selectedDocument가 삭제된다면 main page로 이동해야 하므로
         history.pushState(null, null, `/`);
       }
+
+      // 특정 document 삭제 시, local storage의 spread_List에서도 삭제해줘야 함
+      removeFromSpreadDoucmentList(documentId);
 
       await deleteDocumentAPI(documentId);
       this.route();

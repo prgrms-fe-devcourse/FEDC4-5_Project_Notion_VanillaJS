@@ -112,3 +112,27 @@ export const toggleToSpreadDoucmentList = (documentId) => {
     }
   }
 };
+
+export const removeFromSpreadDoucmentList = (documentId) => {
+  const spreadDocumentList = getSpreadDocumentFromStorage();
+  if (spreadDocumentList && spreadDocumentList.includes(documentId)) {
+    // list가 있고, list 안에 id가 있다면 => list에서 제거
+    const newList = spreadDocumentList.filter(
+      (spreadId) => spreadId !== documentId
+    );
+    setSpreadDocumentToStorage(newList);
+  }
+};
+
+export const AddToSpreadDoucmentList = (documentId) => {
+  const spreadDocumentList = getSpreadDocumentFromStorage();
+
+  if (spreadDocumentList) { // List가 있고, 
+    if (!spreadDocumentList.includes(documentId)) { // 그 안에 해당 documentId가 없다면 
+      setSpreadDocumentToStorage([...spreadDocumentList, documentId]);
+    }
+  } else {
+    // list가 아예 없거나 비어있다면(null) => 현재 documentId 추가
+    setSpreadDocumentToStorage([documentId]);
+  }
+};

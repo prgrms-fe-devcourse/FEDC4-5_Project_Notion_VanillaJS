@@ -7,6 +7,9 @@
   --color-grey: #616161;
   --color-light-grey: #7c7979;
   --color-black: #000000;
+  --color-green: #4fd374;
+  --color-red: #f97e7e;
+  --color-blue: #7e99f9;
 
   /* Font size */
   --font-large: 48px;
@@ -22,6 +25,8 @@
 
   /* Size */
   --size-border-radius: 4px;
+
+  --animation-duration: 300ms;
 }
 
 body {
@@ -48,10 +53,19 @@ button {
   background-color: var(--color-light-white);
   border: 1px solid var(--color-dark-grey);
   border-radius: 4px;
+  min-width: 24px;
+  max-width: 24px;
+  transition: all var(--animation-duration) ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #sideBar {
   flex-basis: 17%;
+  min-width: 17%;
+  max-width: 17%;
   display: flex;
   flex-direction: column;
   background-color: var(--color-light-white);
@@ -63,7 +77,6 @@ button {
   align-items: flex-end;
   padding-top: 16px;
   padding-left: 12px;
-  padding-right: 12px;
 }
 
 #sideBar_header_icon {
@@ -73,9 +86,17 @@ button {
   padding-bottom: 6px;
 }
 
+#sideBar_header_icon:hover {
+  cursor: pointer;
+}
+
 #sideBar_header_title {
   padding-left: 8px;
   font-size: var(--font-medium);
+}
+
+#sideBar_header_title:hover {
+  cursor: pointer;
 }
 
 #sideBar_title {
@@ -96,6 +117,10 @@ button {
   padding: 0px 8x;
 }
 
+#addRootDocumentButton:hover {
+  background-color: var(--color-green);
+}
+
 #sideBar_documentList {
   display: flex;
   flex-direction: column;
@@ -114,16 +139,23 @@ button {
   display: flex;
   margin: 4px 0px;
   font-size: var(--font-small);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: all var(--animation-duration) ease-in-out;
 }
 
 .documentContent:hover {
+  cursor: pointer;
   border-color: var(--color-grey);
   background-color: var(--color-dark-white);
 }
 
 .spreadButton {
-  flex-basis: 10%;
   margin-right: 4px;
+}
+
+.spreadButton:hover {
+  background-color: var(--color-blue);
 }
 
 .documentTitle {
@@ -136,12 +168,18 @@ button {
 .addChildDocumentButton {
   margin-left: 4px;
   margin-right: 8px;
-  flex-basis: 10%;
+}
+
+.addChildDocumentButton:hover {
+  background-color: var(--color-green);
 }
 
 .deleteDocumentButton {
   margin-right: 12px;
-  flex-basis: 10%;
+}
+
+.deleteDocumentButton:hover {
+  background-color: var(--color-red);
 }
 
 .childDocumentList {
@@ -164,7 +202,10 @@ button {
   font-weight: var(--weight-semi-bold);
   background-color: var(--color-light-white);
   border: none;
+}
 
+#title:hover {
+  cursor: text;
 }
 
 #content {
@@ -174,6 +215,10 @@ button {
   margin-top: 12px;
   font-size: var(--font-small);
   font-weight: var(--weight-regular);
-  background-color: var(--color-light-white); 
+  background-color: var(--color-light-white);
   border: none;
+}
+
+#content:hover {
+  cursor: text;
 }

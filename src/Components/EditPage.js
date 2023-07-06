@@ -30,7 +30,8 @@ export default function EditPage({ target, initialState, updateSideBar }) {
 
   titleElement.addEventListener("keyup", (e) => {
     // title이 바뀔때마다 바로바로 local Storage에 저장
-    if (this.state.selectedDocumentId) { // null일 때는 메인 페이지 이므로 저장되면 안됨 
+    if (this.state.selectedDocumentId) {
+      // null일 때는 메인 페이지 이므로 저장되면 안됨
       setItemToStorage(this.state.selectedDocumentId, {
         title: e.target.value,
         content: contentElement.value,
@@ -95,7 +96,11 @@ export default function EditPage({ target, initialState, updateSideBar }) {
 
       if (tempDocument && tempDocument.tempSaveDate > updatedAt) {
         // 현재 selectedDocumentId에 대한 temp document가 있고, 로컬 스토리지의 data가 서버보다 최신이라면
-        if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
+        if (
+          confirm(
+            `${title} document에 대한 저장되지 않은 임시 데이터가 있습니다. 불러올까요?`
+          )
+        ) {
           // 불러온다고 하면, 로컬 스토리지 값을
           // 1. content, title value로 설정
           titleElement.value = tempDocument.title;
@@ -119,13 +124,15 @@ export default function EditPage({ target, initialState, updateSideBar }) {
       // 로컬 스토리지 값이 없거나 최신이 아니거나, 안 불러온다면 => 서버의 값을 value로 설정, 로컬 스토리지 삭제
       titleElement.value = title;
       contentElement.value = content;
+      titleElement.disabled = false;
+      contentElement.disabled = false;
       removeItemFromStorage(this.state.selectedDocumentId);
-      console.log(`documents: ${documents}`);
     } else {
       // null일 때는 mainPage 렌더링
       titleElement.value = "노션 메인 페이지입니다 🥳 ";
       contentElement.value = "document를 추가해 새로운 글을 작성해보세요 ✏️";
-      console.log(`not selected`);
+      titleElement.disabled = true;
+      contentElement.disabled = true;
     }
   };
 

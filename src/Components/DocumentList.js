@@ -44,7 +44,6 @@ export default function DocumentList({
         onAddChildDocument(id);
         // this.render(); => 여기서 render 할 필요 x => App에서 documentList 다시 불러온 다음, 계속 하위 setState부르면서, 여기 render까지 호출할 것
       } else if (className === "deleteDocumentButton") {
-        console.log(`delete: ${id}`)
         onDeleteDocument(id);
       } else {
         // 버튼이 아닌 title이나 다른 부분을 클릭했을 때, selectedDocumentId를 변경
@@ -54,7 +53,7 @@ export default function DocumentList({
   });
 
   this.render = () => {
-    // render 될 때마다, documentlist 다 새로 그려줌 
+    // render 될 때마다, documentlist 다 새로 그려줌
     // 배열로 된 state에 따라, documentList에 들어가는 documentItem들을 쭉 만들어주기
 
     // root의 자식 element들 먼저 다 지워주고,

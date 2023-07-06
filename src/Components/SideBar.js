@@ -15,10 +15,18 @@ export default function SideBar({
   const headerElement = createDomElementWithId("div", "sideBar_header");
   sideBarElement.appendChild(headerElement);
 
+  headerElement.addEventListener("click", (e) => {
+    const { id } = e.target;
+    // headerElement 중, header icon이나 title이 클릭되었을 때,
+    if (id === "sideBar_header_icon" || id === "sideBar_header_title") {
+      // 메인 페이지로 이동하기 위해 App에서 전달받은 콜백을 통해 app의 selectedId를 /로 바꿈
+      onChangeSelectedDocumentId();
+    }
+  });
+
   headerElement.innerHTML = `
     <img id="sideBar_header_icon" src="src/icons/notion-icon.png" alt="My Image">
     <div id="sideBar_header_title">Notion</div>`;
-  // 헤더 꾸미기 => 아이콘 - MinwooP's Notion
 
   const titleElement = createDomElementWithId("div", "sideBar_title");
   titleElement.innerHTML = `
