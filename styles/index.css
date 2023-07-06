@@ -15,7 +15,7 @@ body {
 .sidebar {
   width: 240px;
   height: 100vh;
-  background-color: #2c2c2c;
+  background-color: #202020;
   flex-direction: column;
 }
 
@@ -34,16 +34,32 @@ body {
 .sidebar-list {
   overflow: hidden auto;
   position: fixed;
-  padding-left: 20px;
   top: 75px;
   width: 240px;
   height: calc(100vh - 120px);
 }
 
 .sidebar-list__li {
-  display: flex;
-  margin-bottom: 15px;
-  align-items: center;
+  margin-bottom: 5px;
+  padding: 7px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.sidebar-list__li:hover {
+  background-color: #383838;
+}
+
+.sidebar-list__button-group {
+  display: none;
+}
+
+.sidebar-list__li:hover .sidebar-list__button-group {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  z-index: 99;
 }
 
 .sidebar-list::-webkit-scrollbar {
@@ -53,12 +69,14 @@ body {
 }
 
 .sidebar-list::-webkit-scrollbar-thumb {
-  background-color: gray;
+  background-color: #474c50;
 }
 
 .sidebar-list__button {
-  background-color: transparent;
   border: none;
+  padding: 5px;
+  background-color: #383838;
+  cursor: pointer;
 }
 
 .sidebar-footer {
@@ -69,9 +87,12 @@ body {
 }
 
 .sidebar-footer__button {
-  background-color: gray;
+  background-color: #202020;
   padding: 20px;
   width: 100%;
+  cursor: pointer;
+  border: none;
+  border-top: #2c2c2c solid 2px;
 }
 
 .document {
