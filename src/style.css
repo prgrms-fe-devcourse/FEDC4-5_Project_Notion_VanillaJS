@@ -50,6 +50,8 @@ main {
 
 .docs-list-page {
   display: flex;
+  resize: horizontal;
+  overflow: auto;
   flex-direction: column;
   width: 250px;
   height: 100%;
