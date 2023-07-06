@@ -32,51 +32,9 @@ export default function DocumentsList({ $target }) {
 
   this.render = () => {
     $documentList.innerHTML = '';
-    // this.state.forEach((documents) => {
-    //   new DocumentsListItems({
-    //     $target: $documentList,
-    //     documentItems: documents,
-    //     onDocumentAdd: async (parentDocId) => {
-    //       const res = await request('/documents', {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //           title: "new document",
-    //           parent: parentDocId
-    //         })
-    //       });
-    //       push(`/documents/${res.id}`);
-    //       this.setState();
-    //     },
-    //     onDocumentDelete: async (docId) => {
-    //       const res = await request(`/documents/${docId}`, {
-    //         method: 'DELETE'
-    //       });
-    //       replace(`/`);
-    //       this.setState();
-    //     }
-    //   });
-    // });
     new DocumentsListItems({
       $target: $documentList,
       documentItems: this.state,
-      onDocumentAdd: async (parentDocId) => {
-        const res = await request('/documents', {
-          method: 'POST',
-          body: JSON.stringify({
-            title: "new document",
-            parent: parentDocId
-          })
-        });
-        push(`/documents/${res.id}`);
-        this.setState();
-      },
-      onDocumentDelete: async (docId) => {
-        const res = await request(`/documents/${docId}`, {
-          method: 'DELETE'
-        });
-        replace(`/`);
-        this.setState();
-      },
       reRender: this.setState
     });
   };

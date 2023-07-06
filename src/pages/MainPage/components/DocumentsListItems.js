@@ -2,7 +2,7 @@ import DirItem from "../../../components/DirItem.js";
 import DocItem from "../../../components/DocItem.js";
 import { getItem } from "../../../services/storage.js";
 
-export default function DocumentsListItems({ $target, documentItems, onDocumentAdd, onDocumentDelete, reRender }) {
+export default function DocumentsListItems({ $target, documentItems, reRender }) {
   this.render = () => {
     documentItems.forEach(item => {
       const itemType = item.title.split('/')[0];
@@ -20,8 +20,6 @@ export default function DocumentsListItems({ $target, documentItems, onDocumentA
         new DocumentsListItems({
           $target: $ul,
           documentItems: item.documents,
-          onDocumentAdd,
-          onDocumentDelete,
           reRender
         })
       } else {

@@ -6,7 +6,7 @@ import {
 } from "../services/api.js";
 import { getItem, setItem } from "../services/storage.js";
 
-export default function DirItem({ $target, dirName = "", reRender, id }) {
+export default function DirItem({ $target, dirName = "", reRender, id = null }) {
   this.isDirOpen = getItem(id, true);
   this.state = dirName;
 
@@ -22,7 +22,7 @@ export default function DirItem({ $target, dirName = "", reRender, id }) {
   const $dirContentWrapper = document.createElement("div");
   const $dirIcon = document.createElement("i");
   const $dirTitle = document.createElement("span");
-  $dirTitle.contentEditable = dirName === '/root' ? false : true;
+  $dirTitle.contentEditable = id === null ? false : true;
   $dirTitle.className = "dirTitle";
   $dirContentWrapper.className = "dirContentWrapper";
   $dirIcon.className = `dirIcon fa-regular ${this.isDirOpen ? 'fa-folder-open' : 'fa-folder'}`;
@@ -47,7 +47,7 @@ export default function DirItem({ $target, dirName = "", reRender, id }) {
   };
 
   this.toggleDir = (event) => {
-    if (event.target.className === "dirTitle" || event.target.textContent === '/root') return;
+    if (event.target.className === "dirTitle" || id === null) return;
 
     const nextElementSibling = $dirItemWrapper.nextElementSibling;
     if (nextElementSibling.tagName === "UL") {
