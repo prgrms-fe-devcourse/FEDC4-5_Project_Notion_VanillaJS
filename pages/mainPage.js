@@ -128,7 +128,7 @@ export default function MainPage({ $target }) {
           this.setState({ ...this.state, post, selectedDocument: putPost });
           editor.render();
         }
-      }, 1000);
+      }, 2000);
     },
   });
 
