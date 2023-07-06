@@ -54,7 +54,7 @@ export default function SidebarList({
       tem += `<li data-id=${id}>`;
       tem += `<div class="sidebar-list__li" style="padding-left: ${
         padding * depth
-      }px;>${title === null || title.trim() === "" ? "Untitled" : title}`;
+      }px">${title === null || title.trim() === "" ? "Untitled" : title}`;
       tem += `<div><button class="sidebar-list__button plus">+</button>`;
       tem += `<button class="sidebar-list__button delete">-</button></div></div>`;
       documents.length ? renderDocumentsList(documents, depth + 1) : "";
