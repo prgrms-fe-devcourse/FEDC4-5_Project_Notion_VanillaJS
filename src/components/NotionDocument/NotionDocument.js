@@ -3,6 +3,7 @@ import { DOCUMENT } from '@consts/target';
 import Component from '@core/Component';
 
 import NotionEditor from '@components/Editor/NotionEditor';
+import Footer from '@components/Footer/Footer';
 import Header from '@components/Header/Header';
 
 import './NotionDocument.css';
@@ -20,6 +21,7 @@ export default class NotionDocument extends Component {
         documents: [],
       },
       currentPath: [],
+      childPaths: [],
     };
   }
 
@@ -40,12 +42,14 @@ export default class NotionDocument extends Component {
 
     this.$editor = new NotionEditor(this.$editorContainer, { onEdit });
     this.$document.appendChild(this.$editorContainer);
+
+    this.$footer = new Footer(this.$document);
   }
 
   setState(nextState) {
     super.setState(nextState);
 
-    const { documentData, currentPath } = this.state;
+    const { documentData, currentPath, childPaths } = this.state;
 
     if (documentData.id === null) return;
 
@@ -53,6 +57,7 @@ export default class NotionDocument extends Component {
 
     this.$header.setState({ path: currentPath });
     this.$editor.setState({ id, title, content });
+    this.$footer.setState({ paths: childPaths });
   }
 
   render() {

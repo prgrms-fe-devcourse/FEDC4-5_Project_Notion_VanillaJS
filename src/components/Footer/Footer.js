@@ -2,23 +2,23 @@ import { history } from '@utils/router';
 
 import Component from '@core/Component';
 
-import './Header.css';
+import './Footer.css';
 
-export default class Header extends Component {
+export default class Footer extends Component {
   setup() {
     this.state = {
-      path: [],
+      paths: [],
     };
   }
 
   initComponent() {
-    this.$header = document.createElement('header');
-    this.$header.className = 'notion-document-header';
-    this.$target.appendChild(this.$header);
+    this.$footer = document.createElement('footer');
+    this.$footer.className = 'notion-document-footer';
+    this.$target.appendChild(this.$footer);
   }
 
   setEvent() {
-    this.$header.addEventListener('click', ({ target }) => {
+    this.$footer.addEventListener('click', ({ target }) => {
       const $a = target.closest('a');
       if (!$a) return;
 
@@ -30,14 +30,16 @@ export default class Header extends Component {
   }
 
   render() {
-    const { path } = this.state;
+    const { paths } = this.state;
 
-    this.$header.innerHTML = path
+    if (paths.length === 0) this.$footer.innerHTML = '';
+
+    this.$footer.innerHTML = paths
       .map(
         ({ id, title }) => `
           <a data-link-id="${id}"><span>${title}</span></a>
         `
       )
-      .join('<span>/</span>');
+      .join('<span>&nbsp;|&nbsp;</span>');
   }
 }

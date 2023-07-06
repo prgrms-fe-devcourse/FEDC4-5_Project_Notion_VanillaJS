@@ -84,16 +84,26 @@ export default class NotionPage extends Component {
     return result;
   }
 
+  getChildDocuments(documentData) {
+    const childDocuments = documentData.documents;
+    return childDocuments.map(({ id, title }) => ({
+      id,
+      title,
+    }));
+  }
+
   setState(newState) {
     super.setState(newState);
 
     Promise.all([this.fetchDocumentList(), this.fetchDocumentData()]).then(
       () => {
         const { documentList } = this.$sidebar.state;
-        const { id, title } = this.$document.state.documentData;
+        const { documentData } = this.$document.state;
+        const { id, title } = documentData;
         const currentPath = this.getCurrentPath(documentList, { id, title });
+        const childPaths = this.getChildDocuments(documentData);
 
-        this.$document.setState({ currentPath });
+        this.$document.setState({ currentPath, childPaths });
       }
     );
   }
