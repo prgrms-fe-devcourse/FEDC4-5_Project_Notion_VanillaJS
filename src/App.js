@@ -216,6 +216,7 @@ export default class App extends Component {
               this.editor.state = savedDocument.cloneNewDocument({
                 title,
                 content,
+                updatedAt: tmpSaveDate,
               });
               return;
             }
