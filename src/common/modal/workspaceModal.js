@@ -3,7 +3,7 @@ import storage from "../../utils/storage"
 import validateUserName from "../../function/validateUserName"
 import { userName } from "../../config/apiConfig"
 
-export default function WorkSpaceModal({ $target, renderApp, loadDocument }) {
+export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
   const onClickWorkSpace = (data) => {
     storage.setItem("currentUser", data)
     documentAdapter.updateCurrentUser()
@@ -67,7 +67,7 @@ export default function WorkSpaceModal({ $target, renderApp, loadDocument }) {
         onClickWorkSpace($item.dataset.name)
         history.replaceState(null, null, "/")
         renderApp()
-        loadDocument()
+        routeApp()
       })
     })
   }

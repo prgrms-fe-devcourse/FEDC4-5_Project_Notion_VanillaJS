@@ -1,7 +1,9 @@
 import Editor from "../../components/editor"
-import DocNext from "../../components/docNext"
 
 import documentAdapter from "../../api/index"
+
+import debounce from "../../utils/debounce"
+import { changeNotSaved, changeSaved } from "../../components/editor/handlers"
 
 export default function MainContent({ $target, initialState = {}, renderApp, routeApp }) {
   this.state = initialState
@@ -14,34 +16,23 @@ export default function MainContent({ $target, initialState = {}, renderApp, rou
       renderApp,
       routeApp,
       onEditing: async (content) => {
-        $target.querySelector("#is-saved").classList.remove("saved")
-        $target.querySelector("#is-saved").innerText = "저장되지 않음"
-        $target.querySelector("#is-saved").classList.add("not-saved")
+        changeNotSaved($target)
 
-        if (timer !== null) {
-          clearTimeout(timer)
-        }
-        timer = setTimeout(async () => {
+        const callbackEditing = async () => {
           clearTimeout(timer)
           const { id } = this.state
           await documentAdapter.updateDocument(id, content)
-          $target.querySelector("#is-saved").classList.remove("not-saved")
-          $target.querySelector("#is-saved").innerText = "저장됨"
-          $target.querySelector("#is-saved").classList.add("saved")
+          changeSaved($target)
           renderApp()
-        }, 1000)
+        }
+
+        timer = debounce(timer, callbackEditing, 3000)
       },
     })
-
-    // new DocNext({
-    //   $target,
-    //   initialState: this.state,
-    // })
   }
 
   this.setState = async (nextState) => {
     this.state = await documentAdapter.getDocumentsContent(nextState.id)
-
     this.render()
   }
 

@@ -2,10 +2,10 @@ import Button from "../../../components/ui/button"
 import Modal from "../../modal"
 import WorkSpaceModal from "../../modal/workspaceModal"
 
-export default function SelectWorkSpaceButton({ $target, renderApp, loadDocument }) {
+export default function SelectWorkSpaceButton({ $target, renderApp, routeApp }) {
   const onClick = () => {
     new Modal({
-      props: { renderApp, loadDocument },
+      props: { renderApp, routeApp },
       ConstructorComponent: WorkSpaceModal,
     })
   }

@@ -2,12 +2,12 @@ import Button from "../../../components/ui/button"
 
 import documentAdapter from "../../../api/index"
 
-export default function NewParentDocButton({ $target, renderSideBar, loadDocument }) {
+export default function NewParentDocButton({ $target, renderSideBar, routeApp }) {
   const onClickNewDoc = async () => {
     const res = await documentAdapter.createDocument({ title: "새 문서", parentId: null })
     history.replaceState(null, null, `/documents/${res.id}`)
     await renderSideBar()
-    await loadDocument()
+    await routeApp()
   }
 
   this.render = () =>
