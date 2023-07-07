@@ -6,6 +6,7 @@ button {
   margin: 10px;
   background-color: #ebebea;
   cursor: pointer;
+  line-height: 1;
 }
 
 button:hover {
