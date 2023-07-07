@@ -6,10 +6,12 @@ export default function Editor({ $target, initialState, onEditing }) {
   const $title = document.createElement('input');
   $title.className = 'title';
   $title.name = 'title';
+  $title.placeholder = '제목을 작성하세요...';
 
   const $content = document.createElement('textarea');
   $content.className = 'content';
   $content.name = 'content';
+  $content.placeholder = '내용을 입력하세요...';
 
   let isInitialize = false;
 
