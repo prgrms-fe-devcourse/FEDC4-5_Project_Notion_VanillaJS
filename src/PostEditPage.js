@@ -4,6 +4,7 @@ import { pushRouter } from "./router.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
+  $page.id = "editPage";
 
   this.state = initialState;
 

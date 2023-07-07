@@ -7,6 +7,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement("div");
+  $editor.id = "editor";
 
   let isinitialize = false;
 
