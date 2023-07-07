@@ -1,17 +1,17 @@
-import DocumentItem from '../../Component/Template/DocumentItemTemplate.js';
+import DocumentItem from '../../Component/Template/DocumentItemTemplate.js'
 
 const generateNestedDocumentsHTML = (documents) => {
-  let html = '';
+  let html = ''
   if (documents.length > 0) {
-    html += '<ul class = "documentItemWrapper">';
+    html += '<ul class = "documentItemWrapper">'
     for (const document of documents) {
-      const { id, title, documents: nestedDocuments } = document;
-      html += DocumentItem({ documentId: id, documentTitle: title });
-      html += generateNestedDocumentsHTML(nestedDocuments);
+      const { id, title, documents: nestedDocuments } = document
+      html += DocumentItem({ documentId: id, documentTitle: title })
+      html += generateNestedDocumentsHTML(nestedDocuments)
     }
-    html += '</ul>';
+    html += '</ul>'
   }
-  return html;
-};
+  return html
+}
 
-export { generateNestedDocumentsHTML };
+export { generateNestedDocumentsHTML }

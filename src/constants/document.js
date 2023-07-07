@@ -3,8 +3,8 @@ const INIT_DOCUMENT = {
   title: '제목없음',
   content: '',
   createAt: '',
-  updatedAt: '',
-};
+  updatedAt: ''
+}
 
-Object.freeze(INIT_DOCUMENT);
-export default INIT_DOCUMENT;
+Object.freeze(INIT_DOCUMENT)
+export default INIT_DOCUMENT

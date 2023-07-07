@@ -5,9 +5,9 @@ const ERROR_MSG = {
     ERROR_401: '인증되지 않은 요청입니다!',
     ERROR_403: '승인되지 않은 요청입니다!',
     ERROR_400: '잘못된 요청입니다!',
-    ERROR_DEFAULT: '네트워크 요청 중 에러가 발생했습니다!',
-  },
-};
+    ERROR_DEFAULT: '네트워크 요청 중 에러가 발생했습니다!'
+  }
+}
 
-Object.freeze(ERROR_MSG);
-export { ERROR_MSG };
+Object.freeze(ERROR_MSG)
+export { ERROR_MSG }

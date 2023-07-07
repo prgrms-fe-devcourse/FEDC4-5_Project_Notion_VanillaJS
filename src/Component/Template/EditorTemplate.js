@@ -1,4 +1,4 @@
-export default function EditorTemplate(title, content) {
+export default function EditorTemplate (title, content) {
   return `
       <section class="editorContainer">   
         <input
@@ -13,5 +13,5 @@ export default function EditorTemplate(title, content) {
           </textarea>
         </div>
       </section>
-    `;
+    `
 }
