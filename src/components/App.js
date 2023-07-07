@@ -1,6 +1,6 @@
 import { patchSidebarState, registerStateSetter } from "@Utils/stateSetters";
 import Document from "./Document/Document";
-import Home from "./Home";
+import Home from "./Home/Home";
 import router from "@Utils/router";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";

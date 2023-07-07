@@ -1,7 +1,9 @@
 import { STORAGE } from "@Utils/constants";
 import { once } from "@Utils/once";
 import { getItem, removeItem, setItem } from "@Utils/storage";
-import { isConstructor, isHomeItemState, isHomeState } from "@Utils/validation";
+import { isConstructor, isHomeState } from "@Utils/validation";
+import "./Home.css";
+import { routeToDocument } from "@Utils/router";
 
 export default function Home({ $target }) {
   if (!isConstructor(new.target)) {
@@ -44,8 +46,20 @@ export default function Home({ $target }) {
   };
 
   this.init = once(() => {
+    $home.className = "home-container";
+    $recent.className = "home-recent-container";
+    $most.className = "home-most-container";
+
     $home.appendChild($recent);
     $home.appendChild($most);
+
+    $home.addEventListener("click", (e) => {
+      const $docLink = e.target.closest("[data-id]");
+      if (!$docLink) return;
+
+      const { id } = $docLink.dataset;
+      routeToDocument(id);
+    });
   });
 
   this.render = () => {
@@ -53,6 +67,7 @@ export default function Home({ $target }) {
     $target.appendChild($home);
 
     $recent.innerHTML = `
+      <p class="home-recent-title">⏰ 최근 사용한 문서</p>
       ${Object.entries(this.state)
         .sort(
           ([aid, aval], [bid, bval]) => bval.lastUsedTime - aval.lastUsedTime
@@ -63,6 +78,7 @@ export default function Home({ $target }) {
     `;
 
     $most.innerHTML = `
+      <p class="home-most-title">🗂️ 자주 사용한 문서</p>
       ${Object.entries(this.state)
         .sort(([aid, aval], [bid, bval]) => bval.numUsed - aval.numUsed)
         .slice(0, 10)
