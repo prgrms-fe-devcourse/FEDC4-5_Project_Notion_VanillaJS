@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+.sidebar-logo:hover {
+  background-color: #e1e1e1;
+}
+
 .sidebar-add-btn {
   margin-bottom: 20px;
   width: 100%;
