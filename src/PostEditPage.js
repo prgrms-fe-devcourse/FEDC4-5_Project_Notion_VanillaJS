@@ -18,24 +18,9 @@ export default function PostEditPage({ $target, initialState }) {
       if (timer !== null) {
         clearTimeout(timer);
       }
+
       timer = setTimeout(async () => {
-        const isNew = this.state.postId === "new";
-
-        if (isNew) {
-          const createdPost = await request("/documents", {
-            method: "POST",
-            body: JSON.stringify({
-              title: post.title,
-              parent: null,
-            }),
-          });
-          history.replaceState(null, null, `/${createdPost.id}`);
-
-          this.setState({
-            ...post,
-            postId: createdPost.id,
-          });
-        } else {
+        if (this.state.postId) {
           await request(`/documents/${this.state.postId}`, {
             method: "PUT",
             body: JSON.stringify(post),
@@ -48,21 +33,12 @@ export default function PostEditPage({ $target, initialState }) {
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
       this.state = nextState;
-
-      if (this.state.postId === "new") {
-        this.render();
-        editor.setState({
-          title: "",
-          content: "",
-        });
-      } else {
-        await fetchPost();
-      }
+      await fetchPost();
       return;
+    } else {
+      this.state = nextState;
+      this.render();
     }
-
-    this.state = nextState;
-    this.render();
 
     editor.setState(
       this.state.post || {
@@ -79,7 +55,7 @@ export default function PostEditPage({ $target, initialState }) {
   const fetchPost = async () => {
     const { postId } = this.state;
 
-    if (postId !== "new") {
+    if (postId) {
       const post = await request(`/documents/${postId}`);
 
       this.setState({

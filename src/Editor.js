@@ -42,7 +42,6 @@ export default function Editor({
         ...this.state,
         [name]: target.value,
       };
-
       this.setState(nextState);
       onEditing(this.state);
     }
