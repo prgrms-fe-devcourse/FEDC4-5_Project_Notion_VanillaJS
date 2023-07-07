@@ -37,6 +37,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
 
   this.parent = parent;
 
+  this.disable = false;
+
   this.opened = false;
 
   this.setOpened = (nextOpened) => {
@@ -121,6 +123,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     `;
 
     $titleContainer.addEventListener("click", async (e) => {
+      if (this.disable) return;
+
       const $actionElement = e.target.closest("[data-action]");
       if (!$actionElement) return;
 
@@ -138,6 +142,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           this.setOpened(true);
         }
       } else if (action === "remove") {
+        this.disable = true;
+
         const result = await deleteDocument({ documentId: this.state.id });
         if (result) {
           patchSidebarState();
@@ -149,6 +155,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           if (isActivated(this.state.id)) {
             routeToHome();
           }
+        } else {
+          this.disable = true;
         }
       } else if (action === "route") {
         routeToDocument(this.state.id);
