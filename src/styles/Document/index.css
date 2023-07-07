@@ -53,6 +53,8 @@
 }
 
 .document-preview > code {
+  all: unset;
+  font-size: small;
   border-radius: 5px;
   background-color: #ebebea;
   color: red;
