@@ -112,3 +112,42 @@ export function isHeaderState(state) {
     )
   );
 }
+
+export function isHomeState(state) {
+  return (
+    isObjectState(state) &&
+    checkError(
+      (() => {
+        for (const [key, val] of Object.entries(state)) {
+          const numKey = parseInt(key);
+          if (isNaN(numKey) || key.length !== numKey.toString().length)
+            return true;
+          if (!isHomeItemState(val)) return true;
+        }
+        return false;
+      })(),
+      new ValidationError(ERROR.INVALID_HOME_STATE)
+    )
+  );
+}
+
+const homeItemType = {
+  title: "string",
+  numUsed: "number",
+  lastUsedTime: "number",
+};
+
+export function isHomeItemState(state) {
+  return (
+    isObjectState(state) &&
+    checkError(
+      (() => {
+        for (const [name, type] of Object.entries(homeItemType)) {
+          if (!state.hasOwnProperty(name) || typeof state[name] !== type)
+            return true;
+        }
+      })(),
+      new ValidationError(ERROR.INVALID_HOME_STATE)
+    )
+  );
+}

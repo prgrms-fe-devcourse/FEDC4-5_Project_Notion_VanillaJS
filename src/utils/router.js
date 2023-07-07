@@ -8,7 +8,7 @@ export default async function router({ $target }) {
   $target.innerHTML = "";
 
   if (pathname === "/") {
-    stateSetters[NAME.HOME]({});
+    stateSetters[NAME.HOME](null);
   } else if (pathname.indexOf("/documents/") === 0) {
     const [, , documentIdStr] = pathname.split("/");
     const documentId = parseInt(documentIdStr);

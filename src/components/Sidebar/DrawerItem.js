@@ -90,6 +90,9 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       $titleContainer.className = "drawer-item-container activated";
       this.openParents();
       this.sendHeaderDocsInfo();
+
+      const { id, title } = this.state;
+      stateSetters[NAME.HOME]({ id, title });
     } else {
       $titleContainer.className = "drawer-item-container";
     }

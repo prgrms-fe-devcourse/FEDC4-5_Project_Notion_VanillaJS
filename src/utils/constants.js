@@ -4,3 +4,7 @@ export const NAME = {
   SIDEBAR: "Sidebar",
   HEADER: "Header",
 };
+
+export const STORAGE = {
+  RECORD: "hotion-record",
+};

@@ -5,6 +5,7 @@ import Drawer from "./Drawer";
 import { postDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
 import addIcon from "@Static/addIcon.svg";
+import { routeToHome } from "@Utils/router";
 
 export default function Sidebar({ $target }) {
   if (!isConstructor(new.target)) {
@@ -12,6 +13,7 @@ export default function Sidebar({ $target }) {
   }
 
   const $sidebar = document.createElement("aside");
+  const $homeLogo = document.createElement("p");
   const $addBtn = document.createElement("button");
   const $rootDrawer = new Drawer({ $target: $sidebar, parent: null, level: 0 });
 
@@ -35,11 +37,14 @@ export default function Sidebar({ $target }) {
     $addBtn.insertAdjacentHTML("afterbegin", addIcon);
     $addBtn.className = "sidebar-add-btn";
 
-    $sidebar.insertAdjacentElement("afterbegin", $addBtn);
-    $sidebar.insertAdjacentHTML(
-      "afterbegin",
-      `<p class="sidebar-logo">신호원의 Hotion</p>`
-    );
+    $homeLogo.className = "sidebar-logo";
+    $homeLogo.innerText = "신호원의 Hotion";
+    $sidebar.appendChild($homeLogo);
+    $sidebar.appendChild($addBtn);
+
+    $homeLogo.addEventListener("click", (e) => {
+      routeToHome();
+    });
 
     $addBtn.addEventListener("click", async (e) => {
       const newDocument = await postDocument({
