@@ -1,5 +1,6 @@
 import { request } from "./api.js";
 import Editor from "./Editor.js";
+import { pushRouter } from "./router.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -25,6 +26,8 @@ export default function PostEditPage({ $target, initialState }) {
             method: "PUT",
             body: JSON.stringify(post),
           });
+          pushRouter(`/${this.state.postId}`);
+          await fetchPost();
         }
       }, 1000);
     },
