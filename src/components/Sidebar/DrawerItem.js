@@ -4,7 +4,7 @@ import Drawer from "./Drawer";
 import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
-import { routeToDocument } from "@Utils/router";
+import { routeToDocument, routeToHome } from "@Utils/router";
 import { NAME } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
 import plusIcon from "@Static/plusIcon.svg";
@@ -143,6 +143,12 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           patchSidebarState();
           window.removeEventListener("route-drawer", this.activate);
           window.removeEventListener("title-updated", this.updateTitle);
+
+          stateSetters[NAME.HOME]({ id: this.state.id, toRemove: true });
+
+          if (isActivated(this.state.id)) {
+            routeToHome();
+          }
         }
       } else if (action === "route") {
         routeToDocument(this.state.id);
