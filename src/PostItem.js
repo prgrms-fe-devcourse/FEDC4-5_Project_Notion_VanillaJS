@@ -3,24 +3,24 @@ import { pushRouter } from "./router.js";
 
 export default function PostItem(title, id) {
   const $postItemBox = document.createElement("div");
-  $postItemBox.id = `box_${id}`;
+  $postItemBox.className = id;
 
   const $li = document.createElement("li");
-  $li.id = `li_${id}`;
+  $li.className = id;
 
   const $title = document.createElement("span");
-  $title.id = id;
+  $title.className = id;
   $title.textContent = title;
   $li.appendChild($title);
 
   const $addButton = document.createElement("button");
   $addButton.textContent = "+";
-  $addButton.id = `createButton_${id}`;
+  $addButton.className = id;
   $li.appendChild($addButton);
 
   const $removeButton = document.createElement("button");
   $removeButton.textContent = "-";
-  $removeButton.id = `deleteButton_${id}`;
+  $removeButton.className = id;
   $li.appendChild($removeButton);
 
   const $postSubItemBox = document.createElement("ul");
@@ -29,25 +29,23 @@ export default function PostItem(title, id) {
   $postItemBox.append($postSubItemBox);
 
   $title.addEventListener("click", async () => {
-    request(`/documents/${$title.id}`);
-    pushRouter(`/${$title.id}`);
+    request(`/documents/${$title.className}`);
+    pushRouter(`/${$title.className}`);
   });
 
   $addButton.addEventListener("click", async () => {
-    const [, id] = $addButton.id.split("_");
     const createdPost = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
         title: "제목 없음",
-        parent: id,
+        parent: $addButton.className,
       }),
     });
     pushRouter(`/${createdPost.id}`);
   });
 
   $removeButton.addEventListener("click", async () => {
-    const [, id] = $removeButton.id.split("_");
-    await request(`/documents/${id}`, {
+    await request(`/documents/${$removeButton.className}`, {
       method: "DELETE",
     });
     pushRouter(`/`);
