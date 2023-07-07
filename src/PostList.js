@@ -1,6 +1,4 @@
-import { request } from "./api.js";
 import PostItem from "./PostItem.js";
-import { pushRouter } from "./router.js";
 
 export default function PostList({ $target, initialState }) {
   const $postList = document.createElement("ul");
