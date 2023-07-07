@@ -13,6 +13,9 @@ export default class Editor extends Component{
   }
 
   render(){
+    if(!this.props.documentContent){
+      return;
+    }
     const {title, content} = this.props.documentContent;
     this.$target.innerHTML = this.template();
     this.$target.querySelector("[name=title]").value = title;

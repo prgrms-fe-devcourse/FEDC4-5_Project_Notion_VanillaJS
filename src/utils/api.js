@@ -1,3 +1,5 @@
+import { replaceHistory } from "./router.js";
+
 const API_END_POINT  = `https://kdt-frontend.programmers.co.kr`;
 const UNIQUE_KEY = `GuNwOoParK1359602@#!%`
 
@@ -20,5 +22,6 @@ export const request = async (url, option = {}) => {
     }
   }catch(e){
     alert(e.message);
+    replaceHistory("/");
   }
 }
