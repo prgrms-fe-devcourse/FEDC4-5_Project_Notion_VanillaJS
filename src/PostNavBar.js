@@ -12,8 +12,8 @@ export default function PostNavBar({ $target }) {
   });
 
   this.setState = async () => {
-    const post = await request("/documents");
-    postList.setState(post);
+    const documents = await request("/documents");
+    postList.setState(documents);
     this.render();
   };
 

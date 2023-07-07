@@ -24,9 +24,9 @@ export default function Editor({
   this.render = () => {
     if (!isinitialize) {
       $editor.innerHTML = `
-                <input type="text" name="title" value="${this.state.title}" />
-                <textarea name="content">${this.state.content}</textarea>
-            `;
+        <input type="text" name="title" value="${this.state.title}" />
+        <textarea name="content">${this.state.content}</textarea>
+      `;
       isinitialize = true;
     }
   };
