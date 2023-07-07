@@ -1,17 +1,18 @@
-export const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents";
+export const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
+export const API_X_USERNAME = "API_X_USERNAME_LIMJISEON";
 
-export const request = async (documentsId = "", options = {}) => {
+export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${documentsId}`, {
+    const response = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "hyun",
+        "x-username": API_X_USERNAME,
       },
     });
 
-    if (res.ok) {
-      return await res.json();
+    if (response.ok) {
+      return await response.json();
     }
 
     throw new Error("API 처리중 에러가 발생했습니다.");

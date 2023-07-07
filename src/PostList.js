@@ -55,14 +55,14 @@ export default function PostList({ $target, initialState }) {
 
       if ($span) {
         pushRouter(`/${$span.id}`);
-        request(`/${$span.id}`);
+        request(`/documents/${$span.id}`);
       }
     } else if (clickTag === "button") {
       const $button = e.target.closest("button");
       const [commend, id] = $button.id.split("_");
 
       if (commend === "createButton") {
-        const createdPost = await request("", {
+        const createdPost = await request("/documents", {
           method: "POST",
           body: JSON.stringify({
             title: "제목 없음",
@@ -72,7 +72,7 @@ export default function PostList({ $target, initialState }) {
         pushRouter(`/${createdPost.id}`);
       } else {
         pushRouter(`/`);
-        request(`/${id}`, {
+        request(`/documents/${id}`, {
           method: "DELETE",
         });
       }
@@ -81,7 +81,7 @@ export default function PostList({ $target, initialState }) {
   });
 
   const getDocuments = async () => {
-    const documents = await request();
+    const documents = await request("/documents");
     console.log(documents);
     this.setState(documents);
   };

@@ -22,7 +22,7 @@ export default function PostEditPage({ $target, initialState }) {
         const isNew = this.state.postId === "new";
 
         if (isNew) {
-          const createdPost = await request("", {
+          const createdPost = await request("/documents", {
             method: "POST",
             body: JSON.stringify({
               title: post.title,
@@ -36,7 +36,7 @@ export default function PostEditPage({ $target, initialState }) {
             postId: createdPost.id,
           });
         } else {
-          await request(`/${this.state.postId}`, {
+          await request(`/documents/${this.state.postId}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
@@ -80,7 +80,7 @@ export default function PostEditPage({ $target, initialState }) {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/${postId}`);
+      const post = await request(`/documents/${postId}`);
 
       this.setState({
         ...this.state,
