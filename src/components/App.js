@@ -1,6 +1,7 @@
 import DocumentListPage from './Sidebar/DocumentListPage.js';
 import EditPage from './Editor/EditPage.js';
 import ListHeader from './Sidebar/ListHeader.js';
+import { request } from '../api.js';
 
 export default function App({ $target }) {
   const $sidebar = document.createElement('aside');
@@ -21,6 +22,26 @@ export default function App({ $target }) {
 
   const documentListPage = new DocumentListPage({
     $target: $sidebar,
+    onSelectDocument: (documentId) => {
+      const nextState = { documentId };
+      console.log(nextState);
+      editPage.setState(nextState);
+    },
+    onCreateDocument: (documentId) => {
+      const parent = documentId;
+      const nextState = {
+        documentId: 'new',
+        parent,
+      };
+      editPage.setState(nextState);
+    },
+    onRemoveDocument: async (documentId) => {
+      console.log('remove');
+      await request(`/documents/${documentId}`, {
+        method: 'DELETE',
+      });
+      documentListPage.setState();
+    },
   });
 
   const editPage = new EditPage({
@@ -32,6 +53,9 @@ export default function App({ $target }) {
         content: '',
       },
       parent: null,
+    },
+    onChange: () => {
+      documentListPage.setState();
     },
   });
 

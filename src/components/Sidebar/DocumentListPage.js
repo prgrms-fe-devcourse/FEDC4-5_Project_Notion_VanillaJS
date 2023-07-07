@@ -1,23 +1,24 @@
 import { request } from '../../api.js';
 import DocumentList from './DocumentList.js';
-export default function DocumentListPage({ $target }) {
+export default function DocumentListPage({
+  $target,
+  onSelectDocument,
+  onCreateDocument,
+  onRemoveDocument,
+}) {
   const $page = document.createElement('div');
-
-  const fetchDocument = async () => {
-    const documents = await request('/documents');
-    console.log(documents);
-    return documents;
-  };
+  $target.appendChild($page);
 
   const documentList = new DocumentList({
     $target: $page,
     initialState: [],
+    onSelectDocument,
+    onCreateDocument,
+    onRemoveDocument,
   });
 
-  this.setState = async () => {};
-  this.render = async () => {
-    const documents = await fetchDocument();
+  this.setState = async () => {
+    const documents = await request('/documents');
     documentList.setState(documents);
-    $target.appendChild($page);
   };
 }
