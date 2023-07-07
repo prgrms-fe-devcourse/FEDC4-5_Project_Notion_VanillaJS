@@ -65,10 +65,14 @@ function App({ $app }) {
   const DEBOUNCE = 1000;
   const editPage = new EditPage({
     $app,
-    handleEdit: ({ id, ...document }) => {
+    handleEdit: ({ id, emoji, title, content }) => {
       if (timer !== null) clearTimeout(timer);
 
       timer = setTimeout(async () => {
+        const document = {
+          title: emoji + " " + title,
+          content,
+        };
         saveDocument(id, document);
         await editDocument(id, document);
         removeDocument(id);

@@ -1,6 +1,13 @@
+import EmojiPicker from "/src/component/EmojiPicker.js";
+
 function Editor({
   $page,
-  initialState = { id: null, title: "", content: "" },
+  initialState = {
+    id: null,
+    emoji: "",
+    title: "",
+    content: "",
+  },
   onEdit,
 }) {
   const $editor = document.createElement("div");
@@ -15,6 +22,12 @@ function Editor({
       $editor.querySelector(`[name=${target}]`).value =
         this.state[target];
     }
+    $editor.querySelector('[name="title"]').value =
+      this.state.title;
+    $editor.querySelector('[name="content"]').value =
+      this.state.content;
+    $editor.querySelector('[name="emoji"]').value =
+      this.state.emoji;
     this.render();
   };
 
@@ -26,13 +39,22 @@ function Editor({
     }
     if (isInit) return;
     $editor.innerHTML = `
+      <input type="emoji" name="emoji" value="${this.state.title[0]}" readonly></input>
       <input type="text" name="title" value="${this.state.title}" placeholder="제목을 입력하세요.">
       <textarea name="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
     isInit = true;
 
-    const $input = $editor.querySelector("input");
-    $input.focus();
+    const $emoji = $editor.querySelector('[name="emoji"]');
+    const emojiPicker = new EmojiPicker({
+      $editor,
+      initialState: { popup: false },
+      trigger: $emoji,
+      onSelectEmoji: emoji => {
+        this.setState({ ...this.state, emoji });
+        onEdit(this.state);
+      },
+    });
   };
 
   this.render();

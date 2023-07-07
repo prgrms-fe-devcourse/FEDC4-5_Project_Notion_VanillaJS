@@ -187,3 +187,18 @@ li {
   font-size: 16px;
   padding: 10px 5px;
 }
+
+.editor > input[type='emoji']{
+  font-size: 42px;
+  width: 80px;
+  height: 80px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.editor > input[type='emoji']:hover{
+  background-color: rgba(55, 53, 47, 0.1);
+}

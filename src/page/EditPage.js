@@ -1,7 +1,7 @@
 import Editor from "/src/component/Editor.js";
 import { fetchDocument } from "/src/service/documentEditService.js";
 
-function EditPage({ $app, handleEdit }) {
+function EditPage({ $app, handleEdit, handleEditEmoji }) {
   const $page = document.createElement("div");
   $app.appendChild($page);
 
@@ -12,7 +12,12 @@ function EditPage({ $app, handleEdit }) {
     const selectDocument = this.state.id
       ? await fetchDocument(this.state.id)
       : { id: null, title: "", content: "" };
-    editor.setState(selectDocument);
+    const editDocument = {
+      ...selectDocument,
+      emoji: selectDocument.title.substring(0, 2),
+      title: selectDocument.title.substring(3),
+    };
+    editor.setState(editDocument);
   };
 
   const editor = new Editor({

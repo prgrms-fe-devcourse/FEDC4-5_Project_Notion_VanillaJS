@@ -32,7 +32,9 @@ function Navbar({
                 <i class="fa-solid fa-chevron-right"></i>
               </div>
               <div class="item-title" style="--depth: ${depth}">${
-              item.title.length ? item.title : "제목 없음"
+              [...item.title].filter(str => str).length <= 2
+                ? item.title + "제목 없음"
+                : item.title
             }</div>
               <div class="item-btn-group">
                 <div class="btn-container" data-action="add">

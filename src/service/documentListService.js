@@ -5,7 +5,7 @@ export const createDocument = async parent => {
     method: "POST",
     body: JSON.stringify({
       parent,
-      title: "",
+      title: "📝 ",
     }),
   });
   return newDocument;
