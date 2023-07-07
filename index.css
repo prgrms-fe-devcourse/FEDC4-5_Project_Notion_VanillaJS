@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+}
+#app {
+  width: 100%;
+  display: flex;
+}
+.sidebar {
+  width: 25%;
+  min-width: 250px;
+  background-color: rgb(247, 247, 245);
+  padding: 5px;
+}
+.sidebar_header {
+  padding: 8px;
+  border-bottom: 1px solid black;
+}
+.sidebar_newDocument {
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 3px;
+}
+.sidebar_newDocument:hover {
+  background-color: rgb(232, 232, 230);
+}
+
+.document_list > ul {
+  padding-left: 8px;
+}
+.document_li {
+  list-style: none;
+  cursor: pointer;
+}
+
+section {
+  width: 100%;
+  padding: 8px;
+}
+.editor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+.title {
+  flex-grow: 1;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  outline: none;
+}
+.content {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  outline: none;
+}
