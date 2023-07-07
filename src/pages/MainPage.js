@@ -100,7 +100,6 @@ export default class MainPage extends Component{
     if(this.titleTimer !== null){
       clearTimeout(this.titleTimer);
     }
-    document.querySelector(".selected-document-title").textContent = post.title;
     setLocalStorageItem(this.getPostLocalSaveKey(id), {
       ...post
     })

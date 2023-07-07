@@ -41,6 +41,7 @@ export default class Editor extends Component{
         title : target.value,
         content : document.querySelector("[name=content]").innerHTML
       });
+      document.querySelector(".selected-document-title").textContent = target.value;
     }); 
 
     this.addEvent("input", "[name=content]", ({target}) => {
