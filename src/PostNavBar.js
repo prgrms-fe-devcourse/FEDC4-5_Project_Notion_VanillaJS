@@ -7,6 +7,7 @@ export default function PostNavBar({ $target }) {
   const $createButton = document.createElement("button");
   const $title = document.createElement("h1");
   $nav.id = "nav";
+  $nav.className = "1";
   $createButton.id = "createButton";
   $title.id = "title";
 

@@ -5,6 +5,7 @@ import { pushRouter } from "./router.js";
 export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
   $page.id = "editPage";
+  $page.className = "2";
 
   this.state = initialState;
 
@@ -30,7 +31,7 @@ export default function PostEditPage({ $target, initialState }) {
           pushRouter(`/${this.state.postId}`);
           await getDocument();
         }
-      }, 1000);
+      }, 2000);
     },
   });
 
@@ -54,6 +55,7 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.render = () => {
     $target.appendChild($page);
+    console.log($target)
   };
 
   const getDocument = async () => {
