@@ -39,6 +39,7 @@ nav > .header-section {
 
 .user-tag{
   padding: 15px 5px 20px 20px;
+  cursor: pointer;
 }
 
 .header-section .root-add{
@@ -52,6 +53,7 @@ nav > .header-section {
   color: rgba(55, 53, 47, 0.7);
   transition: 20ms ease-in 0s;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .user-tag:hover,
@@ -118,6 +120,7 @@ li {
   width: calc(190px - var(--depth) * 15px);
   margin-left: 2px;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .item:hover .item-title{
@@ -145,6 +148,7 @@ li {
   align-items: center;
   justify-content: center;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .btn-container:hover{
@@ -163,7 +167,7 @@ li {
   flex-direction: column;
   width: calc(100vw - 250px);
   height: 100vh;
-  padding: 30px;
+  padding: 50px;
   max-width: 800px;
 }
 
@@ -171,15 +175,15 @@ li {
   visibility: hidden;
 }
 
-.editor > input{
+.editor > input[name='title']{
   outline: none;
   border: none;
-  font-size: 24px;
+  font-size: 36px;
   font-weight: 700;
   padding: 10px 5px;
 }
 
-.editor > textarea{
+.editor > textarea[name='content']{
   resize: none;
   border: none;
   outline: none;
@@ -188,12 +192,18 @@ li {
   padding: 10px 5px;
 }
 
+.editor > input::placeholder,
+.editor > textarea::placeholder{
+  color:rgba(55, 53, 47, 0.3);
+}
+
 .editor > input[type='emoji']{
-  font-size: 42px;
-  width: 80px;
-  height: 80px;
+  font-size: 60px;
+  width: 90px;
+  height: 90px;
   padding-bottom: 20px;
-  margin-bottom: 10px;
+  border: none;
+  /* margin-bottom: 10px; */
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
