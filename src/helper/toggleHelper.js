@@ -1,9 +1,9 @@
 export const recursiveInitToggleData = (
   documents,
-  data = []
+  data = {}
 ) => {
   documents.forEach(document => {
-    data.push({ id: `${document.id}`, toggle: false });
+    data[document.id] = false;
     if (
       document.documents &&
       document.documents.length > 0
@@ -15,23 +15,22 @@ export const recursiveInitToggleData = (
 };
 
 export const createToggleItem = ({ data, parent, id }) => {
-  const next = [
+  return {
     ...data,
-    { id: `${id}`, toggle: false },
-  ].map(item =>
-    item.id === parent ? { ...item, toggle: true } : item
-  );
-  return next;
+    [id]: false,
+    [parent]: true,
+  };
 };
 
 export const updateToggleItem = ({ data, id }) => {
-  return data.map(item =>
-    item.id === id
-      ? { ...item, toggle: !item.toggle }
-      : item
-  );
+  return {
+    ...data,
+    [id]: !data[id],
+  };
 };
 
 export const deleteToggleItem = ({ data, id }) => {
-  return data.filter(data => data.id !== id);
+  const nextData = { ...data };
+  delete nextData[id];
+  return nextData;
 };

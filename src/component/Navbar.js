@@ -20,38 +20,35 @@ function Navbar({
       this.state;
     const paintList = (documents, depth = 0) =>
       `<ul>${documents
-        .map(item => {
-          const isParent = item.documents.length > 0;
-          const isToggled = toggleData.find(
-            data => data.id == item.id
-          ).toggle;
-          return `<li data-id="${item.id}">
-          <div class="item ${
-            item.id == selected ? "selected" : ""
-          }" style="--depth: ${depth}">
-            <div class="btn-container ${
-              isToggled ? "toggled" : ""
-            }" data-action="toggle">
-              <i class="fa-solid fa-chevron-right"></i>
-            </div>
-            <div class="item-title" style="--depth: ${depth}">${
-            item.title.length ? item.title : "제목 없음"
-          }</div>
-            <div class="item-btn-group">
-              <div class="btn-container" data-action="add">
-                <i class="fa-solid fa-plus"></i>
+        .map(
+          item =>
+            `<li data-id="${item.id}">
+            <div class="item ${
+              item.id == selected ? "selected" : ""
+            }" style="--depth: ${depth}">
+              <div class="btn-container ${
+                toggleData[item.id] ? "toggled" : ""
+              }" data-action="toggle">
+                <i class="fa-solid fa-chevron-right"></i>
               </div>
-              <div class="btn-container" data-action="delete">
-                <i class="fa-solid fa-minus"></i>
+              <div class="item-title" style="--depth: ${depth}">${
+              item.title.length ? item.title : "제목 없음"
+            }</div>
+              <div class="item-btn-group">
+                <div class="btn-container" data-action="add">
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <div class="btn-container" data-action="delete">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
               </div>
             </div>
-          </div>
         ${
-          isParent && isToggled
+          item.documents.length > 0 && toggleData[item.id]
             ? paintList(item.documents, depth + 1)
             : ""
-        }</li>`;
-        })
+        }</li>`
+        )
         .join("")}</ul>`;
     $navbar.innerHTML = paintList(documentList);
     $navbar.classList.add("list-section");
