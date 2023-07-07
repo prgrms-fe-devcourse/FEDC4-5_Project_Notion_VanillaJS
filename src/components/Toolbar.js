@@ -12,7 +12,7 @@ export default class Toolbar extends Component{
   }
 
   setEvent(){
-    const {onEditContent} = this.props;
+    const {onEdit} = this.props;
     const selection = document.getSelection();
     this.addEvent("click", "button", ({target}) => {
       const {classList : buttonType} = target;
@@ -60,7 +60,7 @@ export default class Toolbar extends Component{
         $divParent.replaceChild($flatFragment, $spanParent);
         $span.removeAttribute("target");
       }
-      onEditContent({
+      onEdit({
         title : document.querySelector("[name=title]").value,
         content : document.querySelector("[name=content]").innerHTML
       })      

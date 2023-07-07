@@ -11,7 +11,6 @@ export default class MainPage extends Component{
   titleTimer = null;
   contentTimer = null;
   init = false;
-  documents = null;
 
   async setup(id){
     if(!this.init) {
@@ -39,7 +38,7 @@ export default class MainPage extends Component{
   }
 
   mounted(){
-    const {onEditTitle,onEditContent, onClickAdd, onClickDocument, onClickDelete} = this;
+    const {onEdit, onClickAdd, onClickDocument, onClickDelete} = this;
     const $sidebar = this.$target.querySelector(".sidebar");
     const $toolbar = this.$target.querySelector(".toolbar");
     const $editor = this.$target.querySelector(".editor");
@@ -54,12 +53,11 @@ export default class MainPage extends Component{
 
     if(this.state.id){
       new Toolbar($toolbar, {
-        onEditContent : onEditContent.bind(this)
+        onEdit : onEdit.bind(this)
       });
       new Editor($editor, {
         documentContent : this.state.documentContent,
-        onEditTitle : onEditTitle.bind(this),
-        onEditContent : onEditContent.bind(this),
+        onEdit : onEdit.bind(this),
         onClickDocument : onClickDocument.bind(this),
         onClickAdd : onClickDocument.bind(this)
       })
@@ -97,7 +95,7 @@ export default class MainPage extends Component{
     pushHistory(`/documents/${id}`);
   }
 
-  onEditTitle(post){
+  onEdit(post){
     const {id} = this.state;
     if(this.titleTimer !== null){
       clearTimeout(this.titleTimer);
@@ -107,23 +105,6 @@ export default class MainPage extends Component{
       ...post
     })
     this.titleTimer = setTimeout(async () => {
-      await request(`/documents/${id}`, {
-        method : "PUT",
-        body : JSON.stringify(post)
-      })
-      removeLocalStorageItem(this.getPostLocalSaveKey(id));
-    }, API_WAIT_TIME)
-  }
-
-  onEditContent(post){
-    const {id} = this.state;
-    if(this.contentTimer !== null){
-      clearTimeout(this.contentTimer);
-    }
-    setLocalStorageItem(this.getPostLocalSaveKey(id), {
-      ...post
-    })
-    this.contentTimer = setTimeout(async () => {
       await request(`/documents/${id}`, {
         method : "PUT",
         body : JSON.stringify(post)

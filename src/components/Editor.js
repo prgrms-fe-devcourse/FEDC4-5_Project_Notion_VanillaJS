@@ -35,16 +35,16 @@ export default class Editor extends Component{
   }
 
   setEvent(){
-    const {onEditTitle, onEditContent} = this.props;
+    const {onEdit} = this.props;
     this.addEvent("input", "[name=title]", ({target}) => {
-      onEditTitle({
+      onEdit({
         title : target.value,
         content : document.querySelector("[name=content]").innerHTML
       });
     }); 
 
     this.addEvent("input", "[name=content]", ({target}) => {
-      onEditContent({
+      onEdit({
         title :  document.querySelector("[name=title]").value,
         content : target.innerHTML
       });

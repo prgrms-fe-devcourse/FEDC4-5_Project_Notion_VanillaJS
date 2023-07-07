@@ -25,6 +25,10 @@ export default class Sideber extends Component{
         onClickAdd(id);
       }else if(classList.contains("delete-document")){
         onClickDelete(id);
+      }else if(classList.contains("selected-document-title")){
+        onClickDocument(id);
+      }else if(classList.contains("toggle-content")){
+        return;
       }else{
         onClickDocument(id);
       }
