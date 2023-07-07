@@ -23,7 +23,14 @@ export default function PostNavBar({ $target }) {
     $target.appendChild($page);
   };
 
-  $createButton.addEventListener("click", (e) => {
-    pushRouter("/new");
+  $createButton.addEventListener("click", async () => {
+    const createdPost = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "제목 없음",
+        parent: null,
+      }),
+    });
+    pushRouter(`/${createdPost.id}`);
   });
 }
