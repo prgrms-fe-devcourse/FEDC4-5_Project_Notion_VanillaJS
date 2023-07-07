@@ -27,7 +27,7 @@ export default function PostEditPage({ $target, initialState }) {
             body: JSON.stringify(post),
           });
           pushRouter(`/${this.state.postId}`);
-          await fetchPost();
+          await getDocument();
         }
       }, 1000);
     },
@@ -36,7 +36,7 @@ export default function PostEditPage({ $target, initialState }) {
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
       this.state = nextState;
-      await fetchPost();
+      await getDocument();
       return;
     } else {
       this.state = nextState;
@@ -55,7 +55,7 @@ export default function PostEditPage({ $target, initialState }) {
     $target.appendChild($page);
   };
 
-  const fetchPost = async () => {
+  const getDocument = async () => {
     const { postId } = this.state;
 
     if (postId) {
