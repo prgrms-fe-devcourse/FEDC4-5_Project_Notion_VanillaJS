@@ -12,10 +12,7 @@ export default function NavBar({ targetElement, documentPath }) {
   this.render = () => {
     targetElement.innerHTML = '';
     documentPath.slice(0, documentPath.length - 1)?.forEach(({ id, title }) => {
-      const seperatorElement = document.createElement('span');
-      seperatorElement.textContent = '/';
       const linkElement = document.createElement('button');
-      targetElement.appendChild(seperatorElement);
       targetElement.appendChild(linkElement);
       new Button({
         targetElement: linkElement,
@@ -26,9 +23,6 @@ export default function NavBar({ targetElement, documentPath }) {
         },
       });
     });
-    if (targetElement.innerHTML === '') {
-      targetElement.innerHTML = '/';
-    }
   };
 
   this.init();
