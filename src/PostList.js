@@ -1,8 +1,9 @@
 import { request } from "./api.js";
+import PostItem from "./PostItem.js";
 import { pushRouter } from "./router.js";
 
 export default function PostList({ $target, initialState }) {
-  const $postList = document.createElement("div");
+  const $postList = document.createElement("ul");
   $target.appendChild($postList);
 
   this.state = initialState;
@@ -12,76 +13,22 @@ export default function PostList({ $target, initialState }) {
     this.render();
   };
 
+  this.makeList = ($wrap, data) => {
+    data.forEach(({ title, documents, id }) => {
+      const { $postItemBox, $postSubItemBox } = PostItem(title, id);
+
+      $wrap.appendChild($postItemBox);
+
+      if (documents.length > 0) {
+        this.makeList($postSubItemBox, documents);
+      }
+    });
+  };
+
   this.render = () => {
-    $postList.innerHTML = `
-            <ul>
-                ${this.state
-                  .map(
-                    (post) =>
-                      `
-                      <li id="li_${post.id}">
-                        <span id="${post.id}">${post.title}</span>
-                        <button id="createButton_${post.id}">+</button>
-                        <button id="deleteButton_${post.id}">-</button>
-                      </li>
-                      <ul>
-                        ${post.documents
-                          .map(
-                            (subPost) =>
-                              `
-                          <li id="li_${subPost.id}">
-                            <span id="${subPost.id}">${subPost.title}</span>
-                            <button id="createButton_${subPost.id}">+</button>
-                            <button id="deleteButton_${subPost.id}">-</button>
-                          </li>
-                          `
-                          )
-                          .join("")}
-                      </ul>
-                      `
-                  )
-                  .join("")}
-            </ul>
-        `;
+    $postList.innerHTML = "";
+    this.makeList($postList, this.state);
   };
 
   this.render();
-
-  $postList.addEventListener("click", async (e) => {
-    const clickTag = e.target.localName;
-
-    if (clickTag === "span") {
-      const $span = e.target.closest("span");
-
-      if ($span) {
-        pushRouter(`/${$span.id}`);
-        request(`/documents/${$span.id}`);
-      }
-    } else if (clickTag === "button") {
-      const $button = e.target.closest("button");
-      const [commend, id] = $button.id.split("_");
-
-      if (commend === "createButton") {
-        const createdPost = await request("/documents", {
-          method: "POST",
-          body: JSON.stringify({
-            title: "제목 없음",
-            parent: id,
-          }),
-        });
-        pushRouter(`/${createdPost.id}`);
-      } else {
-        pushRouter(`/`);
-        request(`/documents/${id}`, {
-          method: "DELETE",
-        });
-      }
-      getDocuments();
-    }
-  });
-
-  const getDocuments = async () => {
-    const documents = await request("/documents");
-    this.setState(documents);
-  };
 }
