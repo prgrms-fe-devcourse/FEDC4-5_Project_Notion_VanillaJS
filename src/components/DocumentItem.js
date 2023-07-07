@@ -71,7 +71,6 @@ export default class DocumentItem extends Component {
         }
       });
       this.state.isFolded = !this.state.isFolded;
-      console.log(this.state.isFolded);
     });
   }
 }
