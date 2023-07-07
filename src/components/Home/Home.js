@@ -1,9 +1,10 @@
-import { STORAGE } from "@Utils/constants";
+import { NAME, STORAGE } from "@Utils/constants";
 import { once } from "@Utils/once";
 import { getItem, removeItem, setItem } from "@Utils/storage";
 import { isConstructor, isHomeState } from "@Utils/validation";
 import "./Home.css";
 import { routeToDocument } from "@Utils/router";
+import { stateSetters } from "@Utils/stateSetters";
 
 export default function Home({ $target }) {
   if (!isConstructor(new.target)) {
@@ -85,5 +86,7 @@ export default function Home({ $target }) {
         .map(([id, { title }]) => `<p data-id=${id}>${title}</p>`)
         .join("")}
     `;
+
+    stateSetters[NAME.HEADER]([]);
   };
 }
