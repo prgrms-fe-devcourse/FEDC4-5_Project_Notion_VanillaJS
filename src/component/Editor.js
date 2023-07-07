@@ -11,7 +11,6 @@ function Editor({
   this.state = initialState;
   this.setState = nextState => {
     this.state = nextState;
-    console.log(this.state);
     for (const target of ["title", "content"]) {
       $editor.querySelector(`[name=${target}]`).value =
         this.state[target];

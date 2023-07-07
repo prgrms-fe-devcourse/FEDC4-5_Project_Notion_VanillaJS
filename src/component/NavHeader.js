@@ -11,8 +11,8 @@ function NavHeader({
 
   this.render = () => {
     $navHeader.innerHTML = `
-      <div class="user-tag">${this.state.user}</div>
-      <div class="root-add">
+      <div class="user-tag" data-action="home">${this.state.user}</div>
+      <div class="root-add" data-action="add">
         <i class="fa-solid fa-circle-plus"></i>
         <span>새 페이지</span>
       </div>
@@ -23,12 +23,11 @@ function NavHeader({
   this.render();
 
   $navHeader.addEventListener("click", e => {
-    if (e.target.className === "root-add") {
-      onCreate();
-    }
-    if (e.target.className === "user-tag") {
-      onGoHome();
-    }
+    const action =
+      e.target.dataset.action ||
+      e.target.parentNode.dataset.action;
+    if (action === "add") onCreate();
+    else if (action === "home") onGoHome();
   });
 }
 

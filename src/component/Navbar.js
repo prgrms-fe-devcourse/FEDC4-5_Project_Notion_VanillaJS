@@ -29,20 +29,20 @@ function Navbar({
           <div class="item ${
             item.id == selected ? "selected" : ""
           }" style="--depth: ${depth}">
-            <div class="btn-container item-toggle ${
+            <div class="btn-container ${
               isToggled ? "toggled" : ""
-            }">
-              <i class="fa-solid fa-chevron-right item-toggle"></i>
+            }" data-action="toggle">
+              <i class="fa-solid fa-chevron-right"></i>
             </div>
             <div class="item-title" style="--depth: ${depth}">${
             item.title.length ? item.title : "제목 없음"
           }</div>
             <div class="item-btn-group">
-              <div class="btn-container item-add">
-                <i class="fa-solid fa-plus item-add"></i>
+              <div class="btn-container" data-action="add">
+                <i class="fa-solid fa-plus"></i>
               </div>
-              <div class="btn-container item-delete">
-                <i class="fa-solid fa-minus item-delete"></i>
+              <div class="btn-container" data-action="delete">
+                <i class="fa-solid fa-minus"></i>
               </div>
             </div>
           </div>
@@ -62,13 +62,22 @@ function Navbar({
   $navbar.addEventListener("click", e => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
-    if (e.target.classList.contains("item-toggle"))
-      onToggle(id);
-    else if (e.target.classList.contains("item-add"))
-      onCreate(id);
-    else if (e.target.classList.contains("item-delete"))
-      onDelete(id);
-    else onSelect(id);
+    const action =
+      e.target.dataset.action ||
+      e.target.parentNode.dataset.action;
+    switch (action) {
+      case "toggle":
+        onToggle(id);
+        break;
+      case "add":
+        onCreate(id);
+        break;
+      case "delete":
+        onDelete(id);
+        break;
+      default:
+        onSelect(id);
+    }
   });
 
   $navbar.addEventListener("scroll", () => {
