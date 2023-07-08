@@ -13,6 +13,9 @@ export default class DocumentItem extends Component {
     });
   }
   render() {
+    if (this.state.title.length === 0) {
+      this.setState({ title: "제목 없음" });
+    }
     this.el.innerHTML = `
         <li style="display: flex">
           <button class="showChildDocu">></button>
