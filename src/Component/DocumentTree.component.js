@@ -5,21 +5,33 @@ import DocumentTreeBranchComponent from "./DocumentTreeBranch.component.js";
 export default class DocumentTreeComponent extends Component {
   render() {
     this.$target.innerHTML = `
-    <ul className="rootUl">
-    ${this.state.documentTree.map((doc) => this.getTemplate(doc)).join("")}
-    </ul>
+    <div class="rootUl">
+    </div>
     <button class="addRootDocumentButton addDocumentButton">+</button>
     `;
-  }
 
-  getTemplate(documentTree) {
-    return documentTree.documents.map((childDoc) => {
-      console.log(childDoc);
-      new DocumentTreeBranchComponent({
-        $target: this.$target,
-        initialState: new DocumentTreeBranch(childDoc),
-        events: [],
+    const $rootUl = this.$target.querySelector(".rootUl");
+    this.state.documentTree.forEach((doc) => {
+      this.getTemplate({
+        $target: $rootUl,
+        doc,
       });
     });
+  }
+
+  getTemplate({ $target, doc }) {
+    new DocumentTreeBranchComponent({
+      $target,
+      initialState: new DocumentTreeBranch(doc),
+      events: [],
+    });
+
+    if (doc.documents.length > 0) {
+      const $ul = document.createElement("ul");
+      $target.appendChild($ul);
+      doc.documents.forEach((childDoc) => {
+        this.getTemplate({ $target: $ul, doc: childDoc });
+      });
+    }
   }
 }

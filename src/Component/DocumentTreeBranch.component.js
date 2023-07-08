@@ -2,8 +2,9 @@ import Component from "./Component.js";
 
 export default class DocumentTreeBranchComponent extends Component {
   render() {
-    $target.innerHTML = `
-    <li id="${this.state.id}">
+    const $li = document.createElement("li");
+    $li.id = this.state.id;
+    $li.innerHTML = `
       <span class="documentLicontainer">
           <a class="documentLink" href="/documents/${this.state.id}">${this.state.title}</a>
           <span class="documentTreeButtonContainer">
@@ -11,7 +12,7 @@ export default class DocumentTreeBranchComponent extends Component {
             <button class="deleteDocumentButton" data-id="${this.state.id}">x</button>
           </span>
         </span>
-    </li>    
     `;
+    this.$target.appendChild($li);
   }
 }
