@@ -11,7 +11,7 @@ export default class DocumentTreeBranchComponent extends Component {
             <button class="addDocumentButton" data-id="${this.state.id}">+</button>
             <button class="deleteDocumentButton" data-id="${this.state.id}">x</button>
           </span>
-        </span>
+        </span> 
     `;
     this.$target.appendChild($li);
   }
