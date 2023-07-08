@@ -23,15 +23,15 @@ export default function CreateDocumentList(title, id = null) {
   const $deleteAddButton = document.createElement('div');
 
   const $deleteButton = document.createElement('div');
-  $deleteButton.textContent = '―';
+  $deleteButton.textContent = 'x';
   $deleteButton.id = 'delete-document-button';
 
   const $addChildButton = document.createElement('div');
   $addChildButton.textContent = '+';
   $addChildButton.id = 'add-child-document-button';
 
-  $deleteAddButton.appendChild($deleteButton);
   $deleteAddButton.appendChild($addChildButton);
+  $deleteAddButton.appendChild($deleteButton);
 
   $parentDocument.appendChild($toggleAndTitle);
   $parentDocument.appendChild($deleteAddButton);
