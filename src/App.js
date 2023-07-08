@@ -1,18 +1,18 @@
-import Category from './components/DocumentList.js';
+import DocumentList from './components/DocumentList.js';
 import PostEditPage from './components/PostEditPage.js';
 import { initRouter } from './router.js';
 
 export default function App({ $target }) {
   $target.style.display = 'flex';
-  const $left = document.createElement('div');
-  $left.className = 'left';
-  $target.appendChild($left);
+  const $sidebar = document.createElement('div');
+  $sidebar.className = 'sidebar';
+  $target.appendChild($sidebar);
 
-  const $right = document.createElement('div');
-  $right.className = 'right';
-  $target.appendChild($right);
+  const $contentPage = document.createElement('div');
+  $contentPage.className = 'contentPage';
+  $target.appendChild($contentPage);
 
-  const category = new Category({
+  const documentList = new DocumentList({
     $target: $left,
     initialState: {
       template: '',
@@ -26,22 +26,22 @@ export default function App({ $target }) {
   });
 
   const postEditPage = new PostEditPage({
-    $target: $right,
+    $target: $contentPage,
     initialState: {
       postId: 'new',
       post: { title: '', content: '' },
       parentId: null,
     },
     onChangeTitle: (title) => {
-      category.editDocItemTitle(title);
+      documentList.editDocItemTitle(title);
     },
     onDeleteUndecidedItem: () => {
-      category.deleteUndecidedDocItem();
+      documentList.deleteUndecidedDocItem();
     },
   });
 
   this.route = () => {
-    $right.innerHTML = '';
+    $contentPage.innerHTML = '';
     const { pathname } = window.location;
 
     if (pathname.indexOf('/posts/') === 0) {
@@ -51,7 +51,7 @@ export default function App({ $target }) {
         postId: id,
       });
     } else if (pathname === '/') {
-      $right.innerHTML = '';
+      $contentPage.innerHTML = '';
     }
   };
   this.route();
