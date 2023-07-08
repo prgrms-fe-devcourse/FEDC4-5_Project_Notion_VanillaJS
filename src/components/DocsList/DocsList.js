@@ -1,4 +1,5 @@
 import { push } from "../../utils/router.js"
+import { escapeHTML } from "../../utils/escapeHTML.js"
 
 export default function DocsList({ $target, initialState, onCreate, onRemove }) {
   const $docsList = document.createElement("div")
@@ -24,13 +25,14 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
       .map((doc) => {
         const hasChildDocuments = doc.documents && doc.documents.length > 0
         const childDocuments = hasChildDocuments ? renderDocuments(doc.documents) : ""
+        const documentTitle = escapeHTML(doc.title)
 
         return `
         <li data-id="${doc.id}" class="document-item">
           <div class="document-item-container">
             <div class="document-title-container">
               <i class="fa-regular fa-file-lines"></i>
-              <p class="document-title">${doc.title}</p>
+              <p class="document-title">${documentTitle}</p>
             </div>
             <button class="create" type="button">
               <i class="create fa-solid fa-plus"></i>
