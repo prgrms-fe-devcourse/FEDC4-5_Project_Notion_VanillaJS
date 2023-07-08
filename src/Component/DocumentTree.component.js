@@ -1,4 +1,4 @@
-import Component from "./Component.js";
+import Component from "../core/Component.js";
 import DocumentTreeBranch from "../domain/DocumentTreeBranch.js";
 import DocumentTreeBranchComponent from "./DocumentTreeBranch.component.js";
 
