@@ -2,51 +2,79 @@ export default class DocumentTreeBranch {
   #id;
   #title;
   #documents;
-  #allowedProperties = ["id", "title", "documents"];
+  #createdAt;
+  #updatedAt;
+  #allowedProperties = ["#id", "#title", "#documents"];
 
-  constructor({ id, title, documents }) {
+  constructor({ id, title, documents, createdAt, updatedAt }) {
     this.#id = id;
     this.#title = title;
     this.#documents = documents;
+    this.#createdAt = createdAt;
+    this.#updatedAt = updatedAt;
+    this.validate();
   }
 
-  validate(document) {
-    for (const propertie of this.#allowedProperties) {
-      if (!document.hasOwnProperty(propertie)) {
-        throw new Error(`DocumentTree: 필수 프로퍼티인 ${propertie} 없습니다.`);
-      }
-    }
+  cloneNewDocumentTreeBranch(newDocumentTreeBranch) {
+    return new DocumentTreeBranch({
+      id: newDocumentTreeBranch.id || this.#id,
+      title: newDocumentTreeBranch.title || this.#title,
+      documents: newDocumentTreeBranch.documents || this.#documents,
+    });
+  }
 
-    for (const propertie in document) {
-      if (!this.#allowedProperties.includes(propertie)) {
+  validate() {
+    for (const propertie of this.#allowedProperties) {
+      if (this.hasOwnProperty(propertie)) {
         throw new Error(
-          `DocumentTree: 허용되지 않은 ${propertie} 프로퍼티가 있습니다.`
+          `DocumentTreeBranch: 필수 프로퍼티인 ${propertie} 없습니다.`
         );
       }
     }
 
-    if (typeof document !== "object") {
+    for (const propertie in this) {
+      if (!this.#allowedProperties.includes(propertie)) {
+        throw new Error(
+          `DocumentTreeBranch: 허용되지 않은 ${propertie} 프로퍼티가 있습니다.`
+        );
+      }
+    }
+
+    if (typeof this.#id !== "number") {
       throw new Error(
-        `DocumentTree: document는 object 타입이어야 합니다. 현재 타입 : ${typeof document}`
+        `DocumentTreeBranch: id는 number 타입이어야 합니다. 현재타입 : ${typeof this
+          .#id}`
       );
     }
 
-    if (typeof document.id !== "number") {
+    if (typeof this.#title !== "string") {
       throw new Error(
-        `DocumentTree: id는 number 타입이어야 합니다. 현재타입 : ${typeof document.id}`
+        `DocumentTreeBranch: title은 string 타입이어야 합니다. 현재 타입 : ${typeof this
+          .#title}`
       );
     }
 
-    if (typeof document.title !== "string") {
+    if (!Array.isArray(this.#documents)) {
       throw new Error(
-        `DocumentTree: title은 string 타입이어야 합니다. 현재 타입 : ${typeof document.title}`
+        `DocumentTreeBranch: documents는 array 타입이어야 합니다. 현재 타입 : ${typeof this
+          .#documents}`
       );
     }
+  }
 
-    if (!Array.isArray(document.documents)) {
-      throw new Error(
-        `DocumentTree: documents는 array 타입이어야 합니다. 현재 타입 : ${typeof document.documents}`
-      );
-    }
+  get id() {
+    return this.#id;
+  }
+
+  get title() {
+    return this.#title;
+  }
+
+  get documents() {
+    return this.#documents;
+  }
+
+  set documents(documents) {
+    this.#documents = documents;
   }
 }

@@ -7,7 +7,7 @@ export const getDocumentTree = async () => {
   }).then((res) => {
     return new DocumentTree(res);
   });
-  return documentTree.data;
+  return documentTree;
 };
 
 export const getDocument = async () => {
