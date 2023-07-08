@@ -19,10 +19,7 @@ export default function DocumentList({
     this.render();
   }
 
-  const defaultPadding = 5;
-  const AddchildPadding = 14;
-
-  const getDocumentList = ( target, paddingLeft, currentDom ) => {
+  const getDocumentList = ( target, currentDom ) => {
     currentDom?.forEach(({ title, documents, id }) => {
       const { $li, $childDocument } = CreateDocumentList(title, id);
       const isChildDocuments = documents.length > 0;
@@ -30,7 +27,7 @@ export default function DocumentList({
       target.appendChild($li);
 
       if (isChildDocuments) {
-        getDocumentList($childDocument, paddingLeft + AddchildPadding, documents);
+        getDocumentList($childDocument, documents);
       } else {
         const noneChildDocument = $li.childNodes[1];
         noneChildDocument.innerHTML = '<div style="opacity: 0.7">하위 페이지 없음</div>';
@@ -40,7 +37,7 @@ export default function DocumentList({
 
   this.render = () => {
     $ul.innerHTML = '';
-    getDocumentList($ul, defaultPadding, this.state);
+    getDocumentList($ul, this.state);
   }
 
   this.render();

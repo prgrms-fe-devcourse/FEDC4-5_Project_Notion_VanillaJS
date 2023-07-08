@@ -21,10 +21,6 @@ export default function SideNavbar({ parent, initialState }) {
   const documentList = new DocumentList({
     parent: page,
     initialState,
-    onDeleteDocument: async (id) => {
-      await deleteDocument(`/documents/${id}`);
-      this.setState();
-    },
   })
 
   new LinkButton({
