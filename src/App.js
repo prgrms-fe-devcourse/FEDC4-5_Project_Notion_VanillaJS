@@ -16,7 +16,6 @@ export default function App({ $target }) {
     $target: $left,
     initialState: {
       template: '',
-      depth: {},
     },
     onClick: (id) => {
       postEditPage.setState({
@@ -33,11 +32,11 @@ export default function App({ $target }) {
       post: { title: '', content: '' },
       parentId: null,
     },
-    onChange: (text, id) => {
-      category.template(text, id);
+    onChangeTitle: (title) => {
+      category.editDocItemTitle(title);
     },
-    onDelete: () => {
-      category.template(undefined, -1);
+    onDeleteUndecidedItem: () => {
+      category.deleteUndecidedDocItem();
     },
   });
 

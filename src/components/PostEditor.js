@@ -5,7 +5,7 @@ export default function PostEditor({
   $target,
   initialState,
   onEditing,
-  onChange,
+  onChangeTitle,
 }) {
   const $editor = document.createElement('div');
 
@@ -53,7 +53,7 @@ export default function PostEditor({
       title: e.target.innerHTML,
     };
 
-    onChange(e.target.innerHTML);
+    onChangeTitle(e.target.innerHTML);
     onEditing(nextState);
   });
 

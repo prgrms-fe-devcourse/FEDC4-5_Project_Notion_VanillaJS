@@ -4,8 +4,8 @@ import { request } from '../util/api.js';
 export default function PostEditPage({
   $target,
   initialState,
-  onChange,
-  onDelete,
+  onChangeTitle,
+  onDeleteUndecidedItem,
 }) {
   const $page = document.createElement('div');
 
@@ -26,7 +26,7 @@ export default function PostEditPage({
         const { title, content } = post;
         if (isNew) {
           if (!title && !content) {
-            onDelete();
+            onDeleteUndecidedItem();
             return;
           }
 
@@ -46,9 +46,10 @@ export default function PostEditPage({
             }),
           });
 
-          onChange(title, createdPost.id);
-
           history.replaceState(null, null, `/posts/${createdPost.id}`);
+
+          onChangeTitle(title);
+
           this.setState({
             ...this.state,
             postId: createdPost.id.toString(),
@@ -69,7 +70,7 @@ export default function PostEditPage({
         }
       }, 2000);
     },
-    onChange,
+    onChangeTitle,
   });
 
   this.setState = async (nextState) => {

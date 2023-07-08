@@ -2,9 +2,9 @@ import { request } from '../util/api.js';
 import { push } from '../router.js';
 
 export default function DocumentList({ $target, initialState, onClick }) {
-  const $docList = document.createElement('div');
-  $docList.className = 'listWrapper';
-  $target.appendChild($docList);
+  const $docListContainer = document.createElement('div');
+  $docListContainer.className = 'listContainer';
+  $target.appendChild($docListContainer);
 
   this.state = initialState;
 
@@ -13,141 +13,148 @@ export default function DocumentList({ $target, initialState, onClick }) {
     this.template();
   };
 
-  this.fetchDoc = async () => {
-    let documents = await request('/');
-    let template = `${documents
-      .map(
-        ({ id, title }) =>
-          `<div id="${id}" class="listItem isNotSelected" style="margin-bottom : 10px;"><button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button></div>`
-      )
-      .join('')}`;
-    this.setState({ template, documents });
+  this.template = () => {
+    $docListContainer.innerHTML = this.state.template;
   };
 
-  this.template = (text, id) => {
-    $docList.innerHTML = this.state.template;
-    const currentTarget = $docList.querySelector('[id="-1"]');
-    if (text) {
-      if (currentTarget) {
-        currentTarget.querySelector('span').innerHTML = text;
-        if (id) {
-          currentTarget.id = id;
-        }
-      } else {
-        const { pathname } = window.location;
-        [, , id] = pathname.split('/');
-        const target = $docList.querySelector(`[id='${id}']`);
-        if (target) {
-          target.querySelector('span').innerHTML = text;
-        }
-      }
+  this.editDocItemTitle = (title) => {
+    const { pathname } = window.location;
+    [, , id] = pathname.split('/');
+
+    const uncreatedDocListItem = $docListContainer.querySelector('[id="-1"]');
+
+    if (id === 'new') {
+      // 생성전 docItem title
+      uncreatedDocListItem.querySelector('span').innerHTML = title;
+      return;
     }
 
-    if (id === -1) {
-      currentTarget?.remove();
+    if (uncreatedDocListItem) {
+      // 생성된 즉시  docItem title
+      uncreatedDocListItem.querySelector('span').innerHTML = title;
+      uncreatedDocListItem.id = id;
+    } else {
+      // 이미 생성된 docItem title
+      const createdDocListItem = $docListContainer.querySelector(
+        `[id='${id}']`
+      );
+      createdDocListItem.querySelector('span').innerHTML = title;
     }
+  };
+
+  this.deleteUndecidedDocItem = () => {
+    const undecidedDocListItem = $docListContainer.querySelector('[id="-1"]');
+    undecidedDocListItem.remove();
+  };
+
+  this.fetchDoc = async () => {
+    let docList = await request('/');
+    let template = `${docList
+      .map(
+        ({ id, title }) =>
+          `<div id="${id}" class="docListItem isNotSelected" style="margin-bottom : 10px;"><button class="arrow">▶️</button><span>${title}</span><button class="addDocListItem">➕</button></div>`
+      )
+      .join('')}`;
+    this.setState({ template, docList });
   };
 
   this.render = () => {
-    $docList.addEventListener('click', async (e) => {
-      // const currentTarget = $docList.querySelector('[id="-1"]');
-      // if (currentTarget) {
-      //   currentTarget?.remove();
-      // }
-
+    $docListContainer.addEventListener('click', async (e) => {
       let $target = e.target;
-      let [className] = $target.className.split(' ');
+      let [targetClassName] = $target.className.split(' ');
 
-      let listItem = $target.closest('[class~="listItem"]');
-      let [, isSelected] = listItem.className.split(' ');
+      let docListItem = $target.closest('[class~="docListItem"]');
+      let docListItemClassName = docListItem.className;
+      let [, isSelected] = docListItemClassName.split(' ');
 
       // 경로 이동
       if ($target.nodeName === 'SPAN') {
-        const { id } = listItem;
-        if (id > -1) {
-          push(`/posts/${id}`);
+        const postId = docListItem.id;
+        if (postId > -1) {
+          push(`/posts/${postId}`);
         }
       }
 
-      // 화살표 눌렀을 때 하위 트리 보여주기
-      if (
-        className === 'arrow' &&
-        isSelected === 'isNotSelected' &&
-        listItem.id > -1
-      ) {
-        listItem.className = 'listItem isSelected';
+      if (docListItem.id > -1) {
+        // 화살표 눌렀을 때 하위 트리 보여주기
+        if (targetClassName === 'arrow' && isSelected === 'isNotSelected') {
+          docListItemClassName = 'docListItem isSelected';
 
-        const targetId = listItem.id;
-        let targetDoc = await request(`/${targetId}`);
+          const targetId = docListItem.id;
+          let subDocList = await request(`/${targetId}`);
 
-        let listWrapper = document.createElement('div');
-        listWrapper.className = 'listWrapper';
+          let docListWrapper = document.createElement('div');
+          docListWrapper.className = 'docListWrapper';
 
-        let childTemplate = `
-      ${targetDoc.documents
-        .map(
-          ({ id, title }) =>
-            `<div id="${id}" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
-              <button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button>
+          let subDocListTemplate = `${subDocList.documents
+            .map(
+              ({ id, title }) =>
+                `<div id="${id}" class="docListItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
+              <button class="arrow">▶️</button><span>${title}</span><button class="addDocListItem">➕</button>
             </div>`
-        )
-        .join('')}`;
+            )
+            .join('')}`;
 
-        listWrapper.innerHTML = childTemplate;
-        listItem.appendChild(listWrapper);
+          docListWrapper.innerHTML = subDocListTemplate;
+          docListItem.appendChild(docListWrapper);
 
-        // 화살표 눌렀을 때 하위 트리 감추기
-      } else if (
-        className === 'arrow' &&
-        isSelected === 'isSelected' &&
-        listItem.id > -1
-      ) {
-        listItem.className = 'listItem isNotSelected';
-        let listWrapper = listItem.querySelector('[class="listWrapper"]');
-        listWrapper.remove();
-      }
+          // 화살표 눌렀을 때 하위 트리 감추기
+        } else if (targetClassName === 'arrow' && isSelected === 'isSelected') {
+          docListItem.className = 'docListItem isNotSelected';
+          let docListWrapper = listItem.querySelector(
+            '[class="docListWrapper"]'
+          );
+          docListWrapper.remove();
+        }
 
-      // Document 추가 버튼 눌렀을 때
-      if (className === 'addDoc' && listItem.id > -1) {
-        let parentId = $target.closest('[class~="listItem"]').id;
-        onClick(parentId); // 순서 중요함...
+        // Document 추가 버튼 눌렀을 때
+        if (targetClassName === 'addDocListItem') {
+          let parentId = $target.closest('[class~="docListItem"]').id;
+          onClick(parentId); // PostEditPage의 parentId 상태 바뀜
 
-        push(`/posts/new`);
-        let listWrapper = listItem.querySelector('[class="listWrapper"]');
+          push(`/posts/new`);
 
-        // UI적인 코드
-        if (listWrapper) {
-          // 하위 Document가 펼쳐져 있을 때
-          const prevHTML = listWrapper.innerHTML;
-          const targetHTML = `<div id="-1" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDoc">➕</button></div>`;
-          listWrapper.innerHTML = `${prevHTML}${targetHTML}`;
-        } else {
-          // 하위 Document가 닫혀 있을 때
-          listItem.className = 'listItem isSelected';
-          const targetId = listItem.id;
-          let targetDoc = await request(`/${targetId}`);
+          let docListWrapper = docListItem.querySelector(
+            '[class="docListWrapper"]'
+          );
 
-          const prevHTML = listItem.innerHTML;
-          listItem.innerHTML = `${prevHTML}<div class="listWrapper">
-            ${targetDoc.documents
+          // UI적인 코드
+          if (docListWrapper) {
+            // 하위 Document가 펼쳐져 있을 때
+            const prevHTML = docListWrapper.innerHTML;
+            const newDocListItemHTML = `<div id="-1" class="docListItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDocListItem">➕</button></div>`;
+            docListWrapper.innerHTML = `${prevHTML}${newDocListItemHTML}`;
+          } else {
+            // 하위 Document가 닫혀 있을 때
+            docListItem.className = 'docListItem isSelected';
+            const targetId = docListItem.id;
+            let subDocList = await request(`/${targetId}`);
+
+            const prevHTML = docListItem.innerHTML;
+            docListItem.innerHTML = `${prevHTML}<div class="docListWrapper">
+            ${subDocList.documents
               .map(
                 ({ id, title }) =>
-                  `<div id="${id}" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
-                    <button class="arrow">▶️</button><span>${title}</span><button class="addDoc">➕</button>
+                  `<div id="${id}" class="docListItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;">
+                    <button class="arrow">▶️</button><span>${title}</span><button class="addDocListItem">➕</button>
                     
                   </div>`
               )
               .join('')}
-              <div id="-1" class="listItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDoc">➕</button></div>
+              <div id="-1" class="docListItem isNotSelected" style="padding-left : 30px; margin-bottom : 10px;"><button class="arrow">▶️</button><span>제목없음</span><button class="addDocListItem">➕</button></div>
             </div>`;
+          }
         }
       }
 
-      this.setState({ ...this.state, template: $docList.innerHTML });
+      this.setState({ ...this.state, template: $docListContainer.innerHTML });
     });
   };
 
-  this.template();
-  this.render();
-  this.fetchDoc();
+  this.init = () => {
+    this.fetchDoc();
+    this.render();
+  };
+
+  this.init();
 }
