@@ -1,3 +1,3 @@
-export { saveDocumentToStorage } from "./documentStorage.js";
-export { removeDocumentFromStorage } from "./documentStorage.js";
-export { getDocumentFromStorage } from "./documentStorage.js";
+export { saveDocumentToStorage } from "../service/documentStorageService.js";
+export { removeDocumentFromStorage } from "../service/documentStorageService.js";
+export { getDocumentFromStorage } from "../service/documentStorageService.js";
