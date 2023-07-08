@@ -1,8 +1,8 @@
-import { getDocument } from "../service/index.js";
 import {
-  getDocumentFromStorage,
+  getDocument,
   removeDocumentFromStorage,
-} from "../storage/index.js";
+  getDocumentFromStorage,
+} from "../service/index.js";
 
 export const route = async ({ component, url }) => {
   history.pushState(null, null, url);

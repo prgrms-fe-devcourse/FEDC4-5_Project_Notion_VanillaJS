@@ -1,7 +1,9 @@
 import { route } from "../router/route.js";
-import { removeDocumentFromStorage } from "../storage/index.js";
+import {
+  updateDocumentTree,
+  removeDocumentFromStorage,
+} from "../service/index.js";
 import { request } from "../api.js";
-import { updateDocumentTree } from "../service/index.js";
 
 export const documentLinkClickEvent = async ({
   event,

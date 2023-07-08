@@ -1,6 +1,8 @@
-import { saveDocumentToStorage } from "../storage/index.js";
-import { saveDocumentToServer } from "../service/index.js";
-import { updateDocumentTree } from "../service/index.js";
+import {
+  saveDocumentToServer,
+  updateDocumentTree,
+  saveDocumentToStorage,
+} from "../service/index.js";
 
 let timeout;
 export const textareaKeyupEvent = (content) => {

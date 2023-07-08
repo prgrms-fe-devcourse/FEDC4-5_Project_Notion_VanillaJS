@@ -1,5 +1,5 @@
-import { getItem, setItem, removeItem } from "./storage.js";
-import { getDocumentIdByPathname } from "../service/index.js";
+import { getItem, setItem, removeItem } from "../storage/storage.js";
+import { getDocumentIdByPathname } from "./index.js";
 
 export const saveDocumentToStorage = ({ title, content }) => {
   setItem("documents/" + getDocumentIdByPathname(), {
