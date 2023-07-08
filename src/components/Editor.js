@@ -1,6 +1,6 @@
 import Component from "../core/Component";
 import { getItem, setItem } from "../core/Storage";
-import { request } from "../main";
+import { request } from "../api/DocumentAPI";
 
 export default class Editor extends Component {
   constructor(postId) {
