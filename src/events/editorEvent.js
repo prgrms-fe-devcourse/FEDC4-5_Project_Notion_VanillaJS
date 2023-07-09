@@ -20,7 +20,7 @@ export const titleKeyupEvent = (title) => {
 };
 
 export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
-  const newDocument = editor.state.cloneNewDocument({
+  const newDocument = editor.state.clone({
     title,
   });
   editor.state = newDocument;
@@ -29,7 +29,7 @@ export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
 };
 
 export const textareaFocusoutEvent = async ({ editor, content }) => {
-  editor.state = editor.state.cloneNewDocument({
+  editor.state = editor.state.clone({
     content,
   });
   if (editor.state.id !== -1) {

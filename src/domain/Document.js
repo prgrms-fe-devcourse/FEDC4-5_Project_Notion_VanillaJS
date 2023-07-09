@@ -2,12 +2,13 @@ import DomainModel from "../core/DomainModel.js";
 
 export default class Document extends DomainModel {
   #properties;
-  alloewdProperties;
+  #domainName;
+  allowedProperties;
 
   constructor(properties) {
-    super(properties);
+    super(properties, "Document");
     this.#properties = properties;
-    this.alloewdProperties = {
+    this.allowedProperties = {
       id: "number",
       title: "string",
       content: "string",
@@ -16,10 +17,6 @@ export default class Document extends DomainModel {
       updatedAt: "string",
     };
     this.validate();
-  }
-
-  cloneNewDocument(newPropertie) {
-    return new Document(Object.assign({}, this.#properties, newPropertie));
   }
 
   get id() {

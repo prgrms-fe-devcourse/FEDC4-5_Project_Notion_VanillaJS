@@ -1,8 +1,5 @@
-import {
-  Component,
-  DocumentTreeComponent,
-  EditorComponent,
-} from "./Component/index.js";
+import Component from "./core/Component.js";
+import { DocumentTreeComponent, EditorComponent } from "./Component/index.js";
 import { getDocumentTree } from "./service/index.js";
 import {
   addDocumentButtonClickEvnet,

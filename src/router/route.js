@@ -18,7 +18,7 @@ export const route = async ({ component, url }) => {
         const { title, content, tmpSaveDate } = getDocumentFromStorage;
         if (tmpSaveDate > savedDocument.updatedAt) {
           if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-            component.state = savedDocument.cloneNewDocument({
+            component.state = savedDocument.clone({
               title,
               content,
               updatedAt: tmpSaveDate,

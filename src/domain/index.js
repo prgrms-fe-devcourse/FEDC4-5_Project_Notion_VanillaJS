@@ -1,2 +1,3 @@
-export { default as Document } from "./document.js";
+export { default as Document } from "./Document.js";
 export { default as DocumentTree } from "./DocumentTree.js";
+export { default as DocumentTreeBranch } from "./DocumentTreeBranch.js";
