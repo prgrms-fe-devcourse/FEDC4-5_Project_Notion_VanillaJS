@@ -3,7 +3,8 @@ import ButtonContainer from "../EditComponents/ButtonContainer.js";
 import Editor from "../EditComponents/Editor.js";
 import Header from "../Header.js";
 import { request } from "../../util/api.js";
-import { getItem } from "../../util/storaged.js";
+import { UNTITLE } from "../../constant.js";
+import { isSuitableId } from "../../util/prevent.js";
 
 export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   if (!new.target) new EditPage({ $target, initalState, onEdit, onDelete });
@@ -15,16 +16,16 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   this.setState = async (nextState) => {
     if (this.state.selectedId === nextState.selectedId && nextState.post) {
       this.state = { ...this.state, ...nextState };
-      header.setState({ title: this.state.post.title || "Untitle" });
-      editor.setState(this.state.post || { title: "Untitle", content: "" });
+      header.setState({ title: this.state.post.title || UNTITLE });
+      editor.setState(this.state.post || { title: UNTITLE, content: "" });
       buttonContainer.setState({ documents: this.state.post.documents || [] });
       this.render();
       return;
     }
     this.state = { ...this.state, ...nextState };
-    if (this.state.selectedId === "new" || this.state.selectedId === null) {
-      header.setState({ title: "Untitle" });
-      editor.setState({ title: "Untitle", content: "" });
+    if (isSuitableId(this.state.selectedId)) {
+      header.setState({ title: UNTITLE });
+      editor.setState({ title: UNTITLE, content: "" });
       buttonContainer.setState({ documents: [] });
       this.render();
     } else {
@@ -34,13 +35,13 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
 
   const header = new Header({
     $target: $page,
-    initalState: { title: "Untitle" },
+    initalState: { title: UNTITLE },
   });
 
   const editor = new Editor({
     $target: $page,
     initalState: {
-      title: "Untitle",
+      title: UNTITLE,
       content: "",
     },
     onEdit,
@@ -52,7 +53,7 @@ export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   });
 
   this.render = () => {
-    if (this.state.selectedId !== null) {
+    if (!isSuitableId(this.state.selectedId)) {
       $target.appendChild($page);
     }
   };
