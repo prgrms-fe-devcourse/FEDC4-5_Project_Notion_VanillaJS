@@ -13,16 +13,13 @@ export default class Editor extends Component {
     });
 
     const localData = getItem(postId);
-    if (localData) {
-      this.setState(localData);
-    } else {
-      request(`${postId}`).then((value) => {
-        this.setState({ ...value });
-        if (this.state.title === "제목 없음" && this.state.content === null) {
-          this.setState({ title: "", content: "" });
-        }
-      });
-    }
+    request(`${postId}`).then((value) => {
+      this.setState({ ...value });
+      if (this.state.title === "제목 없음" && this.state.content === null) {
+        this.setState({ title: "", content: "" });
+      }
+    });
+    this.setState(localData);
   }
   render() {
     this.el.innerHTML = `
@@ -45,7 +42,6 @@ export default class Editor extends Component {
       }
       timer = setTimeout(() => {
         const currentWriting = {
-          ...this.state,
           [inputCategory]: target.value,
           updatedAt: new Date(),
         };
