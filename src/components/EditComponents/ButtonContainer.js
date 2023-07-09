@@ -1,9 +1,8 @@
+import { isLength } from "../../util/prevent.js";
 import { push } from "../../util/router.js";
+import Button from "../Button.js";
 
-export default function ButtonContainer({
-  $target,
-  initalState = { documents: [] },
-}) {
+export default function ButtonContainer({ $target, initalState }) {
   if (!new.target)
     return new ButtonContainer({
       $target,
@@ -20,30 +19,32 @@ export default function ButtonContainer({
     this.render();
   };
 
-  $buttonContainer.addEventListener("click", (e) => {
-    const $button = e.target;
-    const {
-      dataset: { documentId },
-    } = $button;
-
-    if (documentId) {
-      push(`/documents/${documentId}`, { method: "GET" });
-      return;
-    }
-  });
-
   this.render = () => {
     const { documents } = this.state;
-    if (!documents.length) {
+    $buttonContainer.innerHTML = "";
+
+    if (!isLength(documents)) {
       $buttonContainer.innerHTML = `<p>document들이 없습니다</p>`;
       return;
     }
-    $buttonContainer.innerHTML = `
-      ${documents.map(
-        ({ id, title }) =>
-          `<button type="button" data-document-id="${id}">${title}</button>`
-      )}
-    `;
+
+    const $fakeDocument = document.createDocumentFragment();
+
+    documents.forEach(
+      ({ id, title }) =>
+        new Button({
+          $target: $fakeDocument,
+          initalState: {
+            text: title,
+            id,
+            type: "button",
+            className: "buttonContainer_item",
+          },
+          onEvent: (id) => push(`/documents/${id}`, { method: "GET" }),
+        })
+    );
+
+    $buttonContainer.appendChild($fakeDocument);
   };
 
   this.render();

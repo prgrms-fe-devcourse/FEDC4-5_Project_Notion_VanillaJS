@@ -1,8 +1,6 @@
-export default function Editor({
-  $target,
-  initalState = { title: "Untitle", content: "" },
-  onEdit,
-}) {
+import { isUndefined } from "../../util/prevent.js";
+
+export default function Editor({ $target, initalState, onEdit }) {
   if (!new.target)
     new Editor({
       $target,
@@ -36,7 +34,7 @@ export default function Editor({
 
   $editor.addEventListener("keyup", (event) => {
     const { name, value } = event.target;
-    if (this.state[name] !== undefined) {
+    if (!isUndefined(this.state[name])) {
       const nextState = {
         ...this.state,
         [name]: value,
