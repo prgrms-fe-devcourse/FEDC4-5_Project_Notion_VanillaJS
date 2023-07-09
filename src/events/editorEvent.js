@@ -3,20 +3,19 @@ import {
   updateDocumentTree,
   saveDocumentToStorage,
 } from "../service/index.js";
-import { Document } from "../domain/index.js";
 
 let timeout;
-export const textareaKeyupEvent = (content) => {
+export const textareaKeyupEvent = ({ title, content }) => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
-    saveDocumentToStorage({ content });
+    saveDocumentToStorage({ title, content });
   }, 200);
 };
 
-export const titleKeyupEvent = (title) => {
+export const titleKeyupEvent = ({ title, content }) => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
-    saveDocumentToStorage({ title });
+    saveDocumentToStorage({ title, content });
   }, 200);
 };
 

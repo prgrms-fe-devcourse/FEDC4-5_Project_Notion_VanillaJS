@@ -9,6 +9,7 @@ export default class DomainModel {
   }
 
   clone(newPropertie) {
+    console.log(Object.assign({}, this._properties, newPropertie));
     return new this.constructor(
       Object.assign({}, this._properties, newPropertie)
     );
