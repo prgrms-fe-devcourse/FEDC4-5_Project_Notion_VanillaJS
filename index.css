@@ -76,6 +76,7 @@ div {
   height: 3%;
   margin-top: 2%;
   font-size: medium;
+  cursor: pointer;
 }
 .addDocumentBtn:hover {
   background-color: #c29243;
@@ -85,6 +86,7 @@ div {
   margin: 0 5%;
   padding: 2% 5%;
   border-radius: 10px;
+  cursor: pointer;
 }
 .documentTitle:hover {
   background-color: #c29243;
@@ -94,10 +96,11 @@ div {
   font-size: medium;
   background-color: #faf3dd;
   border: none;
+  cursor: pointer;
 }
 .add,
 .delete {
-  /* background-color: #faf3dd; */
+  cursor: pointer;
   margin-left: 10px;
   font-size: medium;
   border: none;

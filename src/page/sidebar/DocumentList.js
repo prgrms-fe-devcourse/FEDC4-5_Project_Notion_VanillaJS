@@ -100,17 +100,4 @@ export default function DocumentList({ $target, initialState, username }) {
       }
     }
   });
-
-  // const $btn = document.querySelectorAll(".toggleMenu");
-  // const $toggleBar = document.querySelector(".toggleMenu>.subUl");
-  // let isToggled = true;
-  // $btn.addEventListener("click", () => {
-  //   if (isToggled) {
-  //     $toggleBar.style.height = "100%";
-  //     isToggled = !isToggled;
-  //   } else {
-  //     $toggleBar.style.height = "0px";
-  //     isToggled = !isToggled;
-  //   }
-  // });
 }
