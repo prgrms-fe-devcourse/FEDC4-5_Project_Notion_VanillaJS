@@ -1,8 +1,6 @@
-import DocumentList from './DocumentList.js';
 import { request, getDocumentId } from './api.js';
-import Editor from './Editor.js';
-import { setItem, getItem } from './storage.js';
 import DocumentEditComponent from './DocumentEditComponent.js';
+import { updateDocumentTitle } from './router.js';
 
 export default function DocumentsPage({ target }) {
   const page = document.createElement('div');
@@ -15,9 +13,9 @@ export default function DocumentsPage({ target }) {
     },
   });
 
+  // 로컬 스토리지 쪽 먼저 하게 우선 감추기
   const fetchDoc = async (id) => {
     const doc = await getDocumentId(id);
-
     docEditComponent.setState({
       doc,
     });
@@ -36,4 +34,5 @@ export default function DocumentsPage({ target }) {
     await fetchDocsList();
     target.appendChild(page);
   };
+  this.render();
 }

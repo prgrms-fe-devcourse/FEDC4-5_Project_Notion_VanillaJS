@@ -47,3 +47,13 @@ export const deleteDocument = async (id) => {
     method: 'DELETE',
   });
 };
+
+export const putDocument = async (doc) => {
+  await request(`/${doc.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      title: doc.title,
+      content: doc.content,
+    }),
+  });
+};

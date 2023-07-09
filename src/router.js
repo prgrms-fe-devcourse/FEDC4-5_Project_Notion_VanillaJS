@@ -23,3 +23,13 @@ export const push = (nextUrl) => {
     })
   );
 };
+
+export const updateDocumentTitle = (onUpdate) => {
+  window.addEventListener('title-update', () => {
+    onUpdate();
+  });
+};
+
+export const update = () => {
+  window.dispatchEvent(new CustomEvent('title-update', {}));
+};

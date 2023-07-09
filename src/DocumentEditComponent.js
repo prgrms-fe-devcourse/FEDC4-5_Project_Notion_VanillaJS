@@ -1,29 +1,23 @@
 import Editor from './Editor.js';
+import { putDocument } from './api.js';
+import { update } from './router.js';
 
 export default function DocumentEditComponent({ target, initialState }) {
   const EditComponent = document.createElement('div');
 
-  this.state = initialState;
-
+  this.state = initialState; // {doc: []}
+  console.log(this.state.doc); // []
   let timer = null;
 
   const editor = new Editor({
     target: EditComponent,
-    initialState: this.state.doc,
-    onEditing: (doc) => {
-      // onEditing 기능은 아직 구현하지 못했습니다.
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        // doc : editor 에서의 title과 content
-        // 편집을 하게 되면 setItem()을 이용해 local storage에
-        // 'temp-doc'라는 키에 title과 content가 담긴 doc 과 tempSavekey가 들어가게 된다.
-        setItem(docLocalSaveKey, {
-          ...doc,
-          tempSaveDate: new Date(),
-        });
-      }, 2000);
+    initialState: {
+      title: '',
+      content: '',
+    },
+    onEditing: async (doc) => {
+      await putDocument(doc);
+      update();
     },
   });
 

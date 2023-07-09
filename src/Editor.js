@@ -14,6 +14,7 @@ export default function Editor({
   target.appendChild(editor);
 
   this.setState = (nextState) => {
+    console.log('setState에서 nextState', nextState);
     this.state = nextState;
     editor.querySelector('[name=title]').value = this.state.title;
     editor.querySelector('[name=content]').value = this.state.content;
@@ -34,17 +35,18 @@ export default function Editor({
 
   // keyup: 키가 올라갔을때
   editor.addEventListener('keyup', (e) => {
+    // 이벤트 버블링 이용
     const { target } = e;
 
     const name = target.getAttribute('name');
     if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
-        [name]: target.value, // key부분을 변수로 넣을 수 있다.
+        [name]: target.value, // key부분을 변수로 넣을 수 있다. -> title과 content가 들어간다.
       };
-
       this.setState(nextState);
-      onEditing(this.state); // this.state로 title과 content가 전달 된다.
+      // console.log('eventListener에서 nextState', nextState);
+      onEditing(this.state);
     }
   });
 }
