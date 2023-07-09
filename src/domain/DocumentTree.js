@@ -1,11 +1,18 @@
-export default class DocumentTree {
-  #documentTree;
+import DomainModel from "../core/DomainModel.js";
 
-  constructor(documentTree = []) {
-    this.#documentTree = documentTree;
+export default class DocumentTree extends DomainModel {
+  #properties;
+  #domainName;
+  allowedProperties;
+
+  constructor(properties) {
+    super(properties, "DocumentTree");
+    this.#properties = properties;
+    this.allowedProperties = { documentTree: "array" };
+    this.validate();
   }
 
   get documentTree() {
-    return this.#documentTree;
+    return this.#properties.documentTree;
   }
 }

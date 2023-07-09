@@ -14,5 +14,5 @@ export const removeDocumentFromStorage = (documentId) => {
 };
 
 export const getDocumentFromStorage = (documentId) => {
-  return getItem("documents/" + documentId);
+  return getItem("documents/" + documentId, []);
 };
