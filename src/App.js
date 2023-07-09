@@ -12,6 +12,7 @@ import {
   textareaFocusoutEvent,
 } from "./events/index.js";
 import { Document } from "./domain/index.js";
+import { initDocument } from "./constants.js/constants.js";
 
 export default class App extends Component {
   async render() {
@@ -52,6 +53,7 @@ export default class App extends Component {
           callback: async ({ target }) =>
             deleteDocumentButtonClickEvent({
               documentTree: this.documentTree,
+              editor: this.editor,
               target,
             }),
         },
@@ -71,14 +73,7 @@ export default class App extends Component {
 
     this.editor = new EditorComponent({
       $target: $editor,
-      initialState: new Document({
-        id: -1,
-        title: "환영합니다!",
-        content: "문서를 선택해주세요",
-        documents: [],
-        createdAt: "000-000",
-        updatedAt: "000-000",
-      }),
+      initialState: new Document(initDocument),
       events: [
         {
           action: "keyup",

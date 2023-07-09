@@ -14,7 +14,6 @@ export const route = async ({ component, url }) => {
   switch (routeName) {
     case "documents":
       const savedDocument = await getDocument(documentId);
-      console.log(savedDocument.updatedAt);
       try {
         const { title, content, tmpSaveDate } =
           getDocumentFromStorage(documentId);
