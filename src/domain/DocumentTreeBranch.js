@@ -1,13 +1,10 @@
 import DomainModel from "../core/DomainModel.js";
 
 export default class DocumentTreeBranch extends DomainModel {
-  #properties;
-  #domainName;
   allowedProperties;
 
   constructor(properties) {
     super(properties, "DocumentTreeBranch");
-    this.#properties = properties;
     this.allowedProperties = {
       id: "number",
       title: "string",
@@ -19,18 +16,18 @@ export default class DocumentTreeBranch extends DomainModel {
   }
 
   get id() {
-    return this.#properties.id;
+    return this._properties.id;
   }
 
   get title() {
-    return this.#properties.title;
+    return this._properties.title;
   }
 
   get documents() {
-    return this.#properties.documents;
+    return this._properties.documents;
   }
 
   set documents(documents) {
-    this.#properties.documents = documents;
+    this._properties.documents = documents;
   }
 }

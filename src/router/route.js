@@ -15,7 +15,7 @@ export const route = async ({ component, url }) => {
     case "documents":
       const savedDocument = await getDocument(documentId);
       try {
-        const { title, content, tmpSaveDate } = getDocumentFromStorage;
+        const { title, content, tmpSaveDate } = getDocumentFromStorage();
         if (tmpSaveDate > savedDocument.updatedAt) {
           if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
             component.state = savedDocument.clone({

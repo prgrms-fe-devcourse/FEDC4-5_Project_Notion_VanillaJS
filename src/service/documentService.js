@@ -2,12 +2,11 @@ import { request } from "../api.js";
 import { DocumentTree, Document } from "../domain/index.js";
 
 export const getDocumentTree = async () => {
-  const documentTree = await request("/documents", {
+  return await request("/documents", {
     mothod: "GET",
   }).then((res) => {
     return new DocumentTree({ documentTree: res });
   });
-  return documentTree;
 };
 
 export const getDocument = async () => {

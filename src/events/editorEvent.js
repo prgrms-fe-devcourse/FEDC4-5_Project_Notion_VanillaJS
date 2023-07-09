@@ -29,6 +29,7 @@ export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
 };
 
 export const textareaFocusoutEvent = async ({ editor, content }) => {
+  console.log(editor.state);
   editor.state = editor.state.clone({
     content,
   });

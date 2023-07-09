@@ -1,13 +1,11 @@
 import DomainModel from "../core/DomainModel.js";
 
 export default class Document extends DomainModel {
-  #properties;
-  #domainName;
   allowedProperties;
 
   constructor(properties) {
     super(properties, "Document");
-    this.#properties = properties;
+    console.log(this);
     this.allowedProperties = {
       id: "number",
       title: "string",
@@ -20,26 +18,27 @@ export default class Document extends DomainModel {
   }
 
   get id() {
-    return this.#properties.id;
+    console.log(this);
+    return this._properties.id;
   }
 
   get content() {
-    return this.#properties.content;
+    return this._properties.content;
   }
 
   get title() {
-    return this.#properties.title;
+    return this._properties.title;
   }
 
   get documents() {
-    return this.#properties.documents;
+    return this._properties.documents;
   }
 
   get createdAt() {
-    return this.properties.createdAt;
+    return this._properties.createdAt;
   }
 
   get updatedAt() {
-    return this.properties.updatedAt;
+    return this._properties.updatedAt;
   }
 }
