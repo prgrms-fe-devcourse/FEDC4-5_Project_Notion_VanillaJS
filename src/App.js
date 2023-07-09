@@ -79,8 +79,8 @@ export default class App extends Component {
         title: "환영합니다!",
         content: "문서를 선택해주세요",
         documents: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: "000-000",
+        updatedAt: "000-000",
       }),
       events: [
         {

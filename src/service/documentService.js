@@ -14,6 +14,9 @@ export const getDocument = async () => {
   return await request(`/documents/${getDocumentIdByPathname()}`, {
     mothod: "GET",
   }).then((res) => {
+    if (res.content === null) {
+      res.content = "";
+    }
     return new Document(res);
   });
 };
