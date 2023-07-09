@@ -5,8 +5,7 @@ import { update } from './router.js';
 export default function DocumentEditComponent({ target, initialState }) {
   const EditComponent = document.createElement('div');
 
-  this.state = initialState; // {doc: []}
-  console.log(this.state.doc); // []
+  this.state = initialState;
   let timer = null;
 
   const editor = new Editor({
