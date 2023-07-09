@@ -174,3 +174,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.children div {
+  padding-left: 5px;
+}

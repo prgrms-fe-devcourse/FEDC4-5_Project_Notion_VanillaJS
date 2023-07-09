@@ -24,14 +24,14 @@ export default function NotionList({
       if (documents.length > 0) {
         return `
         <div>
-          <li class="list" data-id="${id}">
+          <li class="notion" data-id="${id}">
             ${title.length > 7 ? title.slice(0, 7) + "..." : title}
             <div class="btnContainer">
               <button class="removeBtn" data-id="${id}">❌</button>
               <button class="addBtn" data-id="${id}">➕</button>
             </div>
           </li> 
-          <ul>
+          <ul class="children">
             ${documents
               .map(
                 ({ id, title, documents }) => `
@@ -45,7 +45,7 @@ export default function NotionList({
       } else {
         return `
         <div>
-          <li class="list" data-id="${id}">
+          <li class="notion" data-id="${id}">
             ${title.length > 7 ? title.slice(0, 7) + "..." : title}
             <div class="btnContainer">
               <button class="removeBtn" data-id="${id}">❌</button>
