@@ -5,5 +5,6 @@ export default class Intro extends Component {
     this.el.innerHTML = `
         <h2>소개 페이지~~</h2>
         `;
+    this.el.setAttribute("id", "intro-page");
   }
 }
