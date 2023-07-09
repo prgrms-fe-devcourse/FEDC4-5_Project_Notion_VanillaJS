@@ -25,7 +25,8 @@ export default function NotionList({
         return `
         <div>
           <li class="notion" data-id="${id}">
-            ${title.length > 7 ? title.slice(0, 7) + "..." : title}
+            <button class="dropdown"><i class="fa fa-solid fa-caret-up fa-rotate-180 fa-2xs"></i></button>
+            ${title.length > 5 ? title.slice(0, 5) + "..." : title}
             <div class="btnContainer">
               <button class="removeBtn" data-id="${id}">❌</button>
               <button class="addBtn" data-id="${id}">➕</button>
@@ -46,7 +47,8 @@ export default function NotionList({
         return `
         <div>
           <li class="notion" data-id="${id}">
-            ${title.length > 7 ? title.slice(0, 7) + "..." : title}
+            <button class="dropdown"><i class="fa fa-solid fa-caret-up fa-rotate-180 fa-2xs"></i></button>
+            ${title.length > 5 ? title.slice(0, 5) + "..." : title}
             <div class="btnContainer">
               <button class="removeBtn" data-id="${id}">❌</button>
               <button class="addBtn" data-id="${id}">➕</button>
@@ -75,15 +77,24 @@ export default function NotionList({
   // 각 노션별 이벤트 리스너 (모든 이벤트는 App까지 올림)
   $notionList.addEventListener("click", (e) => {
     const id = e.target.dataset.id;
-    if (e.target.className === "list") {
+    if (e.target.className === "notion") {
       // 노션 전체 클릭 시 실행
       onClick(id);
     } else if (e.target.className === "addBtn") {
       // 노션 안의 "+" 버튼 클릭 시 실행
       onAdd(id);
-    } else {
+    } else if (e.target.className === "removeBtn") {
       // 노션 안의 "x" 버튼 클릭 시 실행
       onDelete(id);
+    } else {
+      const $parent = e.target.closest("li");
+      const $btn = e.target.closest("button");
+      if ($parent.nextElementSibling.style.display === "none") {
+        $parent.nextElementSibling.style.display = "";
+      } else {
+        $parent.nextElementSibling.style.display = "none";
+      }
+      $btn.classList.toggle("rotate");
     }
   });
 }

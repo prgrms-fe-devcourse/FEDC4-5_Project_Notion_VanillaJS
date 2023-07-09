@@ -61,11 +61,12 @@ body {
   cursor: pointer;
 }
 
-.notionList li:hover .btnContainer {
+.notionList li:hover .btnContainer,
+.notionList li:hover .dropdown {
   visibility: visible;
 }
 
-.notionList li .btnContainer {
+.notionList li .btnContainer, .dropdown {
   visibility: hidden;
 }
 
@@ -177,4 +178,26 @@ body {
 
 .children div {
   padding-left: 5px;
+}
+
+.dropdown {
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: xx-small;
+  cursor: pointer;
+  background-color: rgb(220, 220, 220);
+  transition: transform 0.2s ease;
+}
+
+.dropdown:hover {
+  background-color: rgb(194, 194, 194);
+}
+
+.rotate {
+  transform: rotate(-90deg);
 }
