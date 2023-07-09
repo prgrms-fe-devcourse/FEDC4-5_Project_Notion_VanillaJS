@@ -1,3 +1,5 @@
+import { isTitle } from "../util/prevent.js";
+
 export default function Header({ $target, initalState }) {
   if (!new.target) new Header({ $target, initalState });
 
@@ -9,12 +11,12 @@ export default function Header({ $target, initalState }) {
   this.state = initalState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     this.render();
   };
 
   this.render = () => {
-    if (!this.state.title || this.state.title.length <= 0) {
+    if (!isTitle(this.state.title)) {
       $header.textContent = "Untitle";
       return;
     }
