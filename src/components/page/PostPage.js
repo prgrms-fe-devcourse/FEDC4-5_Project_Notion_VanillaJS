@@ -2,16 +2,11 @@ import Button from "../Button.js";
 import Header from "../Header.js";
 import List from "../PostComponents/List.js";
 
-export default function PostPage({
-  $target,
-  initalState = { selectedId: null, posts: [] },
-  onAdd,
-  onDelete,
-}) {
+export default function PostPage({ $target, initalState, onAdd, onDelete }) {
   if (!new.target)
     new PostPage({
       $target,
-      initalState: { selectedId: null, posts: [] },
+      initalState,
       onAdd,
       onDelete,
     });
@@ -28,6 +23,7 @@ export default function PostPage({
   };
 
   let isInit = false;
+
   new Header({ $target: $page, initalState: { title: "📚 정호의 Notion" } });
 
   const list = new List({
@@ -39,8 +35,13 @@ export default function PostPage({
 
   new Button({
     $target: $page,
-    initalState: { className: "page_add", text: "+ add Page" },
-    onAdd,
+    initalState: {
+      className: "page_add",
+      text: "+ add Page",
+      type: "button",
+      id: "new",
+    },
+    onEvent: (id) => onAdd(id),
   });
 
   this.render = () => {
