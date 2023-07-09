@@ -21,21 +21,19 @@ export const titleKeyupEvent = (title) => {
 };
 
 export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
-  editor.state = new Document(
-    editor.state.clone({
-      title,
-    })
-  );
+  editor.state = editor.state.clone({
+    title,
+  });
+
   await saveDocumentToServer({ title: editor.state.title });
   updateDocumentTree({ documentTree });
 };
 
 export const textareaFocusoutEvent = async ({ editor, content }) => {
-  editor.state = new Document(
-    editor.state.clone({
-      content,
-    })
-  );
+  editor.state = editor.state.clone({
+    content,
+  });
+
   if (editor.state.id !== -1) {
     saveDocumentToServer({ content });
   }
