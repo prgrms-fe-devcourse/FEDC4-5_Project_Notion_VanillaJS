@@ -21,9 +21,7 @@ export default class App extends Component {
         this.el.append(editorEl);
       }
     };
-    PostRouter();
-
-    window.addEventListener("route-event", () => {
+    const PostChanger = () => {
       const editorEl = document.getElementById("editor-app");
       if (editorEl) {
         editorEl.remove();
@@ -31,6 +29,14 @@ export default class App extends Component {
         introEl.remove();
       }
       PostRouter();
+    };
+    PostRouter();
+
+    window.addEventListener("route-event", () => {
+      PostChanger();
+    });
+    window.addEventListener("popstate", () => {
+      PostChanger();
     });
   }
 }
