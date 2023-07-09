@@ -39,9 +39,8 @@ export default class DocumentItem extends Component {
       request(`${this.state.id}`, {
         method: "DELETE",
       }).then(() => {
-        console.log("삭제 성공!");
+        this.el.remove();
       });
-      this.el.remove();
     });
 
     const createChildDocuBtnEl = this.el.querySelector(".createChildDocu");
