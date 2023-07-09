@@ -3,6 +3,7 @@ import {
   updateDocumentTree,
   saveDocumentToStorage,
 } from "../service/index.js";
+import { Document } from "../domain/index.js";
 
 let timeout;
 export const textareaKeyupEvent = (content) => {
@@ -20,19 +21,21 @@ export const titleKeyupEvent = (title) => {
 };
 
 export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
-  const newDocument = editor.state.clone({
-    title,
-  });
-  editor.state = newDocument;
-  await saveDocumentToServer({ title: newDocument.title });
+  editor.state = new Document(
+    editor.state.clone({
+      title,
+    })
+  );
+  await saveDocumentToServer({ title: editor.state.title });
   updateDocumentTree({ documentTree });
 };
 
 export const textareaFocusoutEvent = async ({ editor, content }) => {
-  console.log(editor.state);
-  editor.state = editor.state.clone({
-    content,
-  });
+  editor.state = new Document(
+    editor.state.clone({
+      content,
+    })
+  );
   if (editor.state.id !== -1) {
     saveDocumentToServer({ content });
   }

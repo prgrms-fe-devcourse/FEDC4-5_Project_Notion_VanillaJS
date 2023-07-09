@@ -9,7 +9,7 @@ export default class DomainModel {
   }
 
   clone(newPropertie) {
-    return new Document(Object.assign({}, this._properties, newPropertie));
+    return Object.assign({}, this._properties, newPropertie);
   }
 
   validate() {

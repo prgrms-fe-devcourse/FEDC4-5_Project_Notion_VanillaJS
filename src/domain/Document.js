@@ -5,7 +5,6 @@ export default class Document extends DomainModel {
 
   constructor(properties) {
     super(properties, "Document");
-    console.log(this);
     this.allowedProperties = {
       id: "number",
       title: "string",
@@ -18,7 +17,6 @@ export default class Document extends DomainModel {
   }
 
   get id() {
-    console.log(this);
     return this._properties.id;
   }
 
