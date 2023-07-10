@@ -25,7 +25,6 @@ export default function DocumentPage({ $target }) {
     initalState: [],
     onDocumentClick: (id) => {
       push(`/documents/${id}`);
-      this.render();
     },
 
     onDocumentAdd: async (id) => {
@@ -55,10 +54,7 @@ export default function DocumentPage({ $target }) {
     onDocumentAdd: () => {
       addNewDocument(null).then(({ id }) => {
         push(`/documents/${id}`);
-        this.render();
       });
     },
   });
-
-  this.render();
 }
