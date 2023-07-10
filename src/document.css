@@ -1,4 +1,5 @@
 .document {
+  font-size: calc(10px + 0.1vw);
   cursor: pointer;
   margin-top: 15px;
   list-style-position: inside;
@@ -48,8 +49,7 @@
   background: rgb(251, 251, 250);
   transition: box-shadow 300ms ease 0s;
   box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
-  width: 10vw;
-  max-width: 13vw;
+  width: 15%;
 }
 
 .childList {

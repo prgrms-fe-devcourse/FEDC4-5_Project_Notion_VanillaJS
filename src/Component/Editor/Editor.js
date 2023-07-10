@@ -67,4 +67,6 @@ export default function Editor({
     $target: $editor,
     initalState: [],
   });
+
+  this.setEvent();
 }
