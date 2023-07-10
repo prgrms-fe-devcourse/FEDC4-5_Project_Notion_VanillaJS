@@ -1,30 +1,30 @@
-import { deleteDocument, getDocument, postDocument } from "../../api/api.js";
+import { getDocument, postDocument } from "../../api/api.js";
 import { push } from "../../route/router.js";
 import DocumentList from "./DocumentList.js";
 import LinkButton from "../linkbutton/LinkButton.js";
 import SidebarHeader from "./SidebarHeader.js";
 
 export default function SideNavbar({ parent, initialState }) {
-  const page = document.createElement('div');
-  page.id = 'documents-page';
+  const sideNavbar = document.createElement('div');
+  sideNavbar.id = 'documents-page';
   
   new SidebarHeader({ 
-    parent: page,
+    parent: sideNavbar,
     closeSideNavbar: () => {
-      page.style = 'transform: translateX(-281px)';
+      sideNavbar.style = 'transform: translateX(-281px)';
     },
     openSideNavbar: () => {
-      page.style = 'transform: translateX(0px)';
+      sideNavbar.style = 'transform: translateX(0px)';
     }
   })
 
   const documentList = new DocumentList({
-    parent: page,
+    parent: sideNavbar,
     initialState,
   })
 
   new LinkButton({
-    $target: page,
+    $target: sideNavbar,
     initialState: {
       text: '+ 페이지 추가',
       id: 'add-document-button'
@@ -43,7 +43,7 @@ export default function SideNavbar({ parent, initialState }) {
   }
 
   this.render = () => {
-    parent.appendChild(page);
+    parent.appendChild(sideNavbar);
   }
 
   this.render();
