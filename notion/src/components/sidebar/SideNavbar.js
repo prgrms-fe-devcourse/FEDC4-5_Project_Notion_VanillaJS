@@ -45,4 +45,6 @@ export default function SideNavbar({ parent, initialState }) {
   this.render = () => {
     parent.appendChild(page);
   }
+
+  this.render();
 }
