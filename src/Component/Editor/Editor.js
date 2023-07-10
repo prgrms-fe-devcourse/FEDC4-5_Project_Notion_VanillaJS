@@ -63,8 +63,6 @@ export default function Editor({
     }
   };
 
-  this.setEvent();
-
   const editorChildList = new EditorChildList({
     $target: $editor,
     initalState: [],
