@@ -1,4 +1,4 @@
-import { getRightNextState } from "./util";
+import { debounceTimer, getRightNextState } from "./util";
 import { request } from "./api";
 import DocumentEditor from "./DocumentEditor";
 
@@ -27,10 +27,9 @@ export default class Content {
           ...this.documentEditor.state,
           [name]: value,
         };
-        if (this.documentEditor.timer !== null) {
-          clearTimeout(this.documentEditor.timer);
-        }
-        this.documentEditor.timer = setTimeout(async () => {
+
+        const autoSaveTime = 1500;
+        const autoComplete = async () => {
           await request.updateDocumentItem(id, this.documentEditor.state);
           const nextState = getRightNextState(
             this.getDocumentListState(),
@@ -38,7 +37,9 @@ export default class Content {
           );
 
           this.setDocumentListState(nextState);
-        }, 1500);
+        };
+
+        debounceTimer(this.documentEditor.timer, autoComplete, autoSaveTime);
       },
     });
   }

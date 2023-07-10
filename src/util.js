@@ -31,3 +31,19 @@ export const getRightNextState = (prevState, nextState) => {
   }
   return nextState;
 };
+
+export const getIdFromElement = async (e) => {
+  const {
+    currentTarget: { id },
+  } = e;
+
+  return id;
+};
+export const movePage = (id) => history.pushState(null, null, `/${id}`);
+
+export const debounceTimer = (timer, func, settingTime) => {
+  if (timer !== null) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(func, settingTime);
+};

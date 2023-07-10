@@ -18,10 +18,12 @@ export default class DocumentList {
     this.onRemoveSubPageButtonClick = onRemoveSubPageButtonClick;
     this.onToggleSubPageButtonClick = onToggleSubPageButtonClick;
 
-    (async () => {
-      this.state = await request.getDocumentList();
-      this.render(this.state);
-    })();
+    this.awaitRender();
+  }
+
+  async awaitRender() {
+    this.state = await request.getDocumentList();
+    this.render(this.state);
   }
 
   setState(nextState) {
@@ -74,7 +76,7 @@ export default class DocumentList {
                       <button id=${id} class="remove-button">
                         <i class="fa-solid fa-minus"></i>
                       </button>
-                      <button class="add-button">
+                      <button id=${id} class="add-button">
                         <i class="fa-solid fa-plus"></i>
                       </button>
                     </div>

@@ -280,7 +280,7 @@ body {
   margin-right: 0;
 }
 .document-list__buttons {
-  z-index: 2;
+  z-index: 100;
   position: absolute;
   right: 0;
 }

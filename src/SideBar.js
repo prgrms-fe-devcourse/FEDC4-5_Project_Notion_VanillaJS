@@ -1,6 +1,6 @@
 import Button from "./Button";
 import { request } from "./api.js";
-import { getRightNextState } from "./util";
+import { getIdFromElement, getRightNextState, movePage } from "./util";
 import DocumentList from "./DocumentList";
 import MockUp from "./MockUp";
 
@@ -38,23 +38,14 @@ export default class SideBar {
     this.documentList = new DocumentList({
       parentEl: this.currentEl,
       onMovePageSpanClick: async (e) => {
-        const {
-          currentTarget: { id },
-        } = e;
-        history.pushState(null, null, `/${id}`);
+        const id = await getIdFromElement(e);
+        movePage(id);
         this.setDocumentEditorState(await request.getDocumentItem(id));
       },
       onAddSubPageButtonClick: async (e) => {
-        const {
-          currentTarget: {
-            parentNode: {
-              parentNode: { parentNode },
-            },
-          },
-        } = e;
-        const { id } = await request.addDocumentItem(parentNode.id.slice(3));
-
-        history.pushState(null, null, `/${id}`);
+        const parentId = await getIdFromElement(e);
+        const { id } = await request.addDocumentItem(parentId);
+        movePage(id);
         this.setDocumentEditorState(await request.getDocumentItem(id));
 
         const nextState = getRightNextState(
