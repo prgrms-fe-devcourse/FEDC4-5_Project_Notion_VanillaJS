@@ -24,16 +24,15 @@ export default function App({ $target, initalState }) {
 
   this.route = () => {
     const { pathname } = window.location;
+    documentPage.render();
 
     if (pathname === '/') {
-      documentPage.render();
       documentEditPage.setState({
         documentId: 'new',
       });
     } else if (pathname.includes('/documents/')) {
       const [, , documentId] = pathname.split('/');
 
-      documentPage.render();
       documentEditPage.setState({ documentId });
     }
   };

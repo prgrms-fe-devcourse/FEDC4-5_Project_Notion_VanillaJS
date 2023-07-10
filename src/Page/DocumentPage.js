@@ -20,8 +20,6 @@ export default function DocumentPage({ $target }) {
     documentAddBtn.render();
   };
 
-  this.render();
-
   const documentLists = new DocumentList({
     $target: $page,
     initalState: [],
@@ -46,7 +44,6 @@ export default function DocumentPage({ $target }) {
           }
         })
         .catch((e) => {
-          console.error(e);
           push('/');
         });
     },
@@ -62,4 +59,6 @@ export default function DocumentPage({ $target }) {
       });
     },
   });
+
+  this.render();
 }
