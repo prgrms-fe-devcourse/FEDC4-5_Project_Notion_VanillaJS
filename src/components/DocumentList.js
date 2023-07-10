@@ -10,27 +10,31 @@ export default class DocumentList extends Component {
     const { pathname } = location;
     const [, , documnetId] = pathname.split("/");
 
-    const list = (document) => {
+    const list = (document, depth = 0) => {
       return (
         Array.isArray(document) &&
         `<ul>${document
           .map(
             ({ id, isOpen, title, documents }) => `
           <li data-id="${id}">
-            <div class="document">
-            <button class="toggle ${isOpen ? "open" : ""}">&gt</button>
-            <span>📄</span>
-            <span class="title ${documnetId === String(id) ? "current" : ""}">${
-              title.length > 0 ? title : "제목이 없습니다."
-            }</span>
-            <span class="createDelete">
-              <button class="create">+</button>
-              <button class="delete">-</button>
-            </span>
+            <div class="document" style="--depth: ${depth}">
+              <div class="documentTitle">
+                <button class="toggle ${isOpen ? "open" : ""}">&gt</button>
+                <span>📄</span>
+                <span class="title ${
+                  documnetId === String(id) ? "current" : ""
+                }" style="--depth: ${depth}">
+                ${title.length > 0 ? title : "제목이 없습니다."}
+                </span>
+              </div>
+              <div class="createDelete">
+                <button class="create">+</button>
+                <button class="delete">-</button>
+              </div>
             </div>
             ${
               Array.isArray(documents) && documents.length > 0 && isOpen
-                ? list(documents)
+                ? list(documents, depth + 1)
                 : ""
             }
           </li>`
