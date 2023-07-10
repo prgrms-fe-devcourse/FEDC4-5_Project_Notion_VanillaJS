@@ -1,0 +1,9 @@
+// .eslintrc.json
+
+{
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "extends": ["eslint:recommended", "eslint-config-prettier"]
+}
