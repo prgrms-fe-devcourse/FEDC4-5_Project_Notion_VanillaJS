@@ -5,7 +5,7 @@ import {
 } from '../api/Document/index.js';
 import DocumentAddButton from '../Component/Documents/DocumentAddBtn.js';
 import DocumentList from '../Component/Documents/DocumentList.js';
-import { push } from '../route.js';
+import { customPush } from '../route.js';
 import { PAGE_CHANGE_TYPE } from '../constants/route.js';
 
 export default function DocumentPage({ $target }) {
@@ -25,13 +25,13 @@ export default function DocumentPage({ $target }) {
     $target: $page,
     initalState: [],
     onDocumentClick: (id) => {
-      push(`/documents/${id}`, PUSH);
+      customPush(`/documents/${id}`, PUSH);
     },
 
     onDocumentAdd: async (id) => {
       addNewDocument(id)
         .then(({ id: newDocumentId }) => {
-          push(`/documents/${newDocumentId}`, PUSH);
+          customPush(`/documents/${newDocumentId}`, PUSH);
         })
         .catch((e) => {
           alert(e);
@@ -42,11 +42,11 @@ export default function DocumentPage({ $target }) {
       deleteDocument(id)
         .then(({ parent }) => {
           if (parent.id) {
-            push(`/documents/${parent.id}`, REPLACE);
+            customPush(`/documents/${parent.id}`, REPLACE);
           }
         })
         .catch(() => {
-          push('/', PUSH);
+          customPush('/', PUSH);
         });
     },
   });
@@ -56,7 +56,7 @@ export default function DocumentPage({ $target }) {
     initalState: '문서 추가하기',
     onDocumentAdd: () => {
       addNewDocument(null).then(({ id }) => {
-        push(`/documents/${id}`, PUSH);
+        customPush(`/documents/${id}`, PUSH);
         this.render();
       });
     },

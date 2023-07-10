@@ -19,7 +19,7 @@ export const initRouter = (onRoute) => {
   });
 };
 
-export const push = (nextURL, type) => {
+export const customPush = (nextURL, type) => {
   window.dispatchEvent(
     new CustomEvent(PAGE_CHANGE_EVENT_NAME, {
       //type:push이거나 replace이거나
