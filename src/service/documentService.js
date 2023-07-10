@@ -5,7 +5,7 @@ export const getDocumentTree = async () => {
   return await request("/documents", {
     mothod: "GET",
   }).then((res) => {
-    return new DocumentTree({ documentTree: res });
+    return new DocumentTree({ documentTree: res, isInput: false });
   });
 };
 

@@ -17,15 +17,22 @@ export const documentLinkClickEvent = async ({
   route({ app, component, url });
 };
 
-export const addDocumentButtonClickEvnet = async ({ event, target }) => {
-  const $input = document.createElement("input");
-  $input.placeholder = "제목";
-  $input.className = "documentInput";
-  if (target === null) {
-    event.target.parentNode.insertBefore($input, event.target);
-    return;
+export const addDocumentButtonClickEvnet = async ({
+  event,
+  target,
+  documentTree,
+}) => {
+  if (!documentTree.state.isInput) {
+    documentTree.state.isInput = true;
+    const $input = document.createElement("input");
+    $input.placeholder = "제목";
+    $input.className = "documentInput";
+    if (target === null) {
+      event.target.parentNode.insertBefore($input, event.target);
+      return;
+    }
+    target.appendChild($input);
   }
-  target.appendChild($input);
 };
 
 export const deleteDocumentButtonClickEvent = async ({
@@ -58,4 +65,5 @@ export const documentInputChangeEvent = async ({
     }),
   });
   updateDocumentTree({ documentTree });
+  documentTree.state.isInput = false;
 };

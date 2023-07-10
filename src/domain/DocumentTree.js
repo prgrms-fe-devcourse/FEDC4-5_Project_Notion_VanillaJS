@@ -5,7 +5,7 @@ export default class DocumentTree extends DomainModel {
 
   constructor(properties) {
     super(properties, "DocumentTree");
-    this.allowedProperties = { documentTree: "array" };
+    this.allowedProperties = { documentTree: "array", isInput: "boolean" };
     this.validate();
   }
 

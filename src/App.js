@@ -44,7 +44,11 @@ export default class App extends Component {
           tag: ".addDocumentButton",
           target: "li",
           callback: ({ event, target }) =>
-            addDocumentButtonClickEvnet({ event, target }),
+            addDocumentButtonClickEvnet({
+              event,
+              target,
+              documentTree: this.documentTree,
+            }),
         },
         {
           action: "click",
