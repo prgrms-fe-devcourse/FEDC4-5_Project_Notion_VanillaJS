@@ -1,8 +1,8 @@
-import Component from "./core/Component";
-import Document from "./components/Document";
-import Intro from "./routes/Intro";
-import { PostRouter } from "./routes/PostRouter";
-import { PostChanger } from "./routes/PostChanger";
+import Component from './core/Component';
+import Document from './components/Document';
+import Intro from './routes/Intro';
+import { editorViewRouter } from './routes/editorViewRouter';
+import { editorViewSwitcher } from './routes/editorViewSwitcher';
 
 export default class App extends Component {
   render() {
@@ -10,19 +10,19 @@ export default class App extends Component {
     const introEl = new Intro().el;
 
     this.el.append(documentEl);
-    this.el.setAttribute("id", "notion-app");
+    this.el.setAttribute('id', 'notion-app');
 
-    PostRouter(this.el, introEl);
+    editorViewRouter(this.el, introEl);
 
-    window.addEventListener("route-event", () => {
-      PostChanger(this.el);
+    window.addEventListener('route-event', () => {
+      editorViewSwitcher(this.el);
     });
-    window.addEventListener("popstate", () => {
-      PostChanger(this.el);
+    window.addEventListener('popstate', () => {
+      editorViewSwitcher(this.el);
     });
-    window.addEventListener("404-not-found", () => {
+    window.addEventListener('404-not-found', () => {
       // TODO: 404 페이지 렌더링
-      console.log("404 Not Found");
+      console.log('404 Not Found');
     });
   }
 }

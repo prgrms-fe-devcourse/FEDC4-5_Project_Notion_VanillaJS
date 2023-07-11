@@ -1,4 +1,4 @@
-import App from "./app";
+import App from './app';
 
-const rootEl = document.getElementById("root");
+const rootEl = document.getElementById('root');
 rootEl.append(new App().el);

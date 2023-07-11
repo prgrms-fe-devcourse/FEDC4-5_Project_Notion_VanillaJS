@@ -1,20 +1,21 @@
-import Component from "../core/Component";
-import { request } from "../api/DocumentAPI";
+import Component from '../core/Component';
+import { request } from '../api/DocumentAPI';
 
 export default class DocumentItem extends Component {
   constructor() {
     super({
-      tagName: "ul",
+      tagName: 'ul',
       state: {
         id: null,
-        title: "제목 없음",
+        title: '제목 없음',
         isFolded: true,
       },
     });
   }
+
   render() {
     if (this.state.title.length === 0) {
-      this.setState({ title: "제목 없음" });
+      this.setState({ title: '제목 없음' });
     }
     this.el.innerHTML = `
         <li style="display: flex">
@@ -27,28 +28,28 @@ export default class DocumentItem extends Component {
         </li>
     `;
 
-    const docuTitleEl = this.el.querySelector(".docuTitle");
-    docuTitleEl.addEventListener("click", () => {
+    const docuTitleEl = this.el.querySelector('.docuTitle');
+    docuTitleEl.addEventListener('click', () => {
       history.pushState(null, null, `/documents/${this.state.id}`);
-      const routeEvent = new Event("route-event");
+      const routeEvent = new Event('route-event');
       dispatchEvent(routeEvent);
     });
 
-    const deleteDocuBtnEl = this.el.querySelector(".deleteDocu");
-    deleteDocuBtnEl.addEventListener("click", () => {
+    const deleteDocuBtnEl = this.el.querySelector('.deleteDocu');
+    deleteDocuBtnEl.addEventListener('click', () => {
       request(`${this.state.id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       }).then(() => {
         this.el.remove();
       });
     });
 
-    const createChildDocuBtnEl = this.el.querySelector(".createChildDocu");
-    createChildDocuBtnEl.addEventListener("click", () => {
-      const res = request("", {
-        method: "POST",
+    const createChildDocuBtnEl = this.el.querySelector('.createChildDocu');
+    createChildDocuBtnEl.addEventListener('click', () => {
+      const res = request('', {
+        method: 'POST',
         body: JSON.stringify({
-          title: "제목 없음",
+          title: '제목 없음',
           parent: `${this.state.id}`,
         }),
       });
@@ -59,14 +60,14 @@ export default class DocumentItem extends Component {
       });
     });
 
-    const showChildDocuBtn = this.el.querySelector(".showChildDocu");
-    showChildDocuBtn.addEventListener("click", (event) => {
+    const showChildDocuBtn = this.el.querySelector('.showChildDocu');
+    showChildDocuBtn.addEventListener('click', (event) => {
       const parentTargetEl = event.target.parentElement.parentElement;
-      const childDocu = this.el.querySelectorAll(".child");
+      const childDocu = this.el.querySelectorAll('.child');
       if (!childDocu) {
         return;
       }
-      const displayStyle = this.state.isFolded ? "block" : "none";
+      const displayStyle = this.state.isFolded ? 'block' : 'none';
       [...childDocu].forEach((child) => {
         if (child.parentElement === parentTargetEl) {
           child.style.display = displayStyle;

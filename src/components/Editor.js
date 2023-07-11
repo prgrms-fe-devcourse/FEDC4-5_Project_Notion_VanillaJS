@@ -1,26 +1,27 @@
-import Component from "../core/Component";
-import { getItem, setItem } from "../core/Storage";
-import { request } from "../api/DocumentAPI";
+import Component from '../core/Component';
+import { getItem, setItem } from '../core/Storage';
+import { request } from '../api/DocumentAPI';
 
 export default class Editor extends Component {
   constructor(postId) {
     super({
       state: {
         id: postId,
-        title: "불러오는 중...",
-        content: "불러오는 중...",
+        title: '불러오는 중...',
+        content: '불러오는 중...',
       },
     });
 
     const localData = getItem(postId);
     request(`${postId}`).then((value) => {
       this.setState({ ...value });
-      if (this.state.title === "제목 없음" && this.state.content === null) {
-        this.setState({ title: "", content: "" });
+      if (this.state.title === '제목 없음' && this.state.content === null) {
+        this.setState({ title: '', content: '' });
       }
     });
     this.setState(localData);
   }
+
   render() {
     this.el.innerHTML = `
         <div class="editor-view">
@@ -28,15 +29,15 @@ export default class Editor extends Component {
           <textarea class="content" placeholder="Input Something...">${this.state.content}</textarea>
         </div>
         `;
-    this.el.setAttribute("id", "editor-app");
+    this.el.setAttribute('id', 'editor-app');
 
-    const editorViewEl = this.el.querySelector(".editor-view");
-    const titleEl = this.el.querySelector(".title");
+    const editorViewEl = this.el.querySelector('.editor-view');
+    const titleEl = this.el.querySelector('.title');
 
     let timer = null;
-    editorViewEl.addEventListener("input", (event) => {
+    editorViewEl.addEventListener('input', (event) => {
       const { target } = event;
-      const inputCategory = target.getAttribute("class");
+      const inputCategory = target.getAttribute('class');
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -50,7 +51,7 @@ export default class Editor extends Component {
       }, 1000);
     });
 
-    titleEl.addEventListener("keyup", (event) => {
+    titleEl.addEventListener('keyup', (event) => {
       const { target } = event;
       document.getElementById(this.state.id).innerText = target.value;
     });
@@ -58,7 +59,7 @@ export default class Editor extends Component {
     const savePostOnServer = (id, post) => {
       const { title, content } = post;
       request(`${id}`, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify({
           title,
           content,
