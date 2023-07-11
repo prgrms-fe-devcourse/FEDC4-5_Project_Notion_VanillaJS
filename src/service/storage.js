@@ -1,16 +1,27 @@
-export const getStorageItem = (key, defaultValue) => {
-  try {
-    return JSON.parse(localStorage.getItem(key)) || defaultValue;
-  } catch (e) {
-    console.log(e.message);
-    return defaultValue;
+import {
+  getStorageItem,
+  setStorageItem,
+  removeStorageItem,
+} from "../utils/index.js";
+
+export default class Storage {
+  #storageKey;
+  #defaultValue;
+
+  constructor(storageKey, defaultValue) {
+    this.#storageKey = storageKey;
+    this.#defaultValue = defaultValue;
   }
-};
 
-export const setStorageItem = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+  getData() {
+    return getStorageItem(this.#storageKey, this.#defaultValue);
+  }
 
-export const removeStorageItem = (key) => {
-  localStorage.removeItem(key);
-};
+  setData(data) {
+    setStorageItem(this.#storageKey, data);
+  }
+
+  removeData() {
+    removeStorageItem(this.#storageKey);
+  }
+}

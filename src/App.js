@@ -1,14 +1,10 @@
 import { DocumentsPage, EditPage } from "./pages/index.js";
+import { initRouter, pushHistory, replaceHistory } from "./service/index.js";
 import {
-  initRouter,
-  pushHistory,
-  replaceHistory,
-  getStorageItem,
-  setStorageItem,
-  removeStorageItem,
-} from "./service/index.js";
-import { IS_OPEN_STORAGE_KEY } from "./constants.js";
-import { documentService } from "./domain/index.js";
+  documentService,
+  openStatusStorage,
+  documentTempStorage,
+} from "./domain/index.js";
 
 export default class App {
   $target;
@@ -44,9 +40,9 @@ export default class App {
           title: "무제",
         });
 
-        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+        const currentOpenStatus = openStatusStorage.getData();
 
-        setStorageItem(IS_OPEN_STORAGE_KEY, {
+        openStatusStorage.setData({
           ...currentOpenStatus,
           [id]: true,
         });
@@ -63,12 +59,11 @@ export default class App {
         replaceHistory("/");
       },
       onToggleDocument: (id) => {
-        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+        const currentOpenStatus = openStatusStorage.getData();
 
-        setStorageItem(IS_OPEN_STORAGE_KEY, {
+        openStatusStorage.setData({
           ...currentOpenStatus,
-          [id]:
-            currentOpenStatus[id] === undefined ? true : !currentOpenStatus[id],
+          [id]: !currentOpenStatus[id],
         });
 
         this.documentsPage.setState();
@@ -87,7 +82,7 @@ export default class App {
           clearTimeout(this.timer);
         }
 
-        setStorageItem(documentTempStorageKey, {
+        documentTempStorage(documentTempStorageKey).setData({
           ...document,
           tempSaveDate: new Date(),
         });
@@ -95,15 +90,15 @@ export default class App {
         this.timer = setTimeout(async () => {
           await documentService.updateData(id, document);
 
-          removeStorageItem(documentTempStorageKey);
+          documentTempStorage(documentTempStorageKey).removeData();
           this.documentsPage.setState();
         }, 1000);
       },
       onClickSubList: (id) => {
         const [, , documentId] = location.pathname.split("/");
-        const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+        const currentOpenStatus = openStatusStorage.getData();
 
-        setStorageItem(IS_OPEN_STORAGE_KEY, {
+        openStatusStorage.setData({
           ...currentOpenStatus,
           [documentId]: true,
         });

@@ -1,7 +1,9 @@
 import { DocumentList, UserSection } from "../components/index.js";
-import { getStorageItem } from "../service/index.js";
-import { IS_OPEN_STORAGE_KEY } from "../constants.js";
-import { insertIsOpen, documentService } from "../domain/index.js";
+import {
+  insertIsOpen,
+  documentService,
+  openStatusStorage,
+} from "../domain/index.js";
 
 export default class DocumentsPage {
   $parent;
@@ -47,7 +49,7 @@ export default class DocumentsPage {
 
   async setState() {
     const documents = await documentService.getDataList();
-    const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
+    const currentOpenStatus = openStatusStorage.getData();
 
     this.documentList.setState(insertIsOpen(documents, currentOpenStatus));
     this.render();
