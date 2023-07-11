@@ -1,10 +1,12 @@
-import { VITE_USERNAME, editDocumentMessages } from '../../constants';
+import { VITE_USERNAME } from '../../constants';
 import { request } from '../../domain/api';
 import { push } from '../../domain/router';
 import { createDocument, deleteDocument } from '../../domain/apiCall';
 import SidebarDocumentTree from './SidebarDocumentTree';
 import SidebarHeader from './SidebarHeader';
 import { validateComponent } from '../../utils/validation';
+
+const INITIAL_DOCUMENT_TITLE = '제목 없음';
 
 export default function SidebarDocumentPage({ $target }) {
   validateComponent(new.target);
@@ -26,9 +28,10 @@ export default function SidebarDocumentPage({ $target }) {
     initialState: [],
     deleteDocument,
     addDocument: async (id, className) => {
+      //FIXME: className을 closest로 변경
       if (className === 'add-button') {
         const document = {
-          title: `${editDocumentMessages.INITIAL_DOCUMENT_TITLE}`,
+          title: `${INITIAL_DOCUMENT_TITLE}`,
           parent: id,
         };
         const newDocument = await createDocument(document);
@@ -39,14 +42,14 @@ export default function SidebarDocumentPage({ $target }) {
   });
 
   // 문서 tree 가져옴
-  const fetchDocumentTree = async () => {
+  const updateDocumentTree = async () => {
     const data = await request('/documents');
     sidebarDocumentTree.setState(data);
   };
 
   // 페이지 렌더링
   this.render = async () => {
-    await fetchDocumentTree();
+    await updateDocumentTree();
     $target.appendChild($sidebarDocumentPage);
   };
 
