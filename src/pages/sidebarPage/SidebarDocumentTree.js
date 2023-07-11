@@ -1,6 +1,7 @@
-import { editDocumentMessages } from '../../constants';
 import { push } from '../../domain/router';
 import { validateArray, validateComponent } from '../../utils/validation';
+
+const CONFIRM_DELETE_DOCUMENT = '해당 문서를 삭제하시겠습니까?';
 
 export default function SidebarDocumentTree({ $target, initialState, addDocument, deleteDocument }) {
   validateComponent(new.target);
@@ -56,7 +57,7 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
     const id = $li?.dataset.id;
     if (className) {
       if (className === 'delete-button') {
-        if (confirm(`${editDocumentMessages.CONFIRM_DELETE_DOCUMENT}`)) {
+        if (confirm(`${CONFIRM_DELETE_DOCUMENT}`)) {
           deleteDocument(id);
           return;
         }
