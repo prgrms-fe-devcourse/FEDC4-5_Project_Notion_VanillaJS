@@ -26,11 +26,8 @@ export default function Editor({
     console.log(e.target.value);
     if (e.target.value === `${INITIAL_DOCUMENT_TITLE}`) {
       e.target.value = '';
-      e.target.removeEventListener('click', handleTitleInputClick);
     }
   };
-  // 전역 범위에 함수 정의
-  window.handleTitleInputClick = handleTitleInputClick;
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -43,7 +40,7 @@ export default function Editor({
     const { title, content } = this.state;
     const titleValue = title === `${INITIAL_DOCUMENT_TITLE}` ? '' : title;
     $editor.innerHTML = `
-      <input class="editor-title" type="text" name="title" placeholder='${DOCUMENT_TITLE_PLACEHOLDER}' value="${titleValue}" onclick="handleTitleInputClick(event)">
+      <input class="editor-title" type="text" name="title" placeholder='${DOCUMENT_TITLE_PLACEHOLDER}' value="${titleValue}">
       <textarea class="editor-content" name="content" placeholder='${DOCUMENT_CONTENT_PLACEHOLDER}'>${content}</textarea>
     `;
   };
