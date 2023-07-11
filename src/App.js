@@ -16,6 +16,7 @@ import { initDocument } from "./constants.js/constants.js";
 
 export default class App extends Component {
   async render() {
+    console.log(this.props.rootPath);
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
       <section id='editor'></section>
@@ -26,6 +27,7 @@ export default class App extends Component {
     this.documentTree = new DocumentTreeComponent({
       $target: $documentTree,
       initialState: await getDocumentTree(),
+      props: {},
       events: [
         {
           action: "click",
@@ -78,6 +80,7 @@ export default class App extends Component {
     this.editor = new EditorComponent({
       $target: $editor,
       initialState: new Document(initDocument),
+      props: {},
       events: [
         {
           action: "keyup",

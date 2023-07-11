@@ -5,4 +5,5 @@ new App({
   $target: $app,
   initialState: {},
   events: [],
+  props: {},
 });

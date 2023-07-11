@@ -2,13 +2,15 @@ export default class Component {
   #$target;
   #state;
   #events;
-  #allowedProperties = ["$target", "initialState", "events"];
+  #props;
+  #allowedProperties = ["$target", "initialState", "events", "props"];
 
   constructor(properties) {
     this.validate(properties);
     this.#$target = properties.$target;
     this.#state = properties.initialState;
     this.#events = properties.events;
+    this.#props = properties.props;
     this.setEvent(this.#events);
     this.render();
   }
@@ -19,15 +21,15 @@ export default class Component {
         `Component: properties는 object 타입이어야 합니다. 현재타입 : ${typeof properties}`
       );
 
-    Object.keys(properties).forEach((propertie) => {
-      if (!this.#allowedProperties.includes(propertie)) {
+    Object.keys(properties).forEach((property) => {
+      if (!this.#allowedProperties.includes(property)) {
         throw new Error(
-          `Component: ${propertie} 프로퍼티는 필수로 포함되어야 합니다.`
+          `Component: ${property} 프로퍼티는 필수로 포함되어야 합니다.`
         );
       }
     });
 
-    const { $target, initialState, events } = properties;
+    const { $target, initialState, events, props } = properties;
 
     if (typeof $target !== "object") {
       throw new Error(
@@ -44,6 +46,12 @@ export default class Component {
     if (!Array.isArray(events)) {
       throw new Error(
         `Component: events는 Array 타입이어야 합니다. 현재타입 : ${typeof events}`
+      );
+    }
+
+    if (typeof props !== "object") {
+      throw new Error(
+        `Component: props는 object 타입이어야 합니다. 현재타입 : ${typeof props}`
       );
     }
   }
@@ -73,5 +81,9 @@ export default class Component {
 
   get $target() {
     return this.#$target;
+  }
+
+  get props() {
+    return this.#props;
   }
 }

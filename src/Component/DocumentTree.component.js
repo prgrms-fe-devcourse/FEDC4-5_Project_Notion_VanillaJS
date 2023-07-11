@@ -23,6 +23,7 @@ export default class DocumentTreeComponent extends Component {
     new DocumentTreeBranchComponent({
       $target,
       initialState: new DocumentTreeBranch(doc),
+      props: {},
       events: [],
     });
 

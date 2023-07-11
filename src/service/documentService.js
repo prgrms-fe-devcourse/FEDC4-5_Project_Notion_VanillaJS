@@ -1,7 +1,7 @@
 import { request } from "../api.js";
 import { DocumentTree, Document } from "../domain/index.js";
 
-const DOCUMENT_KEY = "documents";
+const DOCUMENT_KEY = "/documents";
 
 export const getDocumentTree = async () => {
   return await request(DOCUMENT_KEY, {
@@ -12,7 +12,7 @@ export const getDocumentTree = async () => {
 };
 
 export const getDocument = async () => {
-  return await request(`/${DOCUMENT_KEY}/${getDocumentIdByPathname()}`, {
+  return await request(`${DOCUMENT_KEY}/${getDocumentIdByPathname()}`, {
     mothod: "GET",
   }).then((res) => {
     if (res.content === null) {
@@ -30,7 +30,7 @@ export const getDocumentIdByPathname = () => {
 };
 
 export const saveDocumentToServer = async ({ title, content }) => {
-  await request(`/documents/${getDocumentIdByPathname()}`, {
+  await request(`${DOCUMENT_KEY}/${getDocumentIdByPathname()}`, {
     method: "PUT",
     body: JSON.stringify({ title, content }),
   });

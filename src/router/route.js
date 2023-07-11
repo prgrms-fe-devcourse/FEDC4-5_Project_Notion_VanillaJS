@@ -13,6 +13,7 @@ export const route = async ({ component, url }) => {
   );
   switch (routeName) {
     case "documents":
+      // routeDocument({ component, documentId });
       const savedDocument = await getDocument(documentId);
       try {
         const { title, content, tmpSaveDate } =
