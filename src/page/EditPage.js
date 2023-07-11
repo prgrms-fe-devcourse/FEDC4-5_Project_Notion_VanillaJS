@@ -1,3 +1,4 @@
+import { checkRouteValidation } from '../utils/Validation.js';
 import { getContentAPI, editAPI } from '../utils/API.js';
 import DocumentContent from '../components/EditPage/DocumentContent.js';
 import ChildList from '../components/EditPage/ChildList.js';
@@ -9,34 +10,34 @@ export default class EditPage {
     this.selectDocument = selectDocument;
     this.reflectTitleChange = reflectTitleChange;
     this.$div = null;
+    this.$documentContent = null;
+    this.$childList = null;
     this.timer = null;
     this.initDiv();
+  }
+
+  setPathName = async(pathname) => {
+    this.state = {
+      ...this.state,
+      pathname
+    }
     this.fetchContent();
   }
-
-  setState = (nextState) => {
-    this.state = nextState;
-    this.render();
+  
+  setDocumentContent = (documentContent) => {
+    this.state = {
+      ...this.state,
+      documentContent
+    }
+    this.$documentContent.setState(this.state.documentContent);
+    this.$childList.setState(this.state.documentContent.documents);
   }
 
-  initDiv = () => {
-    const $preDiv = document.querySelector('.content-page-container');
-
-    if ($preDiv !== null) {
-      this.$target.removeChild($preDiv);
-    }
-    this.$div = document.createElement('div');
-    this.$div.className = 'content-page-container';
-    this.$target.appendChild(this.$div);
-  };
-
   fetchContent = async () => {
-    const documentContent = await getContentAPI(this.state.pathname);
-    const nextState = {
-      ...this.state,
-      documentContent: documentContent
+    if (checkRouteValidation(this.state.pathname) === true) {
+      const documentContent = await getContentAPI(this.state.pathname);
+      this.setDocumentContent(documentContent);
     }
-    this.setState(nextState);
   };
 
   saveTitle = async(editedDocument) => {
@@ -51,18 +52,32 @@ export default class EditPage {
     }, 200);
   }
 
+  initDiv = () => {
+    const $preDiv = document.querySelector('.content-page-container');
+
+    if ($preDiv !== null) {
+      this.$target.removeChild($preDiv);
+    }
+    this.$div = document.createElement('div');
+    this.$div.className = 'content-page-container';
+    this.$target.appendChild(this.$div);
+
+    this.render();
+  };
+
   render = () => {
-    this.$div.innerHTML = ``;
-    new DocumentContent(
+    const initialState = null;
+    
+    this.$documentContent = new DocumentContent(
       this.$div,
-      this.state.documentContent,
+      initialState,
       this.saveTitle,
       this.saveContent
     );
-    new ChildList(
+    this.$childList = new ChildList(
       this.$div,
-      this.state.documentContent.documents,
+      initialState,
       this.selectDocument
     )
-  };
+  }
 }

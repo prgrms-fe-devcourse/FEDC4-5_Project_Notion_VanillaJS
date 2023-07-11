@@ -21,6 +21,10 @@ export default class DocumentContent {
   };
 
   render = () => {
+    if (this.state === null) {
+      return;
+    }
+    
     this.$div.innerHTML = `
       <input class='title-area' value='${this.state.title}'>
       <div class='edit-button-container'>

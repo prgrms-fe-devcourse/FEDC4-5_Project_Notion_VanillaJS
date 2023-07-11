@@ -8,6 +8,11 @@ export default class ChildList {
     this.render();
   }
 
+  setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  }
+
   initDiv = () => {
     this.$div = document.createElement('div');
     this.$div.className = 'children-list-container';
@@ -15,14 +20,15 @@ export default class ChildList {
   }
 
   render = () => {
-    if (this.state !== undefined) {
-      this.$div.innerHTML = `
-        ${this.state.map((element, index) => {
-          return `<li data-index=${index}>${element.title}</li>`;
-        }).join('')}
-      `
-      this.addClickListEvent();
+    if (this.state === null) {
+      return;
     }
+    this.$div.innerHTML = `
+      ${this.state.map((element, index) => {
+        return `<li data-index=${index}>${element.title}</li>`;
+      }).join('')}
+    `
+    this.addClickListEvent();
   }
 
   addClickListEvent = () => {
