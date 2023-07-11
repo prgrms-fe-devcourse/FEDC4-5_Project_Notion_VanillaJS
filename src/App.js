@@ -29,8 +29,6 @@ export default class App {
 
     this.route();
 
-    window.addEventListener("popstate", () => this.route());
-
     initRouter(() => this.route());
   }
 
