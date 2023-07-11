@@ -12,7 +12,6 @@ export default function MainDocumentTree({ $target, initialState }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    validateArray([nextState]);
     this.state = [nextState];
     this.render();
   };
