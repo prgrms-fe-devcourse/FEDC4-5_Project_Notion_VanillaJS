@@ -1,15 +1,21 @@
-import DomainModel from "../core/DomainModel.js";
+import { validateDomain } from "../service/domainService.js";
 
-export default class DocumentTree extends DomainModel {
-  allowedProperties;
+export default class DocumentTree {
+  #allowedProperties;
+  #properties;
 
   constructor(properties) {
-    super(properties, "DocumentTree");
-    this.allowedProperties = { documentTree: "array", isInput: "boolean" };
-    this.validate();
+    this.#allowedProperties = { documentTree: "array", isInput: "boolean" };
+    this.#properties = properties;
+
+    validateDomain({
+      properties: this.#properties,
+      domainName: "DocumentTree",
+      allowedProperties: this.#allowedProperties,
+    });
   }
 
   get documentTree() {
-    return this._properties.documentTree;
+    return this.#properties.documentTree;
   }
 }

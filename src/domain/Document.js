@@ -1,11 +1,11 @@
-import DomainModel from "../core/DomainModel.js";
+import { validateDomain } from "../service/domainService.js";
 
-export default class Document extends DomainModel {
-  allowedProperties;
+export default class Document {
+  #allowedProperties;
+  #properties;
 
   constructor(properties) {
-    super(properties, "Document");
-    this.allowedProperties = {
+    this.#allowedProperties = {
       id: "number",
       title: "string",
       content: "string",
@@ -13,30 +13,37 @@ export default class Document extends DomainModel {
       createdAt: "string",
       updatedAt: "string",
     };
-    this.validate();
+
+    this.#properties = properties;
+
+    validateDomain({
+      properties: this.#properties,
+      domainName: "Document",
+      allowedProperties: this.#allowedProperties,
+    });
   }
 
   get id() {
-    return this._properties.id;
+    return this.#properties.id;
   }
 
   get content() {
-    return this._properties.content;
+    return this.#properties.content;
   }
 
   get title() {
-    return this._properties.title;
+    return this.#properties.title;
   }
 
   get documents() {
-    return this._properties.documents;
+    return this.#properties.documents;
   }
 
   get createdAt() {
-    return this._properties.createdAt;
+    return this.#properties.createdAt;
   }
 
   get updatedAt() {
-    return this._properties.updatedAt;
+    return this.#properties.updatedAt;
   }
 }

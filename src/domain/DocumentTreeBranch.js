@@ -1,33 +1,39 @@
-import DomainModel from "../core/DomainModel.js";
+import { validateDomain } from "../service/domainService.js";
 
-export default class DocumentTreeBranch extends DomainModel {
-  allowedProperties;
-
+export default class DocumentTreeBranch {
+  #allowedProperties;
+  #properties;
   constructor(properties) {
-    super(properties, "DocumentTreeBranch");
-    this.allowedProperties = {
+    this.#allowedProperties = {
       id: "number",
       title: "string",
       documents: "array",
       createdAt: "string",
       updatedAt: "string",
     };
-    this.validate();
+
+    this.#properties = properties;
+
+    validateDomain({
+      properties: this.#properties,
+      domainName: "DocumentTreeBranch",
+      allowedProperties: this.#allowedProperties,
+    });
   }
 
   get id() {
-    return this._properties.id;
+    return this.#properties.id;
   }
 
   get title() {
-    return this._properties.title;
+    return this.#properties.title;
   }
 
   get documents() {
-    return this._properties.documents;
+    return this.#properties.documents;
   }
 
   set documents(documents) {
-    this._properties.documents = documents;
+    this.#properties.documents = documents;
   }
 }

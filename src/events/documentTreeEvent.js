@@ -27,6 +27,11 @@ export const addDocumentButtonClickEvnet = async ({
     const $input = document.createElement("input");
     $input.placeholder = "제목";
     $input.className = "documentInput";
+
+    const $deleteInputButton = document.createElement("button");
+    $deleteInputButton.className = "deleteInputButton";
+    target.appendChild($deleteInputButton);
+
     if (target === null) {
       event.target.parentNode.insertBefore($input, event.target);
       return;
