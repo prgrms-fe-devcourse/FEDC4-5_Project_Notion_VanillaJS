@@ -13,6 +13,7 @@ export const request = async (url, options = {}) => {
     if (res.ok) {
       return await res.json();
     }
+    throw new Error('api 요청 실패');
   } catch (e) {
     throw new Error(`${errorMessages.API_ERROR_MESSAGE} ${e.message}`);
   }
