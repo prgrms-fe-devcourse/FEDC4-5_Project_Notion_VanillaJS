@@ -7,7 +7,7 @@ export default class Component {
   }
 
   render() {
-    // 자식 클래스에서 Override
+    throw new Error('Component must be rendered using render() method.');
   }
 
   setState(newState) {
