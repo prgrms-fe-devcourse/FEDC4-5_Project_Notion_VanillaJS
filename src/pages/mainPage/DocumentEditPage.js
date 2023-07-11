@@ -3,8 +3,9 @@ import notionStorage from '../../store/notionStorage';
 import debounce from '../../domain/debounce';
 import Editor from './Editor';
 import MainDocumentTree from './MainDocumentTree';
-import { TEMP_DATA_MESSAGE } from '../../constants';
 import { validateComponent, validateInputData } from '../../utils/validation';
+
+const TEMP_DATA_MESSAGE = '저장되지 않은 임시 데이터가 있습니다 불러올까요?';
 
 export default function DocumentEditPage({ $target, initialState, renderDocumentTree }) {
   validateComponent(new.target);
