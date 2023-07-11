@@ -12,7 +12,7 @@ export const validateArray = (array) => {
   }
 };
 
-export const validateString = (data) => {
+export const validateInputData = (data) => {
   const { title, content } = data;
   if (typeof title !== 'string' || typeof content !== 'string') {
     throw new Error(errorMessages.NEED_STRING_TYPE);

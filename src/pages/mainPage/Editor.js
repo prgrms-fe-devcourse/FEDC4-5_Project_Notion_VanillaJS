@@ -1,4 +1,4 @@
-import { validateComponent, validateString } from '../../utils/validation';
+import { validateComponent, validateInputData } from '../../utils/validation';
 
 const INITIAL_DOCUMENT_TITLE = '제목 없음';
 const DOCUMENT_TITLE_PLACEHOLDER = '제목을 입력하세요';
@@ -18,7 +18,7 @@ export default function Editor({
   $editor.classList.add('editor');
   $target.appendChild($editor);
 
-  validateString(initialState);
+  validateInputData(initialState);
   this.state = initialState;
 
   // 초기 상태에서 메시지가 표시되고, 클릭 시 해당 메시지가 사라지도록 처리
