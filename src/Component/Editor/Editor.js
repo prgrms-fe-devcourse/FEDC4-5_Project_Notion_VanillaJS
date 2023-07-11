@@ -15,6 +15,10 @@ export default function Editor({
 
   let isFirstRender = false;
 
+  this.setDependentState = ({ documents }) => {
+    editorChildList.setState(EditorChildListTemplate(documents) || []);
+  };
+
   this.setState = (nextState) => {
     const $editorTitle = $editor.querySelector('.editorTitle');
     const $editorContent = $editor.querySelector('.editorContent');
@@ -22,7 +26,6 @@ export default function Editor({
     this.state = nextState;
 
     const { title, content, documents } = this.state;
-    editorChildList.setState(EditorChildListTemplate(documents) || []);
 
     if ($editorTitle) {
       $editorTitle.value = title || '';
@@ -31,6 +34,8 @@ export default function Editor({
     if ($editorContent) {
       $editorContent.value = content || '';
     }
+
+    this.setDependentState({ documents });
 
     this.render();
   };

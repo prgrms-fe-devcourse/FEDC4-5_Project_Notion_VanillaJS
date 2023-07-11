@@ -14,6 +14,19 @@ export default function DocumentEditPage({
 
   this.state = initalState;
 
+  //setState시 다른 컴포넌트들의 상태가 바뀌는 함수
+  this.setDependentState = ({ id, title, content, documents }) => {
+    editor.setState({
+      ...editor.state,
+      id,
+      title,
+      content,
+      documents,
+    });
+
+    editorPreview.setState(convertMarkdownToHTML(content));
+  };
+
   this.setState = async (nextState) => {
     if (nextState.documentId === 'new') {
       editor.setState(INIT_DOCUMENT);
@@ -26,19 +39,8 @@ export default function DocumentEditPage({
       nextState,
     };
 
-    await fetchDocument(documentId)
-      .then((nextDocument) => {
-        const { id, title, content, documents } = nextDocument;
-        editor.setState({
-          ...editor.state,
-          id,
-          title,
-          content,
-          documents,
-        });
-        editorPreview.setState(convertMarkdownToHTML(content));
-      })
-      .catch((e) => alert(e));
+    const { id, title, content, documents } = await fetchDocument(documentId);
+    this.setDependentState({ id, title, content, documents });
   };
 
   this.render = () => {
