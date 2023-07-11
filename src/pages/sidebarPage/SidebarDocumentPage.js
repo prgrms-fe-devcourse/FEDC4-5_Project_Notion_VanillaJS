@@ -5,9 +5,7 @@ import { createDocument, deleteDocument } from '../../domain/apiCall';
 import SidebarDocumentTree from './SidebarDocumentTree';
 import SidebarHeader from './SidebarHeader';
 import { validateComponent } from '../../utils/validation';
-
 const INITIAL_DOCUMENT_TITLE = '제목 없음';
-
 export default function SidebarDocumentPage({ $target }) {
   validateComponent(new.target);
 
