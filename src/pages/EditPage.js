@@ -2,7 +2,10 @@ import { Editor, DocumentSubList } from "../components/index.js";
 import { getStorageItem, request } from "../service/index.js";
 
 export default class EditPage {
+  $parent;
   $target = document.createDocumentFragment();
+  editor;
+  documentSubList;
 
   constructor({ $parent, onEditDocument, onClickSubList }) {
     this.$parent = $parent;

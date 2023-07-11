@@ -4,7 +4,9 @@ import { insertIsOpen } from "../domain/insertIsOpen.js";
 import { IS_OPEN_STORAGE_KEY } from "../constants.js";
 
 export default class DocumentsPage {
+  $parent;
   $target = document.createDocumentFragment();
+  documentList;
 
   constructor({
     $parent,

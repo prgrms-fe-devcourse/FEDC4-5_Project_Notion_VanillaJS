@@ -11,14 +11,19 @@ import {
 import { IS_OPEN_STORAGE_KEY } from "./constants.js";
 
 export default class App {
-  $documentsPage = document.createElement("nav");
-  $editPage = document.createElement("main");
+  $target;
+  $children = {
+    documentsPage: document.createElement("nav"),
+    editPage: document.createElement("main"),
+  };
   timer = null;
+  documentsPage;
+  editPage;
 
   constructor({ $target }) {
     this.$target = $target;
-    this.$target.append(this.$documentsPage);
-    this.$target.append(this.$editPage);
+    this.$target.append(this.$children.documentsPage);
+    this.$target.append(this.$children.editPage);
 
     this.render();
 
@@ -31,7 +36,7 @@ export default class App {
 
   render() {
     this.documentsPage = new DocumentsPage({
-      $parent: this.$documentsPage,
+      $parent: this.$children.documentsPage,
       onClickDocumentTitle: (id) => {
         pushHistory(`/documents/${id}`);
       },
@@ -81,7 +86,7 @@ export default class App {
     });
 
     this.editPage = new EditPage({
-      $parent: this.$editPage,
+      $parent: this.$children.editPage,
       onEditDocument: (id, document) => {
         const documentTempStorageKey = `temp-document-${id}`;
 

@@ -1,9 +1,10 @@
 import Component from "./Component.js";
 
 export default class Editor extends Component {
+  isInitialize = false;
+
   constructor({ element, initialState, props }) {
     super({ element, initialState, props });
-    this.isInitialize = false;
   }
 
   setState(nextState) {
