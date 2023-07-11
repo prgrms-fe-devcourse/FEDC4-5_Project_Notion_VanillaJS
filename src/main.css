@@ -24,7 +24,7 @@ button {
     margin-bottom: 15px;
 }
 
-.docuTitleDiv {
+.documentTitleDiv {
     width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;

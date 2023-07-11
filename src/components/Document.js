@@ -20,25 +20,25 @@ export default class Document extends Component {
     this.el.setAttribute('style', 'background-color: rgb(251,251,250)');
 
     const addDocumentBtn = this.el.querySelector('.add-document');
-    const docuContainer = this.el.querySelector('.container');
+    const documentContainer = this.el.querySelector('.container');
 
-    const renderDocuments = (container, docu) => {
-      for (const key in docu) {
-        const { id, title, documents } = docu[key];
-        const parentDocu = new DocumentItem();
-        parentDocu.setState({ id, title, isFolded: true });
-        container.appendChild(parentDocu.el);
+    const renderDocuments = (container, document) => {
+      for (const key in document) {
+        const { id, title, documents } = document[key];
+        const parentDocument = new DocumentItem();
+        parentDocument.setState({ id, title, isFolded: true });
+        container.appendChild(parentDocument.el);
         if (container.getAttribute('class') !== 'container') {
-          parentDocu.el.setAttribute('style', 'display: none');
-          parentDocu.el.setAttribute('class', 'child');
+          parentDocument.el.setAttribute('style', 'display: none');
+          parentDocument.el.setAttribute('class', 'child');
         }
         if (documents.length !== 0) {
-          renderDocuments(parentDocu.el, documents);
+          renderDocuments(parentDocument.el, documents);
         }
       }
     };
 
-    renderDocuments(docuContainer, this.state);
+    renderDocuments(documentContainer, this.state);
 
     addDocumentBtn.addEventListener('click', () => {
       const res = request('', {
