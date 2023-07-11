@@ -78,9 +78,12 @@ export default class DocumentList {
       event.stopImmediatePropagation();
       const $li = event.target.closest('li');
       const $button = event.target.closest('button');
-      const documentId = $li.dataset.documentid;
-
+      
+      if ($li === null) {
+        return;
+      }
       if ($li.className.startsWith('document-li') === true && $button === null) {
+        const documentId = $li?.dataset.documentid;
         this.selectDocument(documentId);
       } 
       else if ($button !== null) {
