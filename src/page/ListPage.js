@@ -43,7 +43,7 @@ export default class ListPage {
 
     if (pathname === `/documents/${documentId}`) {
       this.selectDocument(null);
-    }
+    } 
   };
 
   render = () => {

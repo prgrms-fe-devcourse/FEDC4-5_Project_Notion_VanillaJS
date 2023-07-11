@@ -18,13 +18,14 @@ export default class DocumentContent {
     this.$div = document.createElement('div');
     this.$div.className = 'document-container';
     this.$target.appendChild(this.$div);
+    this.addEditEvent();
   };
 
   render = () => {
     if (this.state === null) {
       return;
     }
-    
+
     this.$div.innerHTML = `
       <input class='title-area' value='${this.state.title}'>
       <div class='edit-button-container'>
@@ -41,8 +42,6 @@ export default class DocumentContent {
         <span>${this.state.content === null ? '' : this.state.content}</span>
       </div>
     `;
-
-    this.addEditEvent();
   };
 
   addEditEvent = () => {

@@ -11,11 +11,11 @@ export default class RootCreateButton {
     this.$ul = document.createElement('ul');
     this.$ul.className = 'document-ul root-create-ul';
     this.$target.appendChild(this.$ul);
+    this.addListClickEvent();
   }
-
+  
   render = () => {
     this.$ul.innerHTML = `<li class='document-li'><button>+</button>페이지 추가</li>`
-    this.addListClickEvent();
   }
 
   addListClickEvent = () => {

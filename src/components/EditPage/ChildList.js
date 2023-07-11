@@ -17,6 +17,7 @@ export default class ChildList {
     this.$div = document.createElement('div');
     this.$div.className = 'children-list-container';
     this.$target.appendChild(this.$div);
+    this.addClickListEvent();
   }
 
   render = () => {
@@ -28,7 +29,6 @@ export default class ChildList {
         return `<li data-index=${index}>${element.title}</li>`;
       }).join('')}
     `
-    this.addClickListEvent();
   }
 
   addClickListEvent = () => {

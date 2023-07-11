@@ -28,6 +28,7 @@ export default class DocumentList {
     this.$ul = document.createElement('ul');
     this.$ul.className = 'document-ul';
     this.$target.appendChild(this.$ul);
+    this.clickListEvent();
   };
 
   render = () => {
@@ -49,7 +50,6 @@ export default class DocumentList {
     if (this.state.openStatus === true) {
       this.renderChildDocument();
     }
-    this.clickListEvent();
   };
 
   renderChildDocument = () => {
@@ -78,12 +78,9 @@ export default class DocumentList {
       event.stopImmediatePropagation();
       const $li = event.target.closest('li');
       const $button = event.target.closest('button');
-      
-      if ($li === null) {
-        return;
-      }
-      if ($li.className.startsWith('document-li') === true && $button === null) {
-        const documentId = $li?.dataset.documentid;
+      const documentId = $li?.dataset.documentid;
+
+      if ($li?.className.startsWith('document-li') === true && $button === null) {
         this.selectDocument(documentId);
       } 
       else if ($button !== null) {

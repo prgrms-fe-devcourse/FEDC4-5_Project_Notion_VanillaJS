@@ -37,6 +37,8 @@ export default class EditPage {
     if (checkRouteValidation(this.state.pathname) === true) {
       const documentContent = await getContentAPI(this.state.pathname);
       this.setDocumentContent(documentContent);
+    } else {
+      this.initDiv();
     }
   };
 
