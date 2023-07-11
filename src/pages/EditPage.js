@@ -16,14 +16,14 @@ export default class EditPage {
         $target: document.createElement("div"),
         className: "editor",
       },
-      initialState: {
-        id: "init",
-        title: "",
-        content: "",
-        createdAt: "",
-        updatedAt: "",
-      },
       props: {
+        initialState: {
+          id: "init",
+          title: "",
+          content: "",
+          createdAt: "",
+          updatedAt: "",
+        },
         onEditDocument,
       },
     });
@@ -34,8 +34,8 @@ export default class EditPage {
         $target: document.createElement("div"),
         className: "documentSubList",
       },
-      initialState: [],
       props: {
+        initialState: [],
         onClickSubList,
       },
     });

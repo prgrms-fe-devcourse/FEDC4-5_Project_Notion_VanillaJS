@@ -1,11 +1,16 @@
 export default class Component {
-  constructor({ element = {}, initialState, props = {} }) {
+  $parent;
+  $target;
+  props;
+  state;
+
+  constructor({ element = {}, props = {} }) {
     this.$parent = element.$parent;
     this.$target = element.$target;
     this.$target.className = element.className;
     this.$parent.append(this.$target);
-    this.state = initialState;
     this.props = props;
+    this.state = props.initialState;
     this.render();
     this.addEvent();
   }

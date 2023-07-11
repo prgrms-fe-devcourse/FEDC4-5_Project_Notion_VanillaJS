@@ -37,8 +37,8 @@ export default class DocumentsPage {
         $target: document.createElement("div"),
         className: "documentList",
       },
-      initialState: [],
       props: {
+        initialState: [],
         onClickDocumentTitle,
         onCreateDocument,
         onDeleteDocument,
