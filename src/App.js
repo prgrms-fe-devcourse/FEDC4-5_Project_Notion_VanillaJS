@@ -1,5 +1,5 @@
 import { init, routeChange } from './utils/Route.js';
-import { getRootAPI, getContentAPI } from './utils/API.js';
+import { getRootAPI } from './utils/API.js';
 import ListPage from './page/ListPage.js';
 import EditPage from './page/EditPage.js';
 
