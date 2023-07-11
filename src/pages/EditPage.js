@@ -1,5 +1,6 @@
 import { Editor, DocumentSubList } from "../components/index.js";
-import { getStorageItem, request } from "../service/index.js";
+import { documentService } from "../domain/index.js";
+import { getStorageItem } from "../service/index.js";
 
 export default class EditPage {
   $parent;
@@ -45,7 +46,7 @@ export default class EditPage {
     const { id } = nextState;
 
     if (id !== "init") {
-      const document = await request(`/documents/${id}`);
+      const document = await documentService.getData(id);
       const documentTempStorageKey = `temp-document-${id}`;
       const tempDocument = getStorageItem(documentTempStorageKey, {
         title: "",

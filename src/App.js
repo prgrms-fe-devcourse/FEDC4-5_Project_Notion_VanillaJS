@@ -1,6 +1,5 @@
 import { DocumentsPage, EditPage } from "./pages/index.js";
 import {
-  request,
   initRouter,
   pushHistory,
   replaceHistory,
@@ -9,6 +8,7 @@ import {
   removeStorageItem,
 } from "./service/index.js";
 import { IS_OPEN_STORAGE_KEY } from "./constants.js";
+import { documentService } from "./domain/index.js";
 
 export default class App {
   $target;
@@ -39,12 +39,9 @@ export default class App {
         pushHistory(`/documents/${id}`);
       },
       onCreateDocument: async (id) => {
-        const document = await request("/documents", {
-          method: "POST",
-          body: JSON.stringify({
-            title: "무제",
-            parent: id,
-          }),
+        const document = await documentService.addData({
+          id,
+          title: "무제",
         });
 
         const currentOpenStatus = getStorageItem(IS_OPEN_STORAGE_KEY, {});
@@ -59,9 +56,7 @@ export default class App {
         pushHistory(`/documents/${document.id}`);
       },
       onDeleteDocument: async (id) => {
-        await request(`/documents/${id}`, {
-          method: "DELETE",
-        });
+        await documentService.deleteData(id);
 
         this.documentsPage.setState();
         this.editPage.setState({ id: "init" });
@@ -98,10 +93,7 @@ export default class App {
         });
 
         this.timer = setTimeout(async () => {
-          await request(`/documents/${id}`, {
-            method: "PUT",
-            body: JSON.stringify(document),
-          });
+          await documentService.updateData(id, document);
 
           removeStorageItem(documentTempStorageKey);
           this.documentsPage.setState();
