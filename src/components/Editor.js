@@ -1,6 +1,7 @@
 import Component from '../core/Component';
 import { getItem, setItem } from '../core/Storage';
 import { request } from '../api/DocumentAPI';
+import { debounce } from '../utils/debounce';
 
 export default class Editor extends Component {
   constructor(postId) {
@@ -33,22 +34,20 @@ export default class Editor extends Component {
 
     const editorViewEl = this.el.querySelector('.editor-view');
     const titleEl = this.el.querySelector('.title');
+    const AUTO_SAVE_TIME_INTERVAL = 1000;
 
-    let timer = null;
     editorViewEl.addEventListener('input', (event) => {
       const { target } = event;
       const inputCategory = target.getAttribute('class');
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(() => {
+      const saveWritingAuto = () => {
         const currentWriting = {
           [inputCategory]: target.value,
           updatedAt: new Date(),
         };
         setItem(this.state.id, currentWriting);
         savePostOnServer(this.state.id, currentWriting);
-      }, 1000);
+      };
+      debounce(saveWritingAuto, AUTO_SAVE_TIME_INTERVAL);
     });
 
     titleEl.addEventListener('keyup', (event) => {
