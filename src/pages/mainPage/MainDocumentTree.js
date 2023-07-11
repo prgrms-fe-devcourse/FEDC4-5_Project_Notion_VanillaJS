@@ -45,7 +45,7 @@ export default function MainDocumentTree({ $target, initialState }) {
   $mainDocumentTree.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
     if ($li) {
-      const id = $li.dataset.id;
+      const { id } = $li.dataset;
       const currentDocumentId = window.location.pathname.split('/')[2];
       if (id === currentDocumentId) {
         window.history.back();
