@@ -8,19 +8,23 @@ export const request = async (url, option = {}) => {
       ...option,
       headers : {
         "Content-Type" : "application/json",
-        "x-username" : UNIQUE_KEY        
+        "x-username" : UNIQUE_KEY       
       }
     });
-
     if(res.ok){
       const json = await res.json();
       return json;
+    }else if (res.status >= 500){
+      alert("서버에 이상이 있습니다.");
+      throw new Error("서버에 이상이 있습니다.");
+    }else if ([404, 405].includes(res.status)){
+      alert("존재하지 않는 게시글입니다.");
+      replaceHistory("/");
     }else{
       throw new Error("API 호출 오류");
     }
-  }catch(e){
-    alert(e.message);
-    replaceHistory("/");
+  }catch(error){
+    console.log(error.message);
   }
 }
 
