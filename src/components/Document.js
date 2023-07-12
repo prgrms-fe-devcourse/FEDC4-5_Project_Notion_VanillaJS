@@ -17,7 +17,6 @@ export default class Document extends Component {
         </div>
         `;
     this.el.setAttribute('id', 'document-app');
-    this.el.setAttribute('style', 'background-color: rgb(251,251,250)');
 
     const addDocumentBtn = this.el.querySelector('.add-document');
     const documentContainer = this.el.querySelector('.container');

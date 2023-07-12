@@ -10,6 +10,7 @@ button {
 #document-app {
     width: 300px;
     height: 100vh;
+    background-color: rgb(251,251,250);
 }
 
 #document-app .container {
