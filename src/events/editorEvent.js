@@ -1,8 +1,8 @@
 import {
   saveDocumentToServer,
-  updateDocumentTree,
   saveDocumentToStorage,
   cloneDomain,
+  getDocumentTree,
 } from "../service/index.js";
 
 let timeout;
@@ -35,5 +35,5 @@ export const titleKeyupEvent = ({ title, content }) => {
 export const titleFocusoutEvent = async ({ documentTree, editor, title }) => {
   editor.state = cloneDomain({ domain: editor.state, newPropertie: { title } });
   await saveDocumentToServer({ title: editor.state.title });
-  updateDocumentTree({ documentTree });
+  documentTree.state = await getDocumentTree();
 };

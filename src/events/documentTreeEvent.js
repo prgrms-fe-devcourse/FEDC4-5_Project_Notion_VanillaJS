@@ -1,6 +1,7 @@
 import {
-  updateDocumentTree,
   removeDocumentFromStorage,
+  getDocument,
+  getDocumentTree,
 } from "../service/index.js";
 import { hashRouter } from "../router/hashRouter.js";
 import { Document, initDocument } from "../domain/index.js";
@@ -47,7 +48,7 @@ export const deleteDocumentButtonClickEvent = async ({
     removeDocumentFromStorage(res.id);
     history.pushState(null, null, "/");
   });
-  updateDocumentTree({ documentTree });
+  editor.state = await getDocumentTree();
   editor.state = new Document(initDocument);
 };
 
@@ -64,6 +65,6 @@ export const documentInputChangeEvent = async ({
       parent: target ? target.id : null,
     }),
   });
-  updateDocumentTree({ documentTree });
+  editor.state = await getDocumentTree();
   documentTree.state.isInput = false;
 };

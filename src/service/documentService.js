@@ -63,7 +63,3 @@ export const saveDocumentToServer = async ({ title, content }) => {
     body: JSON.stringify({ title, content }),
   });
 };
-
-export const updateDocumentTree = async ({ documentTree }) => {
-  documentTree.state = await getDocumentTree();
-};
