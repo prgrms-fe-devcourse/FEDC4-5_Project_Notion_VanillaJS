@@ -47,6 +47,10 @@ input{
   outline: 0px solid transparent;
 }
 
+[contentEditable=true]:empty::before{
+  content : attr(placeholder);
+}
+
 .directory{
   padding-left: 10px;
 }

@@ -7,7 +7,8 @@ export default class Editor extends Component{
   template(){
     return `
       <input type="text" name="title" class="title">
-      <div name="content" contentEditable="true" class ="content"></div>
+      <div name="content" contentEditable="true" class ="content" 
+      placeholder="제목을 입력하세요"></div>
       <div class="document-children"></div> 
     `
   }

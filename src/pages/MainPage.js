@@ -1,6 +1,6 @@
 import Editor from "../components/Editor.js";
 import Sidebar from "../components/Sidebar.js";
-import Toolbar from "../components/Toolbar.js";
+import Toolbar from "../components/toolbar/Toolbar.js";
 import { API_WAIT_TIME } from "../constants/constants.js";
 import Component from "../core/Component.js";
 import { request } from "../utils/api.js";
@@ -70,7 +70,7 @@ export default class MainPage extends Component{
 
   async onClickAdd (id){
     const newDocument = {
-      title : "제목 없음",
+      title : "",
       parent : id,
     }
     const {id : newId} = await request("/documents", {
