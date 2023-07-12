@@ -11,9 +11,12 @@ export default class Component {
     this.#state = properties.initialState;
     this.#events = properties.events;
     this.#props = properties.props;
+    this.mount();
     this.setEvent(this.#events);
     this.render();
   }
+
+  mount() {}
 
   validate(properties) {
     if (typeof properties !== "object")

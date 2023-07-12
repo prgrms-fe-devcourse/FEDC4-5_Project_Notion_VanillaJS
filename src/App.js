@@ -31,14 +31,11 @@ export default class App extends Component {
         {
           action: "click",
           tag: "a",
-          target: "a",
-          callback: ({ target, event }) =>
-            documentLinkClickEvent({
-              event,
-              app: this,
-              component: this.editor,
-              url: target.href,
-            }),
+          target: "li",
+          callback: ({ target, event }) => {
+            event.preventDefault();
+            documentLinkClickEvent({ url: target.id, editor: this.editor });
+          },
         },
         {
           action: "click",

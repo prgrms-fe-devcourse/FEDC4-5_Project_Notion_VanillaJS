@@ -2,19 +2,16 @@ import { route } from "../router/route.js";
 import {
   updateDocumentTree,
   removeDocumentFromStorage,
+  getDocument,
 } from "../service/index.js";
+import { hashRouter } from "../router/hashRouter.js";
 import { Document } from "../domain/index.js";
 import { request } from "../api.js";
 import { initDocument } from "../constants.js/constants.js";
 
-export const documentLinkClickEvent = async ({
-  event,
-  app,
-  component,
-  url,
-}) => {
-  event.preventDefault();
-  route({ app, component, url });
+export const documentLinkClickEvent = async ({ url, editor }) => {
+  hashRouter.push(url);
+  editor.state = await getDocument();
 };
 
 export const addDocumentButtonClickEvnet = async ({
