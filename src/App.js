@@ -2,7 +2,7 @@ import Component from "./core/Component.js";
 import { DocumentTreeComponent, EditorComponent } from "./Component/index.js";
 import { getDocumentTree } from "./service/index.js";
 import {
-  addDocumentButtonClickEvnet,
+  addDocumentButtonClickEvent,
   documentLinkClickEvent,
   deleteDocumentButtonClickEvent,
   documentInputChangeEvent,
@@ -52,7 +52,7 @@ export default class App extends Component {
           tag: ".addDocumentButton",
           target: "li",
           callback: ({ event, target }) =>
-            addDocumentButtonClickEvnet({
+            addDocumentButtonClickEvent({
               event,
               target,
               documentTree: this.documentTree,

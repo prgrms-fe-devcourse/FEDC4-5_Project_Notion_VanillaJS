@@ -1,7 +1,7 @@
 import { request } from "../api.js";
 import { DocumentTree, Document } from "../domain/index.js";
 import { hashRouter } from "../router/hashRouter.js";
-import { getDocumentFromStorage } from "./index.js";
+import { getDocumentFromStorage, cloneDomain } from "./index.js";
 
 const DOCUMENT_KEY = "/documents";
 
@@ -33,11 +33,15 @@ export const getRecentDocument = async () => {
   const tmpSaveDate = new Date(storageDocument.tmpSaveDate);
 
   if (storageDocument && updateDate.getTime() < tmpSaveDate.getTime()) {
-    return serverDocument.clone({
-      title: storageDocument.title,
-      content: storageDocument.content,
-      updatedAt: storageDocument.tmpSaveDate,
+    return cloneDomain({
+      domain: serverDocument,
+      newPropertie: { ...storageDocument },
     });
+    // return serverDocument.clone({
+    //   title: storageDocument.title,
+    //   content: storageDocument.content,
+    //   updatedAt: storageDocument.tmpSaveDate,
+    // });
   } else {
     return serverDocument;
   }

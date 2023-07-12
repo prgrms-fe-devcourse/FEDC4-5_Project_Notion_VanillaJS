@@ -12,7 +12,7 @@ export const documentLinkClickEvent = async ({ url, event }) => {
   hashRouter.push(url);
 };
 
-export const addDocumentButtonClickEvnet = async ({
+export const addDocumentButtonClickEvent = async ({
   event,
   target,
   documentTree,
@@ -25,12 +25,12 @@ export const addDocumentButtonClickEvnet = async ({
 
     const $deleteInputButton = document.createElement("button");
     $deleteInputButton.className = "deleteInputButton";
-    target.appendChild($deleteInputButton);
-
     if (target === null) {
       event.target.parentNode.insertBefore($input, event.target);
       return;
     }
+
+    target.appendChild($deleteInputButton);
     target.appendChild($input);
   }
 };
