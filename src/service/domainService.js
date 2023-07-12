@@ -5,7 +5,7 @@ export const validateDomain = ({
   domainName,
   allowedProperties,
 }) => {
-  if (typeof properties !== "object") {
+  if (typeof properties !== "object" && !Array.isArray(properties)) {
     throw new Error(
       `${domainName}: properties는 object 타입이어야 합니다. 현재타입 : ${typeof properties}`
     );
