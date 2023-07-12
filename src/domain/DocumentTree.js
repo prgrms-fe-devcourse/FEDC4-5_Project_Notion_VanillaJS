@@ -18,4 +18,8 @@ export default class DocumentTree {
   get documentTree() {
     return this.#properties.documentTree;
   }
+
+  get properties() {
+    return this.#properties;
+  }
 }

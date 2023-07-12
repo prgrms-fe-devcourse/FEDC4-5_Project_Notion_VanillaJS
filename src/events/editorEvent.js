@@ -7,14 +7,14 @@ import {
 
 let timeout;
 
-export const textareaFocusoutEvent = async ({ editor, content, title }) => {
+export const textareaFocusoutEvent = async ({ editor, content }) => {
   editor.state = cloneDomain({
     domain: editor.state,
     newPropertie: { content },
   });
 
   if (editor.state.id !== -1) {
-    saveDocumentToServer({ title, content });
+    saveDocumentToServer({ content });
   }
 };
 

@@ -38,6 +38,9 @@ export const validateDomain = ({
 };
 
 export const cloneDomain = ({ domain, newPropertie }) => {
-  const clonedDomain = deepCopy(domain);
-  return Object.assign(clonedDomain, newPropertie);
+  const clonedDomain = new domain.constructor({
+    ...deepCopy(domain.properties),
+    ...newPropertie,
+  });
+  return clonedDomain;
 };

@@ -46,4 +46,8 @@ export default class Document {
   get updatedAt() {
     return this.#properties.updatedAt;
   }
+
+  get properties() {
+    return this.#properties;
+  }
 }

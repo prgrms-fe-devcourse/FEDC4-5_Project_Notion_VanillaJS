@@ -1,5 +1,4 @@
 import Component from "../core/Component.js";
-import { hashRouter } from "../router/hashRouter.js";
 export default class EditorComponent extends Component {
   render() {
     this.$target.innerHTML = `
@@ -9,7 +8,7 @@ export default class EditorComponent extends Component {
           ? `contentEditable="false"`
           : `contentEditable="true"`
       }>
-        ${this.state.title || "제목을 입력하세요"}
+        ${this.state.title}
       </div>
       <div class="textarea" ${
         this.state.id === -1

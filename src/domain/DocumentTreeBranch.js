@@ -36,4 +36,8 @@ export default class DocumentTreeBranch {
   set documents(documents) {
     this.#properties.documents = documents;
   }
+
+  get properties() {
+    return this.#properties;
+  }
 }

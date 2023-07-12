@@ -93,7 +93,7 @@ export default class App extends Component {
           callback: ({ target }) => {
             textareaKeyupEvent({
               title: this.editor.state.title,
-              content: target.innerHTML,
+              content: target.textContent,
             });
           },
         },
@@ -103,8 +103,8 @@ export default class App extends Component {
           target: ".title",
           callback: ({ target }) => {
             titleKeyupEvent({
-              title: target.innerHTML,
-              content: this.state.content,
+              title: target.textContent,
+              content: this.editor.state.content,
             });
           },
         },
@@ -127,7 +127,7 @@ export default class App extends Component {
           callback: ({ target }) => {
             textareaFocusoutEvent({
               editor: this.editor,
-              content: target.innerHTML,
+              content: target.textContent,
             });
           },
         },

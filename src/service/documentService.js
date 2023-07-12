@@ -44,15 +44,19 @@ export const getRecentDocument = async () => {
 
   if (
     storageDocument &&
-    updateDate.getTime() < tmpSaveDate.getTime() &&
+    updateDate < tmpSaveDate &&
     confirm("임시저장된 문서가 있습니다. 불러오시겠습니까?")
   ) {
-    removeDocumentFromStorage(documentId);
     return cloneDomain({
       domain: serverDocument,
-      newPropertie: { ...storageDocument },
+      newPropertie: {
+        content: storageDocument.content,
+        title: storageDocument.title,
+        updatedAt: storageDocument.tmpSaveDate,
+      },
     });
   } else {
+    console.log(storageDocument);
     return serverDocument;
   }
 };
