@@ -83,7 +83,7 @@ export default class App extends Component {
 
     this.editor = new EditorComponent({
       $target: $editor,
-      initialState: await getDocument(),
+      initialState: await getRecentDocument(),
       props: {},
       events: [
         {
@@ -116,7 +116,7 @@ export default class App extends Component {
             titleFocusoutEvent({
               documentTree: this.documentTree,
               editor: this.editor,
-              title: target.innerHTML,
+              title: target.textContent,
             });
           },
         },

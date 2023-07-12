@@ -1,5 +1,4 @@
 import { getItem, setItem, removeItem } from "../storage/storage.js";
-import { getDocumentIdByPathname } from "./index.js";
 import { hashRouter } from "../router/hashRouter.js";
 
 export const saveDocumentToStorage = ({ title, content }) => {

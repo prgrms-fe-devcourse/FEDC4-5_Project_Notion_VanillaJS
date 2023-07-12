@@ -1,7 +1,11 @@
 import { request } from "../api.js";
 import { DocumentTree, Document } from "../domain/index.js";
 import { hashRouter } from "../router/hashRouter.js";
-import { getDocumentFromStorage, cloneDomain } from "./index.js";
+import {
+  getDocumentFromStorage,
+  cloneDomain,
+  removeDocumentFromStorage,
+} from "./index.js";
 import { initDocument } from "../constants.js/constants.js";
 
 const DOCUMENT_KEY = "/documents";
@@ -38,30 +42,22 @@ export const getRecentDocument = async () => {
   const updateDate = new Date(serverDocument.updatedAt);
   const tmpSaveDate = new Date(storageDocument.tmpSaveDate);
 
-  if (storageDocument && updateDate.getTime() < tmpSaveDate.getTime()) {
+  if (
+    storageDocument &&
+    updateDate.getTime() < tmpSaveDate.getTime() &&
+    confirm("임시저장된 문서가 있습니다. 불러오시겠습니까?")
+  ) {
+    removeDocumentFromStorage(documentId);
     return cloneDomain({
       domain: serverDocument,
       newPropertie: { ...storageDocument },
     });
-    // return serverDocument.clone({
-    //   title: storageDocument.title,
-    //   content: storageDocument.content,
-    //   updatedAt: storageDocument.tmpSaveDate,
-    // });
   } else {
     return serverDocument;
   }
 };
 
-export const getDocumentIdByPathname = () => {
-  const { pathname } = window.location;
-  const splitedPathname = pathname.split("/");
-  const documentId = splitedPathname[splitedPathname.length - 1];
-  return documentId;
-};
-
 export const saveDocumentToServer = async ({ title, content }) => {
-  console.log("saveDocumentToServer", title, content);
   await request(`${DOCUMENT_KEY}/${hashRouter.url}`, {
     method: "PUT",
     body: JSON.stringify({ title, content }),

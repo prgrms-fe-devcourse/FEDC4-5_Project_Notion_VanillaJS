@@ -22,6 +22,7 @@ export const addDocumentButtonClickEvent = async ({
     const $input = document.createElement("input");
     $input.placeholder = "제목";
     $input.className = "documentInput";
+    $input.maxLength = 20;
 
     const $deleteInputButton = document.createElement("button");
     $deleteInputButton.className = "deleteInputButton";
