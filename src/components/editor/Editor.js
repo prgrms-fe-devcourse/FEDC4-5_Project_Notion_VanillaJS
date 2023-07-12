@@ -1,14 +1,16 @@
-import { RIGHT_ARROW_KEY_CODE, SPACEBAR_KEY_CODE, TAB_KEY_CODE } from "../../constants/constants.js";
+import { RIGHT_ARROW_KEY, SPACEBAR_KEY, TAB_KEY } from "../../constants/constants.js";
 import Component from "../../core/Component.js";
-import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../../utils/markdownParser.js";
-import ChildDocumentList from "./ChildDocumentList.js";
+import ChildDocumentList from "../child-document-list/ChildDocumentList.js";
+import parseMarkdown  from "./utils/parseMarkdown.js";
+import onPressTab from "./utils/onPressTab.js";
+import onPressInCodeBlock from "./utils/onPressInCodeBlock.js";
 
 export default class Editor extends Component{
   template(){
     return `
-      <input type="text" name="title" class="title">
+      <input type="text" name="title" class="title" placeholder="제목없음">
       <div name="content" contentEditable="true" class ="content" 
-      placeholder="제목을 입력하세요"></div>
+      placeholder="내용을 입력하세요"></div>
       <div class="document-children"></div> 
     `
   }
@@ -42,30 +44,30 @@ export default class Editor extends Component{
     const {onEdit, documentContent} = this.props;
     this.addEvent("input", "[name=title]", ({target}) => {
       onEdit({
+        ...documentContent,
         title : target.value,
         content : document.querySelector("[name=content]").innerHTML,
-        ...documentContent
       });
       document.querySelector(".selected-document-title").textContent = target.value;
     }); 
 
     this.addEvent("input", "[name=content]", ({target}) => {
       onEdit({
+        ...documentContent,
         title :  document.querySelector("[name=title]").value,
         content : target.innerHTML,
-        ...documentContent
       });
     })
 
     this.addEvent("keyup", "[name=content]", (e) => {
-      parseMarkdown(e.keyCode, e);
+      parseMarkdown(e.key, e);
     })
 
     this.addEvent("keydown", "[name=content]", (e) => {
-      if(e.keyCode === TAB_KEY_CODE){
+      if(e.key === TAB_KEY){
         e.preventDefault();
         onPressTab();
-      }else if(e.keyCode === SPACEBAR_KEY_CODE || e.keyCode === RIGHT_ARROW_KEY_CODE){
+      }else if(e.key === SPACEBAR_KEY || e.key === RIGHT_ARROW_KEY){
         onPressInCodeBlock(e);
       }
     })

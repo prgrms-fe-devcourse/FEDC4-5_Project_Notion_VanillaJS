@@ -5,6 +5,14 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+.editor-line{
+  padding: 10px 10px;
+}
+
+.content div{
+  padding-top: 10px;
+}
+
 .child-list{
   width : 600px;
 }
@@ -15,6 +23,7 @@
 
 .content{
   width:900px;
+  padding : 5px;
 }
 
 .toggle-content{

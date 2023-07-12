@@ -47,7 +47,7 @@ export default class Sideber extends Component{
         <div class="directory">
           <div class="directory-entry ${selectedDocumentClass}" data-id="${id}" >
             <i class="fa-solid fa-caret-down toggle-content"></i>
-            <div data-id="${id}" class="entry-title ${selectedDocumentTitleClass}">${title}</div>
+            <div data-id="${id}" class="entry-title ${selectedDocumentTitleClass}">${title || "제목 없음"}</div>
             <i class="fa-solid fa-circle-plus add-document document-button"></i>
             <i class="fa-solid fa-circle-minus delete-document document-button"></i>
           </div>
