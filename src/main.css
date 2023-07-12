@@ -1,0 +1,63 @@
+button {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#notion-app {
+    display: flex;
+}
+
+#document-app {
+    width: 300px;
+    height: 100vh;
+    background-color: rgb(251,251,250);
+}
+
+#document-app .container {
+    margin-right: 20px;
+}
+
+#document-app .container ul {
+    margin-bottom: 15px;
+}
+
+#document-app .container li {
+    margin-bottom: 15px;
+}
+
+.documentTitleDiv {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+}
+
+#editor-app {
+    width: 1000px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-app .editor-view {
+    width: 1000px;
+    text-align: left;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.editor-view .title {
+    width: 800px;
+    height: 100px;
+    font-size: 40px;
+    font-weight: bold;
+    border: none;
+}
+
+.editor-view .content {
+    width: 800px;
+    height: 80vh;
+    font-size: 18px;
+    border: none;
+}
