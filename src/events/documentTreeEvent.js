@@ -5,7 +5,7 @@ import {
 import { hashRouter } from "../router/hashRouter.js";
 import { Document } from "../domain/index.js";
 import { request } from "../api.js";
-import { initDocument } from "../constants.js/constants.js";
+import { initDocument } from "../constant/constants.js";
 
 export const documentLinkClickEvent = async ({ url, event }) => {
   event.preventDefault();

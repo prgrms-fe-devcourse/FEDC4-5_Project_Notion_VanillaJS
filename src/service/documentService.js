@@ -6,9 +6,8 @@ import {
   cloneDomain,
   removeDocumentFromStorage,
 } from "./index.js";
-import { initDocument } from "../constants.js/constants.js";
-
-const DOCUMENT_KEY = "/documents";
+import { initDocument } from "../constant/constants.js";
+import { DOCUMENT_KEY } from "../constant/apiKey.js";
 
 export const getDocumentTree = async () => {
   return await request(DOCUMENT_KEY, {
