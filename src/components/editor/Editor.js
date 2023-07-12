@@ -1,7 +1,7 @@
-import { RIGHT_ARROW_KEY_CODE, SPACEBAR_KEY_CODE, TAB_KEY_CODE } from "../constants/constants.js";
-import Component from "../core/Component.js";
-import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../utils/markdownParser.js";
-import ChildDocumentList from "./ChildDocumentList.js";
+import { RIGHT_ARROW_KEY_CODE, SPACEBAR_KEY_CODE, TAB_KEY_CODE } from "../../constants/constants.js";
+import Component from "../../core/Component.js";
+import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../../utils/markdownParser.js";
+import ChildDocumentList from "../ChildDocumentList.js";
 
 export default class Editor extends Component{
   template(){

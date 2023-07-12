@@ -1,5 +1,4 @@
-import { DUMMY_CHARACTER } from "../constants/constants.js";
-import Component from "../core/Component.js";
+import Component from "../../core/Component.js";
 
 export default class Sideber extends Component{
   template(){
@@ -11,7 +10,7 @@ export default class Sideber extends Component{
   }
 
   setEvent(){
-    const {onClickAdd, onClickDelete, onClickDocument} = this.props;
+    const {onClickAdd, onClickDelete, onClickDocument, onClickBreadcrumb} = this.props;
     this.addEvent("click", ".add-root", () => {
       onClickAdd(null);
     })
@@ -28,20 +27,9 @@ export default class Sideber extends Component{
       }else if(classList.contains("selected-document-title")){
         onClickDocument(id);
       }else if(classList.contains("toggle-content")){
-        return;
+        onClickBreadcrumb(id);
       }else{
         onClickDocument(id);
-      }
-    })
-
-    this.addEvent("click", ".toggle-content", ({target}) => {
-      const $directoryEntry = target.closest(".directory-entry");
-      const {id} = $directoryEntry.dataset;
-      const $targetContent = document.querySelector(`#children-${id}`);
-      if($targetContent.style.display === "block" || $targetContent.style.display === ""){
-        $targetContent.style.display = "none";
-      }else{
-        $targetContent.style.display = "block";
       }
     })
   }
@@ -71,4 +59,3 @@ export default class Sideber extends Component{
     return resultHTML;
   }
 }
-//resultHTML += this.getDirectoryTree(document.documents, selectedId);

@@ -1,5 +1,5 @@
-import Editor from "../components/Editor.js";
-import Sidebar from "../components/Sidebar.js";
+import Editor from "../components/editor/Editor.js";
+import Sidebar from "../components/sidebar/Sidebar.js";
 import Toolbar from "../components/toolbar/Toolbar.js";
 import { API_WAIT_TIME } from "../constants/constants.js";
 import Component from "../core/Component.js";
@@ -38,7 +38,7 @@ export default class MainPage extends Component{
   }
 
   mounted(){
-    const {onEdit, onClickAdd, onClickDocument, onClickDelete} = this;
+    const {onEdit, onClickAdd, onClickDocument, onClickDelete, onClickBreadcrumb} = this;
     const $sidebar = this.$target.querySelector(".sidebar");
     const $toolbar = this.$target.querySelector(".toolbar");
     const $editor = this.$target.querySelector(".editor");
@@ -48,7 +48,8 @@ export default class MainPage extends Component{
       documents : this.state.documents,
       onClickAdd : onClickAdd.bind(this),
       onClickDelete : onClickDelete.bind(this),
-      onClickDocument : onClickDocument.bind(this)  
+      onClickDocument : onClickDocument.bind(this),
+      onClickBreadcrumb : onClickBreadcrumb.bind(this)
     });
 
     if(this.state.id){
@@ -93,6 +94,15 @@ export default class MainPage extends Component{
 
   onClickDocument (id){
     pushHistory(`/documents/${id}`);
+  }
+
+  onClickBreadcrumb(id){
+    const $targetContent = document.querySelector(`#children-${id}`);
+    if($targetContent.style.display === "block" || $targetContent.style.display === ""){
+      $targetContent.style.display = "none";
+    }else{
+      $targetContent.style.display = "block";
+    }
   }
 
   onEdit(post){
