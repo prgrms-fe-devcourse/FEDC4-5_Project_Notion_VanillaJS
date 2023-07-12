@@ -1,8 +1,9 @@
 import { getItem, setItem, removeItem } from "../storage/storage.js";
 import { getDocumentIdByPathname } from "./index.js";
+import { hashRouter } from "../router/hashRouter.js";
 
 export const saveDocumentToStorage = ({ title, content }) => {
-  setItem("documents/" + getDocumentIdByPathname(), {
+  setItem("documents/" + hashRouter.url, {
     title,
     content,
     tmpSaveDate: new Date(),
@@ -14,5 +15,5 @@ export const removeDocumentFromStorage = (documentId) => {
 };
 
 export const getDocumentFromStorage = (documentId) => {
-  return getItem("documents/" + documentId, []);
+  return getItem("documents/" + documentId, {});
 };

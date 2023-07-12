@@ -18,8 +18,8 @@ import { getRecentDocument } from "./service/documentService.js";
 
 export default class App extends Component {
   mount() {
-    hashRouter.observe(() => {
-      this.editor.state = getRecentDocument();
+    hashRouter.observe(async () => {
+      this.editor.state = await getRecentDocument();
     });
   }
 

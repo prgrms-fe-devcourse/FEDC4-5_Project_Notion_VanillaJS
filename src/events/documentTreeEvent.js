@@ -1,8 +1,6 @@
-import { route } from "../router/route.js";
 import {
   updateDocumentTree,
   removeDocumentFromStorage,
-  getDocument,
 } from "../service/index.js";
 import { hashRouter } from "../router/hashRouter.js";
 import { Document } from "../domain/index.js";

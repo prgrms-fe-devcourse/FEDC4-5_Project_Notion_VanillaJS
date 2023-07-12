@@ -24,17 +24,20 @@ export const getDocument = async () => {
   });
 };
 
-export const getRecentDocument = async (documentId) => {
+export const getRecentDocument = async () => {
+  const documentId = hashRouter.url;
   const serverDocument = await getDocument(documentId);
   const storageDocument = getDocumentFromStorage(documentId);
-  console.log(serverDocument);
-  console.log(storageDocument);
 
-  if (
-    storageDocument &&
-    serverDocument.updateAt < storageDocument.tmpSaveDate
-  ) {
-    return storageDocument;
+  const updateDate = new Date(serverDocument.updatedAt);
+  const tmpSaveDate = new Date(storageDocument.tmpSaveDate);
+
+  if (storageDocument && updateDate.getTime() < tmpSaveDate.getTime()) {
+    return serverDocument.clone({
+      title: storageDocument.title,
+      content: storageDocument.content,
+      updatedAt: storageDocument.tmpSaveDate,
+    });
   } else {
     return serverDocument;
   }
@@ -48,7 +51,8 @@ export const getDocumentIdByPathname = () => {
 };
 
 export const saveDocumentToServer = async ({ title, content }) => {
-  await request(`${DOCUMENT_KEY}/${getDocumentIdByPathname()}`, {
+  console.log("saveDocumentToServer", title, content);
+  await request(`${DOCUMENT_KEY}/${hashRouter.url}`, {
     method: "PUT",
     body: JSON.stringify({ title, content }),
   });
