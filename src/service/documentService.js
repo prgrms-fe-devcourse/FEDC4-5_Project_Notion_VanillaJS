@@ -22,6 +22,17 @@ export const getDocument = async () => {
   });
 };
 
+export const getRecentDocument = async (documentId) => {
+  const serverDocument = await getDocument(documentId);
+  const storageDocument = getDocumentFromStorage(documentId);
+
+  if (serverDocument.updateAt < storageDocument.tmpSaveDate) {
+    return storageDocument;
+  } else {
+    return serverDocument;
+  }
+};
+
 export const getDocumentIdByPathname = () => {
   const { pathname } = window.location;
   const splitedPathname = pathname.split("/");

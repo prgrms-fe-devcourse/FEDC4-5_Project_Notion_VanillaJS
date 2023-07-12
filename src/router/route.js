@@ -13,26 +13,8 @@ export const route = async ({ component, url }) => {
   );
   switch (routeName) {
     case "documents":
-      // routeDocument({ component, documentId });
-      const savedDocument = await getDocument(documentId);
-      try {
-        const { title, content, tmpSaveDate } =
-          getDocumentFromStorage(documentId);
-        if (tmpSaveDate > savedDocument.updatedAt) {
-          if (confirm("임시저장된 데이터가 있습니다. 불러오시겠습니까?")) {
-            component.state = savedDocument.clone({
-              title,
-              content,
-              updatedAt: tmpSaveDate,
-            });
-            return;
-          }
-        }
-      } catch (error) {
-        console.log(
-          "임시저장된 데이터가 없습니다. 서버에서 데이터를 불러옵니다."
-        );
-      }
+      getRecentDocument(documentId);
+
       component.state = savedDocument;
       removeDocumentFromStorage(documentId);
       break;

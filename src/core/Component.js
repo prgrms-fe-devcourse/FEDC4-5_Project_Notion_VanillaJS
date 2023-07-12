@@ -51,7 +51,7 @@ export default class Component {
 
     if (typeof props !== "object") {
       throw new Error(
-        `Component: props는 object 타입이어야 합니다. 현재타입 : ${typeof props}`
+        `Component: props는 Array 타입이어야 합니다. 현재타입 : ${typeof events}`
       );
     }
   }
@@ -65,7 +65,7 @@ export default class Component {
   setEventDelegation({ action, tag, target, callback }) {
     this.#$target.addEventListener(action, (event) => {
       if (event.target.closest(`${tag}`)) {
-        callback({ event, target: event.target.closest(`${target}`) });
+        callback({ event, target: event.target.closest(target) });
       }
     });
   }

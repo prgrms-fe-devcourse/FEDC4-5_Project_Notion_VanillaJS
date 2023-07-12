@@ -16,7 +16,6 @@ import { initDocument } from "./constants.js/constants.js";
 
 export default class App extends Component {
   async render() {
-    console.log(this.props.rootPath);
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
       <section id='editor'></section>
