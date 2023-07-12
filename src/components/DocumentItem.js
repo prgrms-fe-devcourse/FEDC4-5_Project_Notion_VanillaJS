@@ -1,5 +1,5 @@
 import Component from '../core/Component';
-import { request } from '../api/DocumentAPI';
+import { request } from '../api/documentAPI';
 
 export default class DocumentItem extends Component {
   constructor() {

@@ -1,6 +1,6 @@
 import Component from '../core/Component';
 import DocumentItem from './DocumentItem';
-import { request } from '../api/DocumentAPI';
+import { request } from '../api/documentAPI';
 
 export default class Document extends Component {
   constructor() {
@@ -52,7 +52,7 @@ export default class Document extends Component {
       res.then((value) => {
         documentItem.setState({ id: value.id, title: value.title });
       });
-      docuContainer.append(documentItem.el);
+      documentContainer.append(documentItem.el);
     });
   }
 }

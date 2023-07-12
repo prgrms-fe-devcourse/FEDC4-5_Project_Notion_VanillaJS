@@ -1,6 +1,6 @@
 import Component from '../core/Component';
 import { getItem, setItem } from '../core/Storage';
-import { request } from '../api/DocumentAPI';
+import { request } from '../api/documentAPI';
 import { debounce } from '../utils/debounce';
 
 export default class Editor extends Component {
