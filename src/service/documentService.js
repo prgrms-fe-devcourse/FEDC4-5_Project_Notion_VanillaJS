@@ -1,12 +1,11 @@
 import { request } from "../api.js";
-import { DocumentTree, Document } from "../domain/index.js";
+import { DocumentTree, Document, initDocument } from "../domain/index.js";
 import { hashRouter } from "../router/hashRouter.js";
 import {
   getDocumentFromStorage,
   cloneDomain,
   removeDocumentFromStorage,
 } from "./index.js";
-import { initDocument } from "../constant/constants.js";
 import { DOCUMENT_KEY } from "../constant/apiKey.js";
 
 export const getDocumentTree = async () => {
@@ -19,8 +18,6 @@ export const getDocumentTree = async () => {
 
 export const getDocument = async () => {
   if (hashRouter.url === "") {
-    console.log("init");
-    console.log(initDocument);
     return new Document(initDocument);
   }
   return await request(`${DOCUMENT_KEY}/${hashRouter.url}`, {

@@ -1,9 +1,5 @@
 import App from "./App.js";
+import { initComponent } from "./domain/initData.js";
 const $app = document.querySelector("#app");
 
-new App({
-  $target: $app,
-  initialState: {},
-  events: [],
-  props: {},
-});
+new App({ ...initComponent, $target: $app });

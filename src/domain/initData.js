@@ -6,3 +6,10 @@ export const initDocument = {
   createdAt: "000-000",
   updatedAt: "000-000",
 };
+
+export const initComponent = {
+  $target: null,
+  initialState: {},
+  events: [],
+  props: {},
+};
