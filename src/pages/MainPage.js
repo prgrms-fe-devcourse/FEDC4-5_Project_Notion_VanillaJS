@@ -3,7 +3,7 @@ import Sidebar from "../components/sidebar/Sidebar.js";
 import Toolbar from "../components/toolbar/Toolbar.js";
 import { API_WAIT_TIME } from "../constants/constants.js";
 import Component from "../core/Component.js";
-import { request } from "../utils/api.js";
+import { deleteDocument, editDocument, fetchContent, fetchDocuments, postNewDocument, request } from "../utils/api.js";
 import { pushHistory, replaceHistory } from "../utils/router.js";
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from "../utils/storage.js";
 
@@ -21,8 +21,8 @@ export default class MainPage extends Component{
 
   async setState(nextState){
     const {id} = nextState;
-    const documents = await this.fetchDocuments();
-    const documentContent = await this.fetchContent(id);
+    const documents = await fetchDocuments();
+    const documentContent = await fetchContent(id, this.getPostLocalSaveKey(id));
     this.state = {...this.state, ...nextState, documents, documentContent, id};
     this.render();
   }
@@ -70,21 +70,12 @@ export default class MainPage extends Component{
   }
 
   async onClickAdd (id){
-    const newDocument = {
-      title : "",
-      parent : id,
-    }
-    const {id : newId} = await request("/documents", {
-      method : "POST",
-      body : JSON.stringify(newDocument)
-    })
+    const {id : newId} = await postNewDocument(id);
     pushHistory(`/documents/${newId}`);
   }
 
   async onClickDelete (id){
-    await request(`/documents/${id}`, {
-      method : "DELETE"
-    })
+    await deleteDocument(id);
     if(id === this.state.id){
       replaceHistory("/");
       return;
@@ -114,33 +105,8 @@ export default class MainPage extends Component{
       ...post
     })
     this.titleTimer = setTimeout(async () => {
-      await request(`/documents/${id}`, {
-        method : "PUT",
-        body : JSON.stringify(post)
-      })
+      await editDocument(id, post);
       removeLocalStorageItem(this.getPostLocalSaveKey(id));
     }, API_WAIT_TIME)
-  }
-
-  async fetchDocuments(){
-    return await request("/documents");
-  }
-
-  async fetchContent(id){
-    if(!id) return null;
-    const tempContent = getLocalStorageItem(this.getPostLocalSaveKey(id), null);
-    if(tempContent){
-      if(confirm("저장된 작성글이 있습니다. 불러올까요?")){
-        await request(`/documents/${id}`,{
-          method : "PUT",
-          body : JSON.stringify(tempContent)
-        })
-        removeLocalStorageItem(this.getPostLocalSaveKey(id));
-        return tempContent;
-      }else{
-        return await request(`/documents/${id}`);
-      }
-    }
-    return await request(`/documents/${id}`);
   }
 }

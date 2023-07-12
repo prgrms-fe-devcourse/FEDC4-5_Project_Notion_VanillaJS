@@ -1,7 +1,7 @@
 import { RIGHT_ARROW_KEY_CODE, SPACEBAR_KEY_CODE, TAB_KEY_CODE } from "../../constants/constants.js";
 import Component from "../../core/Component.js";
 import { onPressInCodeBlock, onPressTab, parseMarkdown } from "../../utils/markdownParser.js";
-import ChildDocumentList from "../ChildDocumentList.js";
+import ChildDocumentList from "./ChildDocumentList.js";
 
 export default class Editor extends Component{
   template(){
@@ -28,7 +28,7 @@ export default class Editor extends Component{
   mounted(){
     const {documentContent, onClickAdd} = this.props;
     const {documents} = documentContent;
-    if(!documents || !documents.length){
+    if(documents.length <= 0){
       return;
     }
     const $childDocumentList = this.$target.querySelector(".document-children");
@@ -39,11 +39,12 @@ export default class Editor extends Component{
   }
 
   setEvent(){
-    const {onEdit} = this.props;
+    const {onEdit, documentContent} = this.props;
     this.addEvent("input", "[name=title]", ({target}) => {
       onEdit({
         title : target.value,
-        content : document.querySelector("[name=content]").innerHTML
+        content : document.querySelector("[name=content]").innerHTML,
+        ...documentContent
       });
       document.querySelector(".selected-document-title").textContent = target.value;
     }); 
@@ -51,7 +52,8 @@ export default class Editor extends Component{
     this.addEvent("input", "[name=content]", ({target}) => {
       onEdit({
         title :  document.querySelector("[name=title]").value,
-        content : target.innerHTML
+        content : target.innerHTML,
+        ...documentContent
       });
     })
 
