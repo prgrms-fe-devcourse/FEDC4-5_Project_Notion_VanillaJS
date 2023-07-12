@@ -11,10 +11,8 @@ import {
   titleFocusoutEvent,
   textareaFocusoutEvent,
 } from "./events/index.js";
-import { Document } from "./domain/index.js";
-import { initDocument } from "./constants.js/constants.js";
 import { hashRouter } from "./router/hashRouter.js";
-import { getRecentDocument } from "./service/documentService.js";
+import { getDocument, getRecentDocument } from "./service/documentService.js";
 
 export default class App extends Component {
   mount() {
@@ -85,7 +83,7 @@ export default class App extends Component {
 
     this.editor = new EditorComponent({
       $target: $editor,
-      initialState: new Document(initDocument),
+      initialState: await getDocument(),
       props: {},
       events: [
         {
