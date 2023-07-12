@@ -1,6 +1,7 @@
 import { request } from "../api.js";
 import { DocumentTree, Document } from "../domain/index.js";
 import { hashRouter } from "../router/hashRouter.js";
+import { getDocumentFromStorage } from "./index.js";
 
 const DOCUMENT_KEY = "/documents";
 
@@ -26,8 +27,13 @@ export const getDocument = async () => {
 export const getRecentDocument = async (documentId) => {
   const serverDocument = await getDocument(documentId);
   const storageDocument = getDocumentFromStorage(documentId);
+  console.log(serverDocument);
+  console.log(storageDocument);
 
-  if (serverDocument.updateAt < storageDocument.tmpSaveDate) {
+  if (
+    storageDocument &&
+    serverDocument.updateAt < storageDocument.tmpSaveDate
+  ) {
     return storageDocument;
   } else {
     return serverDocument;

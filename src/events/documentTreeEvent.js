@@ -9,9 +9,9 @@ import { Document } from "../domain/index.js";
 import { request } from "../api.js";
 import { initDocument } from "../constants.js/constants.js";
 
-export const documentLinkClickEvent = async ({ url, editor }) => {
+export const documentLinkClickEvent = async ({ url, event }) => {
+  event.preventDefault();
   hashRouter.push(url);
-  editor.state = await getDocument();
 };
 
 export const addDocumentButtonClickEvnet = async ({

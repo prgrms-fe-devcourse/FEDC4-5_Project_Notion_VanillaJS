@@ -13,8 +13,16 @@ import {
 } from "./events/index.js";
 import { Document } from "./domain/index.js";
 import { initDocument } from "./constants.js/constants.js";
+import { hashRouter } from "./router/hashRouter.js";
+import { getRecentDocument } from "./service/documentService.js";
 
 export default class App extends Component {
+  mount() {
+    hashRouter.observe(() => {
+      this.editor.state = getRecentDocument();
+    });
+  }
+
   async render() {
     this.$target.innerHTML = `
       <aside id='documentTree'></aside>
@@ -33,8 +41,10 @@ export default class App extends Component {
           tag: "a",
           target: "li",
           callback: ({ target, event }) => {
-            event.preventDefault();
-            documentLinkClickEvent({ url: target.id, editor: this.editor });
+            documentLinkClickEvent({
+              url: target.id,
+              event,
+            });
           },
         },
         {
