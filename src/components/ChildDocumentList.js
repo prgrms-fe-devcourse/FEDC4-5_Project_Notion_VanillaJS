@@ -4,7 +4,7 @@ export default class ChildDocumentList extends Component{
   template(){
     const {documents} = this.props;
     return `
-      <div name="child-list" contentEditable="true" style="width:600px;">
+      <div name="child-list" contentEditable="true">
         ${documents.map(child => `
           <div class="children-documents-link" data-id="${child.id}">
             <i class="fa-solid fa-file"></i>

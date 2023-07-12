@@ -6,8 +6,8 @@ import ChildDocumentList from "./ChildDocumentList.js";
 export default class Editor extends Component{
   template(){
     return `
-      <input type="text" name="title" style="width:920px;">
-      <div name="content" contentEditable="true" style="width:900px;"></div>
+      <input type="text" name="title" class="title">
+      <div name="content" contentEditable="true" class ="content"></div>
       <div class="document-children"></div> 
     `
   }

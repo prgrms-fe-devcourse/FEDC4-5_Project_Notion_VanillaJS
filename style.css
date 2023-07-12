@@ -5,6 +5,18 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+.child-list{
+  width : 600px;
+}
+
+.title{
+  width : 920px;
+}
+
+.content{
+  width:900px;
+}
+
 .toggle-content{
   cursor:pointer;
 }
