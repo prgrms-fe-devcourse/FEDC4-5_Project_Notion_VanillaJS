@@ -1,7 +1,5 @@
+import { API_END_POINT, UNIQUE_KEY } from "../constants/constants.js";
 import { replaceHistory } from "./router.js";
-
-const API_END_POINT  = `https://kdt-frontend.programmers.co.kr`;
-const UNIQUE_KEY = `GuNwOoParK1359602@#!%`
 
 export const request = async (url, option = {}) => {
   try{

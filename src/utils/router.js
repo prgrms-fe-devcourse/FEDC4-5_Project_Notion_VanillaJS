@@ -1,5 +1,4 @@
-const ROUTE_EVENT_NAME  = "route-change";
-const ROUTE_REPLACE_EVENT_NAME = "route-replace";
+import { ROUTE_EVENT_NAME, ROUTE_REPLACE_EVENT_NAME } from "../constants/constants.js";
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_EVENT_NAME, (e) => {
@@ -22,7 +21,7 @@ export const initRouter = (onRoute) => {
 }
 
 export const pushHistory = (nextUrl) => {
-  window.dispatchEvent(new CustomEvent("route-change", {
+  window.dispatchEvent(new CustomEvent(ROUTE_EVENT_NAME, {
     detail : {
       nextUrl
     }   
@@ -30,7 +29,7 @@ export const pushHistory = (nextUrl) => {
 }
 
 export const replaceHistory = (newUrl) => {
-  window.dispatchEvent(new CustomEvent("route-replace", {
+  window.dispatchEvent(new CustomEvent(ROUTE_REPLACE_EVENT_NAME, {
     detail : {
       newUrl
     }
