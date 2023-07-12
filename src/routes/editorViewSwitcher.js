@@ -1,12 +1,17 @@
 import { editorViewRouter } from './editorViewRouter';
 
-export const editorViewSwitcher = (appEl) => {
+export const editorViewSwitcher = (appEl, isNormal) => {
   const editorEl = document.getElementById('editor-app');
   const introEl = document.getElementById('intro-page');
+  const notFoundEl = document.getElementById('not-found-page');
   if (editorEl) {
     editorEl.remove();
-  } else {
+  }
+  if (introEl) {
     introEl.remove();
   }
-  editorViewRouter(appEl, introEl);
+  if (notFoundEl) {
+    notFoundEl.remove();
+  }
+  editorViewRouter(appEl, introEl, notFoundEl, isNormal);
 };
