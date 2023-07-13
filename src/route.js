@@ -17,6 +17,10 @@ export const initRouter = (onRoute) => {
       return;
     }
   });
+
+  window.addEventListener('popstate', (e) => {
+    onRoute();
+  });
 };
 
 export const customPush = (nextURL, type) => {
