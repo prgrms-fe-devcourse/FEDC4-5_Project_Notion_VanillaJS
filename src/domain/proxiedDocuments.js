@@ -2,7 +2,7 @@ import { getDocuments } from '../api';
 
 export const proxiedDocuments = new Proxy(
   {
-    documents: await getDocuments(),
+    documents: getDocuments(),
     staleTime: Date.now() + 5000,
   },
   {
