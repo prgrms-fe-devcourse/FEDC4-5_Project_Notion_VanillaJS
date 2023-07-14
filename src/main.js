@@ -1,7 +1,7 @@
 import { TARGET } from '@consts/target';
 
 import App from './App';
-import './styleReset.css';
+import './reset.css';
 
 const initApp = ($target) => new App($target);
 
