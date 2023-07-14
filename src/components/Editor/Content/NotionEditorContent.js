@@ -42,35 +42,24 @@ export default class NotionEditorContent extends Component {
       document.execCommand('insertHTML', false, text);
     });
 
+    const handleComposition = ({ target, isTrusted }) => {
+      if (isTrusted === false) return;
+
+      if (this.timer !== null) clearTimeout(this.timer);
+
+      this.timer = setTimeout(async () => {
+        this.$contentEditor.blur();
+        this.$contentEditor.focus();
+        this.handleEdit({ target, callback: onEdit });
+      }, 1000);
+    };
+
     this.$contentEditor.addEventListener(
       'compositionupdate',
-      ({ target, isTrusted }) => {
-        if (isTrusted === false) return;
-
-        if (this.timer !== null) clearTimeout(this.timer);
-
-        this.timer = setTimeout(async () => {
-          this.$contentEditor.blur();
-          this.$contentEditor.focus();
-          this.handleEdit({ target, callback: onEdit });
-        }, 1000);
-      }
+      handleComposition
     );
 
-    this.$contentEditor.addEventListener(
-      'compositionend',
-      ({ target, isTrusted }) => {
-        if (isTrusted === false) return;
-
-        if (this.timer !== null) clearTimeout(this.timer);
-
-        this.timer = setTimeout(async () => {
-          this.$contentEditor.blur();
-          this.$contentEditor.focus();
-          this.handleEdit({ target, callback: onEdit });
-        }, 1000);
-      }
-    );
+    this.$contentEditor.addEventListener('compositionend', handleComposition);
 
     this.$contentEditor.addEventListener(
       'input',
