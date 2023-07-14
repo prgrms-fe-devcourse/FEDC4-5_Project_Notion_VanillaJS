@@ -22,7 +22,9 @@ export default class App extends Component {
     const { pathname } = window.location;
     const [, , documentId] = pathname.split('/');
 
-    return documentId ?? null;
+    if (!documentId) return null;
+
+    return Number(documentId);
   }
 
   route() {

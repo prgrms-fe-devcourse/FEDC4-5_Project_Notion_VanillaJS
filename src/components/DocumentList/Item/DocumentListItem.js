@@ -17,7 +17,7 @@ export default class DocumentListItem extends Component {
     this.$documentListItem = document.createElement('li');
     this.$documentListItem.className = SIDEBAR.DOCUMENT_LIST_ITEM.ROOT;
 
-    if (Number(documentItem.id) === Number(selectedId)) {
+    if (documentItem.id === selectedId) {
       this.$documentListItem.setAttribute('selected', 'true');
     }
 
