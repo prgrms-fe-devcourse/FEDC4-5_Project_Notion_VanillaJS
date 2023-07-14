@@ -1,0 +1,6 @@
+.document-tree-root {
+  min-width: 240px;
+  width: fit-content;
+  flex-grow: 1;
+  overflow-y: scroll;
+}

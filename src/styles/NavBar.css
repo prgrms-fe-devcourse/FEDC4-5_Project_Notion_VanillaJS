@@ -1,0 +1,11 @@
+.nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-left: 10px;
+  min-height: 45px;
+}
+
+.nav-bar button {
+  margin: 4px;
+}

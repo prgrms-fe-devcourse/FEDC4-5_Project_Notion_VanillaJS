@@ -1,0 +1,62 @@
+.document-tree {
+  margin-left: 15px;
+}
+
+.invisible-tree {
+  display: none;
+}
+
+.document-blob-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-blob-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.document-blob {
+  min-width: 100%;
+  width: fit-content;
+  padding: 3px 6px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.document-blob-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.document-blob:hover {
+  background-color: #ebebea;
+}
+
+.document-blob:hover .document-blob-right {
+  visibility: visible;
+}
+
+.document-blob-btn {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.document-blob-btn:hover {
+  background-color: #d9d9d9;
+}
