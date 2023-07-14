@@ -45,6 +45,8 @@ export default class NotionSidebar extends Component {
 
   async handleCreateButtonClick() {
     const newDocument = await createDocument({ title: '' });
+    if (!newDocument) return;
+
     history.push(`/documents/${newDocument.id}`);
   }
 
