@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$BRANCH" != "4/#5_yanghyejin_working" ];
+then
+  echo "You can't push except for the branch you're working on"
+  exit 1
+fi
+
+exit 0

@@ -1,0 +1,17 @@
+.notion-editor-title {
+  height: fit-content;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.notion-editor-title:empty::before {
+  content: attr(placeholder);
+  display: block;
+  color: #e4e4e3;
+}

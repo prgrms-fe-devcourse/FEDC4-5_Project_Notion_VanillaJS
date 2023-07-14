@@ -1,0 +1,26 @@
+.document-create-button {
+  display: flex;
+  align-items: center;
+  margin: 1px 4px;
+  padding: 4px 10px;
+  gap: 8px;
+
+  color: #19171199;
+  font-size: 14px;
+  font-weight: 600;
+
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ededeb;
+    cursor: pointer;
+  }
+}
+
+.document-create-button span {
+  width: 100%;
+  text-align: start;
+}
