@@ -22,8 +22,6 @@ export default function App({ $target, username }) {
   });
 
   this.route = () => {
-    // $sidebarContainer.innerHTML = "";
-    // $postContainer.innerHTML = "";
     const { pathname } = window.location;
     postPage.setState();
 
@@ -31,7 +29,7 @@ export default function App({ $target, username }) {
       postEditPage.setState({ id: "root" });
     } else {
       const [, id] = pathname.split("/");
-      postEditPage.setState({ id: id }); // test id { id: 75417 }
+      postEditPage.setState({ id: id });
     }
   };
 

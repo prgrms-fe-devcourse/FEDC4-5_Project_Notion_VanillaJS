@@ -2,7 +2,6 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  /* background-color: #f3eeee; */
 }
 
 header {
@@ -31,7 +30,7 @@ li {
   border: 3px dashed #a48bbe;
   border-radius: 10px;
 }
-.Editor {
+.editor {
   display: flex;
   flex-direction: column;
   height: 100%;
