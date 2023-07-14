@@ -12,7 +12,7 @@ export default class SidebarCreateButton extends Component {
     this.$button = document.createElement('button');
     this.$button.className = SIDEBAR.CREATE_BUTTON;
     this.$button.innerHTML = `
-      <img src="${AddCircleIcon}" alt="Image" heigth="22" width="22">
+      <img src="${AddCircleIcon}" alt="Image" height="22" width="22">
       <span>${textContent}</span>
     `;
 
