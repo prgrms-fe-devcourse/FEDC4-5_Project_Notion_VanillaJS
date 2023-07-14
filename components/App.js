@@ -29,7 +29,7 @@ export default function App({ $target }) {
   const notionPage = new NotionPage({
     $target: $notionPageContainer,
     initialState: [],
-    onClick: (id) => {
+    onClickNotion: (id) => {
       const { pathname } = window.location;
       const [, , notionId] = pathname.split("/");
       if (id !== notionId) {
@@ -37,10 +37,10 @@ export default function App({ $target }) {
         this.route();
       }
     },
-    onAdd: (id) => {
+    onAddNotion: (id) => {
       fetchAddNotion(id);
     },
-    onDelete: async (id) => {
+    onDeleteNotion: async (id) => {
       await request(`/documents/${id}`, {
         method: "DELETE",
       });
@@ -55,7 +55,7 @@ export default function App({ $target }) {
   const editorPage = new NotionEditPage({
     $target: $notionEditPageContainer,
     initialState: "",
-    onRender: () => {
+    onRenderNotionPage: () => {
       notionPage.render();
     },
   });
@@ -64,6 +64,7 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
 
+    // 홈 경로이면 노션 페이지만 렌더링, 그 외는 해당 노션 에디터 렌더링
     if (pathname === "/") {
       notionPage.render();
       editorPage.setState("");

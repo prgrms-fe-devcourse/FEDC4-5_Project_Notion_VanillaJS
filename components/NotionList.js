@@ -1,9 +1,9 @@
 export default function NotionList({
   $target,
   initialState,
-  onClick,
-  onAdd,
-  onDelete,
+  onClickNotion,
+  onAddNotion,
+  onDeleteNotion,
 }) {
   const $notionList = document.createElement("div");
   $notionList.className = "notionList";
@@ -79,13 +79,13 @@ export default function NotionList({
     const id = e.target.dataset.id;
     if (e.target.className === "notion") {
       // 노션 전체 클릭 시 실행
-      onClick(id);
+      onClickNotion(id);
     } else if (e.target.className === "addBtn") {
       // 노션 안의 "+" 버튼 클릭 시 실행
-      onAdd(id);
+      onAddNotion(id);
     } else if (e.target.className === "removeBtn") {
       // 노션 안의 "x" 버튼 클릭 시 실행
-      onDelete(id);
+      onDeleteNotion(id);
     } else {
       const $parent = e.target.closest("li");
       const $btn = e.target.closest("button");

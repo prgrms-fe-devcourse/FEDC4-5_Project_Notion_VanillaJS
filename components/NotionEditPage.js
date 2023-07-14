@@ -1,7 +1,7 @@
 import Editor from "./Editor.js";
 import { request } from "../utils/api.js";
 
-export default function NotionEditPage({ $target, initialState, onRender }) {
+export default function NotionEditPage({ $target, initialState, onRenderNotionPage }) {
   const $page = document.createElement("div");
   $page.className = "notionEditPage";
 
@@ -43,7 +43,7 @@ export default function NotionEditPage({ $target, initialState, onRender }) {
           method: "PUT",
           body: JSON.stringify(notion),
         });
-        onRender();
+        onRenderNotionPage();
       }, 2000);
     },
   });

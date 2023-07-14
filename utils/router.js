@@ -10,13 +10,3 @@ export const initRouter = (onRoute) => {
     }
   });
 };
-
-export const push = (nextUrl) => {
-  window.dispatchEvent(
-    new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
-      detail: {
-        nextUrl,
-      },
-    })
-  );
-};
