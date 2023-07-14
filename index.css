@@ -89,6 +89,7 @@ div {
 }
 .documentTitle:hover {
   background-color: #c29243;
+  user-select: none;
 }
 
 .toggleBtn {
