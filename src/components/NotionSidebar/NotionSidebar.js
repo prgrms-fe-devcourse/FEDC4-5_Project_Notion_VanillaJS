@@ -1,4 +1,5 @@
 import { SIDEBAR } from '@consts/target';
+import URL from '@consts/url';
 
 import { createDocument } from '@api/document';
 
@@ -47,7 +48,8 @@ export default class NotionSidebar extends Component {
     const newDocument = await createDocument({ title: '' });
     if (!newDocument) return;
 
-    history.push(`/documents/${newDocument.id}`);
+    const documentPath = URL.getDocumentDetailPath(newDocument.id);
+    history.push(documentPath);
   }
 
   setState(nextState) {

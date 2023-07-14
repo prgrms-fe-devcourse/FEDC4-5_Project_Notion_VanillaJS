@@ -25,7 +25,8 @@ export default class Footer extends Component {
       const { linkId } = $a.dataset;
       if (!linkId) return;
 
-      history.push(`/documents/${linkId}`);
+      const documentPath = URL.getDocumentDetailPath(linkId);
+      history.push(documentPath);
     });
   }
 

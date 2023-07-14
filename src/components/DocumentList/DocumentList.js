@@ -1,4 +1,5 @@
 import { SIDEBAR } from '@consts/target';
+import URL from '@consts/url';
 
 import { createDocument, deleteDocument } from '@api/document';
 
@@ -38,7 +39,8 @@ export default class DocumentList extends Component {
     const newDocument = await createDocument({ title: '', parent: id });
     if (!newDocument) return;
 
-    history.push(`/documents/${newDocument.id}`);
+    const documentPath = URL.getDocumentDetailPath(newDocument.id);
+    history.push(documentPath);
   };
 
   hanldeDeleteButtonClick = async (id) => {
@@ -54,10 +56,11 @@ export default class DocumentList extends Component {
       if ($li.className === SIDEBAR.DOCUMENT_LIST_ITEM.EMPTY) return;
 
       const { id } = $li.dataset;
+      const documentPath = URL.getDocumentDetailPath(id);
 
       const $button = target.closest('button');
       if (!$button) {
-        history.push(`/documents/${id}`);
+        history.push(documentPath);
         return;
       }
       const { className } = $button;
@@ -82,7 +85,7 @@ export default class DocumentList extends Component {
         return;
       }
 
-      history.push(`/documents/${id}`);
+      history.push(documentPath);
     });
   }
 
