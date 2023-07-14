@@ -11,7 +11,7 @@ export default function App({ $target, username }) {
   $target.appendChild($sidebarContainer);
   $target.appendChild($postContainer);
 
-  const postPage = new SidebarPage({ $target: $sidebarContainer, username });
+  const sidebarPage = new SidebarPage({ $target: $sidebarContainer, username });
 
   const postEditPage = new PostEditPage({
     $target: $postContainer,
@@ -23,7 +23,7 @@ export default function App({ $target, username }) {
 
   this.route = () => {
     const { pathname } = window.location;
-    postPage.setState();
+    sidebarPage.setState();
 
     if (pathname === "/") {
       postEditPage.setState({ id: "root" });
