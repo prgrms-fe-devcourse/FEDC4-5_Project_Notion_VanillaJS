@@ -28,7 +28,7 @@ export default function App({ $target, username }) {
     if (pathname === "/") {
       postEditPage.setState({ id: "root" });
     } else {
-      const [, id] = pathname.split("/");
+      const [, , id] = pathname.split("/");
       postEditPage.setState({ id: id });
     }
   };

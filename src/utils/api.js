@@ -1,8 +1,8 @@
-export const API_END_POINT = "https://kdt-frontend.programmers.co.kr/documents";
+export const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const getApi = async (username, id = "") => {
   try {
-    const res = await fetch(`${API_END_POINT}/${id}`, {
+    const res = await fetch(`${API_END_POINT}/documents/${id}`, {
       headers: {
         "x-username": username,
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export const getApi = async (username, id = "") => {
 
 export const postApi = async (username, id = null) => {
   try {
-    const res = await fetch(`${API_END_POINT}`, {
+    const res = await fetch(`${API_END_POINT}/documents`, {
       headers: {
         "x-username": username,
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const postApi = async (username, id = null) => {
 
 export const putApi = async (username, id, title, content) => {
   try {
-    const res = await fetch(`${API_END_POINT}/${id}`, {
+    const res = await fetch(`${API_END_POINT}/documents/${id}`, {
       headers: {
         "x-username": username,
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export const putApi = async (username, id, title, content) => {
 
 export const deleteApi = async (username, id) => {
   try {
-    const res = await fetch(`${API_END_POINT}/${id}`, {
+    const res = await fetch(`${API_END_POINT}/documents/${id}`, {
       headers: {
         "x-username": username,
       },

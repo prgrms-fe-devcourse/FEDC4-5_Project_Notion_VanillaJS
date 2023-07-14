@@ -37,7 +37,7 @@ export default function DocumentList({ $target, initialState, username }) {
     if ($li) {
       const { id } = $li.dataset;
       $documentList.innerHTML = "";
-      pushRouter(`/${id}`);
+      pushRouter(`/documents/${id}`);
     }
 
     if (target.tagName === "H3") {
@@ -89,7 +89,7 @@ export default function DocumentList({ $target, initialState, username }) {
             $documentList.innerHTML = "";
             res.parent === null || res.parent === {}
               ? pushRouter("/")
-              : pushRouter(`/${res.parent.id}`);
+              : pushRouter(`/documents/${res.parent.id}`);
           });
         }
       }

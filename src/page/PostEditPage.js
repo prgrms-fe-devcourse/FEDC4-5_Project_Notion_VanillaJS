@@ -71,7 +71,7 @@ export default function PostEditPage({ $target, initialState, username }) {
 
   const newPost = async (id) => {
     const createdPost = await postApi(username, id);
-    history.replaceState(null, null, `/${createdPost.id}`); // url을 new에서 생성된 id로 바꾸기
+    history.replaceState(null, null, `/documents/${createdPost.id}`); // url을 new에서 생성된 id로 바꾸기
     removeItem(postLocalSaveKey); // local storage에서 temp-document-new 지우기
     this.setState({
       id: createdPost.id,
