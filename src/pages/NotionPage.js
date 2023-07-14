@@ -47,11 +47,11 @@ export default class NotionPage extends Component {
     this.$document.setState({ isVisible: true, documentData });
   }
 
-  async onEdit(name, document) {
+  async onEdit(editorName, document) {
     documentStorage.setDocumentItem(document);
 
     const updatedDocument = await updateDocument(document.id, document);
-    if (name === 'title') {
+    if (editorName === 'title') {
       this.fetchDocumentList();
     }
 
