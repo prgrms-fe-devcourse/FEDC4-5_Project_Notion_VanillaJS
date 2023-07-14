@@ -115,7 +115,7 @@ export default class DocumentList extends Component {
 
     this.$documentList.innerHTML = '';
     documentList.forEach((doc) => {
-      const $div = document.createElement('div');
+      const $div = document.createElement('li');
 
       new DocumentListItem($div, {
         documentItem: doc,
