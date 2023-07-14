@@ -59,8 +59,8 @@ const stringify = (html) => {
     })
     .join('\n');
 
-  caretPosition = Caret.getCaretPositionInString(string);
-  const stringWithoutCaret = Caret.getStringWithoutCaret(string);
+  caretPosition = Caret.getPositionInString(string);
+  const stringWithoutCaret = Caret.getStrippedString(string);
 
   return stringWithoutCaret;
 };

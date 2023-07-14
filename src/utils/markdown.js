@@ -19,7 +19,7 @@ export default class MarkDownString extends String {
   isHeading(level) {
     if (level < 1 || level > 6) return false;
     const nbsp = htmlEntities[' '];
-    const noneCaretString = Caret.getStringWithoutCaret(this.valueOf());
+    const noneCaretString = Caret.getStrippedString(this.valueOf());
 
     return noneCaretString.indexOf(`${'#'.repeat(level)}${nbsp}`) === 0;
   }

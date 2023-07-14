@@ -56,7 +56,7 @@ export default class HTMLString extends String {
   isHeading(level = 1) {
     if (level < 1 || level > 6) return false;
     const noneCaretString = new HTMLString(
-      Caret.getStringWithoutCaret(this.valueOf())
+      Caret.getStrippedString(this.valueOf())
     );
 
     const headingRegex = getHTMLTagFullMatchRegex(`h${level}`);

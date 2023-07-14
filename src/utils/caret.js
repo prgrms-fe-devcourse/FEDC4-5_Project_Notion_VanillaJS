@@ -27,9 +27,9 @@ const setPosition = () => {
 
 const caretSpanTagRegex = getCaretSpanTagRegex();
 
-const getStringWithoutCaret = (string) => string.replace(caretSpanTagRegex, '');
+const getStrippedString = (string) => string.replace(caretSpanTagRegex, '');
 
-const getCaretPositionInString = (string) => {
+const getPositionInString = (string) => {
   const pos = caretSpanTagRegex.exec(string);
   return pos === null ? 0 : pos.index;
 };
@@ -37,8 +37,8 @@ const getCaretPositionInString = (string) => {
 const Caret = {
   savePosition,
   setPosition,
-  getStringWithoutCaret,
-  getCaretPositionInString,
+  getStrippedString,
+  getPositionInString,
 };
 
 export default Caret;
