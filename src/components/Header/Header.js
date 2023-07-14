@@ -1,3 +1,5 @@
+import URL from '@consts/url';
+
 import { history } from '@utils/router';
 
 import Component from '@core/Component';

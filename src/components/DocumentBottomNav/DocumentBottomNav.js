@@ -1,10 +1,12 @@
+import URL from '@consts/url';
+
 import { history } from '@utils/router';
 
 import Component from '@core/Component';
 
-import './Footer.css';
+import './DocumentBottomNav.css';
 
-export default class Footer extends Component {
+export default class DocumentBottomNav extends Component {
   setup() {
     this.state = {
       paths: [],
@@ -12,13 +14,13 @@ export default class Footer extends Component {
   }
 
   initComponent() {
-    this.$footer = document.createElement('footer');
-    this.$footer.className = 'notion-document-footer';
-    this.$target.appendChild(this.$footer);
+    this.$bottomNav = document.createElement('footer');
+    this.$bottomNav.className = 'notion-document-footer';
+    this.$target.appendChild(this.$bottomNav);
   }
 
   setEvent() {
-    this.$footer.addEventListener('click', ({ target }) => {
+    this.$bottomNav.addEventListener('click', ({ target }) => {
       const $a = target.closest('a');
       if (!$a) return;
 
@@ -33,9 +35,9 @@ export default class Footer extends Component {
   render() {
     const { paths } = this.state;
 
-    if (paths.length === 0) this.$footer.innerHTML = '';
+    if (paths.length === 0) this.$bottomNav.innerHTML = '';
 
-    this.$footer.innerHTML = paths
+    this.$bottomNav.innerHTML = paths
       .map(
         ({ id, title }) => `
           <a data-link-id="${id}"><span>${title}</span></a>
