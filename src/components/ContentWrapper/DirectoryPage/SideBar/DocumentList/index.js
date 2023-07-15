@@ -35,7 +35,7 @@ export default function DocumentList({ $target, initialState }) {
     const nextState = this.state.map((document) => toggleDocument(document, documentId));
     setDocuments(LOCAL_STORAGE_KEY, nextState);
     this.setState(nextState);
-    push(`/documents/${documentId}`);
+    // push(`/documents/${documentId}`);
   };
 
   this.onAdd = async (documentId) => {
