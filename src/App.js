@@ -2,7 +2,6 @@ import { initRouter } from '@router';
 import HeaderWrapper from '@components/HeaderWrapper';
 import ContentWrapper from '@components/ContentWrapper';
 import './style.css';
-import { setCurrentDocumentId } from '@global';
 import request from '@api';
 
 export default function App({ $target }) {
@@ -19,7 +18,6 @@ export default function App({ $target }) {
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , id, status] = pathname.split('/');
       const res = await request(`/documents/${id}`);
-      setCurrentDocumentId(id);
       contentWrapper.setState({ documentId: id, status, res });
     } else {
       window.location.pathname = '/';
