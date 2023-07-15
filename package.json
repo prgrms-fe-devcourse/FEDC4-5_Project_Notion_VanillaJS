@@ -1,9 +1,10 @@
 {
   "name": "fedc4-5_project_notion_vanillajs",
+  "type": "module",
   "scripts": {
     "dev": "npx vite",
     "prod": "npx vite build && npx vite preview",
-    "test": "npx jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint src"
   },
   "devDependencies": {
