@@ -1,6 +1,5 @@
 import DocumentList from '@components/ContentWrapper/DirectoryPage/SideBar/DocumentList';
 import './style.css';
-import { getCurrentDocumentId } from '@global';
 
 export default function Document({ $target, initialState }) {
   const $document = document.createElement('li');
@@ -16,7 +15,7 @@ export default function Document({ $target, initialState }) {
 
   this.render = () => {
     const { id, title, documents, isOpen = false } = this.state;
-    const currentDocumentId = getCurrentDocumentId();
+    const currentId = window.location.pathname.split('/')[2];
 
     const $documentContent = document.createElement('span');
     $documentContent.className = 'DocumentContent';
@@ -40,7 +39,7 @@ export default function Document({ $target, initialState }) {
         </div>
       </div>
     `;
-    if (currentDocumentId && id === Number(currentDocumentId)) {
+    if (currentId && id === Number(currentId)) {
       $document.querySelector('.DocumentTitle').classList.add('clicked');
     }
 
