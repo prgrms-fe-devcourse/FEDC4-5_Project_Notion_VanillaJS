@@ -6,21 +6,23 @@ import { setCurrentDocumentId } from '@global';
 import request from '@api';
 
 export default function App({ $target }) {
-  // 헤더 섹션
+  // eslint-disable-next-line no-new
   new HeaderWrapper({ $target, initialState: 'Notion Clone Web App' });
-  // 메인 컨텐츠 섹션
+
   const contentWrapper = new ContentWrapper({ $target, initialState: [] });
 
   this.route = async () => {
     const { pathname } = window.location;
 
-    if (pathname === '/' || pathname === '/documents') {
+    if (pathname === '/') {
       contentWrapper.setState({ documentId: '' });
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , id, status] = pathname.split('/');
       const res = await request(`/documents/${id}`);
       setCurrentDocumentId(id);
       contentWrapper.setState({ documentId: id, status, res });
+    } else {
+      window.location.pathname = '/';
     }
   };
 
