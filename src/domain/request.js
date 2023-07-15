@@ -11,7 +11,8 @@ export function request(url, option) {
         'x-username': `${import.meta.env.VITE_X_USERNAME}`,
       },
     },
-    () => {
+    (error) => {
+      console.error(error.message);
       const router = new RouteService();
       router.replace('/');
     },
