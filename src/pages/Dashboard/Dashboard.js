@@ -13,7 +13,7 @@ export default function Dashboard({ $target }) {
 
   const $dashboard = document.createElement("section");
   const $recent = document.createElement("section");
-  const $most = document.createElement("section");
+  const $frequent = document.createElement("section");
 
   this.state = (() => {
     const localRecord = getItem(STORAGE.RECORD, {});
@@ -49,10 +49,10 @@ export default function Dashboard({ $target }) {
   this.init = once(() => {
     $dashboard.className = "dashboard-container";
     $recent.className = "dashboard-recent-container";
-    $most.className = "dashboard-most-container";
+    $frequent.className = "dashboard-frequent-container";
 
     $dashboard.appendChild($recent);
-    $dashboard.appendChild($most);
+    $dashboard.appendChild($frequent);
 
     $dashboard.addEventListener("click", (e) => {
       const $docLink = e.target.closest("[data-id]");
@@ -78,8 +78,8 @@ export default function Dashboard({ $target }) {
         .join("")}
     `;
 
-    $most.innerHTML = `
-      <p class="dashboard-most-title">🗂️ 자주 사용한 문서</p>
+    $frequent.innerHTML = `
+      <p class="dashboard-frequent-title">🗂️ 자주 사용한 문서</p>
       ${Object.entries(this.state)
         .sort(([aid, aval], [bid, bval]) => bval.usedCount - aval.usedCount)
         .slice(0, 10)
