@@ -1,4 +1,4 @@
-import { listMaker } from "./DocumentListMaker.js";
+import { DocumentListRenderer } from "./DocumentListRenderer.js";
 import { onClickBtn, onClickDocument, onClickHeader } from "./handlerEvent.js";
 
 export default function DocumentList({ $target, initialState, username }) {
@@ -26,7 +26,7 @@ export default function DocumentList({ $target, initialState, username }) {
 
   this.render = () => {
     $ul.innerHTML = "";
-    this.state.map((item) => $ul.appendChild(listMaker(item)));
+    this.state.map((item) => $ul.appendChild(DocumentListRenderer(item)));
     $documentList.appendChild($ul);
   };
 
