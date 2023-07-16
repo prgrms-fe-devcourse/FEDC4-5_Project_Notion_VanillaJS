@@ -1,11 +1,10 @@
+import Page from "../core/Page.js";
 import { Editor, DocumentSubList } from "../components/index.js";
 import { documentService, documentTempStorage } from "../domain/index.js";
 import { INIT_ID } from "../constants/symbol.js";
 import { createTarget } from "../service/index.js";
 
-export default class EditPage {
-  $parent;
-  $target = document.createDocumentFragment();
+export default class EditPage extends Page {
   INIT_DATA = {
     id: INIT_ID,
     title: "",
@@ -16,8 +15,10 @@ export default class EditPage {
   editor;
   documentSubList;
 
-  constructor({ $parent, onEditDocument, onClickSubList }) {
-    this.$parent = $parent;
+  constructor({ element, props }) {
+    super({ element, props });
+
+    const { onEditDocument, onClickSubList } = this.props;
 
     this.editor = new Editor({
       element: {
@@ -42,7 +43,7 @@ export default class EditPage {
     });
   }
 
-  async setState(nextState) {
+  async reload(nextState) {
     const { id } = nextState;
 
     if (id !== INIT_ID) {

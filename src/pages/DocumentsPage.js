@@ -1,3 +1,4 @@
+import Page from "../core/Page.js";
 import { DocumentList, UserSection } from "../components/index.js";
 import {
   insertIsOpen,
@@ -6,20 +7,19 @@ import {
 } from "../domain/index.js";
 import { createTarget } from "../service/index.js";
 
-export default class DocumentsPage {
-  $parent;
-  $target = document.createDocumentFragment();
+export default class DocumentsPage extends Page {
   documentList;
 
-  constructor({
-    $parent,
-    onClickDocumentTitle,
-    onCreateDocument,
-    onDeleteDocument,
-    onToggleDocument,
-    onClickUserSection,
-  }) {
-    this.$parent = $parent;
+  constructor({ element, props }) {
+    super({ element, props });
+
+    const {
+      onClickUserSection,
+      onClickDocumentTitle,
+      onCreateDocument,
+      onDeleteDocument,
+      onToggleDocument,
+    } = this.props;
 
     new UserSection({
       element: {
@@ -46,7 +46,7 @@ export default class DocumentsPage {
     });
   }
 
-  async setState() {
+  async reload() {
     const documents = await documentService.getDataList();
     const currentOpenStatus = openStatusStorage.getData();
 

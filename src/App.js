@@ -38,81 +38,91 @@ export default class App {
 
   render() {
     this.documentsPage = new DocumentsPage({
-      $parent: this.$children.documentsPage,
-      onClickDocumentTitle: (id) => {
-        pushHistory(`${DOCUMENTS_PATH}${id}`);
+      element: {
+        $parent: this.$children.documentsPage,
+        $target: document.createDocumentFragment(),
       },
-      onCreateDocument: async (id) => {
-        const documentData = await documentService.addData({
-          id,
-          title: "무제",
-        });
+      props: {
+        onClickDocumentTitle: (id) => {
+          pushHistory(`${DOCUMENTS_PATH}${id}`);
+        },
+        onCreateDocument: async (id) => {
+          const documentData = await documentService.addData({
+            id,
+            title: "무제",
+          });
 
-        const currentOpenStatus = openStatusStorage.getData();
+          const currentOpenStatus = openStatusStorage.getData();
 
-        openStatusStorage.setData({
-          ...currentOpenStatus,
-          [id]: true,
-        });
+          openStatusStorage.setData({
+            ...currentOpenStatus,
+            [id]: true,
+          });
 
-        this.documentsPage.setState();
-        this.editPage.setState({ id: documentData.id });
-        pushHistory(`${DOCUMENTS_PATH}${documentData.id}`);
-      },
-      onDeleteDocument: async (id) => {
-        await documentService.deleteData(id);
+          this.documentsPage.reload();
+          this.editPage.reload({ id: documentData.id });
+          pushHistory(`${DOCUMENTS_PATH}${documentData.id}`);
+        },
+        onDeleteDocument: async (id) => {
+          await documentService.deleteData(id);
 
-        this.documentsPage.setState();
-        this.editPage.setState({ id: INIT_ID });
-        replaceHistory(ROOT_PATH);
-      },
-      onToggleDocument: (id) => {
-        const currentOpenStatus = openStatusStorage.getData();
+          this.documentsPage.reload();
+          this.editPage.reload({ id: INIT_ID });
+          replaceHistory(ROOT_PATH);
+        },
+        onToggleDocument: (id) => {
+          const currentOpenStatus = openStatusStorage.getData();
 
-        openStatusStorage.setData({
-          ...currentOpenStatus,
-          [id]: !currentOpenStatus[id],
-        });
+          openStatusStorage.setData({
+            ...currentOpenStatus,
+            [id]: !currentOpenStatus[id],
+          });
 
-        this.documentsPage.setState();
-      },
-      onClickUserSection: () => {
-        pushHistory(ROOT_PATH);
+          this.documentsPage.reload();
+        },
+        onClickUserSection: () => {
+          pushHistory(ROOT_PATH);
+        },
       },
     });
 
     this.editPage = new EditPage({
-      $parent: this.$children.editPage,
-      onEditDocument: (id, documentData) => {
-        const documentTempStorageKey = `temp-document-${id}`;
-
-        if (this.timer !== null) {
-          clearTimeout(this.timer);
-        }
-
-        documentTempStorage(documentTempStorageKey).setData({
-          ...documentData,
-          tempSaveDate: new Date(),
-        });
-
-        this.timer = setTimeout(async () => {
-          await documentService.updateData(id, documentData);
-
-          documentTempStorage(documentTempStorageKey).removeData();
-          this.documentsPage.setState();
-        }, 1000);
+      element: {
+        $parent: this.$children.editPage,
+        $target: document.createDocumentFragment(),
       },
-      onClickSubList: (id) => {
-        const currentOpenStatus = openStatusStorage.getData();
+      props: {
+        onEditDocument: (id, documentData) => {
+          const documentTempStorageKey = `temp-document-${id}`;
 
-        openStatusStorage.setData({
-          ...currentOpenStatus,
-          [this.documentId]: true,
-        });
+          if (this.timer !== null) {
+            clearTimeout(this.timer);
+          }
 
-        this.documentsPage.setState();
-        this.editPage.setState({ id });
-        pushHistory(`${DOCUMENTS_PATH}${id}`);
+          documentTempStorage(documentTempStorageKey).setData({
+            ...documentData,
+            tempSaveDate: new Date(),
+          });
+
+          this.timer = setTimeout(async () => {
+            await documentService.updateData(id, documentData);
+
+            documentTempStorage(documentTempStorageKey).removeData();
+            this.documentsPage.reload();
+          }, 1000);
+        },
+        onClickSubList: (id) => {
+          const currentOpenStatus = openStatusStorage.getData();
+
+          openStatusStorage.setData({
+            ...currentOpenStatus,
+            [this.documentId]: true,
+          });
+
+          this.documentsPage.reload();
+          this.editPage.reload({ id });
+          pushHistory(`${DOCUMENTS_PATH}${id}`);
+        },
       },
     });
   }
@@ -120,12 +130,12 @@ export default class App {
   route() {
     const { pathname } = location;
 
-    this.documentsPage.setState();
+    this.documentsPage.reload();
 
     if (pathname === ROOT_PATH) {
-      this.editPage.setState({ id: INIT_ID });
+      this.editPage.reload({ id: INIT_ID });
     } else if (pathname.indexOf(DOCUMENTS_PATH) === 0) {
-      this.editPage.setState({ id: this.documentId });
+      this.editPage.reload({ id: this.documentId });
     }
   }
 }
