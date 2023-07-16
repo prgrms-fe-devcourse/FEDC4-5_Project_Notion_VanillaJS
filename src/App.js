@@ -5,6 +5,7 @@ import {
   openStatusStorage,
   documentTempStorage,
 } from "./domain/index.js";
+import { getEditPageByPath } from "./domain/index.js";
 import { INIT_ID, ROOT_PATH, DOCUMENTS_PATH } from "./constants/index.js";
 
 export default class App {
@@ -129,13 +130,9 @@ export default class App {
 
   route() {
     const { pathname } = location;
+    const editPageId = getEditPageByPath(pathname, this.documentId);
 
     this.documentsPage.reload();
-
-    if (pathname === ROOT_PATH) {
-      this.editPage.reload({ id: INIT_ID });
-    } else if (pathname.indexOf(DOCUMENTS_PATH) === 0) {
-      this.editPage.reload({ id: this.documentId });
-    }
+    this.editPage.reload({ id: editPageId });
   }
 }
