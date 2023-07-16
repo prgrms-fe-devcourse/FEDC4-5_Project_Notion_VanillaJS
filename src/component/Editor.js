@@ -18,16 +18,13 @@ function Editor({
   this.state = initialState;
   this.setState = nextState => {
     this.state = nextState;
-    for (const target of ["title", "content"]) {
+    for (const target of ["title", "content", "emoji"]) {
       $editor.querySelector(`[name=${target}]`).value =
         this.state[target];
     }
-    $editor.querySelector('[name="title"]').value =
-      this.state.title;
-    $editor.querySelector('[name="content"]').value =
-      this.state.content;
-    $editor.querySelector('[name="emoji"]').value =
-      this.state.emoji;
+    titleAreaAutoResize(
+      $editor.querySelector(`[name="title"]`)
+    );
     this.render();
   };
 
@@ -40,7 +37,7 @@ function Editor({
     if (isInit) return;
     $editor.innerHTML = `
       <input type="emoji" name="emoji" value="${this.state.title[0]}" readonly></input>
-      <input type="text" name="title" value="${this.state.title}" placeholder="제목을 입력하세요.">
+      <textarea type="text" name="title" placeholder="제목을 입력하세요.">${this.state.title}</textarea>
       <textarea name="content" placeholder="내용을 입력하세요.">${this.state.content}</textarea>
     `;
     isInit = true;
@@ -59,14 +56,19 @@ function Editor({
 
   this.render();
 
-  $editor.addEventListener("keyup", event => {
+  const titleAreaAutoResize = textarea => {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  };
+
+  $editor.addEventListener("input", event => {
     const { target } = event;
     const name = target.getAttribute("name");
-    if (this.state[name] === undefined) return;
-    this.setState({
-      ...this.state,
-      [name]: target.value,
-    });
+
+    this.setState({ ...this.state, [name]: target.value });
+    if (name === "title") {
+      titleAreaAutoResize(target);
+    }
     onEdit(this.state);
   });
 }

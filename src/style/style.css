@@ -175,10 +175,11 @@ li {
   visibility: hidden;
 }
 
-.editor > input[name='title']{
+.editor > textarea[name='title']{
+  resize: none;
   outline: none;
   border: none;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
   padding: 10px 5px;
 }
@@ -192,7 +193,6 @@ li {
   padding: 10px 5px;
 }
 
-.editor > input::placeholder,
 .editor > textarea::placeholder{
   color:rgba(55, 53, 47, 0.3);
 }
