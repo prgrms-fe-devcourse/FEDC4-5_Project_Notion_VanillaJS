@@ -118,7 +118,7 @@ export function validateHeaderState(state) {
   );
 }
 
-export function validateHomeState(state) {
+export function validateDashboardState(state) {
   return (
     validateObjectState(state) &&
     checkError(
@@ -126,11 +126,11 @@ export function validateHomeState(state) {
         const numKey = parseInt(key, 10);
         if (Number.isNaN(numKey) || key.length !== numKey.toString().length)
           return true;
-        if (!validateHomeItemState(val)) return true;
+        if (!validateDashboardItemState(val)) return true;
 
         return false;
       }),
-      new ValidationError(ERROR.INVALID_HOME_STATE)
+      new ValidationError(ERROR.INVALID_DASHBOARD_STATE)
     )
   );
 }
@@ -141,7 +141,7 @@ const homeItemType = {
   lastUsedTime: "number",
 };
 
-export function validateHomeItemState(state) {
+export function validateDashboardItemState(state) {
   return (
     validateObjectState(state) &&
     checkError(
@@ -151,7 +151,7 @@ export function validateHomeItemState(state) {
           typeof state[name] !== type
       ),
 
-      new ValidationError(ERROR.INVALID_HOME_STATE)
+      new ValidationError(ERROR.INVALID_DASHBOARD_STATE)
     )
   );
 }

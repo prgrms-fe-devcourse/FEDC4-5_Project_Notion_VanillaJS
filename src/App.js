@@ -2,7 +2,7 @@ import { EVENT } from "@Utils/constants";
 import { patchSidebarState, registerStateSetter } from "@Utils/stateSetters";
 import router from "@Utils/router";
 import Document from "./components/Document/Document";
-import Home from "./components/Home/Home";
+import Dashboard from "./components/Dashboard/Dashboard";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import "./App.css";
@@ -26,7 +26,7 @@ export default function App({ $target }) {
   $target.appendChild($main);
 
   // route 가능한 요소 등록
-  const $home = new Home({ $target: $content });
+  const $home = new Dashboard({ $target: $content });
   registerStateSetter($home);
 
   const $document = new Document({ $target: $content });

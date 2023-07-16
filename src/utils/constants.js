@@ -1,6 +1,6 @@
 export const CONSTRUCTOR_NAME = {
   DOCUMENT: "Document",
-  HOME: "Home",
+  DASHBOARD: "Dashboard",
   SIDEBAR: "Sidebar",
   HEADER: "Header",
 };
@@ -17,7 +17,7 @@ export const ERROR = {
   INVALID_DRAWERITEM_STATE:
     "Tried to set drawer item's state using invalid data.",
   INVALID_HEADER_STATE: "Tried to set header's state using invalid data.",
-  INVALID_HOME_STATE: "Tried to set home's state using invalid data.",
+  INVALID_DASHBOARD_STATE: "Tried to set dashboard's state using invalid data.",
   NONE_ARRAY_STATE: "Tried to set state using none array value.",
   INVALID_REQUEST: "서버에 문제가 발생했습니다.\n 잠시 후 다시 시도해주세요.",
   UNREGISTERED_SETTER: "Tried to use unregistered state setter.",
