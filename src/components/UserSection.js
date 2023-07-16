@@ -1,5 +1,6 @@
 import { API_HEADER_X_USERNAME } from "../constants/index.js";
 import Component from "../core/Component.js";
+import { createTarget } from "../service/index.js";
 
 export default class UserSection extends Component {
   render() {
@@ -7,9 +8,7 @@ export default class UserSection extends Component {
       <span class="user">📓${API_HEADER_X_USERNAME}</span>
     `;
 
-    const $div = document.createElement("div");
-    $div.className = "fill";
-    this.$parent.append($div);
+    this.$parent.append(createTarget("div", "fill"));
   }
 
   addEvent() {
