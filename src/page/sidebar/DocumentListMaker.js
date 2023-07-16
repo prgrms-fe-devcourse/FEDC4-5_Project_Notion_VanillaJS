@@ -19,7 +19,7 @@ const eachItemMaker = (item, depth) => {
     <li data-id="${item.id}" style="padding-left: ${depth}px;">
         <button class="toggleBtn">></button>
         <span class="documentTitle">${item.title}</span>
-        <button data-id="${item.id}" class="add">+</button>
+        <button data-id="${item.id}" class="addChild">+</button>
         <button data-id="${item.id}" class="delete">-</button>
     </li>
   `;

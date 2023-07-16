@@ -7,8 +7,9 @@ body {
 header {
   text-align: center;
   margin: 7%;
-  padding: 3%;
+  padding: 2%;
   background-color: #eef3ed;
+  cursor: pointer;
 }
 
 ul {
