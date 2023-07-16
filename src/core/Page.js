@@ -10,7 +10,7 @@ export default class Page {
   }
 
   async reload() {
-    throw new Error("You must define and use fetchData on the child pages.");
+    throw new Error("You must define and use reload on the child pages.");
   }
 
   render() {
