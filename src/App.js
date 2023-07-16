@@ -16,9 +16,9 @@ export default function App({ $target }) {
     if (pathname === '/') {
       contentWrapper.setState({ documentId: '' });
     } else if (pathname.indexOf('/documents/') === 0) {
-      const [, , id, status] = pathname.split('/');
+      const [, , id, isDocumentSaved] = pathname.split('/');
       const res = await request(`/documents/${id}`);
-      contentWrapper.setState({ documentId: id, status, res });
+      contentWrapper.setState({ documentId: id, isDocumentSaved, res });
     } else {
       window.location.pathname = '/';
     }

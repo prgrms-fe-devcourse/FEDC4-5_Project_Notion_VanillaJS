@@ -36,8 +36,8 @@ export default function DocumentPage({ $target, initialState, updateState }) {
 
           $progressBar.style.width = '100%';
 
-          textEditor.setState({ status: 'saved', ...createdDocument });
-          updateState({ status: 'saved', ...createdDocument });
+          textEditor.setState({ isDocumentSaved: 'saved', ...createdDocument });
+          updateState({ isDocumentSaved: 'saved', ...createdDocument });
 
           await new Promise((resolve) => setTimeout(resolve, 2000));
         } finally {
@@ -49,9 +49,9 @@ export default function DocumentPage({ $target, initialState, updateState }) {
   });
 
   this.render = () => {
-    const { documentId, status } = this.state;
+    const { documentId, isDocumentSaved } = this.state;
 
-    if (!documentId && !status) {
+    if (!documentId && !isDocumentSaved) {
       $documentPage.style.visibility = 'hidden';
     } else {
       $documentPage.style.visibility = 'visible';
