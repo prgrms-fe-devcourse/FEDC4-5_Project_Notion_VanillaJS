@@ -12,18 +12,20 @@ import {
   removeDocument,
   editDocument,
 } from "/src/service/documentEditService.js";
-import { initRouter, push, replace } from "/src/router.js";
 import NavPage from "/src/page/NavPage.js";
 import EditPage from "/src/page/EditPage.js";
 
+import { Router } from "./router.js";
+
 function App({ $app }) {
+  const router = new Router();
   const navPage = new NavPage({
     $app,
     initialState: { documentList: [], toggleData: [] },
 
     handleSelect: id => {
       navPage.state.selected = id;
-      push(`/documents/${id}`);
+      router.push(`/documents?id=${id}`);
     },
 
     handleCreate: async parent => {
@@ -35,7 +37,7 @@ function App({ $app }) {
       });
       navPage.state.selected = newDocument.id;
       navPage.setState(nextToggleData);
-      push(`/documents/${newDocument.id}`);
+      router.push(`/documents?id=${newDocument.id}`);
     },
 
     handleDelete: async id => {
@@ -46,7 +48,7 @@ function App({ $app }) {
       });
       navPage.setState(nextToggleData);
       if (editPage.state.id == id) {
-        replace("/");
+        router.replace("/");
       }
     },
 
@@ -57,6 +59,8 @@ function App({ $app }) {
       });
       navPage.setState(nextToggleData);
     },
+
+    handleGoHome: () => router.push("/"),
   });
 
   let timer = null;
@@ -80,22 +84,21 @@ function App({ $app }) {
   });
 
   this.route = () => {
-    const { pathname } = window.location;
+    console.log(router.getQuery(), router.getUrl());
+    const currentUrl = router.getUrl();
     navPage.setState();
 
-    if (pathname === "/") {
+    if (currentUrl === "/") {
       editPage.setState({ id: null });
       navPage.state.selected = null;
-    }
-    if (pathname.indexOf("/documents/") === 0) {
-      const [, , id] = pathname.split("/");
+    } else {
+      const { id } = router.getQuery();
       editPage.setState({ id });
     }
   };
 
   this.route();
-  window.addEventListener("popstate", () => this.route());
-  initRouter(() => this.route());
+  router.observe(this.route);
 }
 
 export default App;

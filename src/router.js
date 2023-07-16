@@ -1,31 +1,41 @@
-export const initRouter = onRoute => {
-  window.addEventListener("route-change", e => {
-    const { nextUrl, option } = e.detail;
-    if (nextUrl) {
-      if (option === "push") {
-        history.pushState(null, null, nextUrl);
-        onRoute();
-      }
-      if (option === "replace") {
-        history.replaceState(null, null, nextUrl);
-        onRoute();
-      }
-    }
-  });
-};
-
-export const push = nextUrl => {
-  window.dispatchEvent(
-    new CustomEvent("route-change", {
-      detail: { nextUrl, option: "push" },
-    })
-  );
-};
-
-export const replace = nextUrl => {
-  window.dispatchEvent(
-    new CustomEvent("route-change", {
-      detail: { nextUrl, option: "replace" },
-    })
-  );
-};
+export class Router {
+  constructor() {
+    this.callbacks = [];
+    this.init();
+  }
+  observe(callback) {
+    this.callbacks.push(callback);
+    console.log(this.callbacks);
+  }
+  notify() {
+    this.callbacks.forEach(callback => callback());
+  }
+  push(url) {
+    history.pushState(null, null, url);
+    this.notify();
+  }
+  replace(url) {
+    history.replaceState(null, null, url);
+    this.notify();
+  }
+  getUrl() {
+    return location.pathname;
+  }
+  getQuery() {
+    const searchParams = new URLSearchParams(
+      location.search
+    );
+    return [...searchParams.entries()].reduce(
+      (query, [key, value]) => {
+        query[key] = value;
+        return query;
+      },
+      {}
+    );
+  }
+  init() {
+    window.addEventListener("popstate", () => {
+      this.notify();
+    });
+  }
+}

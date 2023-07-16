@@ -3,8 +3,12 @@ class Storage {
   #key;
   #defaultValue;
 
-  constructor({ key, defaultValue }) {
-    this.#storage = window.localStorage;
+  constructor({
+    key,
+    defaultValue,
+    storage = window.localStorage,
+  }) {
+    this.#storage = storage;
     this.#key = key;
     this.#defaultValue = defaultValue;
   }

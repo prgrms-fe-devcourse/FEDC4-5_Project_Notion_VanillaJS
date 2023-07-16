@@ -3,7 +3,6 @@ import Navbar from "/src/component/Navbar.js";
 import NavHeader from "/src/component/NavHeader.js";
 import { toggleDataStorage } from "/src/storage.js";
 import { recursiveInitToggleData } from "/src/helper/toggleHelper.js";
-import { push } from "/src/router.js";
 
 function NavPage({
   $app,
@@ -12,6 +11,7 @@ function NavPage({
   handleCreate,
   handleDelete,
   handleToggle,
+  handleGoHome,
 }) {
   const $navPage = document.createElement("nav");
   $app.appendChild($navPage);
@@ -38,16 +38,16 @@ function NavPage({
       user: "cszzi",
     },
     onCreate: () => handleCreate(null),
-    onGoHome: () => push("/"),
+    onGoHome: handleGoHome,
   });
 
   const navbar = new Navbar({
     $page: $navPage,
     initialState: this.state,
-    onCreate: id => handleCreate(id),
-    onToggle: id => handleToggle(id),
-    onSelect: id => handleSelect(id),
-    onDelete: id => handleDelete(id),
+    onCreate: handleCreate,
+    onToggle: handleToggle,
+    onSelect: handleSelect,
+    onDelete: handleDelete,
   });
 }
 
