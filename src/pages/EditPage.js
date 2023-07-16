@@ -47,19 +47,16 @@ export default class EditPage {
     if (id !== "init") {
       const document = await documentService.getData(id);
       const documentTempStorageKey = `temp-document-${id}`;
-      const tempDocument = documentTempStorage(
+      const { tempSaveDate, title, content } = documentTempStorage(
         documentTempStorageKey
       ).getData();
 
-      if (
-        tempDocument.tempSaveDate &&
-        tempDocument.tempSaveDate > document.updatedAt
-      ) {
+      if (tempSaveDate && tempSaveDate > document.updatedAt) {
         if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
           this.editor.setState({
             ...document,
-            title: tempDocument.title,
-            content: tempDocument.content,
+            title,
+            content,
           });
 
           this.render();

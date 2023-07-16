@@ -23,20 +23,22 @@ export default class Editor extends Component {
   }
 
   render() {
+    const { title, content, id } = this.state;
+
     if (!this.isInitialize) {
       this.$target.innerHTML = `
         <input type="text" name="title" placeholder="제목을 입력해주세요." value="${
-          this.state.title ?? ""
+          title ?? ""
         }" />
         <textarea name="content" placeholder="내용을 입력해주세요.">${
-          this.state.content ?? ""
+          content ?? ""
         }</textarea>
       `;
 
       this.isInitialize = true;
     }
 
-    if (location.pathname === "/" && this.state.id === "init") {
+    if (location.pathname === "/" && id === "init") {
       this.$target.style.visibility = "hidden";
     } else {
       this.$target.style.visibility = "visible";
