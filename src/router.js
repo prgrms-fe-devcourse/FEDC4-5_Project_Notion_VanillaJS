@@ -5,7 +5,6 @@ export class Router {
   }
   observe(callback) {
     this.callbacks.push(callback);
-    console.log(this.callbacks);
   }
   notify() {
     this.callbacks.forEach(callback => callback());
