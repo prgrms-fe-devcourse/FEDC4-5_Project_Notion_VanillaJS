@@ -4,6 +4,7 @@ import {
   documentService,
   openStatusStorage,
   documentTempStorage,
+  pagesReloader,
 } from "./domain/index.js";
 import { getEditPageByPath } from "./domain/index.js";
 import { INIT_ID, ROOT_PATH, DOCUMENTS_PATH } from "./constants/index.js";
@@ -60,15 +61,19 @@ export default class App {
             [id]: true,
           });
 
-          this.documentsPage.reload();
-          this.editPage.reload({ id: documentData.id });
+          pagesReloader(
+            { page: this.documentsPage },
+            { page: this.editPage, arg: { id: documentData.id } }
+          );
           pushHistory(`${DOCUMENTS_PATH}${documentData.id}`);
         },
         onDeleteDocument: async (id) => {
           await documentService.deleteData(id);
 
-          this.documentsPage.reload();
-          this.editPage.reload({ id: INIT_ID });
+          pagesReloader(
+            { page: this.documentsPage },
+            { page: this.editPage, arg: { id: INIT_ID } }
+          );
           replaceHistory(ROOT_PATH);
         },
         onToggleDocument: (id) => {
@@ -79,7 +84,7 @@ export default class App {
             [id]: !currentOpenStatus[id],
           });
 
-          this.documentsPage.reload();
+          pagesReloader({ page: this.documentsPage });
         },
         onClickUserSection: () => {
           pushHistory(ROOT_PATH);
@@ -109,7 +114,7 @@ export default class App {
             await documentService.updateData(id, documentData);
 
             documentTempStorage(documentTempStorageKey).removeData();
-            this.documentsPage.reload();
+            pagesReloader({ page: this.documentsPage });
           }, 1000);
         },
         onClickSubList: (id) => {
@@ -120,8 +125,10 @@ export default class App {
             [this.documentId]: true,
           });
 
-          this.documentsPage.reload();
-          this.editPage.reload({ id });
+          pagesReloader(
+            { page: this.documentsPage },
+            { page: this.editPage, arg: { id } }
+          );
           pushHistory(`${DOCUMENTS_PATH}${id}`);
         },
       },
@@ -132,7 +139,9 @@ export default class App {
     const { pathname } = location;
     const editPageId = getEditPageByPath(pathname, this.documentId);
 
-    this.documentsPage.reload();
-    this.editPage.reload({ id: editPageId });
+    pagesReloader(
+      { page: this.documentsPage },
+      { page: this.editPage, arg: { id: editPageId } }
+    );
   }
 }
