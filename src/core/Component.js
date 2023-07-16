@@ -15,7 +15,14 @@ export default class Component {
     this.addEvent();
   }
 
-  render() {}
+  setState(nextState) {
+    this.state = nextState;
+    this.render();
+  }
+
+  render() {
+    throw new Error("You must define and use render on the child components.");
+  }
 
   addEvent() {}
 }

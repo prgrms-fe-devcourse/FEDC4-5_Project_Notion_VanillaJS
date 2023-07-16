@@ -1,11 +1,6 @@
 import Component from "../core/Component.js";
 
 export default class DocumentList extends Component {
-  setState(nextState) {
-    this.state = nextState;
-    this.render();
-  }
-
   render() {
     const { pathname } = location;
     const [, , documnetId] = pathname.split("/");

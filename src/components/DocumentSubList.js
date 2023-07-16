@@ -1,11 +1,6 @@
 import Component from "../core/Component.js";
 
 export default class DocumentSubList extends Component {
-  setState(nextState) {
-    this.state = nextState;
-    this.render();
-  }
-
   render() {
     const { documents } = this.state;
 
