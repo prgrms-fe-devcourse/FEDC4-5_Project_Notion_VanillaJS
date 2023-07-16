@@ -15,7 +15,14 @@ export default function App({ $target }) {
     });
   };
 
-  const editorPage = new EditorPage({ $target });
+  const documentsPage = new DocumentsPage({ $target });
+
+  const editorPage = new EditorPage({
+    $target,
+    onTitleEdit: (selectedDocument) => {
+      this.setState({ selectedDocument });
+    },
+  });
 
   this.route = async () => {
     const { pathname } = window.location;
