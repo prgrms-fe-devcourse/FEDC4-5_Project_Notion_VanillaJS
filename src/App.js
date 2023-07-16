@@ -29,6 +29,13 @@ export default class App {
     initRouter(() => this.route());
   }
 
+  get documentId() {
+    const { pathname } = location;
+    const [, , documentId] = pathname.split("/");
+
+    return documentId;
+  }
+
   render() {
     this.documentsPage = new DocumentsPage({
       $parent: this.$children.documentsPage,
@@ -96,12 +103,11 @@ export default class App {
         }, 1000);
       },
       onClickSubList: (id) => {
-        const [, , documentId] = location.pathname.split("/");
         const currentOpenStatus = openStatusStorage.getData();
 
         openStatusStorage.setData({
           ...currentOpenStatus,
-          [documentId]: true,
+          [this.documentId]: true,
         });
 
         this.documentsPage.setState();
@@ -119,8 +125,7 @@ export default class App {
     if (pathname === ROOT_PATH) {
       this.editPage.setState({ id: INIT_ID });
     } else if (pathname.indexOf(DOCUMENTS_PATH) === 0) {
-      const [, , documentId] = pathname.split("/");
-      this.editPage.setState({ id: documentId });
+      this.editPage.setState({ id: this.documentId });
     }
   }
 }
