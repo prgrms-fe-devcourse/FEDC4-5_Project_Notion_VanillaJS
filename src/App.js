@@ -1,10 +1,19 @@
-import DocumentsPage from "./DocumentsPage.js";
-import EditorPage from "./EditorPage.js";
-import { request } from "./api.js";
-import { initRoute } from "./router.js";
+import DocumentsPage from "./page/DocumentsPage.js";
+import EditorPage from "./page/EditorPage.js";
+import { request } from "./util/api.js";
+import { initRoute } from "./util/router.js";
 
 export default function App({ $target }) {
-  new DocumentsPage({ $target });
+  this.state = {
+    selectedDocument: "",
+  };
+
+  this.setState = (newState) => {
+    this.state = newState;
+    documentsPage.setState({
+      selectedDocument: this.state.selectedDocument,
+    });
+  };
 
   const editorPage = new EditorPage({ $target });
 
@@ -12,7 +21,7 @@ export default function App({ $target }) {
     const { pathname } = window.location;
     if (pathname === "/") {
       editorPage.setState({ ...editorPage.state, selectedDocumentId: null });
-    } else if (pathname.indexOf("/documents/") === 0) {
+    } else if (pathname.includes("/documents/")) {
       const [, , selectedDocumentId] = pathname.split("/");
       const documentContent = await request(
         `/documents/${selectedDocumentId}`,

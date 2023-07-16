@@ -1,4 +1,5 @@
 const storage = window.localStorage;
+export const storageKey = "isClicked";
 
 export const setItem = (key, value) => {
   try {
