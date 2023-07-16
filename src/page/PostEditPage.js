@@ -29,7 +29,7 @@ export default function PostEditPage({ $target, initialState, username }) {
     },
   });
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     const { id } = nextState;
     if (nextState.id === "root") {
       rootState();
