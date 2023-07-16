@@ -17,18 +17,19 @@ function NavPage({
   $app.appendChild($navPage);
 
   this.state = initialState;
-  this.setState = async nextToggleData => {
+
+  this.setState = async nextState => {
     const documentList = await getDocumentList();
-    if (nextToggleData) {
-      toggleDataStorage.setItem(nextToggleData);
-    }
+    const toggleData = nextState
+      ? nextState.toggleData
+      : toggleDataStorage.getItem() ||
+        recursiveInitToggleData(documentList);
     this.state = {
       ...this.state,
       documentList,
-      toggleData:
-        toggleDataStorage.getItem() ||
-        recursiveInitToggleData(documentList),
+      toggleData,
     };
+    toggleDataStorage.setItem(toggleData);
     navbar.setState(this.state);
   };
 

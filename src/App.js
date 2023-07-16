@@ -15,10 +15,12 @@ import {
 import NavPage from "/src/page/NavPage.js";
 import EditPage from "/src/page/EditPage.js";
 
-import { Router } from "./router.js";
+import { HistoryRouter } from "./router.js";
+import { fetchDocument } from "./service/documentEditService.js";
+import { getDocumentList } from "./service/documentListService.js";
 
 function App({ $app }) {
-  const router = new Router();
+  const router = new HistoryRouter();
   const navPage = new NavPage({
     $app,
     initialState: { documentList: [], toggleData: [] },
@@ -36,7 +38,7 @@ function App({ $app }) {
         parent,
       });
       navPage.state.selected = newDocument.id;
-      navPage.setState(nextToggleData);
+      navPage.setState({ toggleData: nextToggleData });
       router.push(`/documents?id=${newDocument.id}`);
     },
 
@@ -46,7 +48,7 @@ function App({ $app }) {
         data: navPage.state.toggleData,
         id,
       });
-      navPage.setState(nextToggleData);
+      navPage.setState({ toggleData: nextToggleData });
       if (editPage.state.id == id) {
         router.replace("/");
       }
@@ -57,7 +59,7 @@ function App({ $app }) {
         data: navPage.state.toggleData,
         id,
       });
-      navPage.setState(nextToggleData);
+      navPage.setState({ toggleData: nextToggleData });
     },
 
     handleGoHome: () => router.push("/"),

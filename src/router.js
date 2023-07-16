@@ -1,4 +1,4 @@
-export class Router {
+export class HistoryRouter {
   constructor() {
     this.callbacks = [];
     this.init();
