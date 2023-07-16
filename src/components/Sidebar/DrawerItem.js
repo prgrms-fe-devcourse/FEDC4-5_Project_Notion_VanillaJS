@@ -103,7 +103,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   this.updateTitle = (title) => {
     this.setState({
       ...this.state,
-      title: title.length === 0 ? "제목없음" : title,
+      title: title || "제목없음",
     });
   };
 
