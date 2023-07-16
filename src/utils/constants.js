@@ -21,3 +21,9 @@ export const ERROR = {
   NONE_ARRAY_STATE: "Tried to set state using none array value.",
   INVALID_REQUEST: "서버에 문제가 발생했습니다.\n 잠시 후 다시 시도해주세요.",
 };
+
+export const EVENT = {
+  ROUTE: "route",
+  ROUTE_DRAWER: "route-drawer",
+  TITLE_UPDATED: "title-updated",
+};

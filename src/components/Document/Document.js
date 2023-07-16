@@ -3,6 +3,7 @@ import { isConstructor, isDocumentState } from "@Utils/validation";
 import "./Document.css";
 import { putDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
+import { EVENT } from "@Utils/constants";
 
 export default function Document({ $target }) {
   if (!isConstructor(new.target)) {
@@ -51,7 +52,7 @@ export default function Document({ $target }) {
 
         if (e.target.name === "title") {
           window.dispatchEvent(
-            new CustomEvent("title-updated", {
+            new CustomEvent(EVENT.TITLE_UPDATED, {
               detail: {
                 id: this.state.id,
                 title: e.target.value,

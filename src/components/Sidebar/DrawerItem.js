@@ -4,7 +4,7 @@ import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
 import { routeToDocument, routeToHome } from "@Utils/router";
-import { CONSTRUCTOR_NAME } from "@Utils/constants";
+import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
 import plusIcon from "@Static/plusIcon.svg";
 import trashIcon from "@Static/trashIcon.svg";
@@ -147,8 +147,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
         const result = await deleteDocument({ documentId: this.state.id });
         if (result) {
           patchSidebarState();
-          window.removeEventListener("route-drawer", this.activate);
-          window.removeEventListener("title-updated", this.updateTitle);
+          window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
+          window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
 
           stateSetters[CONSTRUCTOR_NAME.HOME]({
             id: this.state.id,
@@ -166,8 +166,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       }
     });
 
-    window.addEventListener("route-drawer", this.activate);
-    window.addEventListener("title-updated", (e) => {
+    window.addEventListener(EVENT.ROUTE_DRAWER, this.activate);
+    window.addEventListener(EVENT.TITLE_UPDATED, (e) => {
       const { id, title } = e.detail;
       if (id === this.state.id) this.updateTitle(title);
     });

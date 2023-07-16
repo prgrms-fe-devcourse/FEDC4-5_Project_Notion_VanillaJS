@@ -1,4 +1,4 @@
-import { CONSTRUCTOR_NAME } from "@Utils/constants";
+import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import { stateSetters } from "@Utils/stateSetters";
 import { getDocument } from "./apis";
 
@@ -23,15 +23,15 @@ export default async function router({ $target }) {
     }
   }
 
-  window.dispatchEvent(new CustomEvent("route-drawer"));
+  window.dispatchEvent(new CustomEvent(EVENT.ROUTE_DRAWER));
 }
 
 export function routeToDocument(documentId) {
   window.history.pushState(null, null, `/documents/${documentId}`);
-  window.dispatchEvent(new CustomEvent("route"));
+  window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }
 
 export function routeToHome() {
   window.history.pushState(null, null, "/");
-  window.dispatchEvent(new CustomEvent("route"));
+  window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }

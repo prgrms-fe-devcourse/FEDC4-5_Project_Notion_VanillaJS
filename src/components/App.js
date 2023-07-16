@@ -1,3 +1,4 @@
+import { EVENT } from "@Utils/constants";
 import { patchSidebarState, registerStateSetter } from "@Utils/stateSetters";
 import router from "@Utils/router";
 import Document from "./Document/Document";
@@ -34,5 +35,5 @@ export default function App({ $target }) {
   const route = () => router({ $target: $content });
   window.addEventListener("load", route);
   window.addEventListener("popstate", route);
-  window.addEventListener("route", route);
+  window.addEventListener(EVENT.ROUTE, route);
 }
