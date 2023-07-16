@@ -51,35 +51,43 @@ export default function Document({ $target }) {
         });
 
         if (e.target.name === "title") {
-          window.dispatchEvent(
-            new CustomEvent(EVENT.TITLE_UPDATED, {
-              detail: {
-                id: this.state.id,
-                title: e.target.value,
-              },
-            })
-          );
+          this.dispatchTitle(e.target.value);
         }
 
-        if (timer) {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(
-          ((state) => async () => {
-            const { id: documentId, title, content } = state;
-            await putDocument({
-              documentId,
-              title: title.length ? title : "제목없음",
-              content,
-            });
-
-            patchSidebarState();
-          })(this.state),
-          3000
-        );
+        this.autoSave();
       });
     });
   });
+
+  this.dispatchTitle = (title) => {
+    window.dispatchEvent(
+      new CustomEvent(EVENT.TITLE_UPDATED, {
+        detail: {
+          id: this.state.id,
+          title,
+        },
+      })
+    );
+  };
+
+  this.autoSave = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(
+      ((state) => async () => {
+        const { id: documentId, title, content } = state;
+        await putDocument({
+          documentId,
+          title: title.length ? title : "제목없음",
+          content,
+        });
+
+        patchSidebarState();
+      })(this.state),
+      3000
+    );
+  };
 
   this.render = () => {
     this.init();
