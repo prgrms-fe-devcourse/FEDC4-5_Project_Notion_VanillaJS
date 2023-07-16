@@ -86,7 +86,6 @@ function App({ $app }) {
   });
 
   this.route = () => {
-    console.log(router.getQuery(), router.getUrl());
     const currentUrl = router.getUrl();
     navPage.setState();
 

@@ -1,6 +1,7 @@
-const API_END_POINT =
-  "https://kdt-frontend.programmers.co.kr";
-const USER_NAME = "cszzi1006";
+import {
+  API_END_POINT,
+  USER_NAME,
+} from "./constants/constants.js";
 
 export const request = async (url, options = {}) => {
   try {
