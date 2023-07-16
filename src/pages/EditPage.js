@@ -5,6 +5,13 @@ import { INIT_ID } from "../constants/symbol.js";
 export default class EditPage {
   $parent;
   $target = document.createDocumentFragment();
+  INIT_DATA = {
+    id: INIT_ID,
+    title: "",
+    content: "",
+    createdAt: "",
+    updatedAt: "",
+  };
   editor;
   documentSubList;
 
@@ -18,13 +25,7 @@ export default class EditPage {
         className: "editor",
       },
       props: {
-        initialState: {
-          id: INIT_ID,
-          title: "",
-          content: "",
-          createdAt: "",
-          updatedAt: "",
-        },
+        initialState: this.INIT_DATA,
         onEditDocument,
       },
     });
@@ -68,13 +69,7 @@ export default class EditPage {
       this.editor.setState(document);
       this.documentSubList.setState(document);
     } else {
-      this.editor.setState({
-        id: INIT_ID,
-        title: "",
-        content: "",
-        createdAt: "",
-        updatedAt: "",
-      });
+      this.editor.setState(this.INIT_DATA);
       this.documentSubList.setState([]);
     }
 
