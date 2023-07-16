@@ -81,7 +81,7 @@ export default function DocumentList({ $target, initialState, username }) {
               $documentList.innerHTML = "";
               res.parent === null || res.parent === {}
                 ? pushRouter("/")
-                : pushRouter(`/${res.parent.id}`);
+                : pushRouter(`/documents/${res.parent.id}`);
             });
           }
         } else {
