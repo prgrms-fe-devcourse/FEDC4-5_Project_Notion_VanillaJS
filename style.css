@@ -46,11 +46,16 @@ input.editor-title:focus {
   outline: none;
 }
 
-button {
-  display: flex;
+.document-open {
+  display: block;
 }
 
-div.document {
+.document-close {
+  display: none;
+}
+
+div.document-container {
+  position: relative;
   display: flex;
   overflow: hidden;
   overflow-x: hidden;
@@ -69,7 +74,7 @@ textarea {
 
 .document-title {
   display: flex;
-  width: 60%;
+  width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -87,13 +92,13 @@ button.remove-button {
   right: 10px;
 }
 
-.document > button.add-button {
+.document-container > button.add-button {
   position: absolute;
   right: 45px;
 }
 
 .outliner > div.list {
-  padding: 0 10px 0 19px;
+  padding: 0 0 0 19px;
   margin: 1px 0;
 }
 
@@ -104,10 +109,6 @@ button.remove-button {
 .global-nav > .list {
   overflow-y: scroll;
 }
-/* 
-.list {
-  height: 100%;
-} */
 
 .root-button {
   margin: 1px 4px;
@@ -115,9 +116,4 @@ button.remove-button {
 
 .outliner:hover {
   cursor: pointer;
-  background-color: #eee;
-}
-
-.outliner > button:hover {
-  background-color: #999999;
 }
