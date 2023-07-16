@@ -4,7 +4,7 @@ import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, setStateOf } from "@Utils/stateSetters";
 import { routeToDocument, routeToHome } from "@Utils/router";
-import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
+import { ACTION, CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
 import plusIcon from "@Static/plusIcon.svg";
 import trashIcon from "@Static/trashIcon.svg";
@@ -95,6 +95,59 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     });
   };
 
+  this.handleAppend = async () => {
+    const newDocument = await postDocument({
+      title: "제목없음",
+      parent: this.state.id,
+    });
+    if (newDocument) {
+      patchSidebarState();
+      this.setOpened(true);
+    }
+  };
+
+  this.handleRemove = async () => {
+    this.disable = true;
+
+    const result = await deleteDocument({ documentId: this.state.id });
+    if (result) {
+      patchSidebarState();
+      window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
+      window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
+      $titleContainer.removeEventListener("click", this.handleClick);
+
+      setStateOf(CONSTRUCTOR_NAME.DASHBOARD, {
+        id: this.state.id,
+        toRemove: true,
+      });
+
+      if (isActivated(this.state.id)) {
+        routeToHome();
+      }
+    } else {
+      this.disable = true;
+    }
+  };
+
+  this.handleClick = async (e) => {
+    if (this.disable) return;
+
+    const $actionElement = e.target.closest("[data-action]");
+    if (!$actionElement) return;
+
+    const { action } = $actionElement.dataset;
+
+    if (action === ACTION.OPEN) {
+      this.setOpened(!this.opened);
+    } else if (action === ACTION.APPEND) {
+      this.handleAppend();
+    } else if (action === ACTION.REMOVE) {
+      this.handleRemove();
+    } else if (action === ACTION.ROUTE) {
+      routeToDocument(this.state.id);
+    }
+  };
+
   this.init = once(() => {
     $target.insertBefore($item, $sibling);
     $item.insertAdjacentElement("afterbegin", $titleContainer);
@@ -110,49 +163,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       </div>
     `;
 
-    $titleContainer.addEventListener("click", async (e) => {
-      if (this.disable) return;
-
-      const $actionElement = e.target.closest("[data-action]");
-      if (!$actionElement) return;
-
-      const { action } = $actionElement.dataset;
-
-      if (action === "open") {
-        this.setOpened(!this.opened);
-      } else if (action === "append") {
-        const newDocument = await postDocument({
-          title: "제목없음",
-          parent: this.state.id,
-        });
-        if (newDocument) {
-          patchSidebarState();
-          this.setOpened(true);
-        }
-      } else if (action === "remove") {
-        this.disable = true;
-
-        const result = await deleteDocument({ documentId: this.state.id });
-        if (result) {
-          patchSidebarState();
-          window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
-          window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
-
-          setStateOf(CONSTRUCTOR_NAME.DASHBOARD, {
-            id: this.state.id,
-            toRemove: true,
-          });
-
-          if (isActivated(this.state.id)) {
-            routeToHome();
-          }
-        } else {
-          this.disable = true;
-        }
-      } else if (action === "route") {
-        routeToDocument(this.state.id);
-      }
-    });
+    $titleContainer.addEventListener("click", this.handleClick);
 
     window.addEventListener(EVENT.ROUTE_DRAWER, this.activate);
     window.addEventListener(EVENT.TITLE_UPDATED, (e) => {

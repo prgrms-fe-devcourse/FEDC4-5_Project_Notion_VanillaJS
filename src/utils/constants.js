@@ -28,3 +28,10 @@ export const EVENT = {
   ROUTE_DRAWER: "route-drawer",
   TITLE_UPDATED: "title-updated",
 };
+
+export const ACTION = {
+  OPEN: "open",
+  APPEND: "append",
+  REMOVE: "remove",
+  ROUTE: "route",
+};
