@@ -1,5 +1,5 @@
 import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
-import { stateSetters } from "@Utils/stateSetters";
+import { setStateOf } from "@Utils/stateSetters";
 import { getDocument } from "./apis";
 
 export default async function router({ $target }) {
@@ -9,7 +9,7 @@ export default async function router({ $target }) {
   $target.innerHTML = "";
 
   if (pathname === "/") {
-    stateSetters[CONSTRUCTOR_NAME.HOME](null);
+    setStateOf(CONSTRUCTOR_NAME.HOME, null);
   } else if (pathname.indexOf("/documents/") === 0) {
     const [, , documentIdStr] = pathname.split("/");
     const documentId = parseInt(documentIdStr, 10);
@@ -17,7 +17,7 @@ export default async function router({ $target }) {
     const documentData = await getDocument({ documentId });
 
     if (documentData) {
-      stateSetters[CONSTRUCTOR_NAME.DOCUMENT](documentData);
+      setStateOf(CONSTRUCTOR_NAME.DOCUMENT, documentData);
     } else {
       routeToHome();
     }

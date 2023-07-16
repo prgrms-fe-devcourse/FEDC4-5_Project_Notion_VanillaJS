@@ -1,5 +1,5 @@
 /* eslint-disable valid-typeof */
-import ValidationError from "./ValidationError";
+import ValidationError from "./Errors/ValidationError";
 import { ERROR } from "./constants";
 
 function checkError(condition, errorObj) {

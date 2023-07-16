@@ -2,7 +2,7 @@ import once from "@Utils/once";
 import { isConstructor, isDrawerItemState } from "@Utils/validation";
 import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
-import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
+import { patchSidebarState, setStateOf } from "@Utils/stateSetters";
 import { routeToDocument, routeToHome } from "@Utils/router";
 import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
@@ -83,7 +83,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       curParent = curParent.parent;
     }
 
-    stateSetters[CONSTRUCTOR_NAME.HEADER](docsInfo);
+    setStateOf(CONSTRUCTOR_NAME.HEADER, docsInfo);
   };
 
   // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
@@ -94,7 +94,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       this.sendHeaderDocsInfo();
 
       const { id, title } = this.state;
-      stateSetters[CONSTRUCTOR_NAME.HOME]({ id, title });
+      setStateOf(CONSTRUCTOR_NAME.HOME, { id, title });
     } else {
       $titleContainer.className = "drawer-item-container";
     }
@@ -150,7 +150,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
           window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
 
-          stateSetters[CONSTRUCTOR_NAME.HOME]({
+          setStateOf(CONSTRUCTOR_NAME.HOME, {
             id: this.state.id,
             toRemove: true,
           });

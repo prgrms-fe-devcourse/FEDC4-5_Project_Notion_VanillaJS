@@ -1,4 +1,4 @@
-import RequestError from "./RequestError";
+import RequestError from "./Errors/RequestError";
 import { ERROR } from "./constants";
 
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";

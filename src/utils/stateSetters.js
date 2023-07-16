@@ -1,5 +1,6 @@
+import SetStateError from "./Errors/SetStateError";
 import { getRootDocuments } from "./apis";
-import { CONSTRUCTOR_NAME } from "./constants";
+import { CONSTRUCTOR_NAME, ERROR } from "./constants";
 
 export const stateSetters = {};
 
@@ -10,16 +11,20 @@ export function registerStateSetter(component) {
   }
 }
 
-export async function patchSidebarState() {
-  if (
-    !Object.prototype.hasOwnProperty.call(
-      stateSetters,
-      CONSTRUCTOR_NAME.SIDEBAR
-    )
-  ) {
+export function setStateOf(target, value) {
+  try {
+    if (!Object.prototype.hasOwnProperty.call(stateSetters, target)) {
+      throw new SetStateError(ERROR.UNREGISTERED_SETTER);
+    }
+  } catch (err) {
+    console.error(err.message);
     return;
   }
 
+  stateSetters[target](value);
+}
+
+export async function patchSidebarState() {
   const rootDocuments = await getRootDocuments();
-  stateSetters[CONSTRUCTOR_NAME.SIDEBAR](rootDocuments);
+  setStateOf(CONSTRUCTOR_NAME.SIDEBAR, rootDocuments);
 }

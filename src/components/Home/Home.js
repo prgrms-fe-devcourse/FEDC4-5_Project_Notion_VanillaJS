@@ -4,7 +4,7 @@ import { getItem, removeItem, setItem } from "@Utils/storage";
 import { isConstructor, isHomeState } from "@Utils/validation";
 import "./Home.css";
 import { routeToDocument } from "@Utils/router";
-import { stateSetters } from "@Utils/stateSetters";
+import { setStateOf } from "@Utils/stateSetters";
 
 export default function Home({ $target }) {
   if (!isConstructor(new.target)) {
@@ -87,6 +87,6 @@ export default function Home({ $target }) {
         .join("")}
     `;
 
-    stateSetters[CONSTRUCTOR_NAME.HEADER]([]);
+    setStateOf(CONSTRUCTOR_NAME.HEADER, []);
   };
 }
