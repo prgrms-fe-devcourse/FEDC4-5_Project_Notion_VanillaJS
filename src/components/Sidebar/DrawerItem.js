@@ -103,6 +103,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     if (newDocument) {
       patchSidebarState();
       this.setOpened(true);
+      routeToDocument(newDocument.id);
     }
   };
 
