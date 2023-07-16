@@ -1,39 +1,23 @@
-import { EVENT } from "@Utils/constants";
 import { patchSidebarState, registerStateSetter } from "@Utils/stateSetters";
-import router from "@Utils/router";
-import Document from "./components/Document/Document";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
+import DocumentContainer from "@Components/DocumentContainer";
+import Header from "@Components/Header/Header";
+import Sidebar from "@Components/Sidebar/Sidebar";
 import "./App.css";
 
 export default function App({ $target }) {
   // 기본 레이아웃 요소 생성
-  const $sidebar = new Sidebar({ $target });
-  registerStateSetter($sidebar);
+  const sidebar = new Sidebar({ $target });
+  registerStateSetter(sidebar);
   patchSidebarState();
 
   const $main = document.createElement("div");
-  const $header = new Header({ $target: $main });
-  registerStateSetter($header);
 
-  const $content = document.createElement("article");
+  const header = new Header({ $target: $main });
+  registerStateSetter(header);
 
   $main.className = "main-container";
-  $content.className = "page-container";
-
-  $main.appendChild($content);
   $target.appendChild($main);
 
-  // route 가능한 요소 등록
-  const $home = new Dashboard({ $target: $content });
-  registerStateSetter($home);
-
-  const $document = new Document({ $target: $content });
-  registerStateSetter($document);
-
-  const route = () => router({ $target: $content });
-  window.addEventListener("load", route);
-  window.addEventListener("popstate", route);
-  window.addEventListener(EVENT.ROUTE, route);
+  // route 로 변경되는 부분
+  new DocumentContainer({ $target: $main });
 }

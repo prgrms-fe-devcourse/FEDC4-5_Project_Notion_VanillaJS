@@ -14,6 +14,7 @@ export function registerStateSetter(component) {
 export function setStateOf(target, value) {
   try {
     if (!Object.prototype.hasOwnProperty.call(stateSetters, target)) {
+      console.log(target, value);
       throw new SetStateError(ERROR.UNREGISTERED_SETTER);
     }
   } catch (err) {

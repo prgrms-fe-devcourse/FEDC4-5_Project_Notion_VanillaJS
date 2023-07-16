@@ -94,7 +94,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       this.sendHeaderDocsInfo();
 
       const { id, title } = this.state;
-      setStateOf(CONSTRUCTOR_NAME.HOME, { id, title });
+      setStateOf(CONSTRUCTOR_NAME.DASHBOARD, { id, title });
     } else {
       $titleContainer.className = "drawer-item-container";
     }
@@ -150,7 +150,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
           window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
 
-          setStateOf(CONSTRUCTOR_NAME.HOME, {
+          setStateOf(CONSTRUCTOR_NAME.DASHBOARD, {
             id: this.state.id,
             toRemove: true,
           });

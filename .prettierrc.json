@@ -11,6 +11,7 @@
 
   "importOrder": [
     "^@Components/(.*)$",
+    "^@Pages/(.*)$",
     "^@Utils/(.*)$",
     "^@Static/(.*)$",
     "^[./]"

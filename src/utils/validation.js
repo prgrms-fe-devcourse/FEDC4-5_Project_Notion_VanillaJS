@@ -122,7 +122,7 @@ export function validateDashboardState(state) {
   return (
     validateObjectState(state) &&
     checkError(
-      Object.entries(state).some((key, val) => {
+      Object.entries(state).some(([key, val]) => {
         const numKey = parseInt(key, 10);
         if (Number.isNaN(numKey) || key.length !== numKey.toString().length)
           return true;
@@ -135,7 +135,7 @@ export function validateDashboardState(state) {
   );
 }
 
-const homeItemType = {
+const dashboardItemType = {
   title: "string",
   numUsed: "number",
   lastUsedTime: "number",
@@ -145,8 +145,8 @@ export function validateDashboardItemState(state) {
   return (
     validateObjectState(state) &&
     checkError(
-      Object.entries(homeItemType).some(
-        (name, type) =>
+      Object.entries(dashboardItemType).some(
+        ([name, type]) =>
           !Object.prototype.hasOwnProperty.call(state, name) ||
           typeof state[name] !== type
       ),
