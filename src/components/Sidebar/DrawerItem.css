@@ -43,7 +43,8 @@
 }
 
 .drawer-item-title {
-  margin: 5px 0 5px 2px;
+  margin: 0;
+  padding: 5px 0 5px 2px;
   flex: 1 1 0%;
   user-select: none;
   word-break: break-all;
