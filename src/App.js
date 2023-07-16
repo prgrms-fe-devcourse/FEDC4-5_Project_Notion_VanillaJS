@@ -36,7 +36,7 @@ export default class App {
         pushHistory(`${DOCUMENTS_PATH}${id}`);
       },
       onCreateDocument: async (id) => {
-        const document = await documentService.addData({
+        const documentData = await documentService.addData({
           id,
           title: "무제",
         });
@@ -49,8 +49,8 @@ export default class App {
         });
 
         this.documentsPage.setState();
-        this.editPage.setState({ id: document.id });
-        pushHistory(`${DOCUMENTS_PATH}${document.id}`);
+        this.editPage.setState({ id: documentData.id });
+        pushHistory(`${DOCUMENTS_PATH}${documentData.id}`);
       },
       onDeleteDocument: async (id) => {
         await documentService.deleteData(id);
@@ -76,7 +76,7 @@ export default class App {
 
     this.editPage = new EditPage({
       $parent: this.$children.editPage,
-      onEditDocument: (id, document) => {
+      onEditDocument: (id, documentData) => {
         const documentTempStorageKey = `temp-document-${id}`;
 
         if (this.timer !== null) {
@@ -84,12 +84,12 @@ export default class App {
         }
 
         documentTempStorage(documentTempStorageKey).setData({
-          ...document,
+          ...documentData,
           tempSaveDate: new Date(),
         });
 
         this.timer = setTimeout(async () => {
-          await documentService.updateData(id, document);
+          await documentService.updateData(id, documentData);
 
           documentTempStorage(documentTempStorageKey).removeData();
           this.documentsPage.setState();

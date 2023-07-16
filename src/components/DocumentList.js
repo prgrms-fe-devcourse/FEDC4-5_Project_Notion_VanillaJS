@@ -5,10 +5,10 @@ export default class DocumentList extends Component {
     const { pathname } = location;
     const [, , documnetId] = pathname.split("/");
 
-    const list = (document, depth = 0) => {
+    const list = (state, depth = 0) => {
       return (
-        Array.isArray(document) &&
-        `<ul>${document
+        Array.isArray(state) &&
+        `<ul>${state
           .map(
             ({ id, isOpen, title, documents }) => `
           <li data-id="${id}">

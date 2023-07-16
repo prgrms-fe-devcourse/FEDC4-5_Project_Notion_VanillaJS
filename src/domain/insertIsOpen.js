@@ -1,12 +1,12 @@
 export const insertIsOpen = (documents, currentOpenStatus) => {
   return (
     documents.length > 0 &&
-    documents.map((document) => {
+    documents.map((documentData) => {
       return {
-        id: document.id,
-        title: document.title,
-        isOpen: Boolean(currentOpenStatus[document.id]),
-        documents: insertIsOpen(document.documents, currentOpenStatus),
+        id: documentData.id,
+        title: documentData.title,
+        isOpen: Boolean(currentOpenStatus[documentData.id]),
+        documents: insertIsOpen(documentData.documents, currentOpenStatus),
       };
     })
   );
