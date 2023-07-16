@@ -1,28 +1,28 @@
-import { NAME, STORAGE } from "@Utils/constants";
-import { once } from "@Utils/once";
+import { CONSTRUCTOR_NAME, STORAGE } from "@Utils/constants";
+import once from "@Utils/once";
 import { getItem, removeItem, setItem } from "@Utils/storage";
-import { isConstructor, isHomeState } from "@Utils/validation";
-import "./Home.css";
+import { isConstructor, validateDashboardState } from "@Utils/validation";
+import "./Dashboard.css";
 import { routeToDocument } from "@Utils/router";
-import { stateSetters } from "@Utils/stateSetters";
+import { setStateOf } from "@Utils/stateSetters";
 
-export default function Home({ $target }) {
+export default function Dashboard({ $target }) {
   if (!isConstructor(new.target)) {
     return;
   }
 
-  const $home = document.createElement("section");
+  const $dashboard = document.createElement("section");
   const $recent = document.createElement("section");
   const $most = document.createElement("section");
 
   this.state = (() => {
     const localRecord = getItem(STORAGE.RECORD, {});
-    if (isHomeState(localRecord)) {
+    if (validateDashboardState(localRecord)) {
       return localRecord;
-    } else {
-      removeItem(STORAGE.RECORD);
-      return {};
     }
+
+    removeItem(STORAGE.RECORD);
+    return {};
   })();
 
   this.setState = (nextState) => {
@@ -47,14 +47,14 @@ export default function Home({ $target }) {
   };
 
   this.init = once(() => {
-    $home.className = "home-container";
-    $recent.className = "home-recent-container";
-    $most.className = "home-most-container";
+    $dashboard.className = "dashboard-container";
+    $recent.className = "dashboard-recent-container";
+    $most.className = "dashboard-most-container";
 
-    $home.appendChild($recent);
-    $home.appendChild($most);
+    $dashboard.appendChild($recent);
+    $dashboard.appendChild($most);
 
-    $home.addEventListener("click", (e) => {
+    $dashboard.addEventListener("click", (e) => {
       const $docLink = e.target.closest("[data-id]");
       if (!$docLink) return;
 
@@ -65,10 +65,10 @@ export default function Home({ $target }) {
 
   this.render = () => {
     this.init();
-    $target.appendChild($home);
+    $target.appendChild($dashboard);
 
     $recent.innerHTML = `
-      <p class="home-recent-title">⏰ 최근 사용한 문서</p>
+      <p class="dashboard-recent-title">⏰ 최근 사용한 문서</p>
       ${Object.entries(this.state)
         .sort(
           ([aid, aval], [bid, bval]) => bval.lastUsedTime - aval.lastUsedTime
@@ -79,7 +79,7 @@ export default function Home({ $target }) {
     `;
 
     $most.innerHTML = `
-      <p class="home-most-title">🗂️ 자주 사용한 문서</p>
+      <p class="dashboard-most-title">🗂️ 자주 사용한 문서</p>
       ${Object.entries(this.state)
         .sort(([aid, aval], [bid, bval]) => bval.numUsed - aval.numUsed)
         .slice(0, 10)
@@ -87,6 +87,6 @@ export default function Home({ $target }) {
         .join("")}
     `;
 
-    stateSetters[NAME.HEADER]([]);
+    setStateOf(CONSTRUCTOR_NAME.HEADER, []);
   };
 }

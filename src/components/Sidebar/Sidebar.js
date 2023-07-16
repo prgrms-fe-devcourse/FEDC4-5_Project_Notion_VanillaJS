@@ -1,11 +1,11 @@
-import { isConstructor, isDrawerState } from "@Utils/validation";
+import { isConstructor, validateDrawerState } from "@Utils/validation";
 import "./Sidebar.css";
-import { once } from "@Utils/once";
-import Drawer from "./Drawer";
+import once from "@Utils/once";
 import { postDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
 import addIcon from "@Static/addIcon.svg";
 import { routeToHome } from "@Utils/router";
+import Drawer from "./Drawer";
 
 export default function Sidebar({ $target }) {
   if (!isConstructor(new.target)) {
@@ -20,7 +20,7 @@ export default function Sidebar({ $target }) {
   this.state = [];
 
   this.setState = (nextState) => {
-    if (!isDrawerState(nextState)) {
+    if (!validateDrawerState(nextState)) {
       return;
     }
 
@@ -42,11 +42,11 @@ export default function Sidebar({ $target }) {
     $sidebar.appendChild($homeLogo);
     $sidebar.appendChild($addBtn);
 
-    $homeLogo.addEventListener("click", (e) => {
+    $homeLogo.addEventListener("click", () => {
       routeToHome();
     });
 
-    $addBtn.addEventListener("click", async (e) => {
+    $addBtn.addEventListener("click", async () => {
       const newDocument = await postDocument({
         title: "제목없음",
         parent: null,

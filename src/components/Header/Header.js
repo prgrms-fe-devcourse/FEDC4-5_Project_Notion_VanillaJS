@@ -1,6 +1,6 @@
-import { isConstructor, isHeaderState } from "@Utils/validation";
+import { isConstructor, validateHeaderState } from "@Utils/validation";
 import "./Header.css";
-import { once } from "@Utils/once";
+import once from "@Utils/once";
 import { routeToDocument } from "@Utils/router";
 
 export default function Header({ $target }) {
@@ -13,7 +13,7 @@ export default function Header({ $target }) {
   this.state = [];
 
   this.setState = (nextState) => {
-    if (!isHeaderState(nextState)) {
+    if (!validateHeaderState(nextState)) {
       return;
     }
 
