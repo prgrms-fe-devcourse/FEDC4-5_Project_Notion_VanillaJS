@@ -10,11 +10,11 @@ export default class DocumentList extends Component {
         Array.isArray(state) &&
         `<ul>${state
           .map(
-            ({ id, isOpen, title, documents }) => `
+            ({ id, opened, title, documents }) => `
           <li data-id="${id}">
             <div class="document" style="--depth: ${depth}">
               <div class="documentTitle">
-                <button class="toggle ${isOpen ? "open" : ""}">&gt</button>
+                <button class="toggle ${opened ? "open" : ""}">&gt</button>
                 <span>📄</span>
                 <span class="title ${
                   documnetId === String(id) ? "current" : ""
@@ -28,7 +28,7 @@ export default class DocumentList extends Component {
               </div>
             </div>
             ${
-              Array.isArray(documents) && documents.length > 0 && isOpen
+              Array.isArray(documents) && documents.length > 0 && opened
                 ? list(documents, depth + 1)
                 : ""
             }

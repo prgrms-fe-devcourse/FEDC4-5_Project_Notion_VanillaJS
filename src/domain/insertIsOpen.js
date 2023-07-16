@@ -5,7 +5,7 @@ export const insertIsOpen = (documents, currentOpenStatus) => {
       return {
         id: documentData.id,
         title: documentData.title,
-        isOpen: Boolean(currentOpenStatus[documentData.id]),
+        opened: Boolean(currentOpenStatus[documentData.id]),
         documents: insertIsOpen(documentData.documents, currentOpenStatus),
       };
     })
