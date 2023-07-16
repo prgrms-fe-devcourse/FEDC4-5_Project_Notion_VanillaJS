@@ -24,7 +24,7 @@ function Navbar({
           item =>
             `<li data-id="${item.id}">
             <div class="item ${
-              item.id == selected ? "selected" : ""
+              item.id === Number(selected) ? "selected" : ""
             }" style="--depth: ${depth}">
               <div class="btn-container ${
                 toggleData[item.id] ? "toggled" : ""
