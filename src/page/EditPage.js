@@ -1,5 +1,5 @@
 import Editor from "/src/component/Editor.js";
-import { fetchDocument } from "/src/service/documentEditService.js";
+import { requestGetDocument } from "/src/service/documentEditService.js";
 
 function EditPage({ $app, handleEdit }) {
   const $page = document.createElement("div");
@@ -10,7 +10,7 @@ function EditPage({ $app, handleEdit }) {
   this.setState = async nextState => {
     this.state = nextState;
     const selectDocument = this.state.id
-      ? await fetchDocument(this.state.id)
+      ? await requestGetDocument(this.state.id)
       : { id: null, title: "", content: "" };
     const editDocument = {
       ...selectDocument,

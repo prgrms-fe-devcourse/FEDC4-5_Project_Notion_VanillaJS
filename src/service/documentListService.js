@@ -1,6 +1,6 @@
 import { request } from "../api.js";
 
-export const createDocument = async parent => {
+export const requestCreateDocument = async parent => {
   const newDocument = await request("/documents", {
     method: "POST",
     body: JSON.stringify({
@@ -11,11 +11,11 @@ export const createDocument = async parent => {
   return newDocument;
 };
 
-export const deleteDocument = async id => {
+export const requestDeleteDocument = async id => {
   await request(`/documents/${id}`, { method: "DELETE" });
 };
 
-export const getDocumentList = async () => {
+export const requestGetDocumentList = async () => {
   const documentList = await request("/documents");
   return documentList;
 };

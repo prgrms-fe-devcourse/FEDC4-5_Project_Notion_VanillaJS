@@ -3,21 +3,19 @@ import {
   updateToggleItem,
   deleteToggleItem,
 } from "/src/helper/toggleHelper.js";
-import {
-  createDocument,
-  deleteDocument,
-} from "/src/service/documentListService.js";
-import {
-  saveDocument,
-  removeDocument,
-  editDocument,
-} from "/src/service/documentEditService.js";
 import NavPage from "/src/page/NavPage.js";
 import EditPage from "/src/page/EditPage.js";
 
 import { HistoryRouter } from "./router.js";
-import { fetchDocument } from "./service/documentEditService.js";
-import { getDocumentList } from "./service/documentListService.js";
+import {
+  saveDocumentStorage,
+  clearDocumentStorage,
+  requestEditDocument,
+} from "./service/documentEditService.js";
+import {
+  requestCreateDocument,
+  requestDeleteDocument,
+} from "./service/documentListService.js";
 
 function App({ $app }) {
   const router = new HistoryRouter();
@@ -31,7 +29,9 @@ function App({ $app }) {
     },
 
     handleCreate: async parent => {
-      const newDocument = await createDocument(parent);
+      const newDocument = await requestCreateDocument(
+        parent
+      );
       const nextToggleData = createToggleItem({
         data: navPage.state.toggleData,
         id: newDocument.id,
@@ -43,7 +43,7 @@ function App({ $app }) {
     },
 
     handleDelete: async id => {
-      await deleteDocument(id);
+      await requestDeleteDocument(id);
       const nextToggleData = deleteToggleItem({
         data: navPage.state.toggleData,
         id,
@@ -77,9 +77,9 @@ function App({ $app }) {
           title: emoji + " " + title,
           content,
         };
-        saveDocument(id, document);
-        await editDocument(id, document);
-        removeDocument(id);
+        saveDocumentStorage(id, document);
+        await requestEditDocument(id, document);
+        clearDocumentStorage(id);
         navPage.setState();
       }, DEBOUNCE);
     },

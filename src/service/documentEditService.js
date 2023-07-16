@@ -1,7 +1,7 @@
 import { request } from "../api.js";
 import { getDocumentStorageById } from "../storage.js";
 
-export const saveDocument = (id, document) => {
+export const saveDocumentStorage = (id, document) => {
   const documentStorage = getDocumentStorageById(id);
   documentStorage.setItem({
     ...document,
@@ -9,12 +9,12 @@ export const saveDocument = (id, document) => {
   });
 };
 
-export const removeDocument = id => {
+export const clearDocumentStorage = id => {
   const documentStorage = getDocumentStorageById(id);
   documentStorage.removeItem();
 };
 
-export const fetchDocument = async id => {
+export const requestGetDocument = async id => {
   const selectedDocument = await request(
     `/documents/${id}`
   );
@@ -31,7 +31,7 @@ export const fetchDocument = async id => {
   return selectedDocument;
 };
 
-export const editDocument = async (id, document) => {
+export const requestEditDocument = async (id, document) => {
   await request(`/documents/${id}`, {
     method: "PUT",
     body: JSON.stringify({

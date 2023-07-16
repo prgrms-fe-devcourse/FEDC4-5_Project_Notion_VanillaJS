@@ -1,4 +1,4 @@
-import { getDocumentList } from "/src/service/documentListService.js";
+import { requestGetDocumentList } from "/src/service/documentListService.js";
 import Navbar from "/src/component/Navbar.js";
 import NavHeader from "/src/component/NavHeader.js";
 import { toggleDataStorage } from "/src/storage.js";
@@ -19,7 +19,7 @@ function NavPage({
   this.state = initialState;
 
   this.setState = async nextState => {
-    const documentList = await getDocumentList();
+    const documentList = await requestGetDocumentList();
     const toggleData = nextState
       ? nextState.toggleData
       : toggleDataStorage.getItem() ||
