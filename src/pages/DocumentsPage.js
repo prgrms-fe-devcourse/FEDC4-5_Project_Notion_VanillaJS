@@ -4,6 +4,7 @@ import {
   documentService,
   openStatusStorage,
 } from "../domain/index.js";
+import { createTarget } from "../service/index.js";
 
 export default class DocumentsPage {
   $parent;
@@ -23,8 +24,7 @@ export default class DocumentsPage {
     new UserSection({
       element: {
         $parent: this.$target,
-        $target: document.createElement("div"),
-        className: "userSection",
+        $target: createTarget("div", "userSection"),
       },
       props: {
         onClickUserSection,
@@ -34,8 +34,7 @@ export default class DocumentsPage {
     this.documentList = new DocumentList({
       element: {
         $parent: this.$target,
-        $target: document.createElement("div"),
-        className: "documentList",
+        $target: createTarget("div", "documentList"),
       },
       props: {
         initialState: [],

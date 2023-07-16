@@ -7,10 +7,9 @@ export default class Component {
   constructor({ element = {}, props = {} }) {
     this.$parent = element.$parent;
     this.$target = element.$target;
-    this.$target.className = element.className;
     this.$parent.append(this.$target);
     this.props = props;
-    this.state = props.initialState;
+    this.state = this.props.initialState;
     this.render();
     this.addEvent();
   }

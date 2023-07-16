@@ -1,6 +1,7 @@
 import { Editor, DocumentSubList } from "../components/index.js";
 import { documentService, documentTempStorage } from "../domain/index.js";
 import { INIT_ID } from "../constants/symbol.js";
+import { createTarget } from "../service/index.js";
 
 export default class EditPage {
   $parent;
@@ -21,8 +22,7 @@ export default class EditPage {
     this.editor = new Editor({
       element: {
         $parent: this.$target,
-        $target: document.createElement("div"),
-        className: "editor",
+        $target: createTarget("div", "editor"),
       },
       props: {
         initialState: this.INIT_DATA,
@@ -33,8 +33,7 @@ export default class EditPage {
     this.documentSubList = new DocumentSubList({
       element: {
         $parent: this.$target,
-        $target: document.createElement("div"),
-        className: "documentSubList",
+        $target: createTarget("div", "documentSubList"),
       },
       props: {
         initialState: [],
