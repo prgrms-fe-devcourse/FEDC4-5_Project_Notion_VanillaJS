@@ -19,7 +19,7 @@ export function isConstructor(newTarget) {
   return checkError(!newTarget, new ValidationError(ERROR.NEW_MISSED));
 }
 
-export function isObjectState(state) {
+export function validateObjectState(state) {
   return checkError(
     state === null || !(typeof state === "object"),
     new TypeError(ERROR.NONE_OBJECT_STATE)
@@ -35,9 +35,9 @@ const documentType = {
   updatedAt: "string",
 };
 
-export function isDocumentState(state) {
+export function validateDocumentState(state) {
   return (
-    isObjectState(state) &&
+    validateObjectState(state) &&
     checkError(
       Object.entries(state).some(([key, val]) => {
         if (!Object.prototype.hasOwnProperty.call(documentType, key))
@@ -58,7 +58,7 @@ export function isDocumentState(state) {
   );
 }
 
-export function isArrayState(state) {
+export function validateArrayState(state) {
   return checkError(
     !Array.isArray(state),
     new TypeError(ERROR.NONE_ARRAY_STATE)
@@ -71,7 +71,7 @@ const drawerItemType = {
   documents: "object",
 };
 
-export function isDrawerItemState(state) {
+export function validateDrawerItemState(state) {
   return checkError(
     Object.entries(drawerItemType).some(([key, type]) => {
       if (!Object.prototype.hasOwnProperty.call(state, key)) return true;
@@ -84,22 +84,22 @@ export function isDrawerItemState(state) {
   );
 }
 
-export function isDrawerState(state) {
+export function validateDrawerState(state) {
   return (
-    isArrayState(state) &&
+    validateArrayState(state) &&
     checkError(
-      !state.reduce((acc, cur) => acc && isDrawerItemState(cur), true),
+      !state.reduce((acc, cur) => acc && validateDrawerItemState(cur), true),
       new ValidationError(ERROR.INVALID_DRAWER_STATE)
     )
   );
 }
 
-export function isHeaderState(state) {
+export function validateHeaderState(state) {
   return (
-    isArrayState(state) &&
+    validateArrayState(state) &&
     checkError(
       state.some((item) => {
-        if (!isObjectState(item)) return true;
+        if (!validateObjectState(item)) return true;
         if (
           !Object.prototype.hasOwnProperty.call(item, "id") ||
           typeof item.id !== "number"
@@ -118,15 +118,15 @@ export function isHeaderState(state) {
   );
 }
 
-export function isHomeState(state) {
+export function validateHomeState(state) {
   return (
-    isObjectState(state) &&
+    validateObjectState(state) &&
     checkError(
       Object.entries(state).some((key, val) => {
         const numKey = parseInt(key, 10);
         if (Number.isNaN(numKey) || key.length !== numKey.toString().length)
           return true;
-        if (!isHomeItemState(val)) return true;
+        if (!validateHomeItemState(val)) return true;
 
         return false;
       }),
@@ -141,9 +141,9 @@ const homeItemType = {
   lastUsedTime: "number",
 };
 
-export function isHomeItemState(state) {
+export function validateHomeItemState(state) {
   return (
-    isObjectState(state) &&
+    validateObjectState(state) &&
     checkError(
       Object.entries(homeItemType).some(
         (name, type) =>

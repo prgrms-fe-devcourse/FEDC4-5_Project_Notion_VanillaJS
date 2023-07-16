@@ -1,5 +1,5 @@
 import once from "@Utils/once";
-import { isConstructor, isDrawerItemState } from "@Utils/validation";
+import { isConstructor, validateDrawerItemState } from "@Utils/validation";
 import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, setStateOf } from "@Utils/stateSetters";
@@ -26,7 +26,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   this.state = { id: 0, title: "", documents: [] };
 
   this.setState = (nextState) => {
-    if (!isDrawerItemState(nextState)) {
+    if (!validateDrawerItemState(nextState)) {
       return;
     }
 

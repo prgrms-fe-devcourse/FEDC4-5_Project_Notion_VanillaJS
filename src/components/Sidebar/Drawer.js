@@ -1,4 +1,4 @@
-import { isConstructor, isDrawerState } from "@Utils/validation";
+import { isConstructor, validateDrawerState } from "@Utils/validation";
 import once from "@Utils/once";
 import DrawerItem from "./DrawerItem";
 import "./Drawer.css";
@@ -17,7 +17,7 @@ export default function Drawer({ $target, parent, level }) {
 
   this.renderingPlan = [];
   this.setState = (nextState) => {
-    if (!isDrawerState(nextState)) {
+    if (!validateDrawerState(nextState)) {
       return;
     }
 

@@ -1,7 +1,7 @@
 import { CONSTRUCTOR_NAME, STORAGE } from "@Utils/constants";
 import once from "@Utils/once";
 import { getItem, removeItem, setItem } from "@Utils/storage";
-import { isConstructor, isHomeState } from "@Utils/validation";
+import { isConstructor, validateHomeState } from "@Utils/validation";
 import "./Home.css";
 import { routeToDocument } from "@Utils/router";
 import { setStateOf } from "@Utils/stateSetters";
@@ -17,7 +17,7 @@ export default function Home({ $target }) {
 
   this.state = (() => {
     const localRecord = getItem(STORAGE.RECORD, {});
-    if (isHomeState(localRecord)) {
+    if (validateHomeState(localRecord)) {
       return localRecord;
     }
 

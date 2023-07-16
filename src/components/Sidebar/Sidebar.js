@@ -1,4 +1,4 @@
-import { isConstructor, isDrawerState } from "@Utils/validation";
+import { isConstructor, validateDrawerState } from "@Utils/validation";
 import "./Sidebar.css";
 import once from "@Utils/once";
 import { postDocument } from "@Utils/apis";
@@ -20,7 +20,7 @@ export default function Sidebar({ $target }) {
   this.state = [];
 
   this.setState = (nextState) => {
-    if (!isDrawerState(nextState)) {
+    if (!validateDrawerState(nextState)) {
       return;
     }
 

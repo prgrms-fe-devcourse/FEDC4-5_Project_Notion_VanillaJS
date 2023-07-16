@@ -1,5 +1,5 @@
 import once from "@Utils/once";
-import { isConstructor, isDocumentState } from "@Utils/validation";
+import { isConstructor, validateDocumentState } from "@Utils/validation";
 import "./Document.css";
 import { putDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
@@ -21,7 +21,7 @@ export default function Document({ $target }) {
   };
 
   this.setState = (nextState) => {
-    if (!isDocumentState(this.state)) {
+    if (!validateDocumentState(this.state)) {
       return;
     }
 
