@@ -137,7 +137,7 @@ export function validateDashboardState(state) {
 
 const dashboardItemType = {
   title: "string",
-  numUsed: "number",
+  usedCount: "number",
   lastUsedTime: "number",
 };
 

@@ -38,7 +38,7 @@ export default function Dashboard({ $target }) {
     } else {
       this.state[id] = {
         title,
-        numUsed: (this.state[id]?.numUsed ?? 0) + 1,
+        usedCount: (this.state[id]?.usedCount ?? 0) + 1,
         lastUsedTime: new Date().getTime(),
       };
     }
@@ -81,7 +81,7 @@ export default function Dashboard({ $target }) {
     $most.innerHTML = `
       <p class="dashboard-most-title">🗂️ 자주 사용한 문서</p>
       ${Object.entries(this.state)
-        .sort(([aid, aval], [bid, bval]) => bval.numUsed - aval.numUsed)
+        .sort(([aid, aval], [bid, bval]) => bval.usedCount - aval.usedCount)
         .slice(0, 10)
         .map(([id, { title }]) => `<p data-id=${id}>${title}</p>`)
         .join("")}
