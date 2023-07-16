@@ -55,43 +55,31 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     $childrenDrawer.root.style.display = this.opened ? "block" : "none";
   };
 
-  // 강조를 위해 부모 DrawerItem을 순회하면서 다 open시킴
-  this.openParents = () => {
-    let curParent = parent;
-    while (curParent) {
-      curParent.setOpened(true);
-      curParent = curParent.parent;
-    }
-  };
-
-  // 부모 순회하며 Header에서 쓸 정보 수집 후 전달
-  this.sendHeaderDocsInfo = () => {
-    const docsInfo = [
-      {
-        id: this.state.id,
-        title: this.state.title,
-      },
-    ];
-
-    let curParent = parent;
-    while (curParent) {
-      docsInfo.unshift({
-        id: curParent.state.id,
-        title: curParent.state.title,
-      });
-
-      curParent = curParent.parent;
-    }
-
-    setStateOf(CONSTRUCTOR_NAME.HEADER, docsInfo);
-  };
-
   // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
   this.activate = () => {
     if (isActivated(this.state.id)) {
       $titleContainer.className = "drawer-item-container activated";
-      this.openParents();
-      this.sendHeaderDocsInfo();
+
+      let curParent = parent;
+      const docsInfo = [
+        {
+          id: this.state.id,
+          title: this.state.title,
+        },
+      ];
+
+      while (curParent) {
+        curParent.setOpened(true);
+
+        docsInfo.unshift({
+          id: curParent.state.id,
+          title: curParent.state.title,
+        });
+
+        curParent = curParent.parent;
+      }
+
+      setStateOf(CONSTRUCTOR_NAME.HEADER, docsInfo);
 
       const { id, title } = this.state;
       setStateOf(CONSTRUCTOR_NAME.DASHBOARD, { id, title });
@@ -184,9 +172,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
 
     $childrenDrawer.setState(this.state.documents);
 
-    if (isActivated(this.state.id)) {
-      this.sendHeaderDocsInfo();
-    }
+    this.activate();
   };
 }
 
