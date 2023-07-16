@@ -1,14 +1,14 @@
 import {
   createChildDocumentLinks,
   createEditor,
-  createNavbar,
+  createBreadcrumb,
   createSidebar,
   createStyleMenu,
 } from './constructors/index.js';
 import {
   renderChildDocumentLinks,
   renderEditor,
-  renderNavbar,
+  renderBreadcrumb,
   renderSidebar,
   renderStyleMenu,
 } from './renders/index.js';
@@ -30,7 +30,7 @@ export default class DocumentPage {
 
   initComponents() {
     this.sidebar = createSidebar.call(this);
-    this.navbar = createNavbar.call(this);
+    this.breadcrumb = createBreadcrumb.call(this);
     this.editor = createEditor.call(this);
     this.styleMenu = createStyleMenu.call(this);
     this.childDocumentLinks = createChildDocumentLinks.call(this);
@@ -39,7 +39,7 @@ export default class DocumentPage {
   initRenders() {
     this.renderEditor = renderEditor.bind(this);
     this.renderSidebar = renderSidebar.bind(this);
-    this.renderNavbar = renderNavbar.bind(this);
+    this.renderBreadcrumb = renderBreadcrumb.bind(this);
     this.renderStyleMenu = renderStyleMenu.bind(this);
     this.renderChildDocumentLinks = renderChildDocumentLinks.bind(this);
   }
@@ -47,7 +47,7 @@ export default class DocumentPage {
   render() {
     this.renderEditor();
     this.renderSidebar();
-    this.renderNavbar();
+    this.renderBreadcrumb();
     this.renderStyleMenu();
     this.renderChildDocumentLinks();
   }

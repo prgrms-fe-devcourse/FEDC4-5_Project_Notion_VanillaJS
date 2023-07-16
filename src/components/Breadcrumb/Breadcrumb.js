@@ -1,6 +1,6 @@
-import './Navbar.css';
+import './Breadcrumb.css';
 
-export default class Navbar {
+export default class Breadcrumb {
   constructor({
     $target,
     initialState = {
@@ -22,12 +22,12 @@ export default class Navbar {
     const { routes } = this.state;
 
     const linkItem = ({ id, title }) => `
-      <a class="navbar__link-item" href="/documents/${id}">
+      <a class="breadcrumb__link-item" href="/documents/${id}">
         ${title || '제목 없음'}
       </a>
     `;
 
-    const slashItem = `<span class="navbar__slash-item">/</span>`
+    const slashItem = `<span class="breadcrumb__slash-item">/</span>`
 
     $target.innerHTML = `${routes.map(linkItem).join(slashItem)}`;
   }

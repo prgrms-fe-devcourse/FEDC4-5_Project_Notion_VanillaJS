@@ -20,11 +20,11 @@ export function renderSidebar() {
   });
 }
 
-export function renderNavbar() {
-  const { navbar } = this;
+export function renderBreadcrumb() {
+  const { breadcrumb } = this;
   const { editorStore, documentStore } = this;
 
-  navbar.setState({ routes: findDocumentRoute(editorStore.state.documentId, documentStore.state.documents) });
+  breadcrumb.setState({ routes: findDocumentRoute(editorStore.state.documentId, documentStore.state.documents) });
 }
 
 export function renderStyleMenu() {

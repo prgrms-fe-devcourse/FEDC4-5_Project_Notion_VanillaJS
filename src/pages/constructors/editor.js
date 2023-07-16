@@ -20,7 +20,7 @@ export default function createEditor() {
       documentStore.updateDocument(editorStore.state.documentId, newDocument);
 
       this.renderSidebar();
-      this.renderNavbar();
+      this.renderBreadcrumb();
     },
     onOpenStyleMenu: (e) => {
       setTimeout(() => {

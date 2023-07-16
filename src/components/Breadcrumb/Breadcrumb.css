@@ -1,4 +1,4 @@
-.main__navbar {
+.main__breadcrumb {
   width: 100%;
   padding: 1em;
   box-sizing: border-box;
@@ -10,7 +10,7 @@
   white-space: nowrap;
 }
 
-.navbar__link-item {
+.breadcrumb__link-item {
   display: inline-block;
   max-width: 8em;
   overflow: hidden;
@@ -20,10 +20,10 @@
   padding: 2px;
 }
 
-.navbar__link-item:hover {
+.breadcrumb__link-item:hover {
   background-color: rgb(239, 239, 239);
 }
 
-.navbar__slash-item {
+.breadcrumb__slash-item {
   color: rgba(55, 53, 47, 0.5);
 }
