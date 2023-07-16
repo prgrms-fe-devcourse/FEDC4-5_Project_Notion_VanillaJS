@@ -1,7 +1,7 @@
 import Editor from "/src/component/Editor.js";
 import { fetchDocument } from "/src/service/documentEditService.js";
 
-function EditPage({ $app, handleEdit, handleEditEmoji }) {
+function EditPage({ $app, handleEdit }) {
   const $page = document.createElement("div");
   $app.appendChild($page);
 

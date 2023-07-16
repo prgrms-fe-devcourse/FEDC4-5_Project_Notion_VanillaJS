@@ -8,7 +8,6 @@ import {
   deleteDocument,
 } from "/src/service/documentListService.js";
 import {
-  fetchDocument,
   saveDocument,
   removeDocument,
   editDocument,
@@ -34,7 +33,6 @@ function App({ $app }) {
         id: newDocument.id,
         parent,
       });
-      console.log(newDocument);
       navPage.state.selected = newDocument.id;
       navPage.setState(nextToggleData);
       push(`/documents/${newDocument.id}`);
