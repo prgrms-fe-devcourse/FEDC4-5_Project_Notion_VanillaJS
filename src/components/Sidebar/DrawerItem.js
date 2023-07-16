@@ -109,8 +109,8 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   this.handleRemove = async () => {
     this.disable = true;
 
-    const result = await deleteDocument({ documentId: this.state.id });
-    if (result) {
+    const response = await deleteDocument({ documentId: this.state.id });
+    if (response) {
       patchSidebarState();
       window.removeEventListener(EVENT.ROUTE_DRAWER, this.activate);
       window.removeEventListener(EVENT.TITLE_UPDATED, this.updateTitle);
