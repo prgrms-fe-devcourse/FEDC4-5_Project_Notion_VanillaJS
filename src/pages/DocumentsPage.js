@@ -53,8 +53,4 @@ export default class DocumentsPage extends Page {
     this.documentList.setState(insertIsOpen(documents, currentOpenStatus));
     this.render();
   }
-
-  render() {
-    this.$parent.append(this.$target);
-  }
 }

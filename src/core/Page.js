@@ -14,6 +14,6 @@ export default class Page {
   }
 
   render() {
-    throw new Error("You must define and use render on the child pages.");
+    this.$parent.append(this.$target);
   }
 }

@@ -75,8 +75,4 @@ export default class EditPage extends Page {
 
     this.render();
   }
-
-  render() {
-    this.$parent.append(this.$target);
-  }
 }
