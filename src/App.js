@@ -1,10 +1,10 @@
 import { EVENT } from "@Utils/constants";
 import { patchSidebarState, registerStateSetter } from "@Utils/stateSetters";
 import router from "@Utils/router";
-import Document from "./Document/Document";
-import Home from "./Home/Home";
-import Header from "./Header/Header";
-import Sidebar from "./Sidebar/Sidebar";
+import Document from "./components/Document/Document";
+import Home from "./components/Home/Home";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
 import "./App.css";
 
 export default function App({ $target }) {
