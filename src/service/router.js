@@ -1,3 +1,5 @@
+import { HISTORY_PUSH, HISTORY_REPLACE } from "../constants/index.js";
+
 const ROUTE_CHANGE_EVENT_NAME = "router-change";
 
 export const initRouter = (onRoute) => {
@@ -7,12 +9,12 @@ export const initRouter = (onRoute) => {
     const { nextUrl, option } = e.detail;
 
     if (nextUrl) {
-      if (option === "push") {
+      if (option === HISTORY_PUSH) {
         history.pushState(null, null, nextUrl);
         onRoute();
       }
 
-      if (option === "replace") {
+      if (option === HISTORY_REPLACE) {
         history.replaceState(null, null, nextUrl);
         onRoute();
       }
@@ -25,7 +27,7 @@ export const pushHistory = (nextUrl) => {
     new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
       detail: {
         nextUrl,
-        option: "push",
+        option: HISTORY_PUSH,
       },
     })
   );
@@ -36,7 +38,7 @@ export const replaceHistory = (nextUrl) => {
     new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
       detail: {
         nextUrl,
-        option: "replace",
+        option: HISTORY_REPLACE,
       },
     })
   );

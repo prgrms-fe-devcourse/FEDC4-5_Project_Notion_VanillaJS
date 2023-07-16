@@ -1,4 +1,4 @@
-import { API_HEADER_X_USERNAME } from "../constants.js";
+import { API_HEADER_X_USERNAME } from "../constants/index.js";
 import Component from "../core/Component.js";
 
 export default class UserSection extends Component {

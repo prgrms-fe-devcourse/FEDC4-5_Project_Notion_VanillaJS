@@ -5,6 +5,7 @@ import {
   openStatusStorage,
   documentTempStorage,
 } from "./domain/index.js";
+import { INIT_ID, ROOT_PATH, DOCUMENTS_PATH } from "./constants/index.js";
 
 export default class App {
   $target;
@@ -32,7 +33,7 @@ export default class App {
     this.documentsPage = new DocumentsPage({
       $parent: this.$children.documentsPage,
       onClickDocumentTitle: (id) => {
-        pushHistory(`/documents/${id}`);
+        pushHistory(`${DOCUMENTS_PATH}${id}`);
       },
       onCreateDocument: async (id) => {
         const document = await documentService.addData({
@@ -49,14 +50,14 @@ export default class App {
 
         this.documentsPage.setState();
         this.editPage.setState({ id: document.id });
-        pushHistory(`/documents/${document.id}`);
+        pushHistory(`${DOCUMENTS_PATH}${document.id}`);
       },
       onDeleteDocument: async (id) => {
         await documentService.deleteData(id);
 
         this.documentsPage.setState();
-        this.editPage.setState({ id: "init" });
-        replaceHistory("/");
+        this.editPage.setState({ id: INIT_ID });
+        replaceHistory(ROOT_PATH);
       },
       onToggleDocument: (id) => {
         const currentOpenStatus = openStatusStorage.getData();
@@ -69,7 +70,7 @@ export default class App {
         this.documentsPage.setState();
       },
       onClickUserSection: () => {
-        pushHistory("/");
+        pushHistory(ROOT_PATH);
       },
     });
 
@@ -105,7 +106,7 @@ export default class App {
 
         this.documentsPage.setState();
         this.editPage.setState({ id });
-        pushHistory(`/document/${id}`);
+        pushHistory(`${DOCUMENTS_PATH}${id}`);
       },
     });
   }
@@ -115,9 +116,9 @@ export default class App {
 
     this.documentsPage.setState();
 
-    if (pathname === "/") {
-      this.editPage.setState({ id: "init" });
-    } else if (pathname.indexOf("/documents/") === 0) {
+    if (pathname === ROOT_PATH) {
+      this.editPage.setState({ id: INIT_ID });
+    } else if (pathname.indexOf(DOCUMENTS_PATH) === 0) {
       const [, , documentId] = pathname.split("/");
       this.editPage.setState({ id: documentId });
     }

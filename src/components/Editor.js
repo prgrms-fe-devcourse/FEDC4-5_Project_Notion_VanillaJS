@@ -1,4 +1,5 @@
 import Component from "../core/Component.js";
+import { INIT_ID, ROOT_PATH } from "../constants/index.js";
 
 export default class Editor extends Component {
   isInitialize = false;
@@ -38,7 +39,7 @@ export default class Editor extends Component {
       this.isInitialize = true;
     }
 
-    if (location.pathname === "/" && id === "init") {
+    if (location.pathname === ROOT_PATH && id === INIT_ID) {
       this.$target.style.visibility = "hidden";
     } else {
       this.$target.style.visibility = "visible";
@@ -51,8 +52,8 @@ export default class Editor extends Component {
 
       if (
         this.state[name] !== undefined &&
-        this.state.id !== "init" &&
-        location.pathname !== "/"
+        this.state.id !== INIT_ID &&
+        location.pathname !== ROOT_PATH
       ) {
         const nextState = {
           ...this.state,

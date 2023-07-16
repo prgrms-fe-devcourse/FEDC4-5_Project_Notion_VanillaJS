@@ -1,5 +1,6 @@
 import { Editor, DocumentSubList } from "../components/index.js";
 import { documentService, documentTempStorage } from "../domain/index.js";
+import { INIT_ID } from "../constants/symbol.js";
 
 export default class EditPage {
   $parent;
@@ -18,7 +19,7 @@ export default class EditPage {
       },
       props: {
         initialState: {
-          id: "init",
+          id: INIT_ID,
           title: "",
           content: "",
           createdAt: "",
@@ -44,7 +45,7 @@ export default class EditPage {
   async setState(nextState) {
     const { id } = nextState;
 
-    if (id !== "init") {
+    if (id !== INIT_ID) {
       const document = await documentService.getData(id);
       const documentTempStorageKey = `temp-document-${id}`;
       const { tempSaveDate, title, content } = documentTempStorage(
@@ -68,7 +69,7 @@ export default class EditPage {
       this.documentSubList.setState(document);
     } else {
       this.editor.setState({
-        id: "init",
+        id: INIT_ID,
         title: "",
         content: "",
         createdAt: "",

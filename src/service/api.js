@@ -1,4 +1,4 @@
-import { API_ENDPOINT, API_HEADER_X_USERNAME } from "../constants.js";
+import { API_ENDPOINT, API_HEADER_X_USERNAME } from "../constants/index.js";
 
 export const request = async (url, options = {}) => {
   try {
