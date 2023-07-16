@@ -1,14 +1,14 @@
-import { once } from "@Utils/once";
+import once from "@Utils/once";
 import { isConstructor, isDrawerItemState } from "@Utils/validation";
-import Drawer from "./Drawer";
 import "./DrawerItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, stateSetters } from "@Utils/stateSetters";
 import { routeToDocument, routeToHome } from "@Utils/router";
-import { NAME } from "@Utils/constants";
+import { CONSTRUCTOR_NAME } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
 import plusIcon from "@Static/plusIcon.svg";
 import trashIcon from "@Static/trashIcon.svg";
+import Drawer from "./Drawer";
 
 export default function DrawerItem({ $target, $sibling, parent, level }) {
   if (!isConstructor(new.target)) {
@@ -83,7 +83,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       curParent = curParent.parent;
     }
 
-    stateSetters[NAME.HEADER](docsInfo);
+    stateSetters[CONSTRUCTOR_NAME.HEADER](docsInfo);
   };
 
   // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
@@ -94,17 +94,17 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       this.sendHeaderDocsInfo();
 
       const { id, title } = this.state;
-      stateSetters[NAME.HOME]({ id, title });
+      stateSetters[CONSTRUCTOR_NAME.HOME]({ id, title });
     } else {
       $titleContainer.className = "drawer-item-container";
     }
   };
 
   this.updateTitle = (title) => {
-    if (title.length === 0) {
-      title = "제목없음";
-    }
-    this.setState({ ...this.state, title });
+    this.setState({
+      ...this.state,
+      title: title.length === 0 ? "제목없음" : title,
+    });
   };
 
   this.init = once(() => {
@@ -150,7 +150,10 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
           window.removeEventListener("route-drawer", this.activate);
           window.removeEventListener("title-updated", this.updateTitle);
 
-          stateSetters[NAME.HOME]({ id: this.state.id, toRemove: true });
+          stateSetters[CONSTRUCTOR_NAME.HOME]({
+            id: this.state.id,
+            toRemove: true,
+          });
 
           if (isActivated(this.state.id)) {
             routeToHome();
@@ -194,7 +197,7 @@ function isActivated(id) {
   }
 
   const [, , documentIdStr] = pathname.split("/");
-  const documentId = parseInt(documentIdStr);
+  const documentId = parseInt(documentIdStr, 10);
 
   return documentId === id;
 }

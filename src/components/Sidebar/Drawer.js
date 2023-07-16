@@ -1,6 +1,6 @@
 import { isConstructor, isDrawerState } from "@Utils/validation";
+import once from "@Utils/once";
 import DrawerItem from "./DrawerItem";
-import { once } from "@Utils/once";
 import "./Drawer.css";
 
 export default function Drawer({ $target, parent, level }) {
@@ -74,8 +74,8 @@ export default function Drawer({ $target, parent, level }) {
  */
 function setRenderingPlan(current, next, plan) {
   plan.splice(0);
-  let ci = 0,
-    ni = 0;
+  let ci = 0;
+  let ni = 0;
 
   while (ci < current.length || ni < next.length) {
     const cid = current[ci]?.id;

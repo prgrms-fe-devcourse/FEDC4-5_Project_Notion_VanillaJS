@@ -1,4 +1,4 @@
-import { once } from "@Utils/once";
+import once from "@Utils/once";
 import { isConstructor, isDocumentState } from "@Utils/validation";
 import "./Document.css";
 import { putDocument } from "@Utils/apis";
@@ -64,17 +64,15 @@ export default function Document({ $target }) {
           clearTimeout(timer);
         }
         timer = setTimeout(
-          (function (state) {
-            return async () => {
-              const { id: documentId, title, content } = state;
-              await putDocument({
-                documentId,
-                title: title.length ? title : "제목없음",
-                content,
-              });
+          ((state) => async () => {
+            const { id: documentId, title, content } = state;
+            await putDocument({
+              documentId,
+              title: title.length ? title : "제목없음",
+              content,
+            });
 
-              patchSidebarState();
-            };
+            patchSidebarState();
           })(this.state),
           3000
         );

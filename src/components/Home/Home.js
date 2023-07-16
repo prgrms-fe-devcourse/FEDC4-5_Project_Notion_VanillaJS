@@ -1,5 +1,5 @@
-import { NAME, STORAGE } from "@Utils/constants";
-import { once } from "@Utils/once";
+import { CONSTRUCTOR_NAME, STORAGE } from "@Utils/constants";
+import once from "@Utils/once";
 import { getItem, removeItem, setItem } from "@Utils/storage";
 import { isConstructor, isHomeState } from "@Utils/validation";
 import "./Home.css";
@@ -19,10 +19,10 @@ export default function Home({ $target }) {
     const localRecord = getItem(STORAGE.RECORD, {});
     if (isHomeState(localRecord)) {
       return localRecord;
-    } else {
-      removeItem(STORAGE.RECORD);
-      return {};
     }
+
+    removeItem(STORAGE.RECORD);
+    return {};
   })();
 
   this.setState = (nextState) => {
@@ -87,6 +87,6 @@ export default function Home({ $target }) {
         .join("")}
     `;
 
-    stateSetters[NAME.HEADER]([]);
+    stateSetters[CONSTRUCTOR_NAME.HEADER]([]);
   };
 }

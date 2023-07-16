@@ -1,4 +1,6 @@
-import { ERROR, ValidationError } from "./Errors";
+/* eslint-disable valid-typeof */
+import ValidationError from "./ValidationError";
+import { ERROR } from "./constants";
 
 function checkError(condition, errorObj) {
   try {
@@ -6,7 +8,7 @@ function checkError(condition, errorObj) {
       throw errorObj;
     }
   } catch (err) {
-    console.error(err.name + ": " + err.message);
+    console.error(`${err.name}: ${err.message}`);
     return false;
   }
 
@@ -37,21 +39,20 @@ export function isDocumentState(state) {
   return (
     isObjectState(state) &&
     checkError(
-      (() => {
-        for (const [key, val] of Object.entries(state)) {
-          if (!documentType.hasOwnProperty(key)) return true;
-          if (key !== "content" && typeof val !== documentType[key])
-            return true;
-          if (
-            key === "content" &&
-            val !== null &&
-            typeof val !== documentType[key]
-          )
-            return true;
-          if (key === "documents" && !Array.isArray(val)) return true;
-        }
+      Object.entries(state).some(([key, val]) => {
+        if (!Object.prototype.hasOwnProperty.call(documentType, key))
+          return true;
+        if (key !== "content" && typeof val !== documentType[key]) return true;
+        if (
+          key === "content" &&
+          val !== null &&
+          typeof val !== documentType[key]
+        )
+          return true;
+        if (key === "documents" && !Array.isArray(val)) return true;
+
         return false;
-      })(),
+      }),
       new ValidationError(ERROR.INVALID_DOCUMENT_STATE)
     )
   );
@@ -72,14 +73,13 @@ const drawerItemType = {
 
 export function isDrawerItemState(state) {
   return checkError(
-    (() => {
-      for (const [key, type] of Object.entries(drawerItemType)) {
-        if (!state.hasOwnProperty(key)) return true;
-        if (typeof state[key] !== type) return true;
-        if (key === "documents" && !Array.isArray(state[key])) return true;
-      }
+    Object.entries(drawerItemType).some(([key, type]) => {
+      if (!Object.prototype.hasOwnProperty.call(state, key)) return true;
+      if (typeof state[key] !== type) return true;
+      if (key === "documents" && !Array.isArray(state[key])) return true;
+
       return false;
-    })(),
+    }),
     new ValidationError(ERROR.INVALID_DRAWERITEM_STATE)
   );
 }
@@ -98,16 +98,21 @@ export function isHeaderState(state) {
   return (
     isArrayState(state) &&
     checkError(
-      (() => {
-        for (const item of state) {
-          if (!isObjectState(item)) return true;
-          if (!item.hasOwnProperty("id") || typeof item.id !== "number")
-            return true;
-          if (!item.hasOwnProperty("title") || typeof item.title !== "string")
-            return true;
-        }
+      state.some((item) => {
+        if (!isObjectState(item)) return true;
+        if (
+          !Object.prototype.hasOwnProperty.call(item, "id") ||
+          typeof item.id !== "number"
+        )
+          return true;
+        if (
+          !Object.prototype.hasOwnProperty.call(item, "title") ||
+          typeof item.title !== "string"
+        )
+          return true;
+
         return false;
-      })(),
+      }),
       new ValidationError(ERROR.INVALID_HEADER_STATE)
     )
   );
@@ -117,15 +122,14 @@ export function isHomeState(state) {
   return (
     isObjectState(state) &&
     checkError(
-      (() => {
-        for (const [key, val] of Object.entries(state)) {
-          const numKey = parseInt(key);
-          if (isNaN(numKey) || key.length !== numKey.toString().length)
-            return true;
-          if (!isHomeItemState(val)) return true;
-        }
+      Object.entries(state).some((key, val) => {
+        const numKey = parseInt(key, 10);
+        if (Number.isNaN(numKey) || key.length !== numKey.toString().length)
+          return true;
+        if (!isHomeItemState(val)) return true;
+
         return false;
-      })(),
+      }),
       new ValidationError(ERROR.INVALID_HOME_STATE)
     )
   );
@@ -141,12 +145,12 @@ export function isHomeItemState(state) {
   return (
     isObjectState(state) &&
     checkError(
-      (() => {
-        for (const [name, type] of Object.entries(homeItemType)) {
-          if (!state.hasOwnProperty(name) || typeof state[name] !== type)
-            return true;
-        }
-      })(),
+      Object.entries(homeItemType).some(
+        (name, type) =>
+          !Object.prototype.hasOwnProperty.call(state, name) ||
+          typeof state[name] !== type
+      ),
+
       new ValidationError(ERROR.INVALID_HOME_STATE)
     )
   );
