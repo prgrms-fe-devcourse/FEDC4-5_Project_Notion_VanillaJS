@@ -2,6 +2,11 @@ import { push } from "../../utils/router.js"
 import { escapeHTML } from "../../utils/escapeHTML.js"
 import "@fortawesome/fontawesome-free/css/all.min.css"
 
+const CLASS_NAME = {
+  REMOVE: "remove",
+  CREATE: "create",
+}
+
 export default function DocsList({ $target, initialState, onCreate, onRemove }) {
   const $docsList = document.createElement("div")
   $docsList.classList.add("docs-list")
@@ -35,11 +40,11 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
               <i class="document-icon fa-regular fa-file-lines"></i>
               <p class="document-title">${documentTitle}</p>
             </div>
-            <button class="create" type="button">
-              <i class="create fa-solid fa-plus"></i>
+            <button class="${CLASS_NAME.CREATE}" type="button">
+              <i class="${CLASS_NAME.CREATE} fa-solid fa-plus"></i>
             </button>
-            <button class="remove" type="button">
-              <i class="remove fa-regular fa-trash-can"></i>
+            <button class="${CLASS_NAME.REMOVE}" type="button">
+              <i class="${CLASS_NAME.REMOVE} fa-regular fa-trash-can"></i>
             </button>
           </div>
           ${hasChildDocuments ? `<ul class="documents-list">${childDocuments}</ul>` : ""}
@@ -66,10 +71,10 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
       const { id } = $li.dataset
       const { classList, tagName } = e.target
 
-      if (classList.contains("create")) {
+      if (classList.contains(CLASS_NAME.CREATE)) {
         const newDocId = await onCreate(id)
         push(`/documents/${newDocId}`)
-      } else if (classList.contains("remove")) {
+      } else if (classList.contains(CLASS_NAME.REMOVE) || e.target.closest(`.${CLASS_NAME.REMOVE}`)) {
         if (confirm("페이지를 삭제하시겠습니까?")) {
           await onRemove(id)
           push(`/`)
