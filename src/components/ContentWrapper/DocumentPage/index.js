@@ -36,8 +36,12 @@ export default function DocumentPage({ $target, initialState, updateState }) {
 
           $progressBar.style.width = '100%';
 
-          textEditor.setState({ isDocumentSaved: true, ...createdDocument });
-          updateState({ isDocumentSaved: true, ...createdDocument });
+          if (createdDocument && createdDocument.id) {
+            textEditor.setState({ isDocumentSaved: true, ...createdDocument });
+            updateState({ isDocumentSaved: true, ...createdDocument });
+          } else {
+            console.error('백엔드 이슈: res 또는 res.id가 없습니다.');
+          }
 
           await new Promise((resolve) => setTimeout(resolve, 2000));
         } finally {
