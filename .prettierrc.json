@@ -1,0 +1,21 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "quoteProps": "as-needed",
+  "arrowParens": "always",
+  "endOfLine": "lf",
+
+  "importOrder": [
+    "^@Components/(.*)$",
+    "^@Pages/(.*)$",
+    "^@Utils/(.*)$",
+    "^@Static/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
