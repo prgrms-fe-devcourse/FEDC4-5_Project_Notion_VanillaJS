@@ -1,0 +1,9 @@
+.sub-document-links {
+  width: 100%;
+  min-width: 500px;
+  max-width: 1000px;
+}
+
+.sub-document-link-btn {
+  margin-left: 0;
+}

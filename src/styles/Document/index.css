@@ -1,0 +1,61 @@
+@import '@/styles/Document/SubDocumentLinks';
+
+.selected-document {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: FFFFFF;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.document-header {
+  display: flex;
+  width: 100%;
+  min-width: 500px;
+  max-width: 1000px;
+  margin: 20px 20px 0 20px;
+}
+
+.document-title {
+  all: unset;
+  flex-grow: 1;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.document-title::placeholder {
+  color: #d9d9d9;
+}
+
+/* .preview-btn {
+  margin-right: 40px;
+} */
+
+.document-content {
+  all: unset;
+  width: 100%;
+  min-width: 500px;
+  max-width: 1000px;
+  flex-grow: 1;
+  margin: 20px 20px 0 20px;
+  white-space: pre-wrap;
+}
+
+.document-preview {
+  width: 100%;
+  min-width: 500px;
+  max-width: 1000px;
+  margin: 20px 20px 0 20px;
+  flex-grow: 1;
+  height: 0px;
+  overflow-y: scroll;
+}
+
+.document-preview > code {
+  all: unset;
+  font-size: small;
+  border-radius: 5px;
+  background-color: #ebebea;
+  color: red;
+}
