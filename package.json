@@ -1,7 +1,7 @@
 {
   "name": "fedc4-5_project_notion_vanillajs",
   "version": "1.0.0",
-  "description": "-",
+  "description": "notion cloning project via using vanillaJS and vite",
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
@@ -16,10 +16,8 @@
   "author": "oaoong",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.22.5",
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
     "eslint": "^8.43.0",
+    "eslint-plugin-jest": "^27.2.3",
     "husky": "^8.0.3",
     "jest": "^29.5.0",
     "lint-staged": "^13.2.3",
