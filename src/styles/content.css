@@ -13,7 +13,8 @@
 }
 
 #contentSection {
-  float: left;
+  position: absolute;
+  right: 0;
   width: calc(100% - 226px);
   padding: 80px;
 }
