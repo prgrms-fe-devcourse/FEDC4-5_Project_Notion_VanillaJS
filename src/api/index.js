@@ -1,10 +1,12 @@
 import { apiClient } from "../utils/apiClient"
 import storage from "../utils/storage"
 
+const USER_STORAGE_KEY = "currentUser"
+
 const documentAdapter = () => {
-  let user = storage.getItem("currentUser")
+  let user = storage.getItem(USER_STORAGE_KEY)
   const updateCurrentUser = () => {
-    user = storage.getItem("currentUser")
+    user = storage.getItem(USER_STORAGE_KEY)
   }
 
   return {
