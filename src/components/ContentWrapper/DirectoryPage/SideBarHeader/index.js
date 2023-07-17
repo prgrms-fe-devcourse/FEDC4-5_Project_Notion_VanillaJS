@@ -1,6 +1,6 @@
 import './style.css';
 
-export default function SideBarHeader({ $target, onClose, onOpen }) {
+export default function SideBarHeader({ $target }) {
   const $sideBarHeader = document.createElement('header');
   $sideBarHeader.className = 'SideBarHeader';
 
@@ -16,11 +16,9 @@ export default function SideBarHeader({ $target, onClose, onOpen }) {
   `;
   $sideBarHeader.addEventListener('click', ({ target }) => {
     if (target.classList.contains('SideBarCloseButton')) {
-      onClose();
       document.querySelector('.SideBarOpenButton').classList.remove('ButtonHide');
       document.querySelector('.SideBarCloseButton').classList.add('ButtonHide');
     } else if (target.classList.contains('SideBarOpenButton')) {
-      onOpen();
       document.querySelector('.SideBarCloseButton').classList.remove('ButtonHide');
       document.querySelector('.SideBarOpenButton').classList.add('ButtonHide');
     }

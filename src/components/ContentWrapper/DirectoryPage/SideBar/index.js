@@ -2,7 +2,6 @@ import DocumentList from '@components/ContentWrapper/DirectoryPage/SideBar/Docum
 import request from '@api';
 import { getDocuments } from '@storage';
 import LOCAL_STORAGE_KEY from '@constants/storage';
-import { setCurrentDocumentId } from '@global';
 import { push } from '@router';
 import './style.css';
 
@@ -16,28 +15,25 @@ export default function SideBar({ $target, initialState = [] }) {
   $sideBar.appendChild($documentListNav);
   $target.appendChild($sideBar);
 
-  this.state = initialState;
-
-  // 사이드바 열기
-  this.show = () => {
-    $sideBar.style.display = 'block';
-  };
-
-  // 사이드바 닫기
-  this.hide = () => {
-    $sideBar.style.display = 'none';
+  this.state = {
+    documents: initialState,
   };
 
   const documentList = new DocumentList({
     $target: $documentListNav,
-    initialState: this.state,
+    initialState: this.state.documents,
   });
 
-  this.setState = async () => {
-    this.state = await request('/documents');
-    this.state = getDocuments(LOCAL_STORAGE_KEY, this.state);
-    if (this.state !== undefined) {
-      documentList.setState(this.state);
+  this.setState = async (nextState) => {
+    if (nextState && nextState.isVisible) {
+      this.state = { ...this.state, ...nextState };
+    }
+
+    const documents = await request('/documents');
+    this.state.documents = getDocuments(LOCAL_STORAGE_KEY, documents);
+
+    if (this.state.documents !== undefined) {
+      documentList.setState(this.state.documents);
     }
   };
 
@@ -47,9 +43,6 @@ export default function SideBar({ $target, initialState = [] }) {
       documentTitle.classList.remove('clicked');
     });
     target.classList.add('clicked');
-
-    const { documentId } = target.closest('.DocumentHeader').dataset;
-    setCurrentDocumentId(documentId);
   };
 
   const handleDocumentAddButtonClick = (documentId) => {

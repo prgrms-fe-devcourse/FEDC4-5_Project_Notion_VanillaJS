@@ -13,7 +13,7 @@ export default function ContentWrapper({ $target, initialState }) {
 
   $target.appendChild($contentWrapper);
 
-  const directoryPage = new DirectoryPage({ $target: $contentWrapper, initialState: this.state });
+  const directoryPage = new DirectoryPage({ $target: $contentWrapper });
   const documentPage = new DocumentPage({
     $target: $contentWrapper,
     initialState: this.state,

@@ -1,6 +1,5 @@
 import SideBar from '@components/ContentWrapper/DirectoryPage/SideBar';
 import SideBarHeader from '@components/ContentWrapper/DirectoryPage/SideBarHeader';
-import { openSideBar, closeSideBar, getSideBarState } from '@utils/sidebarUI';
 import './style.css';
 
 export default function DirectoryPage({ $target, initialState }) {
@@ -10,31 +9,17 @@ export default function DirectoryPage({ $target, initialState }) {
 
   $target.appendChild($directoryPage);
 
-  const onClose = () => {
-    closeSideBar();
-    this.setState();
-  };
-
-  const onOpen = () => {
-    openSideBar();
-    this.setState();
-  };
-  new SideBarHeader({ $target: $directoryPage, onClose, onOpen });
+  // eslint-disable-next-line no-new
+  new SideBarHeader({ $target: $directoryPage });
   const sideBar = new SideBar({ $target: $directoryPage, initialState: this.state });
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     sideBar.setState();
     this.render();
   };
 
-  this.render = () => {
-    if (getSideBarState()) {
-      sideBar.show();
-    } else {
-      sideBar.hide();
-    }
-  };
+  this.render = () => {};
 
   $target.appendChild($directoryPage);
 }
