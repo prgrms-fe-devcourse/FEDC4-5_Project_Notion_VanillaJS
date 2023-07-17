@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f6f9;
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.dirContentWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.dirBtnWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.documentListWrapper {
+  min-width: 250px;
+  background-color: #394867;
+  border-radius: 0 15px 15px 0;
+  color: #f1f6f9;
+  padding: 20px 15px;
+}
+
+.documentListWrapper ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.documentListWrapper ul > ul {
+  padding-left: 10px;
+}
+
+.dirItemWrapper,
+.documentListWrapper li {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 7px;
+  border-radius: 10px;
+}
+
+.dirItemWrapper:hover {
+  background-color: #cbd0d9;
+  color: #212A3E;
+}
+
+.fa-file:hover,
+.fa-folder-plus:hover {
+  color: #C3EDC0;
+}
+
+.documentListWrapper li:hover{
+  background-color: #9BA4B5;
+  color: #212A3E;
+}
+
+.docTitle {
+  cursor: pointer;
+}
+
+.dirTitle {
+  padding: 0 2px;
+  border-radius: 5px;
+  transition: color ease-in 120ms;
+}
+
+.dirTitle:hover {
+  background-color: white;
+}
+
+.fa-folder-plus,
+.fa-folder-minus,
+.fa-file,
+.docDelBtn {
+  cursor: pointer;
+  transition: color ease-in 120ms;
+  height: 16px;
+  width: 16px;
+}
+
+.fa-folder-minus:hover,
+.docDelBtn:hover {
+  color: #ff6666;
+}
+
+.detailPageWrapper {
+  width: 100%;
+}
+
+.fa-spinner {
+  color: #FFD95A;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.docEditWrapper {
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 15px;
+  height: 100vh;
+}
+
+.docEditTitle {
+  padding: 15px;
+  border-bottom: 1px solid #9ba4b5;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.docEditContent {
+  padding: 20px 15px;
+  height: 100%;
+  overflow: auto;
+}
+
+.linkToDoc {
+  color: #394867;
+  text-decoration: underline;
+}
+
+.displayNoneFix {
+  display: none;
+}
