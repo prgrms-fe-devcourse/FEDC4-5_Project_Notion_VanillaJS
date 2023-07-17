@@ -25,7 +25,7 @@ export default function App({ $target, initialState }) {
     const { pathname } = window.location
     if (pathname === "/") {
       $target.querySelector(".main-content").innerHTML = ""
-    } else if (pathname.indexOf("/documents") === 0) {
+    } else if (pathname.startsWith("/documents")) {
       const [, , id] = pathname.split("/")
       editor.setState({ id })
     }
