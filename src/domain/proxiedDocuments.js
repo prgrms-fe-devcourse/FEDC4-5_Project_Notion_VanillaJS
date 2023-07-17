@@ -11,7 +11,7 @@ export const proxiedDocuments = new Proxy(
         case 'staleTime':
           return Reflect.set(target, prop, value);
         case 'documents':
-          console.error('[proxy error] documents를 직접 수정할 수 없습니다.');
+          console.error(new Error('[proxy error] documents를 직접 수정할 수 없습니다.'));
           return target[prop];
       }
     },

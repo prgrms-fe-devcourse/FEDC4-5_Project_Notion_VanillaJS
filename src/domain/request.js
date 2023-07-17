@@ -12,7 +12,7 @@ export function request(url, option) {
       },
     },
     (error) => {
-      console.error(error.message);
+      console.error(error);
       const router = new RouteService();
       router.replace('/');
     },
