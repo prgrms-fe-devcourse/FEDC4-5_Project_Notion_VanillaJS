@@ -1,10 +1,13 @@
-import { getDocument } from '../api';
-import Document from '../components/Document';
-import NavBar from '../components/NavBar';
-import SideBar from '../components/SideBar';
-import { proxiedDocuments } from '../domain/proxiedDocuments';
-import validateComponent from '../utils/validateComponent';
-import { findDocumentPath } from '../domain/findDocumentPath';
+import { getDocument } from '@api';
+
+import Document from '@components/Document';
+import NavBar from '@components/NavBar';
+import SideBar from '@components/SideBar';
+
+import { findDocumentPath } from '@domain/findDocumentPath';
+import { proxiedDocuments } from '@domain/proxiedDocuments';
+
+import validateComponent from '@utils/validateComponent';
 
 export default function EditPage({ targetElement }) {
   validateComponent(this, EditPage);

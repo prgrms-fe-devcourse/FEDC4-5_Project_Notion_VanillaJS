@@ -1,4 +1,4 @@
-import { request } from '../domain/request';
+import { request } from '@domain/request';
 
 export async function putDocument(documentId, { title, content }) {
   const document = await request(`documents/${documentId}`, {

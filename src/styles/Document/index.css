@@ -1,4 +1,4 @@
-@import './SubDocumentLinks';
+@import '@/styles/Document/SubDocumentLinks';
 
 .selected-document {
   flex-grow: 1;

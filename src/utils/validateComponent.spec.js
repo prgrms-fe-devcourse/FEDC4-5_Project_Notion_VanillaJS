@@ -1,4 +1,4 @@
-import validateComponent from './validateComponent';
+import validateComponent from '@utils/validateComponent';
 
 test('컴포넌트 생성 시 new 키워드 붙이는지 테스트', () => {
   function Component() {

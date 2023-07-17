@@ -1,4 +1,4 @@
-import { request } from '../domain/request';
+import { request } from '@domain/request';
 
 export async function postDocument({ title, parent }) {
   const document = await request('documents', {

@@ -1,5 +1,5 @@
-@import './DocumentTreeRoot';
-@import './DocumentTree';
+@import '@/styles/SideBar/DocumentTreeRoot';
+@import '@/styles/SideBar/DocumentTree';
 
 .side-bar {
   height: 100%;

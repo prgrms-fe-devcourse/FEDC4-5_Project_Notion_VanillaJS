@@ -1,9 +1,13 @@
-import { postDocument } from '../../api';
-import Button from '../../components/ui/Button';
+import { postDocument } from '@api';
+
+import Button from '@components/ui/Button';
+
+import { proxiedDocuments } from '@domain/proxiedDocuments';
+
+import { RouteService } from '@utils/RouteService';
+import validateComponent from '@utils/validateComponent';
+
 import DocumentTreeRoot from './DocumentTreeRoot';
-import { proxiedDocuments } from '../../domain/proxiedDocuments';
-import { RouteService } from '../../utils/RouteService';
-import validateComponent from '../../utils/validateComponent';
 
 export default function SideBar({ targetElement, documents }) {
   validateComponent(this, SideBar);

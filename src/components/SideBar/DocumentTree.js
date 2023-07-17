@@ -1,4 +1,4 @@
-import validateComponent from '../../utils/validateComponent';
+import validateComponent from '@utils/validateComponent';
 
 export default function DocumentTree({ targetElement, childDocuments, invisibleTreeSet, foldedTreeSet }) {
   validateComponent(this, DocumentTree);

@@ -1,5 +1,5 @@
-import { requestWithErrorHandle } from '../utils/requestWithErrorHandle';
-import { RouteService } from '../utils/RouteService';
+import { RouteService } from '@utils/RouteService';
+import { requestWithErrorHandle } from '@utils/requestWithErrorHandle';
 
 export function request(url, option) {
   return requestWithErrorHandle(

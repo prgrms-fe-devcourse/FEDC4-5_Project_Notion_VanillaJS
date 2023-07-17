@@ -1,6 +1,8 @@
-import SideBar from '../components/SideBar';
-import { proxiedDocuments } from '../domain/proxiedDocuments';
-import validateComponent from '../utils/validateComponent';
+import SideBar from '@components/SideBar';
+
+import { proxiedDocuments } from '@domain/proxiedDocuments';
+
+import validateComponent from '@utils/validateComponent';
 
 export default function HomePage({ targetElement }) {
   validateComponent(this, HomePage);

@@ -1,6 +1,7 @@
-import { RouteService } from '../utils/RouteService';
-import validateComponent from '../utils/validateComponent';
-import Button from './ui/Button';
+import Button from '@components/ui/Button';
+
+import { RouteService } from '@utils/RouteService';
+import validateComponent from '@utils/validateComponent';
 
 export default function NavBar({ targetElement, documentPath }) {
   validateComponent(this, NavBar);

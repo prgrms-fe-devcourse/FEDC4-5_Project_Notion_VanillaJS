@@ -1,4 +1,4 @@
-import { toggleSet } from './toggleSet';
+import { toggleSet } from '@utils/toggleSet';
 
 test('Set의 value를 토글하는 toggleSet함수 테스트', () => {
   const set = new Set([1, 2, 3]);

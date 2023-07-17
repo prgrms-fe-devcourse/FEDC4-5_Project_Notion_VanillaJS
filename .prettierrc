@@ -5,5 +5,16 @@
   "trailingComma": "all",
   "printWidth": 120,
   "endOfLine": "auto",
-  "formatOnSave": true
+  "formatOnSave": true,
+  "importOrder": [
+    "^@api/(.*)$",
+    "^@components/(.*)$",
+    "^@constants/(.*)$",
+    "^@domain/(.*)$",
+    "^@pages/(.*)$",
+    "^@utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

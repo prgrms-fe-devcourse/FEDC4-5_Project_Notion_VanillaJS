@@ -1,7 +1,8 @@
-import { RouteService } from './utils/RouteService';
-import NotFoundPage from './pages/NotFoundPage';
-import HomePage from './pages/HomePage';
-import EditPage from './pages/EditPage';
+import EditPage from '@pages/EditPage';
+import HomePage from '@pages/HomePage';
+import NotFoundPage from '@pages/NotFoundPage';
+
+import { RouteService } from '@utils/RouteService';
 
 export default function App({ targetElement }) {
   const router = new RouteService();

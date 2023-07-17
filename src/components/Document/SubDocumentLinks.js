@@ -1,5 +1,5 @@
-import { RouteService } from '../../utils/RouteService';
-import validateComponent from '../../utils/validateComponent';
+import { RouteService } from '@utils/RouteService';
+import validateComponent from '@utils/validateComponent';
 
 export default function SubDocumentLinks({ targetElement, subDocuments }) {
   validateComponent(this, SubDocumentLinks);

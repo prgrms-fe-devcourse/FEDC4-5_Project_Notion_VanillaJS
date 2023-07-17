@@ -1,4 +1,4 @@
-import { getDocuments } from '../api';
+import { getDocuments } from '@api';
 
 export const proxiedDocuments = new Proxy(
   {

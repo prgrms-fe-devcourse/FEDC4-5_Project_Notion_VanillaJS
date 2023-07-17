@@ -9,5 +9,21 @@
     "browser": true,
     "es2021": true,
     "jest/globals": true
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src"],
+          ["@api", "./src/api"],
+          ["@components", "./src/components"],
+          ["@constants", "./src/constants"],
+          ["@domain", "./src/domain"],
+          ["@pages", "./src/pages"],
+          ["@utils", "./src/utils"]
+        ],
+        "extensions": [".js"]
+      }
+    }
   }
 }

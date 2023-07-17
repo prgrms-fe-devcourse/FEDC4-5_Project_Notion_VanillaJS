@@ -1,4 +1,4 @@
-import { findDocumentPath } from './findDocumentPath';
+import { findDocumentPath } from '@domain/findDocumentPath';
 
 test('문서의 경로를 찾는 findDocumentPath 함수 테스트', () => {
   const documents = [

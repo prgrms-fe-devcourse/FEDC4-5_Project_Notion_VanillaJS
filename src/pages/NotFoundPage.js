@@ -1,5 +1,5 @@
-import validateComponent from '../utils/validateComponent';
-import { RouteService } from '../utils/RouteService';
+import { RouteService } from '@utils/RouteService';
+import validateComponent from '@utils/validateComponent';
 
 const homeBtnHandler = (e) => {
   if (!e.target.closest('.not-found-page-home-btn')) return;

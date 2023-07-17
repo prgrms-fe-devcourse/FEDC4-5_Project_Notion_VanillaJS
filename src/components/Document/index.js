@@ -1,9 +1,11 @@
-import { putDocument } from '../../api';
-import { convertMarkdownToHTML } from '../../utils/convertMarkdownToHTML';
-import debounce from '../../utils/debounce';
-import validateComponent from '../../utils/validateComponent';
-import Button from '../ui/Button';
-import SubDocumentLinks from './SubDocumentLinks';
+import { putDocument } from '@api';
+
+import SubDocumentLinks from '@components/Document/SubDocumentLinks';
+import Button from '@components/ui/Button';
+
+import { convertMarkdownToHTML } from '@utils/convertMarkdownToHTML';
+import debounce from '@utils/debounce';
+import validateComponent from '@utils/validateComponent';
 
 export default function Document({ targetElement, documentData, handleEditTitle, handleAsyncEditTitle }) {
   validateComponent(this, Document);
