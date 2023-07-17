@@ -31,7 +31,11 @@ export function routeToDocument(documentId) {
   window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }
 
-export function routeToHome() {
-  window.history.pushState(null, null, "/");
+export function routeToHome({ replace = false }) {
+  if (replace) {
+    window.history.replaceState(null, null, "/");
+  } else {
+    window.history.pushState(null, null, "/");
+  }
   window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }

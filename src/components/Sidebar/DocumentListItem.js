@@ -126,7 +126,7 @@ export default function DocumentListItem({ $target, $sibling, parent, level }) {
       });
 
       if (isActivated(this.state.id)) {
-        routeToHome();
+        routeToHome({ replace: true });
       }
     } else {
       this.disable = true;
