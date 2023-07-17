@@ -37,7 +37,9 @@ export default function App({ appElement }) {
   const trie = new TrieDocument();
 
   const processEdit = debounce(async (documentId, docunemt) => {
-    await putDocument({ documentId, data: docunemt });
+    await putDocument({ documentId, data: docunemt }).catch((err) =>
+      alert(err.message)
+    );
   }, 1000);
 
   this.state = [];

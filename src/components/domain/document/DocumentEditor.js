@@ -52,7 +52,10 @@ export default function DocumentEditor({
     parentElement.append(containerElement);
 
     const childDocuments = getChildDocuments(documentId);
-    const data = await getDocument(documentId);
+    const data = await getDocument(documentId).catch((err) => {
+      alert(err.message);
+      push(PATH.HOME);
+    });
     const { title, content } = data;
 
     this.setState({ title, content, documentId });
