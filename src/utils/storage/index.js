@@ -1,6 +1,6 @@
 const storage = window.localStorage;
 
-const getOpenDocumentIds = (openDocuments, documents) => {
+const getToggledDocumentsIds = (openDocuments, documents) => {
   if (!Array.isArray(openDocuments)) {
     return null;
   }
@@ -9,22 +9,22 @@ const getOpenDocumentIds = (openDocuments, documents) => {
     const documentInfo = { ...doc, isOpen: openDocuments.includes(doc.id) };
 
     if (Array.isArray(doc.documents) && doc.documents.length > 0) {
-      documentInfo.documents = getOpenDocumentIds(openDocuments, doc.documents);
+      documentInfo.documents = getToggledDocumentsIds(openDocuments, doc.documents);
     }
 
     return documentInfo;
   });
 };
-export const getDocuments = (key, documents) => {
+export const getToggledDocuments = (key, documents) => {
   try {
     const openDocuments = JSON.parse(storage.getItem(key));
-    return getOpenDocumentIds(openDocuments, documents) || documents;
+    return getToggledDocumentsIds(openDocuments, documents) || documents;
   } catch (e) {
     return documents;
   }
 };
 
-const setOpenDocumentIds = (documents) =>
+const setToggledDocumentsIds = (documents) =>
   documents.reduce((acc, doc) => {
     let currentDocs = [...acc];
     if (doc.isOpen) {
@@ -32,12 +32,12 @@ const setOpenDocumentIds = (documents) =>
     }
 
     if (Array.isArray(doc.documents) && doc.documents.length > 0) {
-      currentDocs = currentDocs.concat(setOpenDocumentIds(doc.documents));
+      currentDocs = currentDocs.concat(setToggledDocumentsIds(doc.documents));
     }
 
     return currentDocs;
   }, []);
 
-export const setDocuments = (key, documents) => {
-  storage.setItem(key, JSON.stringify(setOpenDocumentIds(documents)));
+export const setToggledDocuments = (key, documents) => {
+  storage.setItem(key, JSON.stringify(setToggledDocumentsIds(documents)));
 };

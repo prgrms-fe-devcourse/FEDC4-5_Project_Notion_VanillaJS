@@ -1,6 +1,6 @@
 import { push } from '@router';
 import request from '@api';
-import { setDocuments } from '@storage';
+import { setToggledDocuments } from '@storage';
 import LOCAL_STORAGE_KEY from '@constants/storage';
 import Document from '@components/ContentWrapper/DirectoryPage/SideBar/Document';
 import './style.css';
@@ -33,7 +33,7 @@ export default function DocumentList({ $target, initialState }) {
 
   this.onToggle = (documentId) => {
     const nextState = this.state.map((document) => toggleDocument(document, documentId));
-    setDocuments(LOCAL_STORAGE_KEY, nextState);
+    setToggledDocuments(LOCAL_STORAGE_KEY, nextState);
     this.setState(nextState);
   };
 

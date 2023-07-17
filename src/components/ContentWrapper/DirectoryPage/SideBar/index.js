@@ -1,6 +1,6 @@
 import DocumentList from '@components/ContentWrapper/DirectoryPage/SideBar/DocumentList';
 import request from '@api';
-import { getDocuments } from '@storage';
+import { getToggledDocuments } from '@storage';
 import LOCAL_STORAGE_KEY from '@constants/storage';
 import { push } from '@router';
 import './style.css';
@@ -30,7 +30,7 @@ export default function SideBar({ $target, initialState = [] }) {
     }
 
     const documents = await request('/documents');
-    this.state.documents = getDocuments(LOCAL_STORAGE_KEY, documents);
+    this.state.documents = getToggledDocuments(LOCAL_STORAGE_KEY, documents);
 
     if (this.state.documents !== undefined) {
       documentList.setState(this.state.documents);
