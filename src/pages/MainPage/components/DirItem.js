@@ -73,14 +73,18 @@ export default function DirItem({
 
     if (!event.target.matches("i")) return;
 
-    const { className } = event.target;
+    const { classList } = event.target;
 
-    if (className.includes("fa-folder-plus")) {
+    const isFolderAddBtn = classList.contains("fa-folder-plus");
+    const isFolderDelBtn = classList.contains("fa-folder-minus");
+    const isDocumentAddBtn = classList.contains("fa-file");
+
+    if (isFolderAddBtn) {
       await requestAddDir(id);
-    } else if (className.includes("fa-folder-minus")) {
+    } else if (isFolderDelBtn) {
       event.target.className = "fa-solid fa-spinner";
       await requestDelItem(id);
-    } else if (className.includes("fa-file")) {
+    } else if (isDocumentAddBtn) {
       await requestAddDoc(id);
     }
 
