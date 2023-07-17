@@ -1,6 +1,6 @@
 @import "reset.css";
-@import "components/sideBar.css";
-@import "components/content.css";
+@import "sideBar.css";
+@import "content.css";
 
 * {
   box-sizing: border-box;
