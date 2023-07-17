@@ -36,8 +36,8 @@ export default function DocumentPage({ $target, initialState, updateState }) {
 
           $progressBar.style.width = '100%';
 
-          textEditor.setState({ isDocumentSaved: 'saved', ...createdDocument });
-          updateState({ isDocumentSaved: 'saved', ...createdDocument });
+          textEditor.setState({ isDocumentSaved: true, ...createdDocument });
+          updateState({ isDocumentSaved: true, ...createdDocument });
 
           await new Promise((resolve) => setTimeout(resolve, 2000));
         } finally {
