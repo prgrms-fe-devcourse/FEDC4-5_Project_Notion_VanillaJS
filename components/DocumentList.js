@@ -1,3 +1,4 @@
+export const NON_TITLE = "제목 없음";
 export default function DocumentList({ $target, initialState, onClick, onAdd, onDelete }) {
   const $document = document.createElement("div");
 
@@ -30,10 +31,10 @@ export default function DocumentList({ $target, initialState, onClick, onAdd, on
             <img src="/assets/file-list.svg" class="file-list-img" alt="File Image"/>
             <div id="title-text" class=${
               id === this.state.selectedDocument.id ? "selected" : "non-selected"
-            } data-id="${id}">${title ? title : "제목 없음"}</div>
+            } data-id="${id}">${title || NON_TITLE}</div>
             </div>
             <div class="btn-container">
-              <button button class="addBtn">+</button>
+              <button class="addBtn">+</button>
               <button class="deleteBtn">-</button>
             </div>
           </li>

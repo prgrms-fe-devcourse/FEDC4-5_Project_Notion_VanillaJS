@@ -103,6 +103,10 @@ body {
   padding-top: 50px;
 }
 
+[contentEditable="true"]:empty::before {
+  content: attr(placeholder);
+}
+
 .link-container {
   display: flex;
   align-items: center;

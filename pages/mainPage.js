@@ -1,7 +1,13 @@
 import DocumentList from "../components/DocumentList.js";
 import Editor from "../components/Editor.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
-import { request } from "../utils/api.js";
+import {
+  createDocument,
+  deleteDocument,
+  getAllDocument,
+  getDocument,
+  updateDocument,
+} from "../utils/api.js";
 import getChildTitleList from "../utils/getChildTitleList.js";
 import getTitleList from "../utils/getTitleList.js";
 import { push } from "../utils/router.js";
@@ -9,7 +15,7 @@ import { push } from "../utils/router.js";
 export default function MainPage({ $target }) {
   const $page = document.createElement("div");
   $page.className = "container";
-
+  const SELECT_TIME = 2000;
   this.state = {
     documentList: [],
     postId: "new",
@@ -24,11 +30,7 @@ export default function MainPage({ $target }) {
   };
 
   this.init = async (id) => {
-    if (id === null) {
-      this.setState({ ...this.state, isEditor: id });
-    } else {
-      this.setState({ ...this.state, isEditor: id, postId: id });
-    }
+    this.setState({ ...this.state, isEditor: id, postId: id || "new" });
     await fetchDocumentList();
     await fetchPost();
   };
@@ -62,19 +64,13 @@ export default function MainPage({ $target }) {
     },
 
     onAdd: async (clickId) => {
-      const postDocument = await request("/", {
-        method: "POST",
-        body: JSON.stringify({
-          title: "",
-          parent: clickId,
-        }),
-      });
+      const postDocument = await createDocument("", clickId);
       await fetchDocumentList();
       push(`/documents/${postDocument.id}`);
     },
 
     onDelete: async (clickId) => {
-      await request(`/${clickId}`, { method: "DELETE" });
+      await deleteDocument(clickId);
       await fetchDocumentList();
       if (this.state.postId === clickId) {
         push("/");
@@ -120,20 +116,18 @@ export default function MainPage({ $target }) {
             postId: createPost.id,
           });
         } else {
-          const putPost = await request(`/${this.state.postId}`, {
-            method: "PUT",
-            body: JSON.stringify(post),
-          });
+          const putPost = await updateDocument(this.state.postId, post);
           removeItem(postLocalSaveKey);
           this.setState({ ...this.state, post, selectedDocument: putPost });
           editor.render();
         }
-      }, 2000);
+      }, SELECT_TIME);
     },
   });
 
   const fetchDocumentList = async () => {
-    const newDocumentList = await request(`/`);
+    const newDocumentList = await getAllDocument();
+
     const titleList = getTitleList(newDocumentList);
 
     this.setState({
@@ -147,7 +141,7 @@ export default function MainPage({ $target }) {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/${postId}`);
+      const post = await getDocument(postId);
       const childTitleList = getChildTitleList(post);
 
       const tempPost = getItem(postLocalSaveKey, {
@@ -160,13 +154,13 @@ export default function MainPage({ $target }) {
             ...this.state,
             post: tempPost,
           });
-
+          removeItem(postLocalSaveKey);
           editor.render();
           return;
         }
       }
       this.setState({ ...this.state, post, childTitleList, selectedDocument: post });
-
+      removeItem(postLocalSaveKey);
       editor.render();
     }
   };
