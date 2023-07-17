@@ -19,6 +19,7 @@ export default class DocumentList {
       ...initialState,
       openStatus: getCurrOpenState(initialState.documentInfo.id),
     };
+    console.log(this.state.openStatus);
     this.selectDocument = selectDocument;
     this.createDocument = createDocument;
     this.removeDocument = removeDocument;
@@ -59,7 +60,7 @@ export default class DocumentList {
         <button class='remove-toggle-button'>X</button>
       </li>
     `;
-    if (this.state.openStatus === true) {
+    if (openStatus === true) {
       this.renderChildDocument();
     }
   };

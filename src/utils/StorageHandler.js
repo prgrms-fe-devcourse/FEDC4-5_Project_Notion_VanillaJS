@@ -16,9 +16,7 @@ export const setCloseDocumet = (id) => {
 
 export const getCurrOpenState = (id) => {
   try {
-    const openState = localStorage.getItem(id);
-
-    return openState === null ? false : true;
+    return JSON.parse(localStorage.getItem(id));
   } catch (error) {
     throw new Error(error.message);
   }
