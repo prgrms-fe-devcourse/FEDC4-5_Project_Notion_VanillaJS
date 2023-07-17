@@ -1,6 +1,6 @@
 import { Store } from '@/core';
 import { fetchPostList, deletePost } from '../api/request';
-import { showModal } from '@/utils';
+import { Modal } from '@/components';
 
 /**
  *
@@ -8,13 +8,14 @@ import { showModal } from '@/utils';
  * action: Init, Update
  */
 async function reducer({ state, actionType, payload }) {
+  const modal = new Modal();
   switch (actionType) {
     case 'UPDATE_POST_LIST':
       const postList = await fetchPostList();
       return { ...state, postList };
     case 'DELETE_POST_LIST':
       await deletePost(payload.id);
-      showModal('DELETE');
+      modal.showModal('DELETE');
       const deletedPostList = await fetchPostList();
       return { ...state, postList: deletedPostList };
   }
