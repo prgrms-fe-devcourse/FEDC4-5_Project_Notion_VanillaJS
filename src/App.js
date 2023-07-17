@@ -4,6 +4,7 @@ import Default from "./components/content/Default.js";
 import { initRouter } from "./utils/router.js";
 import { debounce } from "./utils/debounce.js";
 import { request } from "./api.js";
+import PageNotFound from "./utils/PageNotFound.js";
 
 export default function App({ $target }) {
   const sideBar = new SideBar({ $target });
@@ -32,6 +33,8 @@ export default function App({ $target }) {
       // TODO: 우측 편집기 초기화
       sideBar.setState(rootDocuments);
       content.setId(documentId);
+    } else {
+      new PageNotFound($target);
     }
   };
 
