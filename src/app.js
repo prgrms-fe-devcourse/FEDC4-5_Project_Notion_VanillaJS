@@ -1,3 +1,5 @@
+import "./app.css"
+
 import SideBar from "./common/sideBar"
 import NavBar from "./common/navBar"
 import MainContent from "./common/mainContent"

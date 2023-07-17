@@ -1,3 +1,5 @@
+import "./index.css"
+
 import App from "./src/app"
 import storage from "./src/utils/storage"
 
