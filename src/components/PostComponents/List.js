@@ -1,6 +1,7 @@
 import { getItem, setItem } from "../../util/storaged.js";
-import { VISITED_LOCAL_KEY } from "../../constant.js";
+import { CLASSNAME, VISITED_LOCAL_KEY } from "../../constant.js";
 import { push } from "../../util/router.js";
+import { isArray, isLength } from "../../util/prevent.js";
 
 export default function List({ $target, initalState, onAdd, onDelete }) {
   if (!new.target)
@@ -23,11 +24,11 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
   };
 
   const createDocument = (
-    { id, title, documents },
-    arr,
+    { id, title, documents: childDocument },
+    childTag,
     visitedDocumentsId
   ) => {
-    arr.push(`
+    childTag.push(`
       <li data-document-id="${
         id === "new" ? this.state.selectedId : id
       }" class="item ${this.state.selectedId === id ? "item__fiexed" : ""}">
@@ -40,28 +41,29 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
       </li>
     `);
 
-    if (documents.length) {
-      arr.push(
+    if (isLength(childDocument)) {
+      childTag.push(
         `<ul style="display:${
           visitedDocumentsId.indexOf(id) > -1 ? "block" : "none"
         }" class="itemList">`
       );
-      for (const document of documents)
-        createDocument(document, arr, visitedDocumentsId);
-      arr.push(`</ul>`);
+      childDocument.forEach((document) =>
+        createDocument(document, childTag, visitedDocumentsId)
+      );
+      childTag.push(`</ul>`);
     } else {
-      arr.push(
+      childTag.push(
         `<span class="item__no__result" style="display:${
           visitedDocumentsId.indexOf(id) > -1 ? "block" : "none"
         }">No result</span>`
       );
     }
 
-    return arr.join("");
+    return childTag.join("");
   };
 
   this.render = () => {
-    if (!Array.isArray(this.state.posts)) {
+    if (!isArray(this.state.posts)) {
       $list.innerHTML = `페이지를 추가해주세요!`;
       return;
     }
@@ -81,17 +83,22 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
     const { className } = event.target;
     const $li = event.target.closest("li");
     if (!$li) return;
-    const {
-      dataset: { documentId },
-    } = $li;
+    const { documentId } = $li.dataset;
     const id = parseInt(documentId);
     if (className === "add") {
       onAdd(id);
-    } else if (className === "toggle " || className === "toggle active") {
+    } else if (
+      className === CLASSNAME.TOGGLE ||
+      className === CLASSNAME.TOGGLE_ACTIVE
+    ) {
       ToggleItem(event.target, id);
-    } else if (className === "delete") {
+      this.render();
+    } else if (className === CLASSNAME.DELETE) {
       onDelete(id);
-    } else if (className === "item" || className === "item block") {
+    } else if (
+      className === CLASSNAME.ITEM ||
+      className === CLASSNAME.ITEM_BLOCK
+    ) {
       push(`/documents/${id}`);
       this.render();
     }
@@ -106,7 +113,6 @@ export default function List({ $target, initalState, onAdd, onDelete }) {
         )
       : setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, id]);
     target.classList.toggle("active");
-    this.render();
   };
 
   const onItemHover = (target) => {

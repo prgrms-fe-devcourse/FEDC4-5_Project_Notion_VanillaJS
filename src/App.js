@@ -1,60 +1,44 @@
-import PostPage from "./components/page/PostPage.js";
+import PostPage from "./page/PostPage.js";
+import EditPage from "./page/EditPage.js";
 import { request } from "./util/api.js";
 import { initRoute, push } from "./util/router.js";
 import { getItem, setItem } from "./util/storaged.js";
-import { VISITED_LOCAL_KEY } from "./constant.js";
+import { NEW_POST_DATA, VISITED_LOCAL_KEY } from "./constant.js";
 import {
   addDocuments,
   filterNewDocument,
   filterRemoveDocument,
   filterDocument,
 } from "./util/dataset.js";
-import EditPage from "./components/page/EditPage.js";
-export default function App({
-  $target,
-  initalState = {
-    selectedId: null,
-    posts: [],
-    post: {},
-  },
-}) {
-  if (!new.target)
-    new App({
-      $target,
-      initalState: {
-        selectedId: null,
-        posts: [],
-        post: {},
-      },
-    });
 
-  this.state = initalState;
+export default function App({ $target }) {
+  if (!new.target) {
+    return new App({ $target });
+  }
+
+  this.state = { selectedId: null, posts: [], selectedPost: {} };
 
   let timer = null;
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
+    const { selectedId, posts, selectedPost } = this.state;
     postPage.setState({
-      selectedId: this.state.selectedId || null,
-      posts: this.state.posts || [],
+      selectedId: selectedId ?? null,
+      posts: posts || [],
     });
     editPage.setState({
-      selectedId: this.state.selectedId || null,
-      post: this.state.post || {},
+      selectedId: selectedId ?? null,
+      selectedPost: selectedPost || {},
     });
   };
 
   const onAdd = async (id) => {
     push(`/documents/new`);
-    const newData = {
-      id: "new",
-      title: "Untitle",
-      documents: [],
-    };
     const visitedDocumentsId = getItem(VISITED_LOCAL_KEY, []);
     setItem(VISITED_LOCAL_KEY, [...visitedDocumentsId, id]);
     const tempData = [...this.state.posts];
-    addDocuments(tempData, id, newData);
+    addDocuments(tempData, id, NEW_POST_DATA);
     this.setState({ selectedId: "new", posts: tempData });
     await fetchAdd(`/documents`, {
       method: "POST",
@@ -128,7 +112,7 @@ export default function App({
 
   const postPage = new PostPage({
     $target,
-    initalState,
+    initalState: { post: this.state.post },
     onAdd,
     onDelete,
   });

@@ -2,6 +2,11 @@
 
 
 /* 공통 */
+*{
+  box-sizing: border-box;
+  padding:0;
+  margin:0;
+}
 
 #app{
   display:flex;
@@ -18,11 +23,7 @@ button{
   transform: rotate(90deg);
 }
 
-.block{
-  background-color: bisque;
-}
-
-.item__fiexed{
+.block,.item__fiexed{
   background-color: bisque;
 }
 

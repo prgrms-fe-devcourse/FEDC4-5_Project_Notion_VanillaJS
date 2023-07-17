@@ -1,10 +1,10 @@
-import { push } from "../../util/router.js";
-import ButtonContainer from "../EditComponents/ButtonContainer.js";
-import Editor from "../EditComponents/Editor.js";
-import Header from "../Header.js";
-import { request } from "../../util/api.js";
-import { UNTITLE } from "../../constant.js";
-import { isSuitableId } from "../../util/prevent.js";
+import { push } from "../util/router.js";
+import { request } from "../util/api.js";
+import { UNTITLE } from "../constant.js";
+import { isSuitableId } from "../util/prevent.js";
+import ButtonContainer from "../components/EditComponents/ButtonContainer.js";
+import Editor from "../components/EditComponents/Editor.js";
+import Header from "../components/Header.js";
 
 export default function EditPage({ $target, initalState, onEdit, onDelete }) {
   if (!new.target) new EditPage({ $target, initalState, onEdit, onDelete });

@@ -1,6 +1,6 @@
-import Button from "../Button.js";
-import Header from "../Header.js";
-import List from "../PostComponents/List.js";
+import Button from "../components/Button.js";
+import Header from "../components/Header.js";
+import List from "../components/PostComponents/List.js";
 
 export default function PostPage({ $target, initalState, onAdd, onDelete }) {
   if (!new.target)

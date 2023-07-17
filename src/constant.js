@@ -35,3 +35,12 @@ export const NEW_POST_DATA = {
   documents: [],
 };
 export const UNTITLE = "Untitle";
+
+// className
+export const CLASSNAME = {
+  TOGGLE: "toggle ",
+  TOGGLE_ACTIVE: "toggle active",
+  DELETE: "delete",
+  ITEM: "item ",
+  ITEM_BLOCK: "item block",
+};

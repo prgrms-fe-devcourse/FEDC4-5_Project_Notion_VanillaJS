@@ -10,8 +10,6 @@
 - 내용
   - [[Day 19] 노션 클로닝 요구사항](https://school.programmers.co.kr/app/courses/17516/curriculum/lessons/196456#part-46365)을 확인해 주세요.
 
-### 프로젝트 구조
-
 ### 기본 요구사항
 
 - 화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
