@@ -1,0 +1,7 @@
+.DocumentPage {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  padding: 1rem;
+  background-color: #f1f1ef;
+}

@@ -1,0 +1,24 @@
+.TitleEditor,
+.TextEditor {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 1vw;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  box-shadow: 4px 4px 10px #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+.TitleEditor {
+  margin-bottom: 1rem;
+}
+
+.TextEditor {
+  min-height: 40vh;
+}
+
+.TitleEditor:focus,
+.TextEditor:focus {
+  box-shadow: 0px 0px 10px #6ce4b9;
+}

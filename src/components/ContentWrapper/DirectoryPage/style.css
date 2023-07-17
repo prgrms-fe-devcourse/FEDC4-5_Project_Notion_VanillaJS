@@ -1,0 +1,4 @@
+.DirectoryPage {
+  display: flex;
+  flex-direction: column;
+}

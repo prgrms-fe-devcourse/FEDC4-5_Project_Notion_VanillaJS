@@ -1,0 +1,65 @@
+.Document {
+  font-size: 0.9vw;
+}
+
+.DocumentHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.3rem;
+}
+
+.DocumentTitle {
+  flex: 1;
+  padding: 0.2rem;
+}
+
+.DocumentTitle.clicked {
+  background-color: #ccc;
+  border-radius: 0.25rem;
+}
+
+.DocumentHeader .DocumentToggleButton {
+  background-color: transparent;
+  border: none;
+}
+
+.DocumentTitle:hover {
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 0.25rem;
+}
+
+.DocumentContent {
+  padding-left: 1rem;
+}
+
+.DocumentHeader span {
+  font-size: 0.8vw;
+}
+
+.DocumentHeader span:hover {
+  cursor: pointer;
+  filter: drop-shadow(2px 2px 2px #ccc);
+}
+.DocumentButtons {
+  display: flex;
+  width: 2.5vw;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DocumentToggleButton {
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.DocumentDeleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
