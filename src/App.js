@@ -23,9 +23,13 @@ export default class App {
   };
 
   selectDocument = (selectedDocumentId) => {
-    const nextRoute =
-      selectedDocumentId === null ? `/` : `/documents/${selectedDocumentId}`;
-    routeChange(nextRoute);
+    if (selectedDocumentId === null || selectedDocumentId === undefined) {
+      const nextRoute = '/';
+      routeChange(nextRoute);
+    } else {
+      const nextRoute = `/documents/${selectedDocumentId}`;
+      routeChange(nextRoute);
+    }
   };
 
   reflectTitleChange = () => {
