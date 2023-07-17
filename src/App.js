@@ -36,15 +36,15 @@ export default class App {
     this.$listPage = new ListPage(
       this.$target,
       {
-        rootDocument: null
+        rootDocument: null,
       },
-      this.selectDocument
+      this.selectDocument,
     );
     this.$editPage = new EditPage(
       this.$target,
       location.pathname,
       this.selectDocument,
-      this.reflectTitleChange
+      this.reflectTitleChange,
     );
   };
 }
