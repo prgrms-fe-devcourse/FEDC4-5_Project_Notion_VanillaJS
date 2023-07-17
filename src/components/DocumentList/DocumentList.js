@@ -45,7 +45,7 @@ export default class DocumentList extends Component {
 
   hanldeDeleteButtonClick = async (id) => {
     await deleteDocument(id);
-    history.push('/');
+    history.replace('/');
   };
 
   setEvent() {
