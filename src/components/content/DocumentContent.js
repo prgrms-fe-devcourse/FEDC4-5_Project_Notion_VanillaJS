@@ -1,4 +1,4 @@
-import { request } from "../../api.js";
+import { readDocument } from "../../api.js";
 import Editor from "./Editor.js";
 
 export default function DocumentContent({ $target, initialId, onEditing }) {
@@ -19,7 +19,7 @@ export default function DocumentContent({ $target, initialId, onEditing }) {
   });
 
   const fetchData = async () => {
-    const document = await request(`/documents/${this.id}`);
+    const document = await readDocument(this.id);
     editor.setState({
       title: document.title,
       content: document.content,

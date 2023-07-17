@@ -18,3 +18,34 @@ export const request = async (url, options = {}) => {
     alert(e.message);
   }
 };
+
+export const readRootDocuments = async () => {
+  return await request("/documents");
+};
+
+export const readDocument = async (id) => {
+  return await request(`/documents/${id}`);
+};
+
+export const createDocument = async (parentId) => {
+  return await request("/documents", {
+    method: "POST",
+    body: JSON.stringify({
+      title: "",
+      parent: parentId,
+    }),
+  });
+};
+
+export const updateDocument = async (id, document) => {
+  await request(`/documents/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(document),
+  });
+};
+
+export const deleteDocument = async (documentId) => {
+  await request(`/documents/${documentId}`, {
+    method: "DELETE",
+  });
+};

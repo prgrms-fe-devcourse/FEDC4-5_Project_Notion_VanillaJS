@@ -1,6 +1,6 @@
 import DocumentListItem from "./DocumentListItem.js";
 import { push } from "../../utils/router.js";
-import { request } from "../../api.js";
+import { createDocument, deleteDocument } from "../../api.js";
 
 export default function DocumentList({ $target, initialState }) {
   const $documentList = document.createElement("ul");
@@ -26,13 +26,7 @@ export default function DocumentList({ $target, initialState }) {
         $target: $documentList,
         initialState,
         onAdd: async () => {
-          const createdSubDocument = await request("/documents", {
-            method: "POST",
-            body: JSON.stringify({
-              title: "",
-              parent: document.id,
-            }),
-          });
+          const createdSubDocument = await createDocument(document.id);
           push(`/documents/${createdSubDocument.id}`);
         },
         onDelete: async (id) => {
@@ -42,9 +36,7 @@ export default function DocumentList({ $target, initialState }) {
           const nextState = [...this.state];
           nextState.splice(targetIndex, 1);
           this.setState(nextState);
-          await request(`/documents/${document.id}`, {
-            method: "DELETE",
-          });
+          await deleteDocument(document.id);
           if (window.location.pathname === `/documents/${id}`) {
             alert("이 페이지는 삭제되었습니다.");
             push(`/`);

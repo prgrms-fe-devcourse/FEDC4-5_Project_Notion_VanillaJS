@@ -3,7 +3,7 @@ import DocumentContent from "./components/content/DocumentContent.js";
 import Default from "./components/content/Default.js";
 import { initRouter } from "./utils/router.js";
 import { debounce } from "./utils/debounce.js";
-import { request } from "./api.js";
+import { readRootDocuments, updateDocument } from "./api.js";
 import PageNotFound from "./utils/PageNotFound.js";
 
 export default function App({ $target }) {
@@ -13,10 +13,7 @@ export default function App({ $target }) {
     initialState: null,
     onEditing: debounce(async (document, id) => {
       if (id) {
-        await request(`/documents/${id}`, {
-          method: "PUT",
-          body: JSON.stringify(document),
-        });
+        updateDocument(id, document);
       }
     }, 500),
   });
@@ -24,7 +21,7 @@ export default function App({ $target }) {
   this.route = async () => {
     $target.innerHTML = ""; // TODO: 전체를 없애지말고 편집기만 비우기 -> sideBar state 업데이트 언제?
     const { pathname } = window.location;
-    const rootDocuments = await request("/documents");
+    const rootDocuments = await readRootDocuments();
     if (pathname === "/") {
       sideBar.setState(rootDocuments);
       new Default({ $target });
