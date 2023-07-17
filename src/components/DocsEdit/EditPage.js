@@ -24,11 +24,9 @@ export default function EditPage({ $target, initialState, onEdit }) {
 
   this.setState = async (nextState) => {
     if (this.state.id !== nextState.id) {
-      this.state = nextState
-      await fetchDocument()
-      return
+      const newDoc = await fetchDocument(nextState.id)
+      this.state = newDoc
     }
-    this.state = nextState
 
     editor.setState(
       this.state || {
@@ -45,13 +43,9 @@ export default function EditPage({ $target, initialState, onEdit }) {
     $target.appendChild($page)
   }
 
-  const fetchDocument = async () => {
-    const { id } = this.state
+  const fetchDocument = async (id) => {
     if (id !== "new") {
-      const doc = await request(`/documents/${id}`, { method: "GET" })
-      this.setState(doc)
-    } else {
-      this.setState()
+      return await request(`/documents/${id}`, { method: "GET" })
     }
   }
 }
