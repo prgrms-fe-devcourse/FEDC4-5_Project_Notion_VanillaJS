@@ -12,10 +12,7 @@ export function convertMarkdownToHTML(markdownText) {
     { pattern: /\n\n/g, replacement: '<br/>' },
   ];
 
-  let html = markdownText;
-  replacements.forEach((replacement) => {
-    html = html.replace(replacement.pattern, replacement.replacement);
-  });
-
-  return html;
+  return replacements.reduce((html, replacement) => {
+    return html.replace(replacement.pattern, replacement.replacement);
+  }, markdownText);
 }
