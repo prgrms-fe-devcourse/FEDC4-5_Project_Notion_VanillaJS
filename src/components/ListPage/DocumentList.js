@@ -84,11 +84,15 @@ export default class DocumentList {
       const $button = event.target.closest('button');
       const documentId = $li?.dataset.documentid;
 
-      if ($li?.className.startsWith('document-li') === true && $button === null) {
-        this.selectDocument(documentId);
-      } 
-      else if ($button !== null) {
+      if ($li === null && $button === null) {
+        return;
+      }
+      if ($button !== null) {
         this.checkButtonType($button, documentId);
+        return;
+      } 
+      if (documentId !== undefined) {
+        this.selectDocument(documentId);
       }
     });
   };
