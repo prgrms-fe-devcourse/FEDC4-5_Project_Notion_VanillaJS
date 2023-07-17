@@ -13,7 +13,7 @@ export default function EditorFooter({ $target, initialState }) {
   }
 
   this.render = () => {
-    if (this.state.length > 0) {
+    if (this.state.length) {
       $footer.innerHTML = `
         <div class='sub-documents-list'>
           ${this.state.map(({ id, title }) => `<p data-id="${id}" class="sub-docs">${title}</p>`).join("")}
