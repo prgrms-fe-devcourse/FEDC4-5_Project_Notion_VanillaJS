@@ -1,7 +1,7 @@
 export default function LinkButton({ 
   $target,
   initialState,
-  action
+  onClick
 }) {
   this.state = initialState;
   const $linkButton = document.createElement('div');
@@ -15,6 +15,6 @@ export default function LinkButton({
   this.render();
 
   $linkButton.addEventListener('click', () => {
-    action();
+    onClick();
   })
 }

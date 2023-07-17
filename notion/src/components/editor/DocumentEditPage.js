@@ -48,7 +48,7 @@ export default function DocumentEditPage({ parent, initialState, onEditing }) {
       text: '목록으로 이동',
       id: 'home-button'
     },
-    action: () => {
+    onClick: () => {
       push('/');
     }
   })

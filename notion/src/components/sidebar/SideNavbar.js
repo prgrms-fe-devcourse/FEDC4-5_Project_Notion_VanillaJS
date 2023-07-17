@@ -29,7 +29,7 @@ export default function SideNavbar({ parent, initialState }) {
       text: '+ 페이지 추가',
       id: 'add-document-button'
     },
-    action: async () => {
+    onClick: async () => {
       const { id } = await postDocument('/documents');
       push(`/documents/${id}`);
       this.setState();
