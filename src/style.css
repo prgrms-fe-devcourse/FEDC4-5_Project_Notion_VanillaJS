@@ -137,7 +137,9 @@ main {
 }
 
 .editor {
-  height: 90%;
+  /* position: relative; */
+  /* height: 80%; */
+  flex-grow: 1;
   margin: 30px;
   background: #ffffff;
 }
@@ -166,11 +168,26 @@ main {
   outline: none;
 }
 
-.edit-footer {
+/* .edit-footer {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-footer > .sub-documents-list {
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+.edit-footer {
+  position: relative; /* 부모 요소에 position: relative; 적용 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
   margin-bottom: 20px;
 }
 
@@ -196,4 +213,27 @@ main {
 
 .document-icon {
   margin-right: 5px;
+}
+
+.loading-icon {
+  position: absolute;
+  display: flex;
+  bottom: 5%;
+  right: 5%;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background-color: #f8f8f836;
+}
+
+.fa-1x {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-spinner {
+  color: green;
 }

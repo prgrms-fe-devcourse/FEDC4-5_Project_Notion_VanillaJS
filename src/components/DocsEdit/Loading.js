@@ -12,7 +12,7 @@ export default function Loading({ $target, initialState }) {
 
   $target.appendChild($loading)
 
-  this.state = true
+  this.state = initialState
 
   this.setState = (nextState) => {
     this.state = nextState
