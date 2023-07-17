@@ -1,5 +1,7 @@
 import debounce from "./debounce"
 
+const mockFunction = jest.fn()
+
 describe("debounce", () => {
   beforeEach(() => {
     jest.useFakeTimers()
@@ -9,35 +11,27 @@ describe("debounce", () => {
 
   afterEach(() => {
     jest.clearAllTimers()
+    mockFunction.mockClear()
   })
 
-  test("should debounce the callback function", () => {
-    const callback = jest.fn()
-    const wait = 1000
+  test("should debounce function calls", () => {
+    const debouncedFn = debounce(mockFunction, 100)
+    const args = [1, 2, 3]
+    const args2 = [4, 5, 6]
+    const args3 = [7, 8, 9]
 
-    const timer = debounce(null, callback, wait)
+    debouncedFn(args)
+    jest.advanceTimersByTime(50)
 
-    expect(setTimeout).toHaveBeenCalledWith(callback, wait)
+    debouncedFn(args2)
+    jest.advanceTimersByTime(50)
 
-    jest.advanceTimersByTime(wait - 1)
+    expect(mockFunction).not.toHaveBeenCalled()
 
-    expect(callback).not.toHaveBeenCalled()
+    debouncedFn(args3)
+    jest.advanceTimersByTime(100)
 
-    jest.advanceTimersByTime(1)
-
-    expect(callback).toHaveBeenCalled()
-  })
-
-  test("should clear previous timer before setting a new one", () => {
-    const callback = jest.fn()
-    const wait = 1000
-
-    const previousTimer = 123
-    const newTimer = debounce(previousTimer, callback, wait)
-
-    expect(clearTimeout).toHaveBeenCalledWith(previousTimer)
-    expect(setTimeout).toHaveBeenCalledWith(callback, wait)
-
-    expect(newTimer).not.toBe(previousTimer)
+    expect(mockFunction).toHaveBeenCalledTimes(1)
+    expect(mockFunction).toHaveBeenCalledWith(args3)
   })
 })

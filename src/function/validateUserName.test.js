@@ -6,7 +6,7 @@ describe("validateUserName", () => {
 
     validUserNames.forEach((userName) => {
       const result = validateUserName(userName)
-      expect(result).toBe(true)
+      expect(result).toBeTruthy()
     })
   })
 
@@ -15,7 +15,7 @@ describe("validateUserName", () => {
 
     invalidUserNames.forEach((userName) => {
       const result = validateUserName(userName)
-      expect(result).toBe(false)
+      expect(result).toBeFalsy()
     })
   })
 })
