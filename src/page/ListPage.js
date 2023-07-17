@@ -8,14 +8,23 @@ export default class ListPage {
     this.state = initialState;
     this.selectDocument = selectDocument;
     this.$div = null;
+    this.fetchRootDocument();
     this.initDiv();
     this.render();
   }
 
-  setState = (nextState) => {
+  setRootDocument = (nextState) => {
     this.state = nextState;
     this.render();
   };
+
+  fetchRootDocument = async() => {
+    const rootDocument = await getRootAPI();
+    const nextState = {
+      rootDocument
+    }
+    this.setRootDocument(nextState);
+  }
 
   initDiv = () => {
     this.$div = document.createElement('div');
@@ -29,17 +38,15 @@ export default class ListPage {
       parent: documentId,
     };
     const newDocument = await createAPI(documentInfo);
-    const nextState = await getRootAPI();
-    this.setState(nextState);
+    this.fetchRootDocument();
     this.selectDocument(newDocument.id);
   };
 
   removeDocument = async (documentId) => {
     await removeAPI(`/documents/${documentId}`);
-    const nextState = await getRootAPI();
     const { pathname } = location;
 
-    this.setState(nextState);
+    this.fetchRootDocument();
 
     if (pathname === `/documents/${documentId}`) {
       this.selectDocument(null);
@@ -47,8 +54,13 @@ export default class ListPage {
   };
 
   render = () => {
+    const { rootDocument } = this.state;
+
+    if (rootDocument === null) {
+      return;
+    }
     this.$div.innerHTML = ``;
-    this.state.forEach((documentInfo) => {
+    rootDocument.forEach((documentInfo) => {
       const state = {
         documentInfo: documentInfo,
         depth: 0

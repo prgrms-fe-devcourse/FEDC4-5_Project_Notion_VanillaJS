@@ -1,12 +1,10 @@
 import { init, routeChange } from './utils/Route.js';
-import { getRootAPI } from './utils/API.js';
 import ListPage from './page/ListPage.js';
 import EditPage from './page/EditPage.js';
 
 export default class App {
-  constructor(target, rootDocument) {
+  constructor(target) {
     this.$target = target;
-    this.state = { rootDocument };
     this.$listPage = null;
     this.$editPage = null;
     init(this.route);
@@ -30,15 +28,16 @@ export default class App {
     routeChange(nextRoute);
   };
 
-  reflectTitleChange = async () => {
-    const rootDocument = await getRootAPI();
-    this.$listPage.setState(rootDocument);
+  reflectTitleChange = () => {
+    this.$listPage.fetchRootDocument();
   };
 
   render = () => {
     this.$listPage = new ListPage(
       this.$target,
-      this.state.rootDocument,
+      {
+        rootDocument: null
+      },
       this.selectDocument
     );
     this.$editPage = new EditPage(
