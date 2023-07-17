@@ -14,7 +14,7 @@ export default function Editor({
 
   this.state = initialState;
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     this.state = nextState;
 
     $editor.querySelector('[name=title]').value = this.state.title;
@@ -41,7 +41,6 @@ export default function Editor({
   $editor.addEventListener('keyup', (e) => {
     const { target } = e;
     const name = target.getAttribute('name');
-
     if (this.state[name] !== undefined) {
       const nextState = { ...this.state, [name]: target.value };
 

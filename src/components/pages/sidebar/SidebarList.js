@@ -1,9 +1,10 @@
+import { onRemoveDocument } from '../../../apis/api.js';
+
 export default function SidebarList({
   $target,
   initialState,
   onSelect,
   onCreateDocument,
-  onRemoveDocument,
 }) {
   const $list = document.createElement('div');
   $list.className = 'list-container';
@@ -11,7 +12,7 @@ export default function SidebarList({
 
   this.state = initialState;
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
     this.render();
   };
@@ -27,33 +28,25 @@ export default function SidebarList({
         <ul class="list-wrap">
           ${data
             .map(({ id, title, documents }) => {
-              if (title !== '') {
-                return `
+              const haveChildNode = documents.length > 0 && documents;
+              return `
                   <div class="list-wrap-div">
                     <li class="list-item" data-id="${id}" style="list-style: none; color: #9a9a9a;">
                       <i class="fa-solid fa-chevron-right fa-2xs" style="color: #9a9a9a;"></i>
                       <i class="fa-regular fa-file fa-xs" style="color: #9a9a9a; margin-left: 3px"></i>
-                      <span class="title">${title}</span>
+                      <span class="title">${title || '제목없음'}</span>
                       <i class="create fa-solid fa-plus fa-xs" style="display: inline-block color: #9a9a9a;"></i>
                       <i class="remove fa-solid fa-trash fa-xs" style="display: inline-block color: #9a9a9a;"></i>
                     </li>  
                   </div>              
-                    ${documents.map((document) => createList([document], inner)).join('')}
+                    ${
+                      haveChildNode
+                        ? documents
+                            .map((document) => createList([document], inner))
+                            .join('')
+                        : ''
+                    }
                   `;
-              } else {
-                return `
-                  <div class="list-wrap-div">
-                    <li class="list-item" data-id="${id}" style="list-style: none; color: #9a9a9a;">
-                      <i class="fa-solid fa-chevron-right fa-2xs" style="color: #9a9a9a;"></i>
-                      <i class="fa-regular fa-file fa-xs" style="color: #9a9a9a; margin-left: 3px"></i>
-                      <span class="title">제목 없음</span>
-                      <i class="create fa-solid fa-plus fa-xs" style="display: inline-block color: #9a9a9a;"></i>
-                      <i class="remove fa-solid fa-trash fa-xs" style="display: inline-block color: #9a9a9a;"></i>
-                    </li>  
-                  </div>              
-                    ${documents.map((document) => createList([document], inner)).join('')}
-                  `;
-              }
             })
             .join('')}
         </ul>

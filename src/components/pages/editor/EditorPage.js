@@ -1,46 +1,25 @@
 import Editor from './Editor.js';
-import { request } from '../../../utils/apis/api.js';
+import { getDocument } from '../../../apis/api.js';
+import { debounce } from '../../../utils/debounce.js';
 
 export default function EditorPage({ $target, initialState, onRerender }) {
   const $editorPage = document.createElement('section');
   $editorPage.className = 'editor';
   this.state = initialState;
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
-    getDocument();
-    this.render();
+    editor.setState(await getDocument(this.state.documentId));
+    $target.appendChild($editorPage);
   };
-
-  let timer = null;
 
   const editor = new Editor({
     $target: $editorPage,
     initialState: {},
     onEditing: (document) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        await updateDocument(this.state.documentId, document);
-        await onRerender();
-      }, 0);
+      debounce(this.state.documentId, document, onRerender);
     },
   });
 
-  const getDocument = async () => {
-    const documents = await request(`/documents/${this.state.documentId}`);
-    editor.setState(documents);
-  };
-
-  const updateDocument = async (id, data) => {
-    await request(`/documents/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
-  };
-
-  this.render = () => {
-    $target.appendChild($editorPage);
-  };
+  this.render = () => $target.appendChild($editorPage);
 }

@@ -1,7 +1,7 @@
 import SidebarHeader from './SidebarHeader.js';
 import SidebarList from './SidebarList.js';
 import SidebarFooter from './SidebarFooter.js';
-import { request } from '../../../utils/apis/api.js';
+import { getDocumentList, createDocument } from '../../../apis/api.js';
 import { push } from '../../../utils/router.js';
 
 export default function SidebarPage({ $target, initialState }) {
@@ -9,11 +9,6 @@ export default function SidebarPage({ $target, initialState }) {
   $sidebar.className = 'sidebar';
 
   this.state = initialState;
-
-  this.setState = () => {
-    getDocumentList();
-    this.render();
-  };
 
   new SidebarHeader({
     $target: $sidebar,
@@ -31,44 +26,26 @@ export default function SidebarPage({ $target, initialState }) {
         parent: parentId,
       };
 
-      const newDocument = await createDocument(document);
-      push(`/documents/${newDocument.id}`);
-    },
-    onRemoveDocument: async (id) => {
-      await request(`/documents/${id}`, {
-        method: 'DELETE',
-      });
-      push('/');
+      const newDocumentId = await createDocument(document);
+      push(`/documents/${newDocumentId}`);
     },
   });
 
   new SidebarFooter({
     $target: $sidebar,
-    createRootDocument: () => {
+    createRootDocument: async () => {
       const document = {
         title: '',
         parent: null,
       };
-      createDocument(document);
-      push(`/`);
+
+      const newDocumentId = await createDocument(document);
+      push(`/documents/${newDocumentId}`);
     },
   });
 
-  this.render = () => {
-    getDocumentList();
+  this.render = async () => {
+    sidebarList.setState(await getDocumentList());
     $target.prepend($sidebar);
-  };
-
-  const getDocumentList = async () => {
-    const list = await request('/documents');
-    sidebarList.setState(list);
-  };
-
-  const createDocument = async (document) => {
-    const newDocument = await request('/documents', {
-      method: 'POST',
-      body: JSON.stringify(document),
-    });
-    return newDocument;
   };
 }

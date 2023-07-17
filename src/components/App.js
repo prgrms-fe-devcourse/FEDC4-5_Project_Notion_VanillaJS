@@ -1,6 +1,6 @@
 import SidebarPage from './pages/sidebar/SidebarPage.js';
 import EditorPage from './pages/editor/EditorPage.js';
-import { initRouter } from '../utils/router.js';
+import { initRouter, popState } from '../utils/router.js';
 
 export default function App({ $target }) {
   const sidebarPage = new SidebarPage({
@@ -12,7 +12,7 @@ export default function App({ $target }) {
     $target,
     initialState: {},
     onRerender: () => {
-      sidebarPage.setState();
+      sidebarPage.render();
     },
   });
 
@@ -22,10 +22,10 @@ export default function App({ $target }) {
     const { pathname } = window.location;
 
     if (pathname === '/') {
-      sidebarPage.setState();
+      sidebarPage.render();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
-      sidebarPage.setState();
+      sidebarPage.render();
       editorPage.setState({ documentId });
     }
   };
@@ -34,5 +34,5 @@ export default function App({ $target }) {
 
   initRouter(() => this.route());
 
-  window.addEventListener('popstate', () => this.route());
+  popState();
 }
