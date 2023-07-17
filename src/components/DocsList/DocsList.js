@@ -29,7 +29,7 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
   const renderDocuments = (documents) => {
     return documents
       .map((doc) => {
-        const hasChildDocuments = doc.documents && doc.documents.length > 0
+        const hasChildDocuments = !!doc.documents?.length
         const childDocuments = hasChildDocuments ? renderDocuments(doc.documents) : ""
         const documentTitle = escapeHTML(doc.title)
 
