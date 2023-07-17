@@ -2,13 +2,15 @@ import { CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import { setStateOf } from "@Utils/stateSetters";
 import { getDocument } from "./apis";
 
+let lastPageName = "";
 export default async function router({ $target }) {
   const { pathname } = window.location;
 
-  // eslint-disable-next-line no-param-reassign
-  $target.innerHTML = "";
-
   if (pathname === "/") {
+    clearPageWhenTransition({
+      $target,
+      curPageName: CONSTRUCTOR_NAME.DASHBOARD,
+    });
     setStateOf(CONSTRUCTOR_NAME.DASHBOARD, null);
   } else if (pathname.indexOf("/documents/") === 0) {
     const [, , documentIdStr] = pathname.split("/");
@@ -17,6 +19,10 @@ export default async function router({ $target }) {
     const documentData = await getDocument({ documentId });
 
     if (documentData) {
+      clearPageWhenTransition({
+        $target,
+        curPageName: CONSTRUCTOR_NAME.DOCUMENT,
+      });
       setStateOf(CONSTRUCTOR_NAME.DOCUMENT, documentData);
     } else {
       routeToHome();
@@ -26,12 +32,20 @@ export default async function router({ $target }) {
   window.dispatchEvent(new CustomEvent(EVENT.ROUTE_DRAWER));
 }
 
+function clearPageWhenTransition({ $target, curPageName }) {
+  if (lastPageName !== curPageName) {
+    // eslint-disable-next-line no-param-reassign
+    $target.innerHTML = "";
+    lastPageName = curPageName;
+  }
+}
+
 export function routeToDocument(documentId) {
   window.history.pushState(null, null, `/documents/${documentId}`);
   window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }
 
-export function routeToHome({ replace = false }) {
+export function routeToHome({ replace = false } = {}) {
   if (replace) {
     window.history.replaceState(null, null, "/");
   } else {

@@ -65,7 +65,9 @@ export default function Dashboard({ $target }) {
 
   this.render = () => {
     this.init();
-    $target.appendChild($dashboard);
+    if ($target.firstElementChild === null) {
+      $target.appendChild($dashboard);
+    }
 
     $recent.innerHTML = `
       <p class="dashboard-recent-title">⏰ 최근 사용한 문서</p>
