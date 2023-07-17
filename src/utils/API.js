@@ -50,6 +50,8 @@ export const editAPI = async (pathname, document) => {
     body: JSON.stringify(document),
   };
   const data = await request(url, option);
+
+  return data;
 };
 
 export const removeAPI = async (pathname) => {
