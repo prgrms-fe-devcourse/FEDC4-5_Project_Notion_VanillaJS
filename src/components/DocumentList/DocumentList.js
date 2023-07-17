@@ -3,6 +3,7 @@ import URL from '@consts/url';
 
 import { createDocument, deleteDocument } from '@api/document';
 
+import documentStorage from '@utils/localStorage/documentStorage';
 import sidebarStorage from '@utils/localStorage/sidebarStorage';
 import { history } from '@utils/router';
 
@@ -44,6 +45,7 @@ export default class DocumentList extends Component {
   };
 
   hanldeDeleteButtonClick = async (id) => {
+    documentStorage.removeDocumentItem(id);
     await deleteDocument(id);
     history.replace('/');
   };
