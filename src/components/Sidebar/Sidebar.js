@@ -1,11 +1,11 @@
-import { isConstructor, validateDrawerState } from "@Utils/validation";
+import { isConstructor, validateDocumentListState } from "@Utils/validation";
 import "./Sidebar.css";
 import once from "@Utils/once";
 import { postDocument } from "@Utils/apis";
 import { patchSidebarState } from "@Utils/stateSetters";
 import addIcon from "@Static/addIcon.svg";
 import { routeToHome } from "@Utils/router";
-import Drawer from "./Drawer";
+import DocumentList from "./DocumentList";
 
 export default function Sidebar({ $target }) {
   if (!isConstructor(new.target)) {
@@ -15,12 +15,16 @@ export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("aside");
   const $homeLogo = document.createElement("p");
   const $addBtn = document.createElement("button");
-  const $rootDrawer = new Drawer({ $target: $sidebar, parent: null, level: 0 });
+  const $rootDocumentList = new DocumentList({
+    $target: $sidebar,
+    parent: null,
+    level: 0,
+  });
 
   this.state = [];
 
   this.setState = (nextState) => {
-    if (!validateDrawerState(nextState)) {
+    if (!validateDocumentListState(nextState)) {
       return;
     }
 
@@ -59,7 +63,7 @@ export default function Sidebar({ $target }) {
 
   this.render = () => {
     this.init();
-    $rootDrawer.setState(this.state);
+    $rootDocumentList.setState(this.state);
   };
 
   this.render();

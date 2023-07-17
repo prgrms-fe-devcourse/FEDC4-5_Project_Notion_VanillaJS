@@ -71,7 +71,7 @@ const drawerItemType = {
   documents: "object",
 };
 
-export function validateDrawerItemState(state) {
+export function validateDocumentListItemState(state) {
   return checkError(
     Object.entries(drawerItemType).some(([key, type]) => {
       if (!Object.prototype.hasOwnProperty.call(state, key)) return true;
@@ -80,16 +80,19 @@ export function validateDrawerItemState(state) {
 
       return false;
     }),
-    new ValidationError(ERROR.INVALID_DRAWERITEM_STATE)
+    new ValidationError(ERROR.INVALID_DOCUMENT_LIST_ITEM_STATE)
   );
 }
 
-export function validateDrawerState(state) {
+export function validateDocumentListState(state) {
   return (
     validateArrayState(state) &&
     checkError(
-      !state.reduce((acc, cur) => acc && validateDrawerItemState(cur), true),
-      new ValidationError(ERROR.INVALID_DRAWER_STATE)
+      !state.reduce(
+        (acc, cur) => acc && validateDocumentListItemState(cur),
+        true
+      ),
+      new ValidationError(ERROR.INVALID_DOCUMENT_LIST_STATE)
     )
   );
 }

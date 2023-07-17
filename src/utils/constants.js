@@ -13,9 +13,10 @@ export const ERROR = {
   NEW_MISSED: "Current component is declared without 'new' keyword.",
   NONE_OBJECT_STATE: "Tried to set state using none object value.",
   INVALID_DOCUMENT_STATE: "Tried to set document's state using invalid data.",
-  INVALID_DRAWER_STATE: "Tried to set drawer's state using invalid data.",
-  INVALID_DRAWERITEM_STATE:
-    "Tried to set drawer item's state using invalid data.",
+  INVALID_DOCUMENT_LIST_STATE:
+    "Tried to set document list's state using invalid data.",
+  INVALID_DOCUMENT_LIST_ITEM_STATE:
+    "Tried to set document list item's state using invalid data.",
   INVALID_HEADER_STATE: "Tried to set header's state using invalid data.",
   INVALID_DASHBOARD_STATE: "Tried to set dashboard's state using invalid data.",
   NONE_ARRAY_STATE: "Tried to set state using none array value.",
@@ -25,7 +26,7 @@ export const ERROR = {
 
 export const EVENT = {
   ROUTE: "route",
-  ROUTE_DRAWER: "route-drawer",
+  ROUTE_DOCUMENT_LIST: "route-document-list",
   TITLE_UPDATED: "title-updated",
 };
 

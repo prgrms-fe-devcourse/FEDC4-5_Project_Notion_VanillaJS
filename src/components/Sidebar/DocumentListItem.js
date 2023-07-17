@@ -1,6 +1,9 @@
 import once from "@Utils/once";
-import { isConstructor, validateDrawerItemState } from "@Utils/validation";
-import "./DrawerItem.css";
+import {
+  isConstructor,
+  validateDocumentListItemState,
+} from "@Utils/validation";
+import "./DocumentListItem.css";
 import { deleteDocument, postDocument } from "@Utils/apis";
 import { patchSidebarState, setStateOf } from "@Utils/stateSetters";
 import { routeToDocument, routeToHome } from "@Utils/router";
@@ -8,16 +11,16 @@ import { ACTION, CONSTRUCTOR_NAME, EVENT } from "@Utils/constants";
 import openIcon from "@Static/openIcon.svg";
 import plusIcon from "@Static/plusIcon.svg";
 import trashIcon from "@Static/trashIcon.svg";
-import Drawer from "./Drawer";
+import DocumentList from "./DocumentList";
 
-export default function DrawerItem({ $target, $sibling, parent, level }) {
+export default function DocumentListItem({ $target, $sibling, parent, level }) {
   if (!isConstructor(new.target)) {
     return;
   }
 
   const $item = document.createElement("div");
   const $titleContainer = document.createElement("div");
-  const $childrenDrawer = new Drawer({
+  const $childrenDocumentList = new DocumentList({
     $target: $item,
     parent: this,
     level: level + 1,
@@ -26,7 +29,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   this.state = { id: 0, title: "", documents: [] };
 
   this.setState = (nextState) => {
-    if (!validateDrawerItemState(nextState)) {
+    if (!validateDocumentListItemState(nextState)) {
       return;
     }
 
@@ -47,18 +50,18 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   };
 
   this.toggleOpen = () => {
-    const $openBtn = $item.querySelector(".drawer-item-open-button");
-    $openBtn.className = `drawer-item-open-button${
+    const $openBtn = $item.querySelector(".document-list-item-open-button");
+    $openBtn.className = `document-list-item-open-button${
       this.opened ? " opened" : ""
     }`;
 
-    $childrenDrawer.root.style.display = this.opened ? "block" : "none";
+    $childrenDocumentList.root.style.display = this.opened ? "block" : "none";
   };
 
   // url로 문서 활성화 여부 검사 후 맞으면 본인 강조
   this.activate = () => {
     if (isActivated(this.state.id)) {
-      $titleContainer.className = "drawer-item-container activated";
+      $titleContainer.className = "document-list-item-container activated";
 
       let curParent = parent;
       const docsInfo = [
@@ -84,7 +87,7 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
       const { id, title } = this.state;
       setStateOf(CONSTRUCTOR_NAME.DASHBOARD, { id, title });
     } else {
-      $titleContainer.className = "drawer-item-container";
+      $titleContainer.className = "document-list-item-container";
     }
   };
 
@@ -153,12 +156,12 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
     $target.insertBefore($item, $sibling);
     $item.insertAdjacentElement("afterbegin", $titleContainer);
 
-    $titleContainer.className = "drawer-item-container";
+    $titleContainer.className = "document-list-item-container";
     $titleContainer.style.paddingLeft = `${10 * level}px`;
     $titleContainer.innerHTML = `
-      <button class="drawer-item-open-button" data-action="open">${openIcon}</button>
-      <p class="drawer-item-title" data-action="route">${this.state.title}</p>
-      <div class="drawer-item-btn-container">
+      <button class="document-list-item-open-button" data-action="open">${openIcon}</button>
+      <p class="document-list-item-title" data-action="route">${this.state.title}</p>
+      <div class="document-list-item-btn-container">
         <button data-action="remove">${trashIcon}</button>
         <button data-action="append">${plusIcon}</button>
       </div>
@@ -179,10 +182,10 @@ export default function DrawerItem({ $target, $sibling, parent, level }) {
   this.render = () => {
     this.init();
 
-    const $title = $item.querySelector(".drawer-item-title");
+    const $title = $item.querySelector(".document-list-item-title");
     $title.innerText = this.state.title;
 
-    $childrenDrawer.setState(this.state.documents);
+    $childrenDocumentList.setState(this.state.documents);
 
     this.activate();
   };
