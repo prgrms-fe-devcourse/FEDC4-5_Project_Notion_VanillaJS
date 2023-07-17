@@ -7,6 +7,11 @@ export default function DocumentsListItems({
   documentItems,
   reRender,
 }) {
+  const getDirName = ({ title }) => {
+    const [, dirName] = title.split("/");
+    return dirName;
+  }
+
   this.render = () => {
     documentItems.forEach((item) => {
       const itemType = item.title.split("/")[0];
@@ -16,7 +21,8 @@ export default function DocumentsListItems({
         // 폴더 아이템을 나타내는 컴포넌트
         new DirItem({
           $target,
-          dirName: item.title.split("/").slice(1).join("/"),
+          // dirName: item.title.split("/").slice(1).join("/"),
+          dirName: getDirName(item),
           id: item.id,
           reRender,
         });
