@@ -1,0 +1,239 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+html,
+body {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Pretendard";
+}
+
+button {
+  background: none;
+  border: transparent;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #eeeeee;
+}
+
+ul,
+ol {
+  line-height: 1;
+  margin: 0;
+  padding-inline-start: 1em;
+  list-style: none;
+  overflow-x: hidden;
+}
+
+li .document-title {
+  cursor: pointer;
+}
+
+li .document-title:hover {
+  font-weight: 600;
+}
+
+.document-title-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.document-title-container > svg {
+  margin-right: 5px;
+}
+
+main {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+  color: #37352f;
+  line-height: 1.5;
+}
+
+.docs-list-page {
+  display: flex;
+  resize: horizontal;
+  overflow: auto;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  color: #505050;
+  font-size: 14px;
+  background: #fbfbfa;
+}
+
+.docs-list {
+  overflow: auto;
+  height: 80%;
+}
+
+.document-item-container {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.document-title {
+  /* width: 200px; */
+  flex-grow: 1;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.create,
+.remove {
+  border-radius: 5px;
+  /* margin-top: 5px; */
+  /* padding: 1px 3px; */
+}
+
+.docs-list-page .new-document-btn {
+  display: inline-flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+  width: inherit;
+  padding: 20px;
+  border-top: 2px solid #eeeeee;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.new-document-btn > svg {
+  margin-right: 10px;
+}
+
+.docs-list-page .new-document-btn:hover {
+  background-color: #eeeeee;
+  font-weight: 600;
+}
+
+.docs-list-page .list-header {
+  padding: 15px;
+  cursor: pointer;
+}
+
+.docs-list-page .list-header p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #383838;
+}
+
+.edit-page {
+  width: calc(100vw - 250px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor {
+  /* position: relative; */
+  /* height: 80%; */
+  flex-grow: 1;
+  margin: 30px;
+  background: #ffffff;
+}
+
+.editor > input {
+  all: unset;
+  font-size: 40px;
+  font-weight: 700;
+  overflow: hidden;
+  resize: none;
+}
+
+.editor > textarea {
+  all: unset;
+  height: 100%;
+  font-size: 20px;
+}
+
+.editor > textarea,
+.editor > input {
+  width: 100%;
+  padding: 10px;
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+/* .edit-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-footer > .sub-documents-list {
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+.edit-footer {
+  position: relative; /* 부모 요소에 position: relative; 적용 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.edit-footer > .sub-documents-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.edit-footer > .sub-documents-list > .sub-docs {
+  border-radius: 5px;
+  border: 1px solid #efefef;
+  padding: 5px 10px;
+  margin: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.edit-footer > .sub-documents-list > .sub-docs:hover {
+  background: #efefef;
+}
+
+.document-icon {
+  margin-right: 5px;
+}
+
+.loading-icon {
+  position: absolute;
+  display: flex;
+  bottom: 5%;
+  right: 5%;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background-color: #f8f8f836;
+}
+
+.fa-1x {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-spinner {
+  color: green;
+}
