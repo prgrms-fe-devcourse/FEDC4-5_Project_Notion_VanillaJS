@@ -25,14 +25,14 @@ export default function App({ appElement }) {
   if (!new.target) return new App(...arguments);
 
   const wrapperContainer = document.createElement("div");
-  const leftContainerElement = document.createElement("div");
-  const rightContainerEleement = document.createElement("div");
-  const leftListElement = document.createElement("div");
+  const sidebarContainer = document.createElement("div");
+  const contentsContainer = document.createElement("div");
+  const sidebarListContainer = document.createElement("div");
 
   wrapperContainer.className = "wrapper-container";
-  leftContainerElement.className = "left-container";
-  rightContainerEleement.className = "right-container";
-  leftListElement.className = "left-list-container";
+  sidebarContainer.className = "sidebar-container";
+  contentsContainer.className = "contents-container";
+  sidebarListContainer.className = "sidebar-list-container";
 
   const trie = new TrieDocument();
 
@@ -52,10 +52,10 @@ export default function App({ appElement }) {
     documentEditorComponent.render();
   };
 
-  const layoutComponent = new Layout({ parentElement: leftContainerElement });
+  const layoutComponent = new Layout({ parentElement: sidebarContainer });
 
   const documentListComponent = new DocumentList({
-    parentElement: leftListElement,
+    parentElement: sidebarListContainer,
     renderItemComponent: (parentElement) => {
       RecurDocumentList({
         rootDocuments: this.state,
@@ -84,12 +84,12 @@ export default function App({ appElement }) {
   });
 
   const homeComponent = new Home({
-    parentElement: rightContainerEleement,
+    parentElement: contentsContainer,
     search: (text) => trie.search(text),
   });
 
   const documentEditorComponent = new DocumentEditor({
-    parentElement: rightContainerEleement,
+    parentElement: contentsContainer,
     onEditing: (document) => {
       const { documentId, title, isChangeTitle } = document;
 
@@ -105,7 +105,7 @@ export default function App({ appElement }) {
   });
 
   const notFoundComponent = new NotFound({
-    parentCompoent: rightContainerEleement,
+    parentCompoent: contentsContainer,
   });
 
   window.addEventListener("popstate", () => {
@@ -116,10 +116,10 @@ export default function App({ appElement }) {
 
   this.init = async () => {
     appElement.append(wrapperContainer);
-    wrapperContainer.append(leftContainerElement, rightContainerEleement);
+    wrapperContainer.append(sidebarContainer, contentsContainer);
 
     layoutComponent.render();
-    leftContainerElement.append(leftListElement);
+    sidebarContainer.append(sidebarListContainer);
 
     const newState = await getDocuments();
     this.setState(newState);
@@ -131,7 +131,7 @@ export default function App({ appElement }) {
 
   this.route = () => {
     const { pathname } = window.location;
-    rightContainerEleement.innerHTML = ``;
+    contentsContainer.innerHTML = ``;
 
     if (pathname === PATH.HOME) {
       trie.reset();

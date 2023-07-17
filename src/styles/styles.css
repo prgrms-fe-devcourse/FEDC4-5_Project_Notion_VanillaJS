@@ -33,13 +33,13 @@ button {
   width: 100vw;
 }
 
-.left-container {
+.sidebar-container {
   display: flex;
   flex-direction: column;
   background-color: #f6f5f4;
 }
 
-.left-list-container {
+.sidebar-list-container {
   width: 300px;
   overflow: auto;
 }
@@ -161,8 +161,7 @@ button {
   }
 }
 
-.right-container {
-  /* flex: 4; */
+.contents-container {
   padding: 50px;
 }
 
