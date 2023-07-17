@@ -41,7 +41,7 @@ export const requestEditDir = async (id, title) => {
   });
 };
 
-export const requestAddDoc = async (parentId = null) => {
+export const requestAddDoc = async (parentId) => {
   await request("/documents", {
     method: "POST",
     body: JSON.stringify({

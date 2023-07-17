@@ -21,7 +21,7 @@ export default function DocumentsListItems({
           reRender,
         });
         const $ul = document.createElement("ul");
-        $ul.style.display = isDirOpen ? "" : "none";
+        $ul.classList.toggle("displayNoneFix", !isDirOpen)
         $target.appendChild($ul);
         new DocumentsListItems({
           $target: $ul,

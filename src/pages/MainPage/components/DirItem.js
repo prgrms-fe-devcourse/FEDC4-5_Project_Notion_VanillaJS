@@ -39,7 +39,7 @@ export default function DirItem({
   const $dirDelBtn = document.createElement("i");
   const $docAddBtn = document.createElement("i");
   $dirBtnWrapper.className = "dirBtnWrapper";
-  $dirBtnWrapper.style.display = this.isDirOpen ? "" : "none";
+  $dirBtnWrapper.classList.toggle("displayNoneFix", !this.isDirOpen);
   $dirAddBtn.className = "fa-solid fa-folder-plus";
   $dirDelBtn.className = "fa-solid fa-folder-minus";
   $docAddBtn.className = "fa-regular fa-file";
@@ -57,9 +57,10 @@ export default function DirItem({
     if (event.target.className === "dirTitle" || id === null) return;
 
     const nextElementSibling = $dirItemWrapper.nextElementSibling;
+    console.log(nextElementSibling);
     if (nextElementSibling.tagName === "UL") {
-      nextElementSibling.style.display = this.isDirOpen ? "none" : "";
-      $dirBtnWrapper.style.display = this.isDirOpen ? "none" : "";
+      nextElementSibling.classList.toggle("displayNoneFix", this.isDirOpen);
+      $dirBtnWrapper.classList.toggle("displayNoneFix", this.isDirOpen);
       $dirIcon.classList.toggle("fa-folder", this.isDirOpen);
       $dirIcon.classList.toggle("fa-folder-open", !this.isDirOpen);
       this.isDirOpen = !this.isDirOpen;

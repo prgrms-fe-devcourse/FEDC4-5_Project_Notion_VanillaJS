@@ -52,9 +52,9 @@ export default function DocumentDetailPage({
 
   this.render = () => {
     if (this.state === null || this.state.id === undefined) {
-      $detailPageWrapper.style.display = "none";
+      $detailPageWrapper.classList.add("displayNoneFix");
     } else {
-      $detailPageWrapper.style.display = "";
+      $detailPageWrapper.classList.remove("displayNoneFix");
       documentEditor.setState(this.state);
     }
   };
