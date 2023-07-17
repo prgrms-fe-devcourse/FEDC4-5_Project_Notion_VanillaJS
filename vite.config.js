@@ -1,5 +1,5 @@
 export default {
   build: {
-    target: 'esnext',
+    target: ['edge79', 'firefox68', 'chrome61', 'safari11.1'],
   },
 };
