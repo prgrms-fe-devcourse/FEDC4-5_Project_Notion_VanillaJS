@@ -9,6 +9,7 @@ export default function Header({ $target }) {
   }
 
   const $header = document.createElement("header");
+  const $headerNav = document.createElement("nav");
 
   this.state = [];
 
@@ -24,6 +25,9 @@ export default function Header({ $target }) {
 
   this.init = once(() => {
     $header.className = "header";
+    $headerNav.className = "header-nav";
+
+    $header.appendChild($headerNav);
     $target.appendChild($header);
 
     $header.addEventListener("click", (e) => {
@@ -36,22 +40,15 @@ export default function Header({ $target }) {
 
   this.render = () => {
     this.init();
-    $header.innerHTML = `
-      <nav class="header-nav">
-        ${this.state
-          .map(
-            ({ id, title }, idx) => `
+    $headerNav.innerHTML = `
+      ${this.state
+        .map(
+          ({ id, title }) => `
             <p class="header-title" data-id=${id}>${title}</p>
-            ${
-              idx < this.state.length - 1
-                ? "<p class=header-title-divider> / </p>"
-                : ""
-            }
-            `
-          )
-          .join("")}
-      </nav>
-    `;
+          `
+        )
+        .join("<p class=header-title-divider> / </p>")}
+      `;
   };
 
   this.render();
