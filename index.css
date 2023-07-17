@@ -1,0 +1,135 @@
+/* 전체 css 적용 */
+* {
+    margin: 0;
+    padding: 0;
+}
+/* 영역 분리 */
+#app {
+    display: flex;
+}
+.notion-sidebar-container {
+    width: 20%;
+}
+.notion-content {
+    width: 80%;
+    min-height: 100vh;
+}
+/* 모달 관련 css */
+#modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+    display: none;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 40%;
+}
+#modal button {
+    background-color: rgb(232, 199, 100);
+    width: 30px;
+
+}
+
+/* Sidebar css 적용 */
+nav {
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgb(238, 238, 238);
+    padding-top: 15px;
+    padding-left: 10px;
+}
+.container {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    margin: 5px 0px;
+    padding: 5px 0;
+}
+.container:hover {
+    cursor: pointer;
+}
+  
+.container span {
+    flex-grow: 1;
+    overflow: hidden;
+}
+div span {
+    flex-grow: 1;
+}
+.notion-sidebar-container button {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background: none;
+    border: none;
+    padding: 2px;
+}
+.notion-sidebar-container button:hover {
+    background-color: gray;
+}
+.plus {
+  position:absolute;
+  left: 19%;
+}
+.delete {
+  position:absolute;
+  left: 17%;
+}
+.toggle {
+    display: block !important;
+}
+/* content css 적용 */
+.notion-content {
+    padding-top: 96px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.content-title {
+    width: 600px;
+    height: 40px;
+    border: none;
+    outline: none;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Editor css 적용 */
+.toolbar {
+    width: 600px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.toolbar button {
+    height: 24px;
+    padding: 4px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+.toolbar button:hover {
+    background-color: gray;
+}
+.editor {
+    width: 600px;
+    height: 600px;
+    padding: 16px;
+    margin-top: 8px;
+    font-size: 18px;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+}
