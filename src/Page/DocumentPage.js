@@ -1,22 +1,38 @@
+import { getItem, setItem } from '../utils/storage.js';
 import {
   getDocuments,
   deleteDocument,
   addNewDocument,
 } from '../api/Document/index.js';
-import DocumentAddButton from '../Component/Documents/DocumentAddBtn.js';
-import DocumentList from '../Component/Documents/DocumentList.js';
 import { customPush } from '../route.js';
 import { PAGE_CHANGE_TYPE } from '../constants/route.js';
+import DocumentAddButton from '../Component/Documents/DocumentAddBtn.js';
+import DocumentList from '../Component/Documents/DocumentList.js';
 
 export default function DocumentPage({ $target }) {
   const { PUSH, REPLACE } = PAGE_CHANGE_TYPE;
   const $page = document.createElement('div');
   $page.classList.add('documentPage');
 
+  this.setLocalStorage = (newDocuments) => {
+    setItem('documents', newDocuments);
+  };
+
+  this.getDocumentsErrorCallback = (callback) => {
+    const getStoredDocuments = getItem('documents');
+    if (getStoredDocuments) {
+      callback(getStoredDocuments);
+    }
+  };
+
   this.render = async () => {
-    await getDocuments()
-      .then((documents) => documentLists.setState(documents))
-      .catch((e) => alert(e));
+    const fetchDocuments = await getDocuments().catch(() => {
+      this.getDocumentsErrorCallback(documentLists.setState);
+    });
+
+    documentLists.setState(fetchDocuments);
+    this.setLocalStorage(fetchDocuments);
+
     $target.appendChild($page);
     documentAddBtn.render();
   };
