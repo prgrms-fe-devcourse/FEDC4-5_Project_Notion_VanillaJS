@@ -32,16 +32,18 @@ export default class DocumentList {
   };
 
   render = () => {
+    const { documentInfo, depth, openStatus } = this.state;
+
     this.$ul.innerHTML = `
-      <li data-documentId=${this.state.documentInfo.id} 
-          class='document-li depth-0${this.state.depth}'>
+      <li data-documentId=${documentInfo.id} 
+          class='document-li depth-0${depth}'>
         <button class='open-toggle-button'>
-          ${this.state.openStatus === true ? '▼' : '▶︎'}
+          ${openStatus === true ? '▼' : '▶︎'}
         </button>
         <span>${
-          this.state.documentInfo.title === null
+          documentInfo.title === null
             ? '제목 없음'
-            : this.state.documentInfo.title
+            : documentInfo.title
         }</span>
         <button class='create-toggle-button'>﹢</button>
         <button class='remove-toggle-button'>X</button>
@@ -53,12 +55,14 @@ export default class DocumentList {
   };
 
   renderChildDocument = () => {
-    if (this.state.documentInfo.documents.length === 0) {
+    const children = this.state.documentInfo.documents;
+
+    if (children.length === 0) {
       new NoneChild(this.$ul, this.state.depth + 1);
       return;
     }
 
-    this.state.documentInfo.documents.forEach((documentInfo) => {
+    children.forEach((documentInfo) => {
       const initialState = {
         documentInfo: documentInfo,
         depth: this.state.depth + 1,

@@ -26,8 +26,10 @@ export default class DocumentContent {
       return;
     }
 
+    const { title, content } = this.state;
+
     this.$div.innerHTML = `
-      <div contenteditable class='title-container'>${this.state.title}</div>
+      <div contenteditable class='title-container'>${title}</div>
       <div class='edit-button-container'>
         <button data-command='formatBlock' class='edit-button btn-h1'>h1</button>
         <button data-command='formatBlock' class='edit-button btn-h2'>h2</button>
@@ -39,7 +41,7 @@ export default class DocumentContent {
         <button data-command='strikeThrough' class='edit-button btn-ordered'>S</button>
       </div>
       <div contenteditable class='content-container'>
-        <span>${this.state.content === null ? '' : this.state.content}</span>
+        <span>${content === null ? '' : content}</span>
       </div>
     `;
   };
