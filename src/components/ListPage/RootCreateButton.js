@@ -1,6 +1,6 @@
 export default class RootCreateButton {
   constructor($target, createDocument) {
-    this.$target = $target,
+    this.$target = $target;
     this.createDocument = createDocument;
     this.$ul = null;
     this.initUl();
@@ -12,15 +12,15 @@ export default class RootCreateButton {
     this.$ul.className = 'document-ul root-create-ul';
     this.$target.appendChild(this.$ul);
     this.addListClickEvent();
-  }
-  
+  };
+
   render = () => {
-    this.$ul.innerHTML = `<li class='document-li'><button>+</button>페이지 추가</li>`
-  }
+    this.$ul.innerHTML = `<li class='document-li'><button>+</button>페이지 추가</li>`;
+  };
 
   addListClickEvent = () => {
     this.$ul.addEventListener('click', () => {
       this.createDocument();
-    })
-  }
+    });
+  };
 }

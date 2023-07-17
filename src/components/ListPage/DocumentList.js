@@ -1,8 +1,18 @@
-import { setOpenDocument, setCloseDocumet, getCurrOpenState,} from '../../utils/StorageHandler.js';
+import {
+  setOpenDocument,
+  setCloseDocumet,
+  getCurrOpenState,
+} from '../../utils/StorageHandler.js';
 import NoneChild from './NoneChild.js';
 
 export default class DocumentList {
-  constructor($target, initialState, selectDocument, createDocument, removeDocument) {
+  constructor(
+    $target,
+    initialState,
+    selectDocument,
+    createDocument,
+    removeDocument,
+  ) {
     this.$target = $target;
     this.state = {
       ...initialState,
@@ -42,9 +52,7 @@ export default class DocumentList {
           ${openStatus === true ? '▼' : '▶︎'}
         </button>
         <span>${
-          documentInfo.title === null
-            ? '제목 없음'
-            : documentInfo.title
+          documentInfo.title === null ? '제목 없음' : documentInfo.title
         }</span>
         <button class='create-toggle-button'>﹢</button>
         <button class='remove-toggle-button'>X</button>
@@ -73,7 +81,7 @@ export default class DocumentList {
         initialState,
         this.selectDocument,
         this.createDocument,
-        this.removeDocument
+        this.removeDocument,
       );
     });
   };
@@ -91,7 +99,7 @@ export default class DocumentList {
       if ($button !== null) {
         this.checkButtonType($button, documentId);
         return;
-      } 
+      }
       if (documentId !== undefined) {
         this.selectDocument(documentId);
       }

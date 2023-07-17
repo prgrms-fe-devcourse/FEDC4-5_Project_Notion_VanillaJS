@@ -16,22 +16,22 @@ export default class EditPage {
     this.initDiv();
   }
 
-  setPathName = async(pathname) => {
+  setPathName = async (pathname) => {
     this.state = {
       ...this.state,
-      pathname
-    }
+      pathname,
+    };
     this.fetchContent();
-  }
-  
+  };
+
   setDocumentContent = (documentContent) => {
     this.state = {
       ...this.state,
-      documentContent
-    }
+      documentContent,
+    };
     this.$documentContent.setState(this.state.documentContent);
     this.$childList.setState(this.state.documentContent.documents);
-  }
+  };
 
   fetchContent = async () => {
     if (checkRouteValidation(this.state.pathname) === true) {
@@ -42,17 +42,17 @@ export default class EditPage {
     }
   };
 
-  saveTitle = async(editedDocument) => {
+  saveTitle = async (editedDocument) => {
     await editAPI(this.state.pathname, editedDocument);
     this.reflectTitleChange();
   };
 
   saveContent = (editedDocument) => {
     clearTimeout(this.timer);
-    this.timer = setTimeout(async() => {
+    this.timer = setTimeout(async () => {
       await editAPI(this.state.pathname, editedDocument);
     }, 200);
-  }
+  };
 
   initDiv = () => {
     const $preDiv = document.querySelector('.content-page-container');
@@ -69,17 +69,17 @@ export default class EditPage {
 
   render = () => {
     const initialState = null;
-    
+
     this.$documentContent = new DocumentContent(
       this.$div,
       initialState,
       this.saveTitle,
-      this.saveContent
+      this.saveContent,
     );
     this.$childList = new ChildList(
       this.$div,
       initialState,
-      this.selectDocument
-    )
-  }
+      this.selectDocument,
+    );
+  };
 }

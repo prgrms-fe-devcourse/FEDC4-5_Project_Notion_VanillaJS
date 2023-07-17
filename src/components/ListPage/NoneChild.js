@@ -9,11 +9,11 @@ export default class NoneChild {
 
   initLi = () => {
     this.$li = document.createElement('li');
-    this.$li.className = `no-child-li depth-0${this.depth}`
+    this.$li.className = `no-child-li depth-0${this.depth}`;
     this.$target.appendChild(this.$li);
-  }
+  };
 
   render = () => {
     this.$li.innerHTML = '<span>하위 페이지 없음</span>';
-  }
+  };
 }

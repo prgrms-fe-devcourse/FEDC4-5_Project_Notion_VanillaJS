@@ -18,13 +18,13 @@ export default class ListPage {
     this.render();
   };
 
-  fetchRootDocument = async() => {
+  fetchRootDocument = async () => {
     const rootDocument = await getRootAPI();
     const nextState = {
-      rootDocument
-    }
+      rootDocument,
+    };
     this.setRootDocument(nextState);
-  }
+  };
 
   initDiv = () => {
     this.$div = document.createElement('div');
@@ -50,7 +50,7 @@ export default class ListPage {
 
     if (pathname === `/documents/${documentId}`) {
       this.selectDocument(null);
-    } 
+    }
   };
 
   render = () => {
@@ -63,8 +63,8 @@ export default class ListPage {
     rootDocument.forEach((documentInfo) => {
       const state = {
         documentInfo: documentInfo,
-        depth: 0
-      }
+        depth: 0,
+      };
       new DocumentList(
         this.$div,
         state,

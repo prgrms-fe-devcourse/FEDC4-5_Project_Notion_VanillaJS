@@ -4,4 +4,4 @@ export const checkRouteValidation = (pathname) => {
   }
 
   return true;
-}
+};

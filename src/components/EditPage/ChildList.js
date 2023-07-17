@@ -11,25 +11,27 @@ export default class ChildList {
   setState = (nextState) => {
     this.state = nextState;
     this.render();
-  }
+  };
 
   initDiv = () => {
     this.$div = document.createElement('div');
     this.$div.className = 'children-list-container';
     this.$target.appendChild(this.$div);
     this.addClickListEvent();
-  }
+  };
 
   render = () => {
     if (this.state === null) {
       return;
     }
     this.$div.innerHTML = `
-      ${this.state.map((element, index) => {
-        return `<li data-index=${index}>${element.title}</li>`;
-      }).join('')}
-    `
-  }
+      ${this.state
+        .map((element, index) => {
+          return `<li data-index=${index}>${element.title}</li>`;
+        })
+        .join('')}
+    `;
+  };
 
   addClickListEvent = () => {
     this.$div.addEventListener('click', (event) => {
@@ -38,6 +40,5 @@ export default class ChildList {
 
       this.selectDocument(this.state[index].id);
     });
-  }
-
+  };
 }

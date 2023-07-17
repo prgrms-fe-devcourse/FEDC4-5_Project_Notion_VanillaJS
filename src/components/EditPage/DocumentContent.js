@@ -58,7 +58,7 @@ export default class DocumentContent {
 
   executeCommand = ($button) => {
     const $div = this.$div.querySelector('.content-container');
-    const { command } = $button.dataset; 
+    const { command } = $button.dataset;
     const args = command === 'formatBlock' ? $button.innerText : null;
 
     document.execCommand(command, false, args);
@@ -75,7 +75,7 @@ export default class DocumentContent {
     };
 
     target === $title
-    ? this.saveTitle(editedDocument)
-    : this.saveContent(editedDocument);
+      ? this.saveTitle(editedDocument)
+      : this.saveContent(editedDocument);
   };
 }
