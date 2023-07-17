@@ -11,7 +11,7 @@ export default function Editer ({ $target, initState, timerdeley, onEditing }){
   }
 
   this.render = () => {
-    if (!!this.state){
+    if (this.state){
       const { title, content } = this.state
         $Editer.innerHTML = `
         <input name="title" type="text" value="${title}" placeholder="제목이 없으면 저장 안돼요.." class="editerElement">
@@ -24,8 +24,8 @@ export default function Editer ({ $target, initState, timerdeley, onEditing }){
   this.render()
 
   $Editer.addEventListener('keyup' , ()=> {
-    const title = document.querySelector('.Editer>input').value
-    const content = document.querySelector('.Editer>textarea').value
+    const title = $Editer.querySelector('.Editer>input').value
+    const content = $Editer.querySelector('.Editer>textarea').value
 
     onEditing(title, content, this.state.id)
   })

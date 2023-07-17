@@ -1,7 +1,7 @@
 import LeftNavHeader from "./LeftNavHeader.js"
 import LeftNavList from "./LeftNavList.js"
 
-export default function LeftNav({ $target , initState, userName, pageLoadToId, addNavSubDom, deleteNavDom }){
+export default function LeftNav({ $target , initState, USERNAME, pageLoadToId, addNavSubDom, deleteNavDom }){
 
   const $LeftNav = document.createElement('div')
   $LeftNav.className = 'LeftNav'
@@ -15,15 +15,16 @@ export default function LeftNav({ $target , initState, userName, pageLoadToId, a
   }
 
   this.render = ()=> {
+    console.log('1')
     $LeftNav.innerHTML = ''
-    new LeftNavHeader({$target : $LeftNav, userName})
+    new LeftNavHeader({$target : $LeftNav, USERNAME})
     new LeftNavList({$target : $LeftNav, initState : this.state })
   }
 
   this.render()
 
   // 네브 포커스요소
-  this.NavFocusBox = undefined
+  this.NavFocusBox
 
   this.setNavFocusBox = $nextNavFocusBox => {
     if (this.NavFocusBox !== undefined) this.NavFocusBox.classList.remove('focusNav')
@@ -47,7 +48,7 @@ export default function LeftNav({ $target , initState, userName, pageLoadToId, a
       const buttonOption = dataset.option
       const targetId = $navDocument.dataset.id
 
-      if ( !!buttonOption ){ 
+      if ( buttonOption ){ 
 
         switch( buttonOption ) {
           case 'hideNavTabButton': 

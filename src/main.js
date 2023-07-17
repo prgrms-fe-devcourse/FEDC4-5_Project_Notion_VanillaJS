@@ -1,13 +1,13 @@
 import App from "./App.js";
-import { getApi } from "./api.js";
+import { fetchDoc } from "./api.js";
 
 const $app = document.querySelector('.app')
-const userName = 'nsr'
-const initState = await getApi(userName)
+const USERNAME = 'nsr'
+const initState = await fetchDoc(USERNAME)
 
 new App({
   $target : $app,
   initState,
-  userName
+  USERNAME
 })
 

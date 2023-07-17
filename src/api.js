@@ -1,37 +1,38 @@
 const startUrl = 'https://kdt-frontend.programmers.co.kr/documents'
 
-export const getApi = async (username, id = '') => {
-  const data = await fetch(startUrl + `/${'' + id }`,{
-    headers : {'x-username': username }
-  })
-  .then((res) => { if (res.ok) return res.json() })
-  .catch((e) => console.log(e))
-
-  return data
+const fetchApi = async (id, options) => {
+  try {
+    const data = await fetch(startUrl + `/${'' + id }`, options );
+    if (data.ok) return await data.json();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export const postApi = async (username , id = null) => {
-  const data = await fetch(startUrl,{
+export const fetchDoc = (USERNAME, id = '') => {
+  const data = fetchApi(id, { headers: { 'x-username': USERNAME }})
+  return data
+};
+
+export const createPost = (USERNAME , id = null) => {
+  const data = fetchApi('', {
     headers : {
-      'x-username': username,
+      'x-username': USERNAME,
       'Content-Type': 'application/json'
     },
     method: "POST",
     body: JSON.stringify({
       title: 'new',
-      parent: id
+      parent: id 
     })
   })
-  .then((res) => { if (res.ok) return res.json() })
-  .catch((e) => console.log(e))
-
   return data
 }
 
-export const putApi = async (username , id , title, content) => {
-  const data = await fetch(startUrl + `/${'' + id }`,{
+export const updatePost = (USERNAME , id , title, content) => {
+  const data = fetchApi(id, {
     headers : {
-      'x-username': username,
+      'x-username': USERNAME,
       'Content-Type': 'application/json'
     },
     method: "PUT",
@@ -40,20 +41,11 @@ export const putApi = async (username , id , title, content) => {
       content
     })
   })
-  .then((res) => { if (res.ok) return res.json() })
-  .catch((e) => console.log(e))
-
   return data
 }
 
-export const deleteApi = async (username, id) => {
-  await fetch(startUrl + `/${'' + id }`,{
-    headers : {
-      'x-username': username
-    },
-    method: "DELETE",
-  })
-  .then((res) => { if (res.ok) return res.json() })
-  .catch((e) => console.log(e))
+export const deletePost = async (USERNAME, id) => {
+  await fetchApi( id, { headers : {'x-username': USERNAME }, method: "DELETE",})
+  const data = fetchDoc(USERNAME, '')
+  return data
 }
-

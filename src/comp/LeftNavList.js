@@ -18,11 +18,11 @@ export default function LeftNavList({ $target , initState}){
 
     doms.forEach( ({ title, documents, id }) => {
       const { $navbox, $subDomsBox } = LeftNavListBoxMaker(paddingLeft,title,id) 
-      const Q_haveSubDocuments = documents.length > 0 
+      const haveSubDocuments = documents.length > 0 
 
       $target.appendChild( $navbox )
 
-      if ( Q_haveSubDocuments ){
+      if ( haveSubDocuments ){
         this.makeLeftNav( $subDomsBox, paddingLeft + addPadding , documents )
       } 
     })
