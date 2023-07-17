@@ -2,7 +2,15 @@ import { request } from "../../utils/api.js"
 import Editor from "./Editor.js"
 import EditorFooter from "./EditorFooter.js"
 
-export default function EditPage({ $target, initialState, onEdit }) {
+export default function EditPage({
+  $target,
+  initialState = {
+    id: "",
+    title: "",
+    content: "",
+  },
+  onEdit,
+}) {
   const $page = document.createElement("div")
   $page.className = "edit-page"
 
@@ -19,7 +27,9 @@ export default function EditPage({ $target, initialState, onEdit }) {
 
   const editorFooter = new EditorFooter({
     $target: $page,
-    initialState: [],
+    initialState: {
+      documents: [],
+    },
   })
 
   this.setState = async (nextState) => {
@@ -35,7 +45,11 @@ export default function EditPage({ $target, initialState, onEdit }) {
       },
     )
 
-    editorFooter.setState(this.state.documents)
+    editorFooter.setState({
+      ...editorFooter.state,
+      documents: this.state.documents,
+    })
+
     this.render()
   }
 
