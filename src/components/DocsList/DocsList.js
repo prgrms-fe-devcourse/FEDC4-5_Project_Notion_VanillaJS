@@ -1,5 +1,6 @@
 import { push } from "../../utils/router.js"
 import { escapeHTML } from "../../utils/escapeHTML.js"
+import "@fortawesome/fontawesome-free/css/all.min.css"
 
 export default function DocsList({ $target, initialState, onCreate, onRemove }) {
   const $docsList = document.createElement("div")
@@ -31,7 +32,7 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
         <li data-id="${doc.id}" class="document-item">
           <div class="document-item-container">
             <div class="document-title-container">
-              <i class="fa-regular fa-file-lines"></i>
+              <i class="document-icon fa-regular fa-file-lines"></i>
               <p class="document-title">${documentTitle}</p>
             </div>
             <button class="create" type="button">
@@ -73,7 +74,7 @@ export default function DocsList({ $target, initialState, onCreate, onRemove }) 
           await onRemove(id)
           push(`/`)
         }
-      } else if (tagName === 'P') {
+      } else if (tagName === "P") {
         const [, , urlDocumentId] = window.location.pathname.split("/")
         if (urlDocumentId !== id) push(`/documents/${id}`)
       }
