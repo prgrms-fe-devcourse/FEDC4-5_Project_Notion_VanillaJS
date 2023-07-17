@@ -1,7 +1,8 @@
 import App from "./App.js";
 
-//const $target = document.querySelector("#app");
-const $sidebarTarget = document.querySelector(".notion-sidebar-container");
-const $contentTarget = document.querySelector(".notion-content");
+const $sidebarTarget = document.getElementsByClassName(
+  "notion-sidebar-container"
+)[0];
+const $contentTarget = document.getElementsByClassName("notion-content")[0];
 
 new App({ $sidebarTarget, $contentTarget });

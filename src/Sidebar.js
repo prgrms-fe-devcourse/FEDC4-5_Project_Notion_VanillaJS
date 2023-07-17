@@ -7,18 +7,24 @@ function navDraw(documents, $target, fetchSidebar, onChange) {
   if ($target.parentNode.className !== "notion-sidebar-container")
     $div.style.setProperty("display", "none");
 
+  addData($div, documents, fetchSidebar, onChange);
+
+  // 마지막에 자식노드 바꾸기
+  const secondChild = $target.children[1];
+  if (secondChild) $target.replaceChild($div, $target.children[1]);
+  else $target.appendChild($div);
+}
+
+function addData($target, documents, fetchSidebar, onChange) {
   // 데이터 추가하기
   for (let i = 0; i < documents.length; i++) {
     const $list = document.createElement("div");
     $list.setAttribute("data-id", documents[i].id);
     $list.className = "container";
     $list.addEventListener("click", (e) => {
-      history.pushState(
-        null,
-        null,
-        `/content/${e.target.parentNode.getAttribute("data-id")}`
-      );
-      onChange(e.target.parentNode.getAttribute("data-id"));
+      const id = e.target.closest(".container").getAttribute("data-id");
+      history.pushState(null, null, `/content/${id}`);
+      onChange(id);
     });
 
     $list.addEventListener("mouseover", (e) => {
@@ -36,12 +42,11 @@ function navDraw(documents, $target, fetchSidebar, onChange) {
     const $toggleButton = document.createElement("button");
     $toggleButton.innerText = ">";
     $toggleButton.addEventListener("click", (e) => {
+      e.stopPropagation();
       const childNode = e.target.nextSibling.childNodes;
       for (let i = 0; i < childNode.length; i++) {
         if (childNode[i].nodeName === "DIV")
-          childNode[i].style.display === "block"
-            ? (childNode[i].style.display = "none")
-            : (childNode[i].style.display = "block");
+          childNode[i].classList.toggle("toggle");
       }
     });
     $list.appendChild($toggleButton);
@@ -63,15 +68,11 @@ function navDraw(documents, $target, fetchSidebar, onChange) {
     $list.appendChild($deleteButton);
 
     buttonModal($list);
-    $div.append($list);
+    $target.append($list);
 
     if (documents[i].documents.length !== 0)
       navDraw(documents[i].documents, $span);
   }
-  // 마지막에 자식노드 바꾸기
-  const secondChild = $target.children[1];
-  if (secondChild) $target.replaceChild($div, $target.children[1]);
-  else $target.appendChild($div);
 }
 
 function buttonModal($target) {

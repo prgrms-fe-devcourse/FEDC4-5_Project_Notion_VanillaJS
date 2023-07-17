@@ -3,10 +3,9 @@ import Content from "./Content.js";
 import { request } from "./api.js";
 
 export default function App({ $sidebarTarget, $contentTarget }) {
-  let $notionContent = document.querySelector(".notion-content");
-  let timer = null;
   const { pathname } = window.location;
   const [, check, contentId] = pathname.split("/");
+  const $notionContent = document.getElementsByClassName("notion-content")[0];
 
   async function onChange(id) {
     const documents = await request(`/documents/${id}`, {
@@ -16,7 +15,7 @@ export default function App({ $sidebarTarget, $contentTarget }) {
     $notionContent.style.display = "flex";
   }
 
-  if (check) {
+  if (check === "content") {
     onChange(contentId);
   }
 
@@ -29,7 +28,9 @@ export default function App({ $sidebarTarget, $contentTarget }) {
     $target: $contentTarget,
     initialState: "",
     onEditing: async (title, content) => {
-      await request(`/documents/${contentId}`, {
+      const { pathname } = window.location;
+      const [, , requestId] = pathname.split("/");
+      await request(`/documents/${requestId}`, {
         method: "PUT",
         body: JSON.stringify({
           title,

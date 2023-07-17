@@ -56,7 +56,6 @@ nav {
     padding: 5px 0;
 }
 .container:hover {
-    /*background-color: lightgray;*/
     cursor: pointer;
 }
   
@@ -85,6 +84,9 @@ div span {
 .delete {
   position:absolute;
   left: 17%;
+}
+.toggle {
+    display: block !important;
 }
 /* content css 적용 */
 .notion-content {

@@ -10,8 +10,8 @@ export default function Editor($target, onEditing) {
     `;
   $toolbar.addEventListener("click", (e) => {
     document.execCommand(e.target.getAttribute("data-command"));
-    const $title = document.querySelector(".content-title");
-    const $editor = document.querySelector(".editor");
+    const $title = document.getElementsByClassName("content-title")[0];
+    const $editor = document.getElementsByClassName("editor")[0];
     onEditing($title.value, $editor.innerHTML);
   });
 
