@@ -42,7 +42,11 @@ export default function DocumentList({ $target, initialState }) {
       method: 'POST',
       body: JSON.stringify({ title: '새로운 문서', parent: documentId ? Number(documentId) : null }),
     });
-    push(`/documents/${res.id}`);
+    if (res && res.id) {
+      push(`/documents/${res.id}`);
+    } else {
+      console.error('백엔드 이슈: res 또는 res.id가 없습니다.');
+    }
   };
 
   this.onRemove = async (documentId) => {
