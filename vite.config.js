@@ -1,10 +1,11 @@
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default {
   build: {
-    target: 'es2015',
+    target: ['edge79', 'firefox68', 'chrome61', 'safari11.1'],
   },
   resolve: {
     alias: {
