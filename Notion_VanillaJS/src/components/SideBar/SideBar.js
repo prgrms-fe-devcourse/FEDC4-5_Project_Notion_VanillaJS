@@ -17,15 +17,15 @@ export default class SideBar extends Component {
   templates() {
     const postList = PostListStore.getState().postList;
     const postId = PostStore.getState()?.post?.id;
-    return `<h1 class='${styles.header} sidebar-header'>
+    return `<h2 class='${styles.header} sidebar-header'>
     <img src=${logo} class=${styles.logo} alt='logo'/>
-     DongJa's Notion</h1>
+     DongJa's Notion</h2>
       ${
         Array.isArray(postList)
           ? `<ul class=${styles.postList}>
               ${this.getPostListTemplate(postList, postId)}
             </ul>`
-          : `<h2>로딩중</h2>`
+          : `<p>로딩중</p>`
       }
       <footer class=${styles.footer} data-id=null>
         <button class='${styles.footerButton} add'>
