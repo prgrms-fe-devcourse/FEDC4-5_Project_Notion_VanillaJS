@@ -1,3 +1,6 @@
+const INPUT_TAGNAME = "INPUT"
+const ENTER_KEY = "Enter"
+
 export default function Editor({
   $target,
   initialState = {
@@ -14,20 +17,31 @@ export default function Editor({
 
   this.setState = (nextState) => {
     this.state = nextState
-    $editor.querySelector("[name=title]").value = this.state.title
-    $editor.querySelector("[name=content]").value = this.state.content
     this.render()
   }
 
   let isInit = false
+  const $titleInput = document.createElement("input")
+  const $contentTextarea = document.createElement("textarea")
 
   this.render = () => {
     const { title, content } = this.state
-    if (!isInit) {
-      $editor.innerHTML = `
-        <input type="text" name="title" value="${title}" placeholder="제목을 입력하세요."/>
-        <textarea name="content" placeholder="내용을 입력하세요.">${content}</textarea>
-      `
+    if (isInit) {
+      $editor.querySelector("[name=title]").value = this.state.title
+      $editor.querySelector("[name=content]").value = this.state.content
+    } else {
+      $titleInput.type = "text"
+      $titleInput.name = "title"
+      $titleInput.placeholder = "제목을 입력하세요."
+      $titleInput.value = title
+
+      $contentTextarea.name = "content"
+      $contentTextarea.placeholder = "내용을 입력하세요."
+      $contentTextarea.value = content
+
+      $editor.appendChild($titleInput)
+      $editor.appendChild($contentTextarea)
+
       isInit = true
     }
   }
@@ -49,9 +63,8 @@ export default function Editor({
   })
 
   $editor.addEventListener("keyup", (e) => {
-    if (e.target.tagName === "INPUT" && e.keyCode === 13) {
-      const $textarea = document.querySelector("textarea[name=content]")
-      $textarea.focus()
+    if (e.target.tagName === INPUT_TAGNAME && e.key === ENTER_KEY) {
+      $contentTextarea.focus()
     }
   })
 
