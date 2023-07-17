@@ -17,7 +17,7 @@ export default function MainDocumentTree({ $target, initialState }) {
   };
 
   const mainDocumentTree = (tree) => {
-    const text = `
+    return `
     <ul>
       ${tree
         .map(
@@ -31,7 +31,6 @@ export default function MainDocumentTree({ $target, initialState }) {
         .join('')}
     </ul>
     `;
-    return text;
   };
 
   this.render = () => {
