@@ -19,7 +19,7 @@ export default class App {
   };
 
   addRouteEvent = () => {
-    window.addEventListener('popstate', this.route);
+    window.addEventListener('popstate', () => this.route);
   };
 
   selectDocument = (selectedDocumentId) => {
