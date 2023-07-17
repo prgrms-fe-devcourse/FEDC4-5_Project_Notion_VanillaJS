@@ -7,6 +7,9 @@ export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
   const onClickWorkSpace = (data) => {
     storage.setItem("currentUser", data)
     documentAdapter.updateCurrentUser()
+    history.replaceState(null, null, "/")
+    renderApp()
+    routeApp()
   }
 
   this.state =
@@ -35,8 +38,16 @@ export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
     }
   }
 
+  const handleItemClick = (e) => {
+    const target = e.target
+    if (target.classList.contains("workspace-item")) {
+      onClickWorkSpace(target.dataset.name)
+    }
+  }
+
   const $list = document.createElement("ul")
   $list.className = "workspace-list"
+  $list.addEventListener("click", handleItemClick)
 
   const $alert = document.createElement("div")
   $alert.className = "workspace-alert"
@@ -64,15 +75,6 @@ export default function WorkSpaceModal({ $target, renderApp, routeApp }) {
     $target.appendChild($list)
     $target.appendChild($form)
     $target.appendChild($alert)
-
-    $list.querySelectorAll(".workspace-item").forEach(($item) => {
-      $item.addEventListener("click", () => {
-        onClickWorkSpace($item.dataset.name)
-        history.replaceState(null, null, "/")
-        renderApp()
-        routeApp()
-      })
-    })
   }
 
   this.render()
