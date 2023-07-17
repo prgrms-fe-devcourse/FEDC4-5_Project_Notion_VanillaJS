@@ -2,6 +2,7 @@ import DocumentsListItems from "./DocumentsListItems.js";
 import { request } from "../../../services/api.js";
 import { push } from "../../../services/router.js";
 import DirItem from "./DirItem.js";
+import matchDocument from "../../../utils/matchDocument.js";
 
 export default function DocumentsList({ $target }) {
   this.state = [];
@@ -25,22 +26,8 @@ export default function DocumentsList({ $target }) {
   $listWrapper.appendChild($documentList);
   $target.appendChild($listWrapper);
 
-  this.matchDocument = (docList, findName) => {
-    for (const doc of docList) {
-      if (doc.title === findName) {
-        return doc;
-      }
-      if (doc.documents.length > 0) {
-        const match = this.matchDocument(doc.documents, findName);
-        if (match) {
-          return match;
-        }
-      }
-    }
-  };
-
   this.isDocument = (findName) => {
-    return this.matchDocument(this.state, findName);
+    return matchDocument(this.state, findName);
   };
 
   const handleDocumentClick = (event) => {

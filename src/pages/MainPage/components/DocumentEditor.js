@@ -95,7 +95,6 @@ export default function DocumentEditor({ $target, onEditing, isDocument }) {
       $node.focus();
 
       const range = document.createRange();
-      console.log(range);
       const cc = document.getElementById(caretID);
       range.selectNode(cc);
       const selection = window.getSelection();
