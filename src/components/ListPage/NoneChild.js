@@ -10,6 +10,7 @@ export default class NoneChild {
   initLi = () => {
     this.$li = document.createElement('li');
     this.$li.className = `no-child-li depth-0${this.depth}`;
+    this.$li.style.paddingLeft = `${this.depth * 15}px`;
     this.$target.appendChild(this.$li);
   };
 
