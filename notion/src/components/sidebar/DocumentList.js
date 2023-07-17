@@ -70,8 +70,14 @@ export default function DocumentList({
     if ($documentTitle) {
       push(`/documents/${e.target.closest('li').dataset.id}`);
     } else if ($deleteButton) {
-      await deleteDocument(`/documents/${e.target.closest('li').dataset.id}`);
-      this.setState(await getDocument('/documents'));
+      const { id } = e.target.closest('li').dataset;
+      if (window.location.pathname.split('/').at(-1) === id) {
+        await deleteDocument(`/documents/${id}`);
+        push('/');
+      } else {
+        await deleteDocument(`/documents/${id}`);
+        this.setState(await getDocument('/documents'));
+      }
     } else if ($addChildDocumentButton) {
       const { id } = await postDocument('/documents', e.target.closest('li').dataset.id);
       push(`/documents/${id}`);
