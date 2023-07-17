@@ -72,11 +72,11 @@ export default function DocumentEditor({ $target, onEditing, isDocument }) {
       const divList = event.target.querySelectorAll("div");
       [...divList].forEach((div) => {
         if (div.textContent.indexOf("# ") === 0) {
-          div.innerHTML = `<h1>${div.textContent.substring(2)}</h1>`;
+          div.innerHTML = `<h1>${div.textContent.replace(/^# /g, '')}</h1>`;
         } else if (div.textContent.indexOf("## ") === 0) {
-          div.innerHTML = `<h2>${div.textContent.substring(3)}</h2>`;
+          div.innerHTML = `<h2>${div.textContent.replace(/^## /g, '')}</h2>`;
         } else if (div.textContent.indexOf("### ") === 0) {
-          div.innerHTML = `<h3>${div.textContent.substring(4)}</h3>`;
+          div.innerHTML = `<h3>${div.textContent.replace(/^### /g, '')}</h3>`;
         } else if (div.textContent.indexOf("/ ") === 0) {
           let doc = isDocument(div.textContent.substring(2));
           if (doc) {
