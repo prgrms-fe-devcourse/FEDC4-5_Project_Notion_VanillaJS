@@ -1,94 +1,66 @@
-const API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
+import { request } from './request.js';
 
 export const getRootAPI = async() => {
-  try {
-    const response = await fetch(`${API_END_POINT}/documents`, {
-      headers: {
-        'x-username': 'suyeon'
-      }
-    });
-    
-    if (response.ok) {
-      const data = response.json();
-      return data;
+  const url = '/documents';
+  const option = {
+    headers: {
+      'x-username': 'suyeon',
     }
-  } catch (error) {
-    throw new Error(error.message);
   }
+  const data = await request(url, option);
+
+  return data;
 }
 
 export const getContentAPI = async(pathname) => {
-  try {
-    const response = await fetch(`${API_END_POINT}${pathname}`, {
-      headers: {
-        'x-username': 'suyeon'
-      }
-    });
-
-    if (response.ok) {
-      const data = response.json();
-      return data;
+  const url = pathname;
+  const option = {
+    headers: {
+      'x-username': 'suyeon',
     }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  };
+  const data = await request(url, option);
+
+  return data;
 }
 
 export const createAPI = async(document) => {
-  try {
-    const response = await fetch(`${API_END_POINT}/documents`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'x-username': 'suyeon'
-      }, 
-      body: JSON.stringify(document)
-    })
+  const url = '/documents'
+  const option = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      'x-username': 'suyeon'
+    }, 
+    body: JSON.stringify(document)
+  };
+  const data = await request(url, option);
 
-    if (response.ok) { 
-      const data = response.json();
-
-      return data;
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  return data;
 }
 
 export const editAPI = async(pathname, document) => {
-  try {
-    const response = await fetch(`${API_END_POINT}${pathname}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'x-username': 'suyeon'
-      }, 
-      body: JSON.stringify(document)
-    })
-
-    if (response.ok) { 
-      const data = response.json();
-
-      return data;
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  const url = pathname;
+  const option = {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+      'x-username': 'suyeon'
+    }, 
+    body: JSON.stringify(document)
+  };
+  const data = await request(url, option);
 }
 
 export const removeAPI = async(pathname) => {
-  try {
-    const response = await fetch(`${API_END_POINT}${pathname}`, {
-      headers: {
-        'x-username': 'suyeon'
-      },
-      method: 'DELETE'
-    })
+  const url = pathname;
+  const option = {
+    headers: {
+      'x-username': 'suyeon'
+    },
+    method: 'DELETE'
+  };
+  const data = await request(url, option);
 
-    if (response.ok) {
-      alert('삭제되었습니다.');
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  return data;
 }
