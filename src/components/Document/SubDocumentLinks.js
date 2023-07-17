@@ -19,13 +19,17 @@ export default function SubDocumentLinks({ targetElement, subDocuments }) {
 
   this.render = () => {
     targetElement.innerHTML = '';
-    subDocuments.forEach(({ id, title }) => {
+
+    const buttonElements = subDocuments.reduce((elements, { id, title }) => {
       const buttonElement = document.createElement('button');
       buttonElement.classList.add('sub-document-link-btn');
       buttonElement.setAttribute('data-id', id);
       buttonElement.textContent = title === '' ? '제목없음' : title;
-      targetElement.appendChild(buttonElement);
-    });
+      elements.push(buttonElement);
+      return elements;
+    }, []);
+
+    targetElement.append(...buttonElements);
   };
 
   this.init();
