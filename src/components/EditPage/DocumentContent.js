@@ -27,7 +27,7 @@ export default class DocumentContent {
     }
 
     this.$div.innerHTML = `
-      <input class='title-area' value='${this.state.title}'>
+      <div contenteditable class='title-container'>${this.state.title}</div>
       <div class='edit-button-container'>
         <button data-command='formatBlock' class='edit-button btn-h1'>h1</button>
         <button data-command='formatBlock' class='edit-button btn-h2'>h2</button>
@@ -65,14 +65,14 @@ export default class DocumentContent {
   };
 
   saveEdit = (target) => {
-    const $input = this.$div.querySelector('input');
-    const $div = this.$div.querySelector('.content-container');
+    const $title = this.$div.querySelector('.title-container');
+    const $content = this.$div.querySelector('.content-container');
     const editedDocument = {
-      title: $input.value,
-      content: $div.innerHTML,
+      title: $title.innerHTML,
+      content: $content.innerHTML,
     };
 
-    target === $input
+    target === $title
     ? this.saveTitle(editedDocument)
     : this.saveContent(editedDocument);
   };

@@ -176,14 +176,14 @@ button {
   flex-direction: column;
 }
 
-input {
+.title-container {
   font-weight: bold;
   font-size: 3rem;
   width: 100%;
   border: none;
 }
 
-input:focus {
+.title-container:focus {
   border: none;
 }
 
