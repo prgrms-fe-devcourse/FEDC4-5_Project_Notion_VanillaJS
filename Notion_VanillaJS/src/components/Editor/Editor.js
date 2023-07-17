@@ -2,7 +2,7 @@ import { Component } from '@/core';
 import styles from './Editor.module.css';
 import { setItem, removeItem } from '@/api/storage';
 import { PostStore, PostListStore } from '@/store/';
-import { debounceSaveLocal } from '@/utils/';
+import { debounce } from '@/utils/';
 import {
   isApplied,
   isSafeRange,
@@ -77,15 +77,16 @@ export default class Editor extends Component {
   }
 
   setEvent() {
+    const delay = 1500;
     this.addEvent({
       eventType: 'keyup',
       selector: '[name=title]',
-      callback: debounceSaveLocal(({ target }) => this.saveTitle(target)),
+      callback: debounce(({ target }) => this.saveTitle(target), delay),
     });
     this.addEvent({
       eventType: 'keyup',
       selector: '[name=content]',
-      callback: debounceSaveLocal(({ target }) => this.saveContent(target)),
+      callback: debounce(({ target }) => this.saveContent(target), delay),
     });
     this.addEvent({
       eventType: 'click',
