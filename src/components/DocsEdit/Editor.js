@@ -1,9 +1,12 @@
+import Loading from "./Loading"
+
 const INPUT_TAGNAME = "INPUT"
 const ENTER_KEY = "Enter"
 
 export default function Editor({
   $target,
   initialState = {
+    id: "new",
     title: "",
     content: "",
   },
@@ -12,6 +15,11 @@ export default function Editor({
   const $editor = document.createElement("div")
   $editor.classList.add("editor")
   $target.appendChild($editor)
+
+  const loadingIcon = new Loading({
+    $target: $editor,
+    initialState: false,
+  })
 
   this.state = initialState
 
@@ -46,7 +54,9 @@ export default function Editor({
     }
   }
 
-  $editor.addEventListener("keyup", (e) => {
+  $editor.addEventListener("keyup", async (e) => {
+    loadingIcon.setState(true)
+
     const { target } = e
     const name = target.getAttribute("name")
 
@@ -58,7 +68,7 @@ export default function Editor({
       }
 
       this.setState(nextState)
-      onEdit(this.state)
+      await onEdit(this.state, loadingIcon)
     }
   })
 
