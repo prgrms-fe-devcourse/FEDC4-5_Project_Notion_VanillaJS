@@ -4,6 +4,7 @@ import {
   getCurrOpenState,
 } from '../../utils/StorageHandler.js';
 import NoneChild from './NoneChild.js';
+import { MAX_DOCUMENT_DEPTH } from '../../utils/constant.js';
 
 export default class DocumentList {
   constructor(
@@ -125,7 +126,7 @@ export default class DocumentList {
   };
 
   clickCreateToggleButton = (docuemntId) => {
-    if (this.state.depth === 9) {
+    if (this.state.depth === MAX_DOCUMENT_DEPTH) {
       alert('더이상 하위 도큐먼트를 만들 수 없습니다.');
       return;
     }
