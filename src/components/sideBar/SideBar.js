@@ -3,7 +3,7 @@ import SideBarItem from "./SideBarItem.js";
 import DocumentList from "./DocumentList.js";
 import { push } from "../../utils/router.js";
 
-export default function SideBar({ $target }) {
+export default function SideBar({ $target, initialState }) {
   const $sideBar = document.createElement("section");
   $sideBar.setAttribute("id", "sideBar");
 
@@ -22,7 +22,10 @@ export default function SideBar({ $target }) {
     },
   });
 
+  this.state = initialState;
+
   this.setState = (rootDocuments) => {
+    this.state = rootDocuments;
     documentList.setState(rootDocuments);
     this.render();
   };

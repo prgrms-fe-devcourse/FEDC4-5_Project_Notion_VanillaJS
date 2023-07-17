@@ -6,6 +6,7 @@ export default function Editor({
   },
   id,
   onEditing,
+  onChangeTitle,
 }) {
   const $editor = document.createElement("div");
   $editor.setAttribute("id", "editor");
@@ -38,6 +39,7 @@ export default function Editor({
     };
     this.setState(nextState);
     onEditing(this.state, this.id);
+    onChangeTitle(this.state.title, this.id);
   });
 
   $editor.querySelector("[name=content]").addEventListener("input", (e) => {

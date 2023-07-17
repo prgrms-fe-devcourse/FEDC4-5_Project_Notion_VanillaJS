@@ -7,7 +7,7 @@ import { readRootDocuments, updateDocument } from "./api.js";
 import PageNotFound from "./utils/PageNotFound.js";
 
 export default function App({ $target }) {
-  const sideBar = new SideBar({ $target });
+  const sideBar = new SideBar({ $target, initialState: [] });
   const content = new DocumentContent({
     $target,
     initialState: null,
@@ -16,6 +16,17 @@ export default function App({ $target }) {
         updateDocument(id, document);
       }
     }, 500),
+    onChangeTitle: (title, id) => {
+      const newRootDocuments = JSON.parse(JSON.stringify(sideBar.state));
+      const targetIndex = newRootDocuments.findIndex((elem) => elem.id === id);
+      if (targetIndex !== -1) {
+        newRootDocuments[targetIndex] = {
+          ...newRootDocuments[targetIndex],
+          title,
+        };
+      }
+      sideBar.setState(newRootDocuments);
+    },
   });
 
   this.route = async () => {
