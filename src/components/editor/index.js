@@ -2,6 +2,7 @@ import documentAdapter from "../../api/index"
 
 import { makeEditor, getEditorContent } from "./ui/template"
 import { onEditButtonOn, onEditButtonOff } from "./handlers/index"
+import { changeSaved, changeNotSaved } from "./handlers/index"
 
 export default function Editor({ $target, initialState = {}, onEditing, renderApp, routeApp }) {
   this.state = initialState
@@ -50,6 +51,7 @@ export default function Editor({ $target, initialState = {}, onEditing, renderAp
     const { name, value } = target
 
     this.setState({ ...this.state, [name]: value })
+    changeNotSaved($target)
 
     if ($editor.querySelector(".editable-button").classList.contains("clicked")) {
       await onEditing({ title: this.state.title, content: this.state.content })

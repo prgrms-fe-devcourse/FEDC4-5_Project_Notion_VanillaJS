@@ -4,7 +4,7 @@ import { makeChild, makeContainer, makeText } from "./ui/template"
 
 export default function DocList({ $target, initialState = [], renderSideBar, routeApp }) {
   const onClickDocList = async (doc, routeApp) => {
-    history.pushState({ id: doc.id }, doc.title, `/documents/${doc.id}`)
+    history.pushState(null, "", `/documents/${doc.id}`)
     await routeApp()
   }
 

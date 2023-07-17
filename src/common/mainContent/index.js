@@ -15,19 +15,12 @@ export default function MainContent({ $target, initialState = {}, renderApp, rou
       initialState: this.state,
       renderApp,
       routeApp,
-      onEditing: async (content) => {
-        changeNotSaved($target)
-
-        const callbackEditing = async () => {
-          clearTimeout(timer)
-          const { id } = this.state
-          await documentAdapter.updateDocument(id, content)
-          changeSaved($target)
-          renderApp()
-        }
-
-        timer = debounce(timer, callbackEditing, 3000)
-      },
+      onEditing: debounce(async (content) => {
+        const { id } = this.state
+        await documentAdapter.updateDocument(id, content)
+        changeSaved($target)
+        renderApp()
+      }, 3000),
     })
   }
 

@@ -1,4 +1,7 @@
-export default function debounce(timer, callback, wait) {
-  if (timer) clearTimeout(timer)
-  return setTimeout(callback, wait)
+export default function debounce(afterTimer, wait) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => afterTimer.apply(this, args), wait)
+  }
 }
