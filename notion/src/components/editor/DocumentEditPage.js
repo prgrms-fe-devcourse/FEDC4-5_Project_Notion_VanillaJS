@@ -18,7 +18,14 @@ export default function DocumentEditPage({ parent, initialState, onEditing }) {
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
       this.state = nextState;
-      await fetchDocument();
+      const { documentId } = this.state;
+      const documents = await getDocument(`/documents/${documentId}`);
+
+      this.setState({
+        ...this.state,
+        documents
+      })
+
       return;
     }
     
@@ -33,16 +40,6 @@ export default function DocumentEditPage({ parent, initialState, onEditing }) {
 
   this.render = () => {
     parent.appendChild(page);
-  }
-
-  const fetchDocument = async () => {
-    const { documentId } = this.state;
-    const documents = await getDocument(`/documents/${documentId}`);
-
-    this.setState({
-      ...this.state,
-      documents
-    })
   }
   
   new LinkButton({
