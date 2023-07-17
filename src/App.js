@@ -39,5 +39,5 @@ export default function App({ $target, initalState }) {
 
   this.route();
 
-  initRouter(() => this.route());
+  initRouter(this.route);
 }
