@@ -1,27 +1,22 @@
-import DocsListPage from "./DocsList/DocsListPage.js"
-import EditPage from "./DocsEdit/EditPage.js"
 import { initRouter } from "../utils/router.js"
 import { request } from "../utils/api.js"
+import debounce from "../utils/debounce.js"
+import DocsListPage from "./DocsList/DocsListPage.js"
+import EditPage from "./DocsEdit/EditPage.js"
 
 export default function App({ $target }) {
-  let timer = null
+  const onEdit = debounce(async ({ id, title, content }, loadingIcon) => {
+    await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        content,
+      }),
+    })
 
-  const onEdit = async ({ id, title, content }) => {
-    if (timer !== null) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(async () => {
-      await request(`/documents/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title,
-          content,
-        }),
-      })
-      await docsPage.render()
-      // editPage.render()
-    }, 1000)
-  }
+    await docsPage.render()
+    if (loadingIcon.state) loadingIcon.setState(false)
+  }, 1500)
 
   const docsPage = new DocsListPage({
     $target,
