@@ -10,7 +10,7 @@ export default function DocumentItem({
   ...documentData
 }) {
   const containerElement = document.createElement("div");
-  containerElement.className = "document-container";
+  containerElement.className = "document-container toggle";
   containerElement.style.setProperty("--depth", depthCount > 8 ? 0 : "20px");
 
   const tooltipChildAddElement = new Tooltip({ text: "하위 페이지 추가" });
