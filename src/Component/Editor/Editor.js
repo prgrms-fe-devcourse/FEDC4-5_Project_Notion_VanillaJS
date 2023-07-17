@@ -10,10 +10,13 @@ export default function Editor({
 }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor';
-  this.state = initalState;
-  $target.appendChild($editor);
 
-  let isFirstRender = false;
+  this.state = {
+    initalState,
+    isFirstRender: false,
+  };
+
+  $target.appendChild($editor);
 
   this.setDependentState = ({ documents }) => {
     editorChildList.setState(EditorChildListTemplate(documents) || []);
@@ -61,10 +64,13 @@ export default function Editor({
   };
 
   this.render = () => {
-    if (!isFirstRender) {
+    if (!this.state.isFirstRender) {
       const { title, content } = this.state;
       $editor.innerHTML = EditorTemplate(title, content || '');
-      isFirstRender = true;
+      this.setState({
+        ...this.state,
+        isFirstRender: true,
+      });
     }
   };
 
