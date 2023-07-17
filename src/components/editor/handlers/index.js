@@ -1,13 +1,15 @@
 const changeNotSaved = ($target) => {
-  $target.querySelector("#is-saved").classList.remove("saved")
-  $target.querySelector("#is-saved").innerText = "저장되지 않음"
-  $target.querySelector("#is-saved").classList.add("not-saved")
+  const $isSaved = $target.querySelector("#is-saved")
+  $isSaved.classList.remove("saved")
+  $isSaved.innerText = "저장되지 않음"
+  $isSaved.classList.add("not-saved")
 }
 
 const changeSaved = ($target) => {
-  $target.querySelector("#is-saved").classList.remove("not-saved")
-  $target.querySelector("#is-saved").innerText = "저장됨"
-  $target.querySelector("#is-saved").classList.add("saved")
+  const $isSaved = $target.querySelector("#is-saved")
+  $isSaved.classList.remove("not-saved")
+  $isSaved.innerText = "저장됨"
+  $isSaved.classList.add("saved")
 }
 
 const onEditButtonOn = (editableButton, titleInput, contentTextarea) => {
