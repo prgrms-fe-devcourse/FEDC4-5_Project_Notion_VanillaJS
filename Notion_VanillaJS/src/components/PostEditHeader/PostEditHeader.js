@@ -1,7 +1,7 @@
 import { Component, push } from '@/core';
 import styles from './PostEditHeader.module.css';
 import { PostListStore, PostStore } from '@/store';
-
+import PathFinder from './PathFinder';
 export default class PostEditHeader extends Component {
   setup() {
     PostStore.subscribe({
@@ -12,6 +12,7 @@ export default class PostEditHeader extends Component {
       listenerKey: this.constructor.name,
       listener: this.render.bind(this),
     });
+    this.pathFinder = new PathFinder();
   }
 
   templates() {
@@ -28,7 +29,8 @@ export default class PostEditHeader extends Component {
     return `${
       isContentLoading
         ? '<h1>로딩 중</h1>'
-        : `<ul class=${styles.breadCrumb}>${this.searchPath(postList, post)
+        : `<ul class=${styles.breadCrumb}>${this.pathFinder
+            .searchPath(postList, post)
             ?.map(
               ({ title, id }) =>
                 `<li class = ${styles.item} data-id=${id}>${
@@ -42,35 +44,6 @@ export default class PostEditHeader extends Component {
             )
             .join('/')}</ul>`
     }`;
-  }
-
-  searchPath(postList, targetPost) {
-    let path;
-    postList.forEach((post) => {
-      const tmpPath = this.findPath(post, targetPost.id);
-      if (tmpPath) path = tmpPath;
-    });
-    return path;
-  }
-
-  findPath(currentDocument, targetId, path = []) {
-    if (currentDocument.id === targetId) {
-      return [
-        ...path,
-        { title: currentDocument.title, id: currentDocument.id },
-      ];
-    }
-
-    for (const document of currentDocument.documents) {
-      const childPath = this.findPath(document, targetId, [
-        ...path,
-        { title: currentDocument.title, id: currentDocument.id },
-      ]);
-      if (childPath) {
-        return childPath;
-      }
-    }
-    return null;
   }
 
   setEvent() {
