@@ -31,10 +31,14 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
     // 토글버튼 클릭 이벤트리스너
     targetElement.addEventListener('click', (e) => {
       if (!e.target.closest('.document-toggle')) return;
+
       this.state.scrollPos = targetElement.scrollTop;
+
+      // 루트트리 토글시 하위트리도 토글
       const treeElement = e.target.closest('.document-tree');
       const foldedTreeId = Number(treeElement.dataset.id);
       const foldedTreeSet = new Set(this.state.foldedTreeSet.values());
+
       toggleSet(foldedTreeSet, foldedTreeId);
 
       const invisibleTreeSet = new Set(this.state.invisibleTreeSet.values());
@@ -45,6 +49,7 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
       });
       setItem(localStorageKeys.INVISIBLE_TREES, Array.from(invisibleTreeSet));
       setItem(localStorageKeys.FOLDED_TREES, Array.from(foldedTreeSet));
+
       this.setState({ ...this.state, invisibleTreeSet, foldedTreeSet });
     });
 
@@ -61,10 +66,13 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
     // 새 문서 버튼 클릭 이벤트리스너
     targetElement.addEventListener('click', async (e) => {
       if (!e.target.closest('.new-document-btn')) return;
+
       const router = new RouteService();
       const documentTree = e.target.closest('.document-tree');
+
       const newDocument = await postDocument({ title: '', parent: documentTree.dataset.id });
 
+      // 새 문서 클릭시 트리가 접혀있다면 펼치기
       if (this.state.foldedTreeSet.has(Number(documentTree.dataset.id))) {
         const toggleBtn = documentTree.querySelector('.document-toggle');
         toggleBtn.dispatchEvent(new Event('click', { bubbles: true }));
@@ -84,18 +92,23 @@ export default function DocumentTreeRoot({ targetElement, documents }) {
     // 삭제 버튼 클릭 이벤트리스너
     targetElement.addEventListener('click', async (e) => {
       if (!e.target.closest('.delete-document-btn')) return;
+
       const router = new RouteService();
       const documentTreeElement = e.target.closest('.document-tree');
+
       if (confirm('페이지를 삭제하시겠습니까?')) {
         const foldedTreeSet = new Set(this.state.foldedTreeSet.values());
         const invisibleTreeSet = new Set(this.state.invisibleTreeSet.values());
         const [, ...subTreeElements] = documentTreeElement.children;
+
+        // 문서 삭제시 foldedTreeSet에서 제거하고, 하위문서도 invisibleTreeSet에서 제거
         foldedTreeSet.delete(Number(documentTreeElement.dataset.id));
         subTreeElements.forEach((subTreeElement) => {
           invisibleTreeSet.delete(Number(subTreeElement.dataset.id));
         });
         setItem(localStorageKeys.FOLDED_TREES, Array.from(foldedTreeSet));
         setItem(localStorageKeys.INVISIBLE_TREES, Array.from(invisibleTreeSet));
+
         proxiedDocuments.staleTime = 0;
         await deleteDocument(documentTreeElement.dataset.id);
         router.start();
