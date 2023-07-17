@@ -16,7 +16,7 @@ export default function SidebarDocumentPage({ $target }) {
   new SidebarHeader({
     $target: $sidebarDocumentPage,
     initialState: {
-      user: `${VITE_USERNAME}`,
+      user: VITE_USERNAME,
     },
   });
 
@@ -29,7 +29,7 @@ export default function SidebarDocumentPage({ $target }) {
       //FIXME: className을 closest로 변경
       if (className === 'add-button') {
         const document = {
-          title: `${INITIAL_DOCUMENT_TITLE}`,
+          title: INITIAL_DOCUMENT_TITLE,
           parent: id,
         };
         const newDocument = await createDocument(document);
