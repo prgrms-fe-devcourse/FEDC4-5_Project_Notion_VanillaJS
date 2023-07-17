@@ -1,6 +1,7 @@
 import { initRouter } from './route.js';
 import DocumentEditPage from './Page/DocumentEditPage.js';
 import DocumentPage from './Page/DocumentPage.js';
+import ErrorPage from './Page/ErrorPage.js';
 
 export default function App({ $target, initalState }) {
   const documentPage = new DocumentPage({
@@ -30,10 +31,13 @@ export default function App({ $target, initalState }) {
       documentEditPage.setState({
         documentId: 'new',
       });
-    } else if (pathname.includes('/documents/')) {
-      const [, , documentId] = pathname.split('/');
+      return;
+    }
 
+    if (pathname.includes('/documents/')) {
+      const [, , documentId] = pathname.split('/');
       documentEditPage.setState({ documentId });
+      return;
     }
   };
 
