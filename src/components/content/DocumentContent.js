@@ -20,7 +20,6 @@ export default function DocumentContent({ $target, initialId, onEditing }) {
 
   const fetchData = async () => {
     const document = await request(`/documents/${this.id}`);
-    console.log(document);
     editor.setState({
       title: document.title,
       content: document.content,

@@ -16,7 +16,6 @@ export default function DocumentListItem({
   this.state = initialState;
 
   this.render = () => {
-    console.log("this.state.documents", this.state.documents);
     const { pathname } = window.location;
     const isActive = pathname === `/documents/${this.state.id}`;
     $documentListItem.innerHTML = `
@@ -47,7 +46,6 @@ export default function DocumentListItem({
     const classArray = Array.from(classList);
     if (classArray.includes("toggleButton")) {
     } else if (classArray.includes("addButton")) {
-      console.log("added");
       onAdd();
       return;
     } else if (classArray.includes("deleteButton")) {
