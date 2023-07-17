@@ -53,7 +53,7 @@ export default function DirItem({
     $dirTitle.textContent = this.state;
   };
 
-  this.toggleDir = (event) => {
+  const toggleDir = (event) => {
     if (event.target.className === "dirTitle" || id === null) return;
 
     const nextElementSibling = $dirItemWrapper.nextElementSibling;
@@ -68,7 +68,7 @@ export default function DirItem({
     }
   };
 
-  this.handleButtonClick = async (event) => {
+  const handleButtonClick = async (event) => {
     event.stopPropagation();
 
     if (!event.target.matches("i")) return;
@@ -91,8 +91,8 @@ export default function DirItem({
     reRender();
   };
 
-  $dirBtnWrapper.addEventListener("click", this.handleButtonClick);
-  $dirItemWrapper.addEventListener("click", this.toggleDir);
+  $dirBtnWrapper.addEventListener("click", handleButtonClick);
+  $dirItemWrapper.addEventListener("click", toggleDir);
   $dirTitle.addEventListener("keyup", (event) => {
     event.stopPropagation();
     this.setState(event.target.textContent);
