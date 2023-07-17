@@ -1,30 +1,14 @@
 import { validateArray } from './validation';
-import { errorMessages } from '../constants';
+const NEED_ARRAY_TYPE = '배열로 입력해야 합니다!';
 
-test('배열이 아니면 오류 발생 o, 테스트 통과', () => {
+test.each([[undefined], [null], [{}], ['str'], [123], [true]])('배열이 아니면 오류가 발생한다.', (input) => {
   expect(() => {
-    validateArray(undefined);
-  }).toThrowError(errorMessages.NEED_ARRAY_TYPE);
-
-  expect(() => {
-    validateArray(null);
-  }).toThrowError(errorMessages.NEED_ARRAY_TYPE);
-
-  expect(() => {
-    validateArray({});
-  }).toThrowError(errorMessages.NEED_ARRAY_TYPE);
-
-  expect(() => {
-    validateArray('배열x');
-  }).toThrowError(errorMessages.NEED_ARRAY_TYPE);
+    validateArray(input);
+  }).toThrowError(NEED_ARRAY_TYPE);
 });
 
-test('배열이면 오류 발생 x, 테스트 통과', () => {
+test.each([[[]], [[1, 2, 3]]])('배열이면 오류가 발생하지 않는다.', (input) => {
   expect(() => {
-    validateArray([]);
-  }).not.toThrow();
-
-  expect(() => {
-    validateArray([1, 2, 3]);
+    validateArray(input);
   }).not.toThrow();
 });
