@@ -36,7 +36,8 @@ export default class DocumentList {
 
     this.$ul.innerHTML = `
       <li data-documentId=${documentInfo.id} 
-          class='document-li depth-0${depth}'>
+          class='document-li'
+          style='padding-left: ${depth * 15}px'>
         <button class='open-toggle-button'>
           ${openStatus === true ? '▼' : '▶︎'}
         </button>

@@ -117,42 +117,6 @@ button {
   background-color: #d3d3d3;
 }
 
-.depth-01 {
-  padding-left: 15px;
-}
-
-.depth-02 {
-  padding-left: 30px
-}
-
-.depth-03 {
-  padding-left: 45px;
-}
-
-.depth-04 {
-  padding-left: 60px;
-}
-
-.depth-05 {
-  padding-left: 75px;
-}
-
-.depth-06 {
-  padding-left: 90px;
-}
-
-.depth-07 {
-  padding-left: 105px;
-}
-
-.depth-08 {
-  padding-left: 120px;
-}
-
-.depth-09 {
-  padding-left: 135px;
-}
-
 .no-child-li {
   width: 90%;
   white-space: nowrap;
