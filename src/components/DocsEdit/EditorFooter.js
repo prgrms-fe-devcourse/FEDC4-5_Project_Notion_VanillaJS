@@ -15,10 +15,12 @@ export default function EditorFooter({ $target, initialState }) {
   }
 
   this.render = () => {
-    if (this.state.length) {
+    const { documents } = this.state
+
+    if (documents.length) {
       $footer.innerHTML = `
         <div class='sub-documents-list'>
-          ${this.state.map(({ id, title }) => `<p data-id="${id}" class="${LIST_CLASS_NAME}">${title}</p>`).join("")}
+          ${documents.map(({ id, title }) => `<p data-id="${id}" class="${LIST_CLASS_NAME}">${title}</p>`).join("")}
         </div>
       `
     } else {
@@ -28,8 +30,12 @@ export default function EditorFooter({ $target, initialState }) {
 
   $footer.addEventListener("click", (e) => {
     const $title = e.target.closest(`.${LIST_CLASS_NAME}`)
-    const { id } = $title.dataset
-    push(`/documents/${id}`)
+    if ($title) {
+      const { id } = $title.dataset
+      if (id) {
+        push(`/documents/${id}`)
+      }
+    }
   })
 
   this.render()
