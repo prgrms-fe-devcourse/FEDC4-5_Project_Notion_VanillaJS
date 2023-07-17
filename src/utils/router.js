@@ -40,8 +40,14 @@ function clearPageWhenTransition({ $target, curPageName }) {
   }
 }
 
-export function routeToDocument(documentId) {
-  window.history.pushState(null, null, `/documents/${documentId}`);
+export function routeToDocument(targetDocumentId) {
+  const { pathname } = window.location;
+  const [, , documentIdStr] = pathname.split("/");
+  const documentId = parseInt(documentIdStr, 10);
+  console.log(documentId, targetDocumentId);
+  if (documentId !== targetDocumentId) {
+    window.history.pushState(null, null, `/documents/${targetDocumentId}`);
+  }
   window.dispatchEvent(new CustomEvent(EVENT.ROUTE));
 }
 

@@ -34,7 +34,9 @@ export default function Header({ $target }) {
       const $linkElement = e.target.closest("[data-id]");
       if (!$linkElement) return;
 
-      routeToDocument($linkElement.dataset.id);
+      const documentId = parseInt($linkElement.dataset.id, 10);
+
+      routeToDocument(documentId);
     });
   });
 
