@@ -11,7 +11,7 @@ const appTemplate = `
 </div>
 `
 
-export default function App({ $target, initialState = dummyData }) {
+export default function App({ $target, initialState }) {
   $target.innerHTML = appTemplate
 
   this.render = () => {
