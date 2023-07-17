@@ -1,0 +1,20 @@
+export default class NoneChild {
+  constructor($target, depth) {
+    this.$target = $target;
+    this.depth = depth;
+    this.$li = null;
+    this.initLi();
+    this.render();
+  }
+
+  initLi = () => {
+    this.$li = document.createElement('li');
+    this.$li.classList.add('no-child-li');
+    this.$li.style.paddingLeft = `${this.depth * 15}px`;
+    this.$target.appendChild(this.$li);
+  };
+
+  render = () => {
+    this.$li.innerHTML = '<span>하위 페이지 없음</span>';
+  };
+}
