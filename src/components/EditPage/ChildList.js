@@ -15,7 +15,7 @@ export default class ChildList {
 
   initDiv = () => {
     this.$div = document.createElement('div');
-    this.$div.className = 'children-list-container';
+    this.$div.classList.add('children-list-container');
     this.$target.appendChild(this.$div);
     this.addClickListEvent();
   };

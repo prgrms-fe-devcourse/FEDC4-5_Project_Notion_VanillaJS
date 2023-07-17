@@ -61,7 +61,7 @@ export default class EditPage {
       this.$target.removeChild($preDiv);
     }
     this.$div = document.createElement('div');
-    this.$div.className = 'content-page-container';
+    this.$div.classList.add('content-page-container');
     this.$target.appendChild(this.$div);
 
     this.render();

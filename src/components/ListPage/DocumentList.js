@@ -108,12 +108,17 @@ export default class DocumentList {
   };
 
   checkButtonType = ($button, docuemntId) => {
-    if ($button.className === 'open-toggle-button') {
+    if ($button.classList.contains('open-toggle-button') === true) {
       this.clickOpenToggleButton();
-    } else if ($button.className === 'create-toggle-button') {
+      return;
+    }
+    if ($button.classList.contains('create-toggle-button') === true) {
       this.clickCreateToggleButton(docuemntId);
-    } else if ($button.className === 'remove-toggle-button') {
+      return;
+    }
+    if ($button.classList.contains('remove-toggle-button') === true) {
       this.clickRemoveToggleButton(docuemntId);
+      return;
     }
   };
 

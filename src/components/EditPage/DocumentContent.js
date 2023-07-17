@@ -16,7 +16,7 @@ export default class DocumentContent {
 
   initDiv = () => {
     this.$div = document.createElement('div');
-    this.$div.className = 'document-container';
+    this.$div.classList.add('document-container');
     this.$target.appendChild(this.$div);
     this.addEditEvent();
   };

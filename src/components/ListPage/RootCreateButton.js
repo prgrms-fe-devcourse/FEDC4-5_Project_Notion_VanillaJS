@@ -9,7 +9,8 @@ export default class RootCreateButton {
 
   initUl = () => {
     this.$ul = document.createElement('ul');
-    this.$ul.className = 'document-ul root-create-ul';
+    this.$ul.classList.add('document-ul');
+    this.$ul.classList.add('root-create-ul');
     this.$target.appendChild(this.$ul);
     this.addListClickEvent();
   };

@@ -28,7 +28,7 @@ export default class ListPage {
 
   initDiv = () => {
     this.$div = document.createElement('div');
-    this.$div.className = 'list-page-container';
+    this.$div.classList.add('list-page-container');
     this.$target.appendChild(this.$div);
   };
 
