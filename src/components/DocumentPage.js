@@ -12,7 +12,7 @@ export default function DocumentPage({ $target, initialState }) {
   $documentPage.style = `
     width:30%;
     height:100vh;
-    background-color:#fffafa	;
+    background-color:#fffafa;
   `;
 
   this.state = initialState;
