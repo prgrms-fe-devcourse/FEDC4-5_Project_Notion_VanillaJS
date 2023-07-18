@@ -17,7 +17,7 @@ export default function DocumentPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     this.state = nextState;
 
     documentList.setState({
