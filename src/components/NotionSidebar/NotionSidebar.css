@@ -1,0 +1,28 @@
+.notion-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 250px;
+  width: 250px;
+  height: 100%;
+  padding: 20px 0;
+  border-right: 1px solid #f5f6f5;
+
+  background-color: #fbfbfa;
+}
+
+.sidebar-document-list-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 7px;
+
+  overflow-y: scroll;
+}
+
+.sidebar-document-list-container p {
+  padding: 0 14px;
+  margin: 0 6px;
+  color: #19171199;
+  font-size: 13px;
+  font-weight: 600;
+}
