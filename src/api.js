@@ -17,7 +17,6 @@ export const request = async (url, options = {}) => {
 
     throw new Error("API 처리중 에러가 발생했습니다.");
   } catch (e) {
-    alert(e.message);
-    console.error();
+    console.error(e);
   }
 };

@@ -1,14 +1,21 @@
 import PostEditPage from "./PostEditPage.js";
-import PostNavBar from "./PostNavBar.js";
+import PostSidebar from "./PostSidebar.js";
 import { initRouter } from "./router.js";
 
 export default function App({ $target }) {
-  const postNavBar = new PostNavBar({
-    $target,
+  const $postSideBarContainer = document.createElement("div");
+  const $postEditContainer = document.createElement("div");
+  $target.appendChild($postSideBarContainer);
+  $target.appendChild($postEditContainer);
+  $postSideBarContainer.className = "post-side-bar-container";
+  $postEditContainer.className = "post-edit-container";
+
+  const postSideBar = new PostSidebar({
+    $target: $postSideBarContainer,
   });
 
   const postEditPage = new PostEditPage({
-    $target,
+    $target: $postEditContainer,
     initialState: {
       postId: "new",
       post: {
@@ -19,14 +26,14 @@ export default function App({ $target }) {
   });
 
   this.route = () => {
-    $target.innerHTML = "";
     const { pathname } = window.location;
+
+    postSideBar.setState();
 
     if (pathname !== "/" && pathname.indexOf("/") === 0) {
       const [, postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
-    postNavBar.setState();
   };
 
   this.route();

@@ -1,14 +1,14 @@
 body {
-    margin: 0;
-    padding: 0;
-    background-color: rgb(229, 229, 229);
+  margin: 0;
+  padding: 0;
+  background-color: rgb(229, 229, 229);
 }
 
 button {
   border: none;
   background-color: transparent;
   font-size: 16px;
-  margin: 0 5 0 5;
+  margin: 0px 5px 0px 5px;
 }
 
 button:hover {
@@ -18,66 +18,59 @@ button:hover {
 }
 
 li {
-    padding: 10 5 10 5;
+  padding: 10px 5px 10px 5px;
 }
 
 li:hover {
-    background-color: white;
-    border-radius: 5px;
-    font-weight: bold;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 input {
-    width: 50vw;
-    height: 5vh;
-    border-radius: 5px;
-    font-size: 16px;
-    border: none;
-    outline: none;
+  width: 50vw;
+  height: 5vh;
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+  outline: none;
 }
 
 textarea {
-    width: 50vw;
-    height: 50vh;
-    border-radius: 5px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    margin-top: 10px;
+  width: 50vw;
+  height: 50vh;
+  border-radius: 5px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  margin-top: 10px;
 }
 
-#contentWrap {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
+.contentWrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
-#nav {
-    width: 70vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.post-side-bar-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#editPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.createButton {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
 }
 
-#createButton {
-    border-radius: 5px;
-    padding: 10px;
-    background-color: white;
-}
-
-#editor {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 50 0 50;
+.editor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 50px 0px 50px;
 }

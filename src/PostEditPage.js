@@ -3,16 +3,14 @@ import Editor from "./Editor.js";
 import { pushRouter } from "./router.js";
 
 export default function PostEditPage({ $target, initialState }) {
-  const $page = document.createElement("div");
-  $page.id = "editPage";
-  $page.className = "2";
+  const INTERVAL_SAVE_TIME = 2000;
 
   this.state = initialState;
 
   let timer = null;
 
   const editor = new Editor({
-    $target: $page,
+    $target,
     initialState: {
       title: "",
       content: "",
@@ -31,7 +29,7 @@ export default function PostEditPage({ $target, initialState }) {
           pushRouter(`/${this.state.postId}`);
           await getDocument();
         }
-      }, 2000);
+      }, INTERVAL_SAVE_TIME);
     },
   });
 
@@ -42,7 +40,6 @@ export default function PostEditPage({ $target, initialState }) {
       return;
     } else {
       this.state = nextState;
-      this.render();
     }
 
     editor.setState(
@@ -51,11 +48,6 @@ export default function PostEditPage({ $target, initialState }) {
         content: "",
       }
     );
-  };
-
-  this.render = () => {
-    $target.appendChild($page);
-    console.log($target)
   };
 
   const getDocument = async () => {

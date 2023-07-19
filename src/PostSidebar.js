@@ -2,17 +2,14 @@ import { request } from "./api.js";
 import PostList from "./PostList.js";
 import { pushRouter } from "./router.js";
 
-export default function PostNavBar({ $target }) {
-  const $nav = document.createElement("div");
+export default function PostSidebar({ $target }) {
   const $createButton = document.createElement("button");
   const $title = document.createElement("h1");
-  $nav.id = "nav";
-  $nav.className = "1";
-  $createButton.id = "createButton";
+  $createButton.className = "createButton";
   $title.id = "title";
 
   const postList = new PostList({
-    $target: $nav,
+    $target,
     initialState: [],
   });
 
@@ -25,9 +22,8 @@ export default function PostNavBar({ $target }) {
   this.render = async () => {
     $createButton.textContent = "문서 생성하기";
     $title.textContent = "Notion Project";
-    $nav.appendChild($title);
-    $nav.appendChild($createButton);
-    $target.appendChild($nav);
+    $target.appendChild($title);
+    $target.appendChild($createButton);
   };
 
   $createButton.addEventListener("click", async () => {

@@ -11,11 +11,11 @@ export default function PostList({ $target, initialState }) {
     this.render();
   };
 
-  this.makeList = ($wrap, data) => {
+  this.makeList = ($itemContainer, data) => {
     data.forEach(({ title, documents, id }) => {
       const { $postItemBox, $postSubItemBox } = PostItem(title, id);
 
-      $wrap.appendChild($postItemBox);
+      $itemContainer.appendChild($postItemBox);
 
       if (documents.length > 0) {
         this.makeList($postSubItemBox, documents);

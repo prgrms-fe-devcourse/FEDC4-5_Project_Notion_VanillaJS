@@ -1,6 +1,6 @@
 import App from "./App.js";
 
 const $target = document.querySelector("#app");
-$target.id = "contentWrap";
+$target.className = "contentWrap";
 
 new App({ $target });
