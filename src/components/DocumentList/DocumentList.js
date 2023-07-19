@@ -1,11 +1,11 @@
 import { SIDEBAR } from '@consts/target';
 import URL from '@consts/url';
 
-import { createDocument, deleteDocument } from '@api/document';
-
 import documentStorage from '@utils/localStorage/documentStorage';
 import sidebarStorage from '@utils/localStorage/sidebarStorage';
 import { history } from '@utils/router';
+
+import { createDocument, deleteDocument } from '@api/document';
 
 import Component from '@core/Component';
 
@@ -16,7 +16,7 @@ import './DocumentList.css';
 export default class DocumentList extends Component {
   setup() {
     this.state = {
-      documentId: null,
+      selectedDocumentId: null,
       documentList: [],
       expanded: {},
     };

@@ -1,9 +1,9 @@
 import { SIDEBAR } from '@consts/target';
 import URL from '@consts/url';
 
-import { createDocument } from '@api/document';
-
 import { history } from '@utils/router';
+
+import { createDocument } from '@api/document';
 
 import Component from '@core/Component';
 
@@ -57,6 +57,9 @@ export default class NotionSidebar extends Component {
 
     const { documentId, documentList } = this.state;
 
-    this.$documentList.setState({ documentId, documentList });
+    this.$documentList.setState({
+      selectedDocumentId: documentId,
+      documentList,
+    });
   }
 }
