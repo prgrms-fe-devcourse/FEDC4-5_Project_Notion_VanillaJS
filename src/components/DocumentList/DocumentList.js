@@ -37,11 +37,15 @@ export default class DocumentList extends Component {
   };
 
   handleCreateIndsideButtonClick = async (id) => {
-    const newDocument = await createDocument({ title: '', parent: id });
-    if (!newDocument) return;
+    try {
+      const newDocument = await createDocument({ title: '', parent: id });
+      if (!newDocument) return;
 
-    const documentPath = URL.getDocumentDetailPath(newDocument.id);
-    history.push(documentPath);
+      const documentPath = URL.getDocumentDetailPath(newDocument.id);
+      history.push(documentPath);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   hanldeDeleteButtonClick = async (id) => {
