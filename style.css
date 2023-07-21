@@ -1,0 +1,196 @@
+:root {
+  --themeWhite: #F0F0F0;
+  --themeGrey: #D1D9DF;
+  --themeSoftBlue: #A0B2C2; 
+  --themeDarkBlue: #2A384C;
+  --themeGreen: #49b265;
+}
+
+*{
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+a { 
+  text-decoration:none 
+}
+
+main{
+  background-color: var(--themeWhite);
+  display: flex;
+  position: relative;
+}
+/* -----------------네브바------------------ */
+.LeftNav{
+  width: 350px;
+  min-width:  350px;
+  height: 100vh;
+  padding: 5px 10px;
+  background-color: var(--themeGrey);
+  overflow-y: auto;
+}
+/* 스크롤디자인 */
+.LeftNav::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+.LeftNav::-webkit-scrollbar-track {
+  background-color: var(--themeGrey);
+}
+.LeftNav::-webkit-scrollbar-thumb {
+  background-color: var(--themeSoftBlue);
+  border-radius: 5px;
+}
+.LeftNav::-webkit-scrollbar-thumb:hover {
+  background-color: var(--themeWhite);
+}
+/* 헤더 */
+.LeftNav>h2{
+  margin: 10px;
+}
+.LeftNavHeader{
+  display: flex;
+  padding: 30px 10px;
+  align-items: center;
+}
+.LeftNavHeader>h2{
+  width: 80%;
+}
+.LeftNavHeader>button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--themeWhite);
+  border: none;
+  border-radius: 30px;
+  transition: all 0.3s;
+}
+.LeftNavHeader>button:hover{
+  background-color: var(--themeSoftBlue);
+}
+
+/* 네브글요소 */
+.navDom{
+  height: 45px;
+  transition: all 0.2s;
+  border-radius: 20px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  position: relative;
+  font-size: 14px;
+}
+.navDom:hover{
+  background-color: var(--themeSoftBlue);
+}
+
+/* 여닫기버튼 */
+.navDom>img{
+  width: 20px;
+  height: 20px;
+  margin: 0px 10px 0px 15px; 
+  position: relative;
+  transition: all 0.5s;
+}
+/* 제목 */
+.navDom span{
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* + - 버튼 */
+.navBtnBox{
+  opacity: 0;
+  position: absolute;
+  right: 10px;
+}
+.navDom:hover .navBtnBox {
+  opacity: 1;
+}
+.navBtnBox button{
+  background-color: var(--themeWhite);
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 5px;
+}
+.navBtnBox button:hover{
+  background-color:var(--themeDarkBlue);
+  color: #F0F0F0;
+}
+
+.focusNav{
+  background-color: var(--themeDarkBlue);
+  color: var(--themeWhite);
+}
+
+.hideSubNav{
+  rotate: -90deg;
+}
+
+.hide {
+  display: none;
+}
+
+
+/* ----------------에디터------------------- */
+
+.Editer {
+  margin: 50px auto;
+  height: 800px;
+  width: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.editerElement{
+  width: 100%;
+  border: 1px solid var(--themeWhite);
+  outline: none;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.Editer>input {
+  height: 50px;
+}
+
+.Editer>textarea {
+  height: 740px;
+  margin-top: 10px;
+  resize: none;
+}
+
+.editerElement:focus{
+  outline: 3px solid var(--themeSoftBlue);
+}
+
+
+/* --------------에니메이션-------------- */
+
+.navItemUpdate {
+  transition: all 1s;
+  animation: titleUpdateAnimation 2s ease-out;
+}
+
+@keyframes titleUpdateAnimation {
+  10% {
+    background-color: #49b265;
+    font-size: medium;
+    font-weight: bold;
+    color: #D1D9DF;
+  }
+  90% { 
+    background-color: #49b265;
+    font-size: medium;
+    font-weight: bold;
+    color: #D1D9DF;
+  }
+} 
