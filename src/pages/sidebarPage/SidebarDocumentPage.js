@@ -26,7 +26,6 @@ export default function SidebarDocumentPage({ $target }) {
     initialState: [],
     deleteDocument,
     addDocument: async (id, className) => {
-      //FIXME: className을 closest로 변경
       if (className === 'add-button') {
         const document = {
           title: INITIAL_DOCUMENT_TITLE,
