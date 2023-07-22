@@ -1,7 +1,5 @@
 # 📌 5주차 프로젝트[Project1]
 
-https://fedc-4-5-project-notion-vanilla-js-henna.vercel.app/
-
 ## 필수 프로젝트
 
 - 프로젝트 기한
