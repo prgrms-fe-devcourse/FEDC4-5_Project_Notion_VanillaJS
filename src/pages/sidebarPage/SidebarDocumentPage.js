@@ -1,7 +1,7 @@
 import { VITE_USERNAME } from '../../config/apiConfig';
-import { request } from '../../domain/api';
+import request from '../../domain/request';
 import { push } from '../../domain/router';
-import { createDocument, deleteDocument } from '../../domain/apiCall';
+import { createDocument, deleteDocument } from '../../domain/api';
 import SidebarDocumentTree from './SidebarDocumentTree';
 import SidebarHeader from './SidebarHeader';
 import { validateComponent } from '../../utils/validation';

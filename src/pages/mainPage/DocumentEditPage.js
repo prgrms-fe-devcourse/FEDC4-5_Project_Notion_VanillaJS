@@ -1,4 +1,4 @@
-import { getDocument, updateDocument } from '../../domain/apiCall';
+import { getDocument, updateDocument } from '../../domain/api';
 import notionStorage from '../../store/notionStorage';
 import debounce from '../../domain/debounce';
 import Editor from './Editor';

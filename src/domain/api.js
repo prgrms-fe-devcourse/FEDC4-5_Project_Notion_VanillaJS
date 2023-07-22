@@ -1,23 +1,30 @@
-import { VITE_API_END_POINT, VITE_USERNAME } from '../config/apiConfig';
-const MESSAGE = {
-  API_FAILURE: 'API 처리 중 뭔가 이상합니다!',
-  API_ERROR: '무엇인가 이상합니다!',
+import request from './request';
+import { push } from './router';
+
+export { getDocument, createDocument, updateDocument, deleteDocument };
+const getDocument = async (id) => {
+  return await request(`/documents/${id}`, {
+    method: 'GET',
+  });
 };
-// API 요청
-export const request = async (url, options = {}) => {
-  try {
-    const res = await fetch(`${VITE_API_END_POINT}${url}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-username': `${VITE_USERNAME}`,
-      },
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-    throw new Error(MESSAGE.API_FAILURE);
-  } catch (e) {
-    throw new Error(MESSAGE.API_ERROR);
-  }
+
+const createDocument = async (document) => {
+  return await request(`/documents`, {
+    method: 'POST',
+    body: JSON.stringify(document),
+  });
+};
+
+const updateDocument = async (id, document) => {
+  return await request(`/documents/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(document),
+  });
+};
+
+const deleteDocument = async (id) => {
+  await request(`/documents/${id}`, {
+    method: 'DELETE',
+  });
+  push('/');
 };
