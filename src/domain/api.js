@@ -1,7 +1,8 @@
 import { VITE_API_END_POINT, VITE_USERNAME } from '../config/apiConfig';
-const API_FAILURE_MESSAGE = 'API 처리 중 뭔가 이상합니다!';
-const API_ERROR_MESSAGE = '무엇인가 이상합니다!';
-
+const MESSAGE = {
+  API_FAILURE: 'API 처리 중 뭔가 이상합니다!',
+  API_ERROR: '무엇인가 이상합니다!',
+};
 // API 요청
 export const request = async (url, options = {}) => {
   try {
@@ -15,8 +16,8 @@ export const request = async (url, options = {}) => {
     if (res.ok) {
       return await res.json();
     }
-    throw new Error(API_FAILURE_MESSAGE);
+    throw new Error(MESSAGE.API_FAILURE);
   } catch (e) {
-    throw new Error(API_ERROR_MESSAGE);
+    throw new Error(MESSAGE.API_ERROR);
   }
 };

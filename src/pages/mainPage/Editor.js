@@ -1,8 +1,10 @@
 import { validateComponent, validateInputData } from '../../utils/validation';
 
-const INITIAL_DOCUMENT_TITLE = '제목 없음';
-const DOCUMENT_TITLE_PLACEHOLDER = '제목을 입력하세요';
-const DOCUMENT_CONTENT_PLACEHOLDER = '내용을 입력하세요';
+const DOCUMENT = {
+  INITIAL_TITLE: '제목 없음',
+  TITLE_PLACEHOLDER: '제목을 입력하세요',
+  CONTENT_PLACEHOLDER: '내용을 입력하세요',
+};
 
 export default function Editor({
   $target,
@@ -24,7 +26,7 @@ export default function Editor({
   // 초기 상태에서 메시지가 표시되고, 클릭 시 해당 메시지가 사라지도록 처리
   const handleTitleInputClick = (e) => {
     console.log(e.target.value);
-    if (e.target.value === `${INITIAL_DOCUMENT_TITLE}`) {
+    if (e.target.value === `${DOCUMENT.INITIAL_TITLE}`) {
       e.target.value = '';
     }
   };
@@ -38,10 +40,10 @@ export default function Editor({
 
   this.render = () => {
     const { title, content } = this.state;
-    const titleValue = title === `${INITIAL_DOCUMENT_TITLE}` ? '' : title;
+    const titleValue = title === `${DOCUMENT.INITIAL_TITLE}` ? '' : title;
     $editor.innerHTML = `
-      <input class="editor-title" type="text" name="title" placeholder='${DOCUMENT_TITLE_PLACEHOLDER}' value="${titleValue}">
-      <textarea class="editor-content" name="content" placeholder='${DOCUMENT_CONTENT_PLACEHOLDER}'>${content}</textarea>
+      <input class="editor-title" type="text" name="title" placeholder='${DOCUMENT.TITLE_PLACEHOLDER}' value="${titleValue}">
+      <textarea class="editor-content" name="content" placeholder='${DOCUMENT.CONTENT_PLACEHOLDER}'>${content}</textarea>
     `;
   };
 
