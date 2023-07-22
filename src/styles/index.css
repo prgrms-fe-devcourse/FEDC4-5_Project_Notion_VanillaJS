@@ -31,7 +31,7 @@ li {
   margin-bottom: 0.5rem;
   cursor: pointer;
   display: inline-block;
-  max-width: max-content;
+  max-width: 300px;
 }
 
 #app {
@@ -68,19 +68,22 @@ li {
   font-weight: 700;
 }
 
-.sidebar-document__tree {
-  height: 100vh;
-  width: 100%;
-}
 .tree {
   border-right: 1.3px solid rgba(78, 78, 78, 0.4);
 }
-
+.outer-ul {
+  margin-bottom: 50px;
+}
+.documents-tree {
+  width: 100%;
+}
 .documents-tree li {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 350px;
+  display: inline-block;
+  position: relative;
+  max-width: 250px;
 }
 
 .documents-tree > li:hover {
@@ -167,6 +170,7 @@ li {
 /* button */
 .add-button,
 .delete-button {
+  display: inline-block;
   width: 20px;
   height: 20px;
   cursor: pointer;
