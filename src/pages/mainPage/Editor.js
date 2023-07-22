@@ -25,7 +25,6 @@ export default function Editor({
 
   // 초기 상태에서 메시지가 표시되고, 클릭 시 해당 메시지가 사라지도록 처리
   const handleTitleInputClick = (e) => {
-    console.log(e.target.value);
     if (e.target.value === `${DOCUMENT.INITIAL_TITLE}`) {
       e.target.value = '';
     }
@@ -34,8 +33,8 @@ export default function Editor({
   this.setState = (nextState) => {
     this.state = nextState;
     const { title, content } = this.state;
-    $editor.querySelector('[name=title]').value = title;
-    $editor.querySelector('[name=content]').value = content;
+    titleEl.value = title;
+    contentEl.value = content;
   };
 
   this.render = () => {
@@ -49,14 +48,17 @@ export default function Editor({
 
   this.render();
 
-  $editor.querySelector('[name=title]').addEventListener('click', handleTitleInputClick);
-  $editor.querySelector('[name=title]').addEventListener('keyup', (e) => {
+  const titleEl = $editor.querySelector('[name=title]');
+  const contentEl = $editor.querySelector('[name=content]');
+
+  titleEl.addEventListener('click', handleTitleInputClick);
+  titleEl.addEventListener('keyup', (e) => {
     const nextState = { ...this.state, title: e.target.value };
     this.setState(nextState);
     editDocument(this.state);
   });
 
-  $editor.querySelector('[name=content]').addEventListener('input', (e) => {
+  contentEl.addEventListener('input', (e) => {
     const nextState = {
       ...this.state,
       content: e.target.value,
