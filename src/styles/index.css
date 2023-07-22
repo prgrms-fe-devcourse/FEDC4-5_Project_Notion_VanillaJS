@@ -31,7 +31,6 @@ li {
   margin-bottom: 0.5rem;
   cursor: pointer;
   display: inline-block;
-  max-width: 300px;
 }
 
 #app {
