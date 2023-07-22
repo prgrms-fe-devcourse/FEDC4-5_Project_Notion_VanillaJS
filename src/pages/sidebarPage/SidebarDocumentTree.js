@@ -27,9 +27,9 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
           ({ id, title, documents }) => `
       <div class='documents-tree'>
         <li data-id="${id}">
-          ▶️📄${title}
-          <button class="add-button"> + </button>
-          <button class="delete-button"> - </button>
+        ▶️📄${title}
+        <button class="add-button"> + </button>
+        <button class="delete-button"> - </button>
         </li>
         ${documents.map((document) => drawSidebarDocumentTree([document])).join('')}
       </div>
@@ -53,9 +53,12 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
 
   $sidebarDocumentTree.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
+    const id = $li?.dataset.id;
+    if ($li) {
+      push(`/documents/${id}`);
+    }
     const $button = e.target.closest('button');
     const buttonClassName = $button.className;
-    const id = $li?.dataset.id;
     if ($button) {
       if (buttonClassName === 'delete-button') {
         if (confirm(`${CONFIRM_DELETE_DOCUMENT}`)) {
@@ -66,9 +69,6 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
         addDocument(id, buttonClassName);
         return;
       }
-    }
-    if ($li) {
-      push(`/documents/${id}`);
     }
   });
 }
