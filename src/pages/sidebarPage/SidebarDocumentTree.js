@@ -45,7 +45,7 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
     const documentsTree = drawSidebarDocumentTree(this.state);
     const documentAddButton = `<button class="add-button">+ 페이지 추가하기</button>`;
     $sidebarDocumentTree.innerHTML = `
-    <div class="tree">${documentsTree}${documentAddButton}</div>
+      <div class="tree">${documentsTree}${documentAddButton}</div>
     `;
   };
 
@@ -53,23 +53,22 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
 
   $sidebarDocumentTree.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
+    const { className } = e.target;
     const id = $li?.dataset.id;
-    if ($li) {
-      const closestButton = e.target.closest('button');
-      if (closestButton) {
-        const buttonClassName = closestButton.className;
-        if (buttonClassName === 'delete-button') {
-          if (confirm(`${CONFIRM_DELETE_DOCUMENT}`)) {
-            deleteDocument(id);
-            return;
-          }
-        } else if (buttonClassName === 'add-button') {
-          addDocument(id, buttonClassName);
+    if (className) {
+      if (className === 'delete-button') {
+        if (confirm(`${CONFIRM_DELETE_DOCUMENT}`)) {
+          deleteDocument(id);
+
           return;
         }
       } else {
-        push(`/documents/${id}`);
+        addDocument(id, className);
+        return;
       }
+    }
+    if ($li) {
+      push(`/documents/${id}`);
     }
   });
 }
