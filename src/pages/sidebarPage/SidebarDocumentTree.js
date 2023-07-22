@@ -53,17 +53,17 @@ export default function SidebarDocumentTree({ $target, initialState, addDocument
 
   $sidebarDocumentTree.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
-    const { className } = e.target;
+    const $button = e.target.closest('button');
+    const buttonClassName = $button.className;
     const id = $li?.dataset.id;
-    if (className) {
-      if (className === 'delete-button') {
+    if ($button) {
+      if (buttonClassName === 'delete-button') {
         if (confirm(`${CONFIRM_DELETE_DOCUMENT}`)) {
           deleteDocument(id);
-
           return;
         }
-      } else {
-        addDocument(id, className);
+      } else if (buttonClassName === 'add-button') {
+        addDocument(id, buttonClassName);
         return;
       }
     }

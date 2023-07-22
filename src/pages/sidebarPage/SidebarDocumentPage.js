@@ -25,8 +25,8 @@ export default function SidebarDocumentPage({ $target }) {
     $target: $sidebarDocumentPage,
     initialState: [],
     deleteDocument,
-    addDocument: async (id, className) => {
-      if (className === 'add-button') {
+    addDocument: async (id, buttonClassName) => {
+      if (buttonClassName === 'add-button') {
         const document = {
           title: INITIAL_DOCUMENT_TITLE,
           parent: id,
