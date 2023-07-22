@@ -1,4 +1,4 @@
-import { VITE_USERNAME } from '../../constants';
+import { VITE_USERNAME } from '../../config/apiConfig';
 import { request } from '../../domain/api';
 import { push } from '../../domain/router';
 import { createDocument, deleteDocument } from '../../domain/apiCall';

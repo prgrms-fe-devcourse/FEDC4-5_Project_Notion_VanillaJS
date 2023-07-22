@@ -1,4 +1,4 @@
-import { VITE_API_END_POINT, VITE_USERNAME } from '../constants';
+import { VITE_API_END_POINT, VITE_USERNAME } from '../config/apiConfig';
 const API_FAILURE_MESSAGE = 'API 처리 중 뭔가 이상합니다!';
 const API_ERROR_MESSAGE = '무엇인가 이상합니다!';
 
