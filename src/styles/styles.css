@@ -1,0 +1,8 @@
+@import "reset.css";
+@import "sideBar.css";
+@import "content.css";
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
