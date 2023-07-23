@@ -39,7 +39,8 @@ export default function DocumentList({ $target, initialState }) {
           await deleteDocument(document.id);
           if (window.location.pathname === `/documents/${id}`) {
             alert("이 페이지는 삭제되었습니다.");
-            push(`/`);
+            history.replaceState(null, null, `/`);
+            location.reload();
           }
         },
       });
