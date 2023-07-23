@@ -18,13 +18,12 @@ export default function DocumentListItem({
   this.render = () => {
     const { pathname } = window.location;
     const isActive = pathname === `/documents/${this.state.id}`;
+    const listItemActive = isActive ? " activeListItem" : "";
     $documentListItem.innerHTML = `
-      <div class="listItem${isActive ? " activeListItem" : ""}">
+      <div class="listItem${listItemActive}">
         <div class="listItemInfo">
           <span class="toggleButton">> </span>
-          <span class="itemTitle">${
-            this.state.title ? this.state.title : "제목 없음"
-          }</span>
+          <span class="itemTitle">${this.state.title ?? "제목 없음"}</span>
         </div>
         <div class="listItemTools">
           <i class="addButton fa-solid fa-plus"></i>
@@ -43,12 +42,11 @@ export default function DocumentListItem({
 
   $documentListItem.addEventListener("click", async (e) => {
     const { classList } = e.target;
-    const classArray = Array.from(classList);
-    if (classArray.includes("toggleButton")) {
-    } else if (classArray.includes("addButton")) {
+    if (classList.contains("toggleButton")) {
+    } else if (classList.contains("addButton")) {
       onAdd();
       return;
-    } else if (classArray.includes("deleteButton")) {
+    } else if (classList.contains("deleteButton")) {
       onDelete(this.state.id);
       return;
     }
