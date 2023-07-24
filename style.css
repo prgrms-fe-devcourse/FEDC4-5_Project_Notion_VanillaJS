@@ -9,6 +9,11 @@ button {
   background-color: transparent;
   font-size: 16px;
   margin: 0px 5px 0px 5px;
+  cursor: pointer;
+}
+
+span {
+  cursor: pointer;
 }
 
 button:hover {
@@ -53,6 +58,14 @@ textarea {
   justify-content: space-between;
 }
 
+.post-edit-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .post-side-bar-container {
   width: 70vw;
   display: flex;
@@ -61,7 +74,7 @@ textarea {
   align-items: center;
 }
 
-.createButton {
+.create-button {
   border-radius: 5px;
   padding: 10px;
   background-color: white;

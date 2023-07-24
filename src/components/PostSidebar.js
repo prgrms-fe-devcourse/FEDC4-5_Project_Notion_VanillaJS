@@ -1,20 +1,22 @@
-import { request } from "./api.js";
+import { getData, postData } from "../utils/api.js";
 import PostList from "./PostList.js";
-import { pushRouter } from "./router.js";
+import { pushRouter } from "../utils/router.js";
 
 export default function PostSidebar({ $target }) {
+  const $listContainer = document.createElement("div");
   const $createButton = document.createElement("button");
   const $title = document.createElement("h1");
-  $createButton.className = "createButton";
-  $title.id = "title";
+  $listContainer.className = "post-list-container";
+  $createButton.className = "create-button";
+  $title.className = "title";
 
   const postList = new PostList({
-    $target,
+    $target: $listContainer,
     initialState: [],
   });
 
   this.setState = async () => {
-    const documents = await request("/documents");
+    const documents = await getData("/documents");
     postList.setState(documents);
     this.render();
   };
@@ -24,16 +26,11 @@ export default function PostSidebar({ $target }) {
     $title.textContent = "Notion Project";
     $target.appendChild($title);
     $target.appendChild($createButton);
+    $target.appendChild($listContainer);
   };
 
   $createButton.addEventListener("click", async () => {
-    const createdPost = await request("/documents", {
-      method: "POST",
-      body: JSON.stringify({
-        title: "제목 없음",
-        parent: null,
-      }),
-    });
-    pushRouter(`/${createdPost.id}`);
+    const createdPost = await postData();
+    pushRouter(`/documents/${createdPost.id}`);
   });
 }

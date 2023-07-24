@@ -20,3 +20,30 @@ export const request = async (url, options = {}) => {
     console.error(e);
   }
 };
+
+export const getData = async (url) => {
+  return request(url);
+};
+
+export const postData = async (id = null) => {
+  return request("/documents", {
+    method: "POST",
+    body: JSON.stringify({
+      title: "제목 없음",
+      parent: id,
+    }),
+  });
+};
+
+export const deleteData = async (id) => {
+  return request(`/documents/${id}`, {
+    method: "DELETE",
+  });
+};
+
+export const putData = async (id, post) => {
+  return request(`/documents/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(post),
+  });
+};

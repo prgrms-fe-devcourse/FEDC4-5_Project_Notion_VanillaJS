@@ -9,9 +9,9 @@ export default function Editor({
   const $editor = document.createElement("div");
   $editor.className = "editor";
 
-  let isInitialized = false;
-
   this.state = initialState;
+
+  let isInitialize = false;
 
   $target.appendChild($editor);
 
@@ -24,12 +24,12 @@ export default function Editor({
   };
 
   this.render = () => {
-    if (!isInitialized) {
+    if (!isInitialize) {
       $editor.innerHTML = `
-        <input type="text" name="title" value="${this.state.title}" />
-        <textarea name="content">${this.state.content}</textarea>
-      `;
-      isInitialized = true;
+      <input type="text" name="title" value="${this.state.title}" />
+      <textarea name="content">${this.state.content}</textarea>
+    `;
+      isInitialize = true;
     }
   };
   this.render();

@@ -1,6 +1,6 @@
-import { request } from "./api.js";
+import { getData, putData } from "../utils/api.js";
 import Editor from "./Editor.js";
-import { pushRouter } from "./router.js";
+import { pushRouter } from "../utils/router.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const INTERVAL_SAVE_TIME = 2000;
@@ -21,12 +21,10 @@ export default function PostEditPage({ $target, initialState }) {
       }
 
       timer = setTimeout(async () => {
-        if (this.state.postId) {
-          await request(`/documents/${this.state.postId}`, {
-            method: "PUT",
-            body: JSON.stringify(post),
-          });
-          pushRouter(`/${this.state.postId}`);
+        const { postId } = this.state;
+        if (postId && postId !== "new") {
+          await putData(postId, post);
+          pushRouter(`/documents/${postId}`);
           await getDocument();
         }
       }, INTERVAL_SAVE_TIME);
@@ -52,9 +50,8 @@ export default function PostEditPage({ $target, initialState }) {
 
   const getDocument = async () => {
     const { postId } = this.state;
-
     if (postId) {
-      const post = await request(`/documents/${postId}`);
+      const post = await getData(`/documents/${postId}`);
 
       this.setState({
         ...this.state,

@@ -1,6 +1,6 @@
 import PostEditPage from "./PostEditPage.js";
 import PostSidebar from "./PostSidebar.js";
-import { initRouter } from "./router.js";
+import { initRouter } from "../utils/router.js";
 
 export default function App({ $target }) {
   const $postSideBarContainer = document.createElement("div");
@@ -31,7 +31,7 @@ export default function App({ $target }) {
     postSideBar.setState();
 
     if (pathname !== "/" && pathname.indexOf("/") === 0) {
-      const [, postId] = pathname.split("/");
+      const [, , postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
   };
