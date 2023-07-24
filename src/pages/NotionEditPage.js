@@ -14,7 +14,7 @@ export default function NotionEditPage({ $target, initialState }) {
         $target: $page,
         initialState: this.state.document,
         onEditing: (post) => {
-            let { id, title, content } = post;
+            const { id, title, content } = post;
             if (timer !== null) {
                 clearTimeout(timer);
             }

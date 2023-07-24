@@ -11,7 +11,7 @@ export default async function BaseAPI(url, options = {}) {
             return json;
         }
 
-        throw 'API 에러';
+        throw Error('API 에러');
     } catch (e) {
         alert(e.message);
     }
