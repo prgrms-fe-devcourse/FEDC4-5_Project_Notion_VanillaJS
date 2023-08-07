@@ -1,0 +1,345 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+#modal {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#modal.open {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  background-color: var(--bg-main);
+  border-radius: 4px;
+  border: 1px solid var(--bg-dimmed);
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px,
+    rgba(15, 15, 15, 0.2) 0px 9px 24px;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: Pretendard, system-ui, sans-serif;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-dimmed);
+}
+
+.workspace-input {
+  width: 8rem;
+  border: none;
+  border-bottom: 1px solid var(--text-secondary);
+  padding-bottom: 5px;
+  margin-right: 10px;
+  background-color: transparent;
+}
+
+.workspace-input:focus {
+  outline: none;
+}
+
+.workspace-button {
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: Pretendard, system-ui, sans-serif;
+  padding: 5px 4px;
+  cursor: pointer;
+}
+
+.workspace-button:hover {
+  background-color: var(--bg-progress);
+  transition: 0.3s;
+}
+
+.workspace-list {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.workspace-list > .workspace-item {
+  width: 8rem;
+  margin: 0;
+  padding: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: Pretendard, system-ui, sans-serif;
+  color: var(--text-main);
+}
+
+.workspace-list > .workspace-item:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-dimmed);
+  cursor: pointer;
+}
+
+.workspace-list {
+  color: var(--text-primary);
+  background-color: transparent;
+}
+
+.workspace-alert {
+  color: var(--text-alert);
+  font-size: 11px;
+  word-break: break-all;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  width: 100%;
+  min-width: 600px;
+  max-width: 1400px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  font-size: 32px;
+  font-weight: bold;
+  color: #000;
+}
+
+.nav-bar.currentUser {
+  color: var(--text-primary);
+}
+
+.nav-bar > .title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.nav-bar > .title:hover {
+  cursor: pointer;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  min-width: 600px;
+  max-width: 1400px;
+}
+
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  background-color: var(--bg-secondary);
+  position: relative;
+  padding: 20px 20px 20px 0px;
+  overflow-y: scroll;
+  float: left;
+}
+
+.main-content {
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+ul.doc-list {
+  padding-left: 15px;
+}
+
+.doc-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+}
+
+.doc-title {
+  width: 60%;
+  margin-right: auto;
+  font-size: 36px;
+  font-weight: bold;
+  margin-left: 10px;
+  border: none;
+  font-family: Pretendard, system-ui, sans-serif;
+}
+
+.title-right-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-right: 20px;
+}
+
+.doc-title:focus {
+  outline: none;
+}
+
+.editable-button {
+  width: fit-content;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  font-family: Pretendard, system-ui, sans-serif;
+}
+
+.editable-button:hover {
+  background-color: var(--bg-dimmed);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.editable-button.clicked {
+  background-color: var(--bg-progress);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+#is-saved {
+  font-size: 14px;
+  margin-right: 10px;
+  font-family: Pretendard, system-ui, sans-serif;
+
+  transition: 0.3s;
+}
+
+#is-saved.saved {
+  color: green;
+}
+
+#is-saved.not-saved {
+  color: red;
+}
+
+.doc-delete-button {
+  width: fit-content;
+  border: none;
+  border-radius: 4px;
+  font-family: Pretendard, system-ui, sans-serif;
+  background-color: transparent;
+}
+
+.doc-delete-button:hover {
+  background-color: var(--bg-dimmed);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.doc-text {
+  color: var(--text-secondary);
+}
+
+.doc-text:hover {
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: var(--bg-dimmed);
+  border-radius: 5px;
+}
+
+.doc-node-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  word-break: keep-all;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.editor > textarea {
+  padding: 20px;
+  border: none;
+  resize: none;
+  font-family: Pretendard, system-ui, sans-serif;
+}
+
+.editor > textarea:focus {
+  outline: none;
+}
+
+.docNext {
+  border: 1px solid red;
+  height: fit-content;
+  padding: 20px;
+}
+
+.new-parent-doc-button {
+  font-size: 14px;
+  height: 24px;
+  margin-left: 20px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: 4px;
+  font-family: Pretendard, system-ui, sans-serif;
+}
+
+.new-parent-doc-button:hover {
+  background-color: var(--bg-dimmed);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.select-workspace-button {
+  font-size: 14px;
+  height: 24px;
+  margin-left: 20px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: 4px;
+  font-family: Pretendard, system-ui, sans-serif;
+}
+
+.select-workspace-button:hover {
+  background-color: var(--bg-dimmed);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.make-document-button {
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--text-secondary);
+  margin-left: 4px;
+
+  width: fit-content;
+  height: fit-content;
+
+  font-size: 3px;
+}
+
+.make-document-button:hover {
+  background-color: var(--bg-dimmed);
+  transition: 0.3s;
+  cursor: pointer;
+}
