@@ -7,9 +7,7 @@ export default function DocumentDelete ({$target, id}){
     $target.appendChild($deleteBtn)
     $deleteBtn.textContent = '삭제하기'
 
-    this.state = {
-        id : id,
-    }
+    this.state = { id }
     this.setState = nextState => {
         this.state = nextState
     }

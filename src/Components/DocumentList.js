@@ -23,6 +23,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
             $haveNothing.classList.add('nothing')
             $haveNothing.textContent = '하위 페이지 없음'
             $li.append($haveNothing)
+            return
         }
         data.forEach((data => {
             const $parentNode = document.createElement('div')

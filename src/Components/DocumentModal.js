@@ -17,7 +17,10 @@ export function DocumentModal(id , onSubmit){
     $modalContainer.addEventListener('submit', async (e) => {
         e.preventDefault();
         const $input = $modalContainer.querySelector('.modalText');
-        const content = $input.value;
+        let content = $input.value;
+        if(content.length === 0) {
+            content = '제목 없음'
+        }
         await onSubmit(content, id);
         $input.value =''
         alert('문서 생성이 완료되었습니다')

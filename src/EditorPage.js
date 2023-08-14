@@ -43,7 +43,10 @@ export function EditorPage($target) {
                 content:''
             });
             documentDelete.setState({id: this.state.id})
-            childLink.setState({data: this.state.post})
+            childLink.setState({data: this.state.post} || { 
+                title: '',
+                content:''
+            })
             await fetchPost();
             return    
         }
