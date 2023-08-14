@@ -8,6 +8,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
     }
     this.render = ($renderDOM = $target) => {
         console.log(this.state.depth)
+        console.log(data)
         data.map((data) => {
             const doc = document.createElement('li');
             doc.setAttribute("data-id", `${data.id}`);
@@ -76,7 +77,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
                 $li.classList.add('open')
                 if(childrenData[0].length > 0){
                     this.setState({
-                        parent: this.state.depth === 0 ? parseInt(id) : parseInt(this.state.parent),
+                        parent: this.state.depth === 0 ? parseInt(id, 10) : parseInt(this.state.parent, 10),
                         selectedNode: parseInt(id),
                         isOpen: !this.state.isOpen,
                         depth: this.state.depth

@@ -12,7 +12,7 @@ export default function App ($target) {
 
     this.route = () => {
         const { pathname } = window.location;
-        if (pathname.indexOf('/documents/') === 0){
+        if(pathname.includes('/documents/')){
             const [, , documentId] = pathname.split('/');
             editorPage.setState({...editorPage.state, id : documentId});
         }
@@ -26,5 +26,5 @@ export default function App ($target) {
         }
     }
     this.render()
-    initRouter({onRoute : () => this.route()});
+    initRouter({onRoute : this.route});
 }
