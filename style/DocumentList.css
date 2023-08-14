@@ -1,0 +1,70 @@
+.documentPage {
+    background-color: #F7F7F5;
+    min-width: 300px;
+    width: 300px;
+    box-sizing: border-box;
+    height: 100%;
+    border-right: 1px solid #e7e7e7;
+    font-family: 'Pretandard-Regular', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #72716D;
+    padding: 10px;
+    padding-top:50px;
+    position: relative;
+    order: 0;
+    overflow-y: scroll;
+    height:100vh;
+}
+
+.doc::before{
+    content: "＞ "
+}
+.open::before{
+    content: "⌵ ";
+}
+
+.doc{
+    list-style: none;
+    cursor:pointer;
+    padding: 12px 0px;
+    position:relative;
+    width:100%;
+}
+
+
+[class^="doc-"]{
+    display:flex;
+    width: 100%;
+    flex-direction: column;
+}
+[class^="root-"]{
+    display:flex;
+    position:relative;
+    width:100%;
+}
+.createDoc{
+    position:absolute;
+    right: 0px;
+    width: 10px;
+    height: 20px;
+    text-align: center;
+    z-index:1;
+    background-color: transparent;
+    border: none;
+    color:#72716D;
+    cursor:pointer;
+}
+.rootCreate{
+    background-color: transparent;
+    border: none;
+    color:#72716D;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+li{
+    :hover{
+        color: black;
+    }
+}
