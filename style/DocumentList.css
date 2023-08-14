@@ -35,9 +35,8 @@
 
 [class^="doc-"]{
     display:flex;
-    :hover{
-        color: black;
-    }
+    width: 100%;
+    flex-direction: column;
 }
 [class^="root-"]{
     display:flex;
@@ -62,4 +61,10 @@
     color:#72716D;
     font-size: 20px;
     cursor: pointer;
+}
+
+li{
+    :hover{
+        color: black;
+    }
 }

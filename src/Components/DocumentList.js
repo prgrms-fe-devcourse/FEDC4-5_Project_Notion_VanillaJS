@@ -2,51 +2,48 @@ import { DocumentCreate } from "./DocumentCreate.js"
 import { routerNav } from '../router.js';
 
 export function DocumentList({$target, data =[], initialState, onSubmit}) {
+    let init = false;
     this.state = initialState
     this.setState = (nextState) => {
         this.state = nextState
     }
     this.render = ($renderDOM = $target) => {
-        console.log(this.state.depth)
-        console.log(data)
-        data.map((data) => {
-            const doc = document.createElement('li');
-            doc.setAttribute("data-id", `${data.id}`);
-            doc.setAttribute("class", 'doc');
-            doc.textContent =`${data.title}`
-            $renderDOM.insertAdjacentElement("beforeend", doc);
+        const $parentNode = document.createElement('div')
+        $parentNode.className = `doc-${this.state.selectedNode}`
+        $parentNode.style.marginLeft = `${this.state.depth * 10}px`;
+        const createBtn = new DocumentCreate({
+            $target: $parentNode, 
+            parentId: this.state.parent, 
+            onSubmit: onSubmit
         })
-    }
-          
-    this.onSelect = (data, $li) => {
-        if(data.length === 0){
+        const doc = document.createElement('li');
+        doc.setAttribute("data-id", `${data[0].id}`);
+        doc.setAttribute("class", 'doc');
+        doc.textContent =`${data[0].title}`
+        $parentNode.append(doc)
+        console.log(this.state.isOpen)
+        if(data[0].documents.length === 0){
             const $haveNothing = document.createElement('div');
             $haveNothing.classList.add('nothing')
             $haveNothing.textContent = '하위 페이지 없음'
-            $li.append($haveNothing)
-            return
+            doc.append($haveNothing)  
+         }
+        else {
+            data[0].documents.forEach((data => {
+                const documentList = new DocumentList({
+                    $target: doc,
+                    data: [data],
+                    initialState: {parent: this.state.selectedNode, selectedNode: data.id, depth: this.state.depth + 1, isOpen: false},
+                    onSubmit: onSubmit
+                })
+                documentList.render()
+            }))
         }
-        data.forEach((data => {
-            const $parentNode = document.createElement('div')
-            $parentNode.className = `doc-${this.state.selectedNode}`
-            $parentNode.style.marginLeft = `${this.state.depth * 10}px`;
-            const createBtn = new DocumentCreate({
-                $target: $parentNode, 
-                parentId: this.state.parent, 
-                onSubmit: onSubmit
-            })
-            createBtn.render();
-            $li.append($parentNode);
-            console.log(this.state)
-            const documentList = new DocumentList({
-                $target: $parentNode,
-                data: [data],
-                initialState: {...this.state, depth: this.state.depth + 1, isOpen: false},
-                onSubmit: onSubmit
-            })
-            documentList.render();
-        }))
+        init= true
+        $renderDOM.append($parentNode)
+        
     }
+
     $target.addEventListener('click', (e) => {
         e.stopPropagation();
         if($target.classList.contains('documentPage') && !e.target.classList.contains('doc'))
@@ -57,6 +54,8 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
         else if (e.target.classList.contains('nothing')){
             return
         }
+        console.log(e.target)
+        console.log(this.state)
         if(this.state.isOpen){
             while(e.target.querySelector('div')){
                 e.target.classList.remove("open");
@@ -82,14 +81,12 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
                         isOpen: !this.state.isOpen,
                         depth: this.state.depth
                     })
-                    this.onSelect(childrenData[0], $li)
                 } 
                 else {
                     this.setState({
                         ...this.state,
                         isOpen: !this.state.isOpen,
                     })
-                    this.onSelect([], $li)
                 }
                 routerNav(`/documents/${id}`);
             }
