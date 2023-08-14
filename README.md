@@ -9,3 +9,7 @@
   - 코드 리뷰 반영 기간 : 2023년 7월 14일(금) ~ 2023년 7월 17일(월)
 - 내용
   - [[Day 19] 노션 클로닝 요구사항](https://school.programmers.co.kr/app/courses/17516/curriculum/lessons/196456#part-46365)을 확인해 주세요.
+
+# notion-upgrade-project
+프로그래머스 노션 클로닝 프로젝트 업그레이드 
+
