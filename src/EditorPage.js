@@ -18,7 +18,6 @@ export function EditorPage($target) {
         $target: $editorPage,
         initialState: this.state.post
     })
-    childLink.render();
     const editor = new Editor({
         $target: $editorPage, 
         initialState: this.state.post, 

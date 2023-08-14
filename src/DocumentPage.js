@@ -61,7 +61,7 @@ export function DocumentPage ($target) {
               parent: data.id,
               selectedNode: data.id,
               isOpen: false,
-              depth: 0
+              depth: 1
             },
             onSubmit: async (content, parent) => {
                 const createdData = await createDocuments(content, parent);

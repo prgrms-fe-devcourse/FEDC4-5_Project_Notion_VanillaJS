@@ -27,6 +27,7 @@ export function DocumentModal(id , onSubmit){
 
     $modalContainer.addEventListener('click', (e) => {
         const $closeBtn = e.target.closest('button')
+        if(!$closeBtn) return
         if ($closeBtn.classList.contains('closeBtn')){
             const modal = document.querySelector('.modal');
             modal.remove()

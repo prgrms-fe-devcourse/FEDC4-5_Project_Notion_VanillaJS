@@ -25,7 +25,6 @@ export default function ChildDocument ({$target, $document}){
         }
 
     this.render();
-    
     $childDocument.addEventListener('click', (e) => {
         const $link = e.target.closest('li');
         const { id } = $link.dataset;

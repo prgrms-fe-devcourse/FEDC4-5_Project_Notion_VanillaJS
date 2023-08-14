@@ -35,10 +35,11 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
             })
             createBtn.render();
             $li.append($parentNode);
+            console.log(this.state)
             const documentList = new DocumentList({
                 $target: $parentNode,
                 data: [data],
-                initialState: {...this.state},
+                initialState: {...this.state, depth: this.state.depth + 1, isOpen: false},
                 onSubmit: onSubmit
             })
             documentList.render();
@@ -77,7 +78,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
                         parent: this.state.depth === 0 ? parseInt(id) : parseInt(this.state.parent),
                         selectedNode: parseInt(id),
                         isOpen: !this.state.isOpen,
-                        depth: this.state.depth + 1
+                        depth: this.state.depth
                     })
                     this.onSelect(childrenData[0], $li)
                 } 
