@@ -1,4 +1,4 @@
-import { push } from '../router.js';
+import { routerNav } from '../router.js';
 
 export default function ChildDocument ({$target, $document}){
     const $childDocument = document.createElement('div');
@@ -29,6 +29,6 @@ export default function ChildDocument ({$target, $document}){
     $childDocument.addEventListener('click', (e) => {
         const $link = e.target.closest('li');
         const { id } = $link.dataset;
-        push(`/documents/${id}`)
+        routerNav(`/documents/${id}`)
     })
 }

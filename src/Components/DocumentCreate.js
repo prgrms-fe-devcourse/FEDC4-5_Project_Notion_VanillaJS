@@ -30,4 +30,5 @@ export function DocumentCreate({$target, parentId, onSubmit}){
             modal.modalOpen();
         }
     })
+    this.render()
 }

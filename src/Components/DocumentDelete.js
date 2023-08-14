@@ -1,5 +1,5 @@
 import { deleteDocuments } from "../api.js";
-import { push } from "../router.js";
+import { routerNav } from "../router.js";
 
 export default function DocumentDelete ({$target, id}){
     const $deleteBtn = document.createElement('button');
@@ -16,7 +16,7 @@ export default function DocumentDelete ({$target, id}){
     $deleteBtn.addEventListener('click', async (e) => {
         await deleteDocuments(this.state.id)
         alert("삭제 완료");
-        push('/');
+        routerNav('/');
         location.reload();
     })
 }

@@ -1,5 +1,5 @@
 import { DocumentCreate } from "./DocumentCreate.js"
-import { push } from '../router.js';
+import { routerNav } from '../router.js';
 
 export function DocumentList({$target, data =[], initialState, onSubmit}) {
     this.state = initialState
@@ -7,6 +7,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
         this.state = nextState
     }
     this.render = ($renderDOM = $target) => {
+        console.log(this.state.depth)
         data.map((data) => {
             const doc = document.createElement('li');
             doc.setAttribute("data-id", `${data.id}`);
@@ -37,8 +38,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
             const documentList = new DocumentList({
                 $target: $parentNode,
                 data: [data],
-                depth: this.state.depth + 1,
-                initialState: this.state,
+                initialState: {...this.state},
                 onSubmit: onSubmit
             })
             documentList.render();
@@ -88,7 +88,7 @@ export function DocumentList({$target, data =[], initialState, onSubmit}) {
                     })
                     this.onSelect([], $li)
                 }
-                push(`/documents/${id}`);
+                routerNav(`/documents/${id}`);
             }
         }    
     })

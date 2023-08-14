@@ -1,7 +1,7 @@
 import { DocumentList } from "./Components/DocumentList.js";
 import { DocumentCreate } from "./Components/DocumentCreate.js";
 import { getDocuments, createDocuments } from "./api.js";
-import { push } from "./router.js";
+import { routerNav } from "./router.js";
 
 export function DocumentPage ($target) {
     const $documentPage = document.createElement('div');
@@ -15,7 +15,7 @@ export function DocumentPage ($target) {
         const { id } = createdData;
         this.setState({...this.state, createdData})
         await fetchDocuments();
-        push(`/documents/${id}`);
+        routerNav(`/documents/${id}`);
       }
     })
 
@@ -50,10 +50,9 @@ export function DocumentPage ($target) {
                 const createdData = await createDocuments(content, parent)
                 const { id } = createdData;
                 await fetchDocuments();
-                push(`/documents/${id}`);
+                routerNav(`/documents/${id}`);
               }
           })
-          createBtn.render();
           $documentPage.appendChild($documentList);
           const documentList = new DocumentList({
             $target: $documentList,
@@ -68,7 +67,7 @@ export function DocumentPage ($target) {
                 const createdData = await createDocuments(content, parent);
                 const { id } = createdData;
                 await fetchDocuments();
-                push(`/documents/${id}`);
+                routerNav(`/documents/${id}`);
               }
             })
             documentList.render()
