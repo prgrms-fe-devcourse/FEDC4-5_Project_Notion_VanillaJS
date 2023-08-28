@@ -10,22 +10,22 @@ export default function DocumentEditPage({
   initalState,
   onChangeEditorTitle,
 }) {
+  this.editorProxy = new Proxy(this.state || initalState, {
+    set(target, props, { id, title, content, documents }) {
+      editor.setState({
+        ...editor.state,
+        id,
+        title,
+        content,
+        documents,
+      });
+      editorPreview.setState(convertMarkdownToHTML(content));
+    },
+  });
+
   const $page = document.createElement('div');
 
   this.state = initalState;
-
-  //setState시 다른 컴포넌트들의 상태가 바뀌는 함수
-  this.setDependentState = ({ id, title, content, documents }) => {
-    editor.setState({
-      ...editor.state,
-      id,
-      title,
-      content,
-      documents,
-    });
-
-    editorPreview.setState(convertMarkdownToHTML(content));
-  };
 
   this.setState = async (nextState) => {
     if (nextState.documentId === 'new') {
@@ -40,7 +40,7 @@ export default function DocumentEditPage({
     };
 
     const { id, title, content, documents } = await fetchDocument(documentId);
-    this.setDependentState({ id, title, content, documents });
+    this.editorProxy.documents = { id, title, content, documents };
   };
 
   this.render = () => {
