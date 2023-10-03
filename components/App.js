@@ -10,12 +10,12 @@ export default function App({ $target }) {
   $notionPageContainer.className = "notionPageContainer";
   $notionEditPageContainer.className = "notionEditPageContainer";
 
-  // 페이지 추가 버튼 생성
+  // 페이지 추가 버튼 생성 - notionPageContainer에 넣을 순 없을까?
   const $addNewRootNotion = document.createElement("button");
   $addNewRootNotion.className = "addNewRootNotion";
   $addNewRootNotion.textContent = "+ 페이지 추가";
 
-  // 노션 페이지 컨테이너 토글 버튼 생성
+  // 노션 페이지 컨테이너 토글 버튼 생성 - notionPageContainer에 넣을 순 없을까?
   const $toggleBtn = document.createElement("button");
   $toggleBtn.className = "toggle-btn1";
   $toggleBtn.innerHTML = `<i class="fa fa-solid fa-arrow-right" style="color: #000000;"></i>`;
