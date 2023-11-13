@@ -2,20 +2,20 @@ import {
   createToggleItem,
   updateToggleItem,
   deleteToggleItem,
-} from "/src/helper/toggleHelper.js";
-import NavPage from "/src/page/NavPage.js";
-import EditPage from "/src/page/EditPage.js";
+} from './helper/toggleHelper.js';
+import NavPage from './page/NavPage.js';
+import EditPage from './page/EditPage.js';
 
-import { HistoryRouter } from "./router.js";
+import { HistoryRouter } from './router.js';
 import {
   saveDocumentStorage,
   clearDocumentStorage,
   requestEditDocument,
-} from "./service/documentEditService.js";
+} from './service/documentEditService.js';
 import {
   requestCreateDocument,
   requestDeleteDocument,
-} from "./service/documentListService.js";
+} from './service/documentListService.js';
 
 function App({ $app }) {
   const router = new HistoryRouter();
@@ -23,15 +23,13 @@ function App({ $app }) {
     $app,
     initialState: { documentList: [], toggleData: [] },
 
-    handleSelect: id => {
+    handleSelect: (id) => {
       navPage.state.selected = id;
       router.push(`/documents?id=${id}`);
     },
 
-    handleCreate: async parent => {
-      const newDocument = await requestCreateDocument(
-        parent
-      );
+    handleCreate: async (parent) => {
+      const newDocument = await requestCreateDocument(parent);
       const nextToggleData = createToggleItem({
         data: navPage.state.toggleData,
         id: newDocument.id,
@@ -42,7 +40,7 @@ function App({ $app }) {
       router.push(`/documents?id=${newDocument.id}`);
     },
 
-    handleDelete: async id => {
+    handleDelete: async (id) => {
       await requestDeleteDocument(id);
       const nextToggleData = deleteToggleItem({
         data: navPage.state.toggleData,
@@ -50,11 +48,11 @@ function App({ $app }) {
       });
       navPage.setState({ toggleData: nextToggleData });
       if (editPage.state.id == id) {
-        router.replace("/");
+        router.replace('/');
       }
     },
 
-    handleToggle: id => {
+    handleToggle: (id) => {
       const nextToggleData = updateToggleItem({
         data: navPage.state.toggleData,
         id,
@@ -62,7 +60,7 @@ function App({ $app }) {
       navPage.setState({ toggleData: nextToggleData });
     },
 
-    handleGoHome: () => router.push("/"),
+    handleGoHome: () => router.push('/'),
   });
 
   let timer = null;
@@ -74,7 +72,7 @@ function App({ $app }) {
 
       timer = setTimeout(async () => {
         const document = {
-          title: emoji + " " + title,
+          title: emoji + ' ' + title,
           content,
         };
         saveDocumentStorage(id, document);
@@ -89,7 +87,7 @@ function App({ $app }) {
     const currentUrl = router.getUrl();
     navPage.setState();
 
-    if (currentUrl === "/") {
+    if (currentUrl === '/') {
       editPage.setState({ id: null });
       navPage.state.selected = null;
     } else {

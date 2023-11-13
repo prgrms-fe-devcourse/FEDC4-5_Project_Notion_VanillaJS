@@ -1,8 +1,8 @@
-import { requestGetDocumentList } from "/src/service/documentListService.js";
-import Navbar from "/src/component/Navbar.js";
-import NavHeader from "/src/component/NavHeader.js";
-import { toggleDataStorage } from "/src/storage.js";
-import { recursiveInitToggleData } from "/src/helper/toggleHelper.js";
+import { requestGetDocumentList } from '../service/documentListService.js';
+import Navbar from '../component/Navbar.js';
+import NavHeader from '../component/NavHeader.js';
+import { toggleDataStorage } from '../storage.js';
+import { recursiveInitToggleData } from '../helper/toggleHelper.js';
 
 function NavPage({
   $app,
@@ -13,12 +13,12 @@ function NavPage({
   handleToggle,
   handleGoHome,
 }) {
-  const $navPage = document.createElement("nav");
+  const $navPage = document.createElement('nav');
   $app.appendChild($navPage);
 
   this.state = initialState;
 
-  this.setState = async nextState => {
+  this.setState = async (nextState) => {
     const documentList = await requestGetDocumentList();
     const toggleData = nextState
       ? nextState.toggleData
@@ -36,7 +36,7 @@ function NavPage({
   const navHeader = new NavHeader({
     $page: $navPage,
     initialState: {
-      user: "cszzi",
+      user: 'cszzi',
     },
     onCreate: () => handleCreate(null),
     onGoHome: handleGoHome,

@@ -1,38 +1,36 @@
-import EmojiPicker from "/src/component/EmojiPicker.js";
+import EmojiPicker from './EmojiPicker.js';
 
 function Editor({
   $page,
   initialState = {
     id: null,
-    emoji: "",
-    title: "",
-    content: "",
+    emoji: '',
+    title: '',
+    content: '',
   },
   onEdit,
 }) {
-  const $editor = document.createElement("div");
+  const $editor = document.createElement('div');
   $page.appendChild($editor);
-  $editor.classList.add("editor");
+  $editor.classList.add('editor');
 
   let isInit = false;
   this.state = initialState;
-  this.setState = nextState => {
+  this.setState = (nextState) => {
     this.state = nextState;
-    for (const target of ["title", "content", "emoji"]) {
+    for (const target of ['title', 'content', 'emoji']) {
       $editor.querySelector(`[name=${target}]`).value =
         this.state[target];
     }
-    titleAreaAutoResize(
-      $editor.querySelector(`[name="title"]`)
-    );
+    titleAreaAutoResize($editor.querySelector(`[name="title"]`));
     this.render();
   };
 
   this.render = () => {
     if (this.state.id === null) {
-      $editor.style.visibility = "hidden";
+      $editor.style.visibility = 'hidden';
     } else {
-      $editor.style.visibility = "visible";
+      $editor.style.visibility = 'visible';
     }
     if (isInit) return;
     $editor.innerHTML = `
@@ -47,7 +45,7 @@ function Editor({
       $editor,
       initialState: { popup: false },
       trigger: $emoji,
-      onSelectEmoji: emoji => {
+      onSelectEmoji: (emoji) => {
         this.setState({ ...this.state, emoji });
         onEdit(this.state);
       },
@@ -56,17 +54,17 @@ function Editor({
 
   this.render();
 
-  const titleAreaAutoResize = textarea => {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+  const titleAreaAutoResize = (textarea) => {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   };
 
-  $editor.addEventListener("input", event => {
+  $editor.addEventListener('input', (event) => {
     const { target } = event;
-    const name = target.getAttribute("name");
+    const name = target.getAttribute('name');
 
     this.setState({ ...this.state, [name]: target.value });
-    if (name === "title") {
+    if (name === 'title') {
       titleAreaAutoResize(target);
     }
     onEdit(this.state);
