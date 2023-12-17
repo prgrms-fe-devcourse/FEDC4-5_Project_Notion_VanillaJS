@@ -1,12 +1,9 @@
 ## 📌 프로젝트 설명
 
-Vanilla JS를 사용하여 노션 클로닝 프로젝트를 진행하였습니다.
-
+Vanilla JS를 사용하여 노션 클로닝 프로젝트를 진행하였습니다.<br>
 [배포 링크](https://fedc-4-5-project-notion-vanilla-js-dudwns.vercel.app/)
 
-![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/1b95f80b-6fb0-4ec7-bc34-5b5440bfb7be)
-
-![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/ea5a3800-4e7a-4431-ae45-c49bc39e7d50)
+<br>
 
 ## 👩‍💻 요구 사항과 구현 내용
 
@@ -37,3 +34,9 @@ Vanilla JS를 사용하여 노션 클로닝 프로젝트를 진행하였습니�
 - [x] 편집기 최하단에는 현재 편집 중인 Document의 하위 Document 링크를 렌더링하도록 추가합니다.
 
 - [x] 편집기 내에서 다른 Document name을 적은 경우, 자동으로 해당 Document의 편집 페이지로 이동하는 링크를 거는 기능을 추가합니다.
+
+<br>
+
+![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/1b95f80b-6fb0-4ec7-bc34-5b5440bfb7be)
+
+![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/ea5a3800-4e7a-4431-ae45-c49bc39e7d50)
