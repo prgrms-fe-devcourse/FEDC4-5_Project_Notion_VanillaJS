@@ -37,6 +37,9 @@ Vanilla JS를 사용하여 노션 클로닝 프로젝트를 진행하였습니�
 
 <br>
 
-![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/1b95f80b-6fb0-4ec7-bc34-5b5440bfb7be)
+<img width="824" alt="스크린샷 2023-12-18 오전 6 21 50" src="https://github.com/dudwns/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/06ffbcfc-bd7e-49e2-9601-03c70f2ad18e">
 
-![image](https://github.com/prgrms-fe-devcourse/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/ea5a3800-4e7a-4431-ae45-c49bc39e7d50)
+<br>
+<br>
+
+<img width="824" alt="스크린샷 2023-12-18 오전 6 22 04" src="https://github.com/dudwns/FEDC4-5_Project_Notion_VanillaJS/assets/39931980/1402e85a-cca9-480c-b3e5-f3f05d7d222d">
